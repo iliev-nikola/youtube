@@ -1,0 +1,23 @@
+.slidebars{
+    color: rgb(255, 255, 255);
+    font-size: 16px;
+    font-weight: 600;
+    padding: 16px 0;
+    width: 72px;
+    height: 44px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 10px;
+    font-weight: 400;
+}
+
+.slidebars:hover{
+    background-color: #333;
+}
+
+
+@media only screen and (max-width: 600px) {
+    .slidebars{
+        display: none;
+    }
+  }
