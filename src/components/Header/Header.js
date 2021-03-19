@@ -6,11 +6,11 @@ import VideoCallIcon from '@material-ui/icons/VideoCall';
 import logo from './logo.png';
 import styles from './Header.module.css';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-export default function Header() {
+export default function Header({handleToggerSlidebar}) {
     return (
         <div className={styles.header}>
             <div className={styles.logoContainer}>
-                <MenuIcon className={styles.icons} />
+                <MenuIcon className={styles.icons} onClick={()=>handleToggerSlidebar()}/>
                 <img src={logo} alt='youtube\s logo' />
             </div>
             <div className={styles.searchContainer}>
