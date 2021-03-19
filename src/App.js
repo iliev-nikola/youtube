@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import React, {useState} from "react";
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -13,6 +13,7 @@ import WhatshotIcon from '@material-ui/icons/Whatshot';
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 import HistoryIcon from '@material-ui/icons/History';
 import SignUp from './components/SignUp/SignUp';
+import ErrorPage from './components/errorPage/errorPage';
 
 export default function App() {
   const [slidebar, toggleSlidebar] = useState(false);
@@ -21,15 +22,18 @@ export default function App() {
     <Router>
       <>
         <Switch>
+          <Route exact path="/">
+            <Header handleToggerSlidebar={handleToggerSlidebar} />
+            <Slidebar slidebar={slidebar} Icon={HomeIcon} type={'Home'} />
+            <Slidebar slidebar={slidebar} Icon={WhatshotIcon} type={'Trending'} />
+            <Slidebar slidebar={slidebar} Icon={VideoLibraryIcon} type={'Library'} />
+            <Slidebar slidebar={slidebar} Icon={HistoryIcon} type={'History'} />
+          </Route>
           <Route path="/signup">
             <SignUp />
           </Route>
-          <Route path="/">
-            <Header handleToggerSlidebar={handleToggerSlidebar} />
-            <Slidebar slidebar={slidebar} Icon={HomeIcon} type={'Home'} />
-            <Slidebar slidebar={slidebar}  Icon={WhatshotIcon} type={'Trending'} />
-            <Slidebar slidebar={slidebar}  Icon={VideoLibraryIcon} type={'Library'} />
-            <Slidebar slidebar={slidebar}  Icon={HistoryIcon} type={'History'} />
+          <Route path="*">
+            <ErrorPage />
           </Route>
         </Switch>
       </>
