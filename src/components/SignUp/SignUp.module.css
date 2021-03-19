@@ -1,0 +1,33 @@
+.signUp {
+  margin: 0 auto;
+  width: 520px;
+  margin-top: 50px;
+  border: 1px solid white;
+  padding: 30px 20px 100px 20px;
+  border-radius: 4px;
+  background-color: darkgray;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  width: 420px;
+  margin: 20px;
+  color: white;
+}
+
+.button {
+  display: flex;
+  justify-content: flex-end;
+  width: 420px;
+}
+
+.inputs {
+  width: 160px;
+  margin: 20px;
+}
+
+.emailContainer {
+  width: 420px;
+  margin: 20px;
+}

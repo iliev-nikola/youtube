@@ -12,6 +12,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 import HistoryIcon from '@material-ui/icons/History';
+import SignUp from './components/SignUp/SignUp';
 
 export default function App() {
   const [slidebar, toggleSlidebar] = useState(false);
@@ -21,6 +22,7 @@ export default function App() {
       <>
         <Switch>
           <Route path="/signup">
+            <SignUp />
           </Route>
           <Route path="/">
             <Header handleToggerSlidebar={handleToggerSlidebar} />
