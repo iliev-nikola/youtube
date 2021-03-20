@@ -8,10 +8,10 @@ import styles from './Header.module.css';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { Tooltip } from '@material-ui/core';
 import { Link } from "react-router-dom";
-export default function Header({ handleToggerSlidebar }) {
+export default function Header({ handleToggerSlidebar, slidebar }) {
     return (
         <div className={styles.header}>
-            <div className={styles.logoContainer}>
+            <div className={slidebar ? styles.newLogoContainer : styles.logoContainer}>
                 <MenuIcon className={styles.icons} onClick={() => handleToggerSlidebar()} />
                 <Tooltip title="YouTube Home" placement="bottom-end">
                     <div className={styles.logo}>

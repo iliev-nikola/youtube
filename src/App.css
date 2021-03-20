@@ -1,0 +1,21 @@
+.mainContainer {
+  display: flex;
+}
+
+.videoContainer {
+  width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap-reverse;
+  justify-content: center;
+}
+
+.open {
+  position: absolute;
+}
+
+@media only screen and (max-width: 600px) {
+  .open {
+    position: relative;
+  }
+}

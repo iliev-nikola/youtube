@@ -3,14 +3,22 @@
   justify-content: space-between;
   color: #fff;
   height: 56px;
-  padding: 0 16px;
   align-items: center;
   position: sticky;
+}
+
+.logoContainer,
+.newLogoContainer {
+  padding-left: 18px;
+  padding-right: 30px;
+  width: 162px;
+  display: flex;
   align-items: center;
 }
 
-.logoContainer {
-  display: flex;
+.newLogoContainer {
+  height: 56px;
+  background-color: #333;
 }
 
 .icons {
@@ -82,7 +90,7 @@
   align-items: center;
 }
 
-.link{
+.link {
   text-decoration: none;
 }
 

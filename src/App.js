@@ -14,6 +14,7 @@ import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 import HistoryIcon from '@material-ui/icons/History';
 import SignUp from './components/SignUp/SignUp';
 import ErrorPage from './components/errorPage/errorPage';
+import VideoCard from './components/VideoCard/VideoCard';
 
 export default function App() {
   const [slidebar, toggleSlidebar] = useState(false);
@@ -23,11 +24,25 @@ export default function App() {
       <>
         <Switch>
           <Route exact path="/">
-            <Header handleToggerSlidebar={handleToggerSlidebar} />
-            <Slidebar slidebar={slidebar} Icon={HomeIcon} type={'Home'} />
-            <Slidebar slidebar={slidebar} Icon={WhatshotIcon} type={'Trending'} />
-            <Slidebar slidebar={slidebar} Icon={VideoLibraryIcon} type={'Library'} />
-            <Slidebar slidebar={slidebar} Icon={HistoryIcon} type={'History'} />
+            <Header handleToggerSlidebar={handleToggerSlidebar} slidebar={slidebar} />
+            <div className='mainContainer'>
+              <div className={slidebar ? 'open' : 'close'}>
+                <Slidebar slidebar={slidebar} Icon={HomeIcon} type={'Home'} />
+                <Slidebar slidebar={slidebar} Icon={WhatshotIcon} type={'Trending'} />
+                <Slidebar slidebar={slidebar} Icon={VideoLibraryIcon} type={'Library'} />
+                <Slidebar slidebar={slidebar} Icon={HistoryIcon} type={'History'} />
+              </div>
+              <div className='videoContainer'>
+                <VideoCard />
+                <VideoCard />
+                <VideoCard />
+                <VideoCard />
+                <VideoCard />
+                <VideoCard />
+                <VideoCard />
+                <VideoCard />
+              </div>
+            </div>
           </Route>
           <Route path="/signup">
             <SignUp />

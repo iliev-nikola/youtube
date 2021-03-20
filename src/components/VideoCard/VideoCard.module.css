@@ -1,0 +1,21 @@
+.container {
+  width: 275px;
+  background-color: unset;
+  margin: 10px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.title {
+  color: rgb(255, 255, 255);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.description {
+  color: rgb(170, 170, 170);
+}
+
+.container img{
+    width: 100px;
+}
