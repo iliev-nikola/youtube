@@ -1,0 +1,132 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  color: #fff;
+  height: 56px;
+  align-items: center;
+  position: sticky;
+}
+
+.logoContainer,
+.newLogoContainer {
+  padding-left: 18px;
+  padding-right: 30px;
+  width: 162px;
+  display: flex;
+  align-items: center;
+}
+
+.newLogoContainer {
+  height: 56px;
+  background-color: #333;
+}
+
+.icons {
+  width: 2%;
+  cursor: pointer;
+  margin-top: 4px;
+  padding: 0 8px;
+}
+
+.header img {
+  width: 35px;
+  margin-left: 20px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-left: -10px;
+}
+
+.logo span {
+  margin-left: 3px;
+  font-weight: 700;
+}
+
+.header input {
+  width: 562px;
+  height: 24px;
+  border: 1px #333 solid;
+  background-color: black;
+  outline: none;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.searchContainer {
+  display: flex;
+}
+
+.searchCont {
+  margin-right: 10px;
+  display: inline-block;
+  height: 28px;
+  width: 65px;
+  text-align: center;
+  background-color: rgb(48, 48, 48);
+  cursor: pointer;
+}
+
+.searchIcon {
+  margin-top: 4px;
+  color: rgba(255, 255, 255, 0.5);
+  width: 20px;
+}
+
+.signIn {
+  border: 1px solid #3ea6ff;
+  color: #3ea6ff;
+  border-radius: 2px;
+  padding: 5px 11px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  vertical-align: middle;
+}
+
+.userContainer {
+  display: flex;
+  align-items: center;
+}
+
+.link {
+  text-decoration: none;
+}
+
+@media only screen and (max-width: 600px) {
+  .header input {
+    display: none;
+  }
+
+  .icons {
+    width: 1%;
+    cursor: pointer;
+  }
+
+  .logoContainer {
+    width: 70%;
+  }
+
+  .userContainer {
+    width: 30%;
+  }
+
+  .searchCont {
+    background-color: unset;
+    color: #fff;
+    width: 2%;
+  }
+
+  .voice {
+    margin-right: -30px;
+    margin-left: 10px;
+    margin-top: 3px;
+  }
+
+  .userContainer span {
+    margin-left: 3px;
+    font-size: 10px;
+    align-self: center;
+  }
+}
