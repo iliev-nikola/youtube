@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './errorPage.module.css';
+import styles from './ErrorPage.module.css';
 import SearchIcon from '@material-ui/icons/Search';
 import image from './monkey.png';
 export default function ErrorPage() {
