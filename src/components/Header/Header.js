@@ -7,6 +7,7 @@ import logo from './logo.png';
 import styles from './Header.module.css';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { Tooltip } from '@material-ui/core';
+import { Link } from "react-router-dom";
 export default function Header({ handleToggerSlidebar }) {
     return (
         <div className={styles.header}>
@@ -30,10 +31,12 @@ export default function Header({ handleToggerSlidebar }) {
             </div>
             <div className={styles.userContainer}>
                 <VideoCallIcon className={styles.icons} />
-                <div className={styles.signIn}>
-                    <AccountCircleIcon />
-                    <span>SIGN IN</span>
-                </div>
+                <Link to="/signup" className={styles.link}>
+                    <div className={styles.signIn}>
+                        <AccountCircleIcon />
+                        <span>SIGN IN</span>
+                    </div>
+                </Link>
             </div>
         </div>
     )

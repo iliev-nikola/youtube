@@ -10,7 +10,7 @@ export default function SignUp() {
                 <TextField className={styles.inputs} size="small" label="Last name" variant="outlined" />
             </div>
             <div className={styles.emailContainer}>
-                <TextField size="small" fullWidth label="Email" variant="outlined"/>
+                <TextField size="small" fullWidth label="Email" variant="outlined" />
             </div>
             <div className={styles.container}>
                 <TextField className={styles.inputs} size="small" label="Password" variant="outlined" />
