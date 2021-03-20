@@ -15,6 +15,7 @@ import HistoryIcon from '@material-ui/icons/History';
 import SignUp from './Components/SignUp/SignUp';
 import ErrorPage from './Components/ErrorPage/ErrorPage';
 import VideoCard from './Components/VideoCard/VideoCard';
+import videos from './videos';
 
 export default function App() {
   const [slidebar, toggleSlidebar] = useState(false);
@@ -33,14 +34,23 @@ export default function App() {
                 <Slidebar slidebar={slidebar} Icon={HistoryIcon} type={'History'} />
               </div>
               <div className='videoContainer'>
-                <VideoCard />
-                <VideoCard />
-                <VideoCard />
-                <VideoCard />
-                <VideoCard />
-                <VideoCard />
-                <VideoCard />
-                <VideoCard />
+                {
+                  videos.map(video => (
+                    <div key={video.id}>
+                      <VideoCard url={video.url} title={video.title} author={video.author} />
+                    </div>
+                  ))
+                }
+                <div
+                  id="scrollableDiv"
+                  style={{
+                    height: 300,
+                    overflow: 'auto',
+                    display: 'flex',
+                    flexDirection: 'column-reverse',
+                  }}
+                >
+                </div>
               </div>
             </div>
           </Route>

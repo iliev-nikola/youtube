@@ -88,13 +88,14 @@
 .userContainer {
   display: flex;
   align-items: center;
+  margin-right: 18px;
 }
 
 .link {
   text-decoration: none;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 650px) {
   .header input {
     display: none;
   }

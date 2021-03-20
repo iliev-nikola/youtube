@@ -3,6 +3,7 @@ import { TextField, Button } from '@material-ui/core';
 import styles from './SignUp.module.css';
 import { auth } from '../../firebase';
 import { useHistory } from "react-router-dom"
+import { validateEmail } from '../../utils'
 
 
 export default function SignUp() {
@@ -12,10 +13,7 @@ export default function SignUp() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rePassword, setRePassword] = useState('');
-    function validateEmail(email) {
-        const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return regex.test(String(email).toLowerCase());
-    }
+
     const createUserWithEmailAndPasswordHandler = (event, firstName, lastName, email, password, rePassword) => {
         event.preventDefault();
         [firstName, lastName, email, password, rePassword] = [firstName.trim(), lastName.trim(), email.trim(), password.trim(), rePassword.trim()];
@@ -42,7 +40,7 @@ export default function SignUp() {
                 setEmail('');
                 setPassword('');
                 setRePassword('');
-                history.push('/')
+                history.push('/');
             })
             .catch(err => alert(err));
     };
