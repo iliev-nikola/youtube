@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { TextField, Button } from '@material-ui/core';
 import styles from './ResetPassword.module.css';
 import { auth } from '../../firebase';
-import { Link, useHistory } from "react-router-dom"
-import { setCurrentUser, validateEmail } from '../../utils'
+import { Link } from "react-router-dom"
 import logo from '../../assets/logo.png'
 
 export default function ResetPassword() {
@@ -29,7 +28,7 @@ export default function ResetPassword() {
     return (
         <form className={styles.signUp}>
             <img src={logo} alt="logo" id={styles.logo} />
-            <h2 className={styles.welcomeText}>Reset password</h2>
+            <h2 className={styles.welcomeText}>Reset your password</h2>
             <p className={styles.welcomeText}>to continue to YouTube</p>
             {emailHasBeenSent && (
                 <div className="py-3 bg-green-400 w-full text-white text-center mb-3">

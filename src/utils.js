@@ -20,6 +20,19 @@ export function setCurrentUser() {
 }
 
 export function getCurrentUser() {
-  // const user = auth.currentUser;
   return JSON.parse(localStorage.getItem('currentUser'));
+}
+
+export function login() {
+  localStorage.setItem('isLoggedIn', true);
+}
+
+export function signOut() {
+  auth.signOut();
+  localStorage.setItem('isLoggedIn', false);
+  localStorage.setItem('currentUser', null);
+}
+
+export function isLoggedIn() {
+  return JSON.parse(localStorage.getItem('isLoggedIn'));
 }

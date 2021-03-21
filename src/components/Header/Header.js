@@ -8,14 +8,28 @@ import styles from './Header.module.css';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { Tooltip } from '@material-ui/core';
 import { Link } from "react-router-dom";
+import { isLoggedIn } from '../../utils';
+
 export default function Header({ handleToggerSlidebar, slidebar }) {
+    const guestHeader = (
+        <Link to="/signin" className={styles.link} title='Sign in'>
+            <div className={styles.signIn}>
+                <AccountCircleIcon />
+                <span>SIGN IN</span>
+            </div>
+        </Link>)
+    const userHeader = (
+        <div>
+            <VideoCallIcon className={styles.icons} />
+            <Link to="/signout">Sign out</Link>
+        </div>)
     return (
         <div className={styles.header}>
             <div className={slidebar ? styles.newLogoContainer : styles.logoContainer}>
-                <MenuIcon className={styles.icons} onClick={() => handleToggerSlidebar()} />
+                <MenuIcon className={styles.icons} onClick={handleToggerSlidebar} />
                 <Tooltip title="YouTube Home" placement="bottom-end">
                     <div className={styles.logo}>
-                        <img src={logo} alt='youtube\s logo' />
+                        <img src={logo} alt='logo' />
                         <span>YouTube</span>
                     </div>
                 </Tooltip>
@@ -30,13 +44,7 @@ export default function Header({ handleToggerSlidebar, slidebar }) {
                 </Tooltip>
             </div>
             <div className={styles.userContainer}>
-                <VideoCallIcon className={styles.icons} />
-                <Link to="/signin" className={styles.link} title='Sign in'>
-                    <div className={styles.signIn}>
-                        <AccountCircleIcon />
-                        <span>SIGN IN</span>
-                    </div>
-                </Link>
+                {isLoggedIn() ? userHeader : guestHeader}
             </div>
         </div>
     )

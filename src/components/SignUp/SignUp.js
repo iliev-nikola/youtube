@@ -47,6 +47,7 @@ export default function SignUp() {
                 user.updateProfile({
                     displayName: displayName,
                 });
+
                 firestore.collection('users').doc(res.uid).set(data);
                 setFirstName('');
                 setLastName('');

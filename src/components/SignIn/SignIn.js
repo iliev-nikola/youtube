@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { TextField, Button } from '@material-ui/core';
 import styles from './SignIn.module.css';
 import { auth } from '../../firebase';
-import { Link, useHistory } from "react-router-dom"
-import { setCurrentUser, validateEmail } from '../../utils'
-import logo from '../../assets/logo.png'
+import { Link, useHistory } from "react-router-dom";
+import { setCurrentUser, validateEmail, login } from '../../utils';
+import logo from '../../assets/logo.png';
+import firebase from "firebase/app";
+
 
 
 export default function SignIn() {
@@ -24,13 +26,27 @@ export default function SignIn() {
             return alert('Enter a password');
         }
 
-        auth.signInWithEmailAndPassword(email, password)
-            .then((res) => {
-                // getUserDocument(getCurrentUser().uid);
-                setEmail('');
-                setPassword('');
-                setCurrentUser();
-                history.push('/');
+        // auth.signInWithEmailAndPassword(email, password)
+        //     .then((res) => {
+        //         // getUserDocument(getCurrentUser().uid);
+        //         setEmail('');
+        //         setPassword('');
+        //         setCurrentUser();
+        //         history.push('/');
+        //     })
+        //     .catch(err => alert(err));
+        auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+            .then(res => {
+                return auth.signInWithEmailAndPassword(email, password)
+                    .then((res) => {
+                        // getUserDocument(getCurrentUser().uid);
+                        setEmail('');
+                        setPassword('');
+                        setCurrentUser();
+                        login();
+                        history.push('/');
+                    })
+                    .catch(err => alert(err));
             })
             .catch(err => alert(err));
     };
