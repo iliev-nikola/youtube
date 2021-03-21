@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useParams } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -6,6 +6,7 @@ import {
   Link
 } from "react-router-dom";
 import './App.css';
+import './Reset.css';
 import Header from './Components/Header/Header';
 import Slidebar from './Components/Slidebar/Slidebar';
 import HomeIcon from '@material-ui/icons/Home';
@@ -13,9 +14,11 @@ import WhatshotIcon from '@material-ui/icons/Whatshot';
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 import HistoryIcon from '@material-ui/icons/History';
 import SignUp from './Components/SignUp/SignUp';
-import ErrorPage from './Components/errorPage/ErrorPage';
+import ErrorPage from './Components/ErrorPage/ErrorPage';
 import VideoCard from './Components/VideoCard/VideoCard';
 import videos from './videos';
+import OpenVideo from './Components/OpenVideo/OpenVideo';
+
 
 
 export default function App() {
@@ -37,9 +40,9 @@ export default function App() {
               <div className='videoContainer'>
                 {
                   videos.map(video => (
-                    <Link to={video.id} className='link' key={video.id}>
+                    <Link to={'/video/' + video.id} className='link' key={video.id} >
                       <div >
-                        <VideoCard url={video.url} title={video.title} author={video.author} />
+                        <VideoCard url={video.url} title={video.title} author={video.author} duration={video.duration} />
                       </div>
                     </Link>
                   ))
@@ -47,7 +50,9 @@ export default function App() {
               </div>
             </div>
           </Route>
-          <Route path="/:videoId"></Route>
+          <Route path="/video/:id">
+            <OpenVideo />
+          </Route>
           <Route path="/signup">
             <SignUp />
           </Route>
