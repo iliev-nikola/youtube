@@ -1,4 +1,4 @@
-import { auth } from './firebase';
+import { auth, firestore } from './firebase';
 
 export function generateId() {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
@@ -15,7 +15,13 @@ export function validateEmail(email) {
 
 export function setCurrentUser() {
   auth.onAuthStateChanged(user => {
-    if (user) localStorage.setItem('currentUser', JSON.stringify(user));
+    if (user) {
+      firestore.collection('users').get()
+        .then(res => res.docs.map(el => el.data()))
+        .then(res => res.find(el => el.email === user.email))
+        .then(res => localStorage.setItem('currentUser', JSON.stringify(...res)))
+
+    }
   });
 }
 
