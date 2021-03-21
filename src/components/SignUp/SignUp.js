@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { TextField, Button } from '@material-ui/core';
 import styles from './SignUp.module.css';
-import { auth } from '../../firebase';
-import { useHistory } from "react-router-dom"
+import { auth, generateUserDocument, firestore } from '../../firebase';
+import { Link, useHistory } from "react-router-dom"
 import { validateEmail } from '../../utils'
 
 
@@ -35,12 +35,24 @@ export default function SignUp() {
 
         auth.createUserWithEmailAndPassword(email, password)
             .then((res) => {
+                let displayName = firstName[0].toUpperCase() + firstName.slice(1).toLowerCase() + ' ' + lastName[0].toUpperCase() + lastName.slice(1).toLowerCase();
+                const data = {
+                    names: displayName,
+                    email: email,
+                    videos: [],
+                    history: []
+                }
+                const user = auth.currentUser;
+                user.updateProfile({
+                    displayName: displayName,
+                });
+                firestore.collection('users').doc(res.uid).set(data);
                 setFirstName('');
                 setLastName('');
                 setEmail('');
                 setPassword('');
                 setRePassword('');
-                history.push('/');
+                history.push('/signin');
             })
             .catch(err => alert(err));
     };
@@ -78,6 +90,7 @@ export default function SignUp() {
                 <TextField type="password" className={styles.inputs} size="small" label="Password" variant="outlined" value={password} id="password" onChange={(e) => onInputChange(e)} />
                 <TextField type="password" className={styles.inputs} size="small" label="Confirm" variant="outlined" value={rePassword} id="rePassword" onChange={(e) => onInputChange(e)} />
             </div>
+            <Link to="signin">Sign in instead</Link>
             <div className={styles.button}>
                 <Button variant="contained" color="primary"
                     onClick={(e) => createUserWithEmailAndPasswordHandler(e, firstName, lastName, email, password, rePassword)}>

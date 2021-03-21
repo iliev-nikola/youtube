@@ -16,6 +16,7 @@ import SignUp from './Components/SignUp/SignUp';
 import ErrorPage from './Components/ErrorPage/ErrorPage';
 import VideoCard from './Components/VideoCard/VideoCard';
 import videos from './videos';
+import SignIn from "./Components/SignIn/SignIn";
 
 export default function App() {
   const [slidebar, toggleSlidebar] = useState(false);
@@ -56,6 +57,9 @@ export default function App() {
           </Route>
           <Route path="/signup">
             <SignUp />
+          </Route>
+          <Route path="/signin">
+            <SignIn />
           </Route>
           <Route path="*">
             <ErrorPage />

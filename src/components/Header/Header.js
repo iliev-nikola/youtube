@@ -31,7 +31,7 @@ export default function Header({ handleToggerSlidebar, slidebar }) {
             </div>
             <div className={styles.userContainer}>
                 <VideoCallIcon className={styles.icons} />
-                <Link to="/signup" className={styles.link} title='signup'>
+                <Link to="/signin" className={styles.link} title='Sign in'>
                     <div className={styles.signIn}>
                         <AccountCircleIcon />
                         <span>SIGN IN</span>
