@@ -1,4 +1,4 @@
-import React, { useState, useParams } from "react";
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -18,7 +18,7 @@ import ErrorPage from './Components/ErrorPage/ErrorPage';
 import VideoCard from './Components/VideoCard/VideoCard';
 import videos from './videos';
 import OpenVideo from './Components/OpenVideo/OpenVideo';
-
+import SignIn from "./Components/SignIn/SignIn";
 
 
 export default function App() {
@@ -51,10 +51,20 @@ export default function App() {
             </div>
           </Route>
           <Route path="/video/:id">
+            <Header handleToggerSlidebar={handleToggerSlidebar} slidebar={slidebar} />
+            <div className={slidebar ? 'open' : 'notVisible'}>
+                <Slidebar slidebar={slidebar} Icon={HomeIcon} type={'Home'} />
+                <Slidebar slidebar={slidebar} Icon={WhatshotIcon} type={'Trending'} />
+                <Slidebar slidebar={slidebar} Icon={VideoLibraryIcon} type={'Library'} />
+                <Slidebar slidebar={slidebar} Icon={HistoryIcon} type={'History'} />
+              </div>
             <OpenVideo />
           </Route>
           <Route path="/signup">
             <SignUp />
+          </Route>
+          <Route path="/signin">
+            <SignIn />
           </Route>
           <Route path="*">
             <ErrorPage />

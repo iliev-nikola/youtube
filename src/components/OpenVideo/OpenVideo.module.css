@@ -1,0 +1,48 @@
+.mainContainer {
+  width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.video {
+  width: 640px;
+  height: 360px;
+}
+
+.info {
+  color: rgb(255, 255, 255);
+  font-size: 18px;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+.commentsContainer {
+  width: 640px;
+  margin-top:20px;
+}
+
+.userName {
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 5px;
+}
+
+.comment {
+  color: rgb(255, 255, 255);
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.someComment{
+    margin: 20px 0;
+}
+
+.input{
+    width: 584px;
+}
+
+.input input{
+    color: rgb(255, 255, 255);
+}

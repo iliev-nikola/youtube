@@ -3,7 +3,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import KeyboardVoiceIcon from '@material-ui/icons/KeyboardVoice';
 import VideoCallIcon from '@material-ui/icons/VideoCall';
-import logo from './logo.png';
+import logo from '../../assets/logo.png';
 import styles from './Header.module.css';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { Tooltip } from '@material-ui/core';
@@ -16,7 +16,6 @@ export default function Header({ handleToggerSlidebar, slidebar }) {
                 <Tooltip title="YouTube Home" placement="bottom-end">
                     <div className={styles.logo}>
                         <img src={logo} alt='youtube\s logo' />
-                        <span>YouTube</span>
                     </div>
                 </Tooltip>
             </div>
@@ -31,7 +30,7 @@ export default function Header({ handleToggerSlidebar, slidebar }) {
             </div>
             <div className={styles.userContainer}>
                 <VideoCallIcon className={styles.icons} />
-                <Link to="/signup" className={styles.link} title='signup'>
+                <Link to="/signin" className={styles.link} title='Sign in'>
                     <div className={styles.signIn}>
                         <AccountCircleIcon />
                         <span>SIGN IN</span>

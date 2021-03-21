@@ -29,7 +29,7 @@
 }
 
 .header img {
-  width: 35px;
+  width: 80px;
   margin-left: 20px;
 }
 
@@ -38,11 +38,6 @@
   align-items: center;
   cursor: pointer;
   margin-left: -10px;
-}
-
-.logo span {
-  margin-left: 3px;
-  font-weight: 700;
 }
 
 .header input {
