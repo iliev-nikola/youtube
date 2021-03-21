@@ -50,7 +50,6 @@ p.welcomeText {
   display: flex;
   justify-content: flex-end;
   width: 420px;
-  color: #1a73e8;
 }
 
 .buttons {

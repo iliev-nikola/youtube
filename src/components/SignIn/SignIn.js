@@ -5,11 +5,6 @@ import { auth } from '../../firebase';
 import { Link, useHistory } from "react-router-dom"
 import { setCurrentUser, validateEmail } from '../../utils'
 import logo from '../../assets/logo.png'
-// const styles = theme => ({
-//     multilineColor: {
-//         color: 'red'
-//     }
-// });
 
 
 export default function SignIn() {
