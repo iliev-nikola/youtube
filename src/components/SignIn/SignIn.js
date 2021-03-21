@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { TextField, Button } from '@material-ui/core';
 import styles from './SignIn.module.css';
-import { auth, getUserDocument } from '../../firebase';
+import { auth } from '../../firebase';
 import { Link, useHistory } from "react-router-dom"
-import { getCurrentUser, setCurrentUser, validateEmail } from '../../utils'
+import { setCurrentUser, validateEmail } from '../../utils'
+import logo from '../../assets/logo.png'
 
 
 export default function SignIn() {
@@ -47,8 +48,9 @@ export default function SignIn() {
 
     return (
         <form className={styles.signUp}>
-            <div className={styles.emailContainer}>
-                <TextField type="email" size="small" fullWidth label="Email" variant="outlined" value={email} id="email" onChange={(e) => onInputChange(e)} autoComplete="off" />
+            <img src={logo} alt="logo" id={styles.logo}></img>
+            <div className={styles.container}>
+                <TextField type="email" className={styles.inputs} size="small" fullWidth label="Email" variant="outlined" value={email} id="email" onChange={(e) => onInputChange(e)} autoComplete="off" />
             </div>
             <div className={styles.container}>
                 <TextField type="password" className={styles.inputs} size="small" label="Password" variant="outlined" value={password} id="password" onChange={(e) => onInputChange(e)} />

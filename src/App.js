@@ -13,7 +13,7 @@ import WhatshotIcon from '@material-ui/icons/Whatshot';
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 import HistoryIcon from '@material-ui/icons/History';
 import SignUp from './Components/SignUp/SignUp';
-import ErrorPage from './Components/errorPage/ErrorPage';
+import ErrorPage from './Components/ErrorPage/ErrorPage';
 import VideoCard from './Components/VideoCard/VideoCard';
 import videos from './videos';
 import SignIn from "./Components/SignIn/SignIn";
@@ -48,7 +48,7 @@ export default function App() {
               </div>
             </div>
           </Route>
-          <Route path="/:videoId"></Route>
+          {/* <Route path="/videos/:videoId"></Route> */}
           <Route path="/signup">
             <SignUp />
           </Route>

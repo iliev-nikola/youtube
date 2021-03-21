@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button } from '@material-ui/core';
 import styles from './SignUp.module.css';
-import { auth, generateUserDocument, firestore } from '../../firebase';
+import { auth, firestore } from '../../firebase';
 import { Link, useHistory } from "react-router-dom"
 import { validateEmail } from '../../utils'
 
