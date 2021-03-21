@@ -9,14 +9,17 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { Tooltip } from '@material-ui/core';
 import { Link } from "react-router-dom";
 export default function Header({ handleToggerSlidebar, slidebar }) {
+    const ref = React.createRef();
     return (
         <div className={styles.header}>
             <div className={slidebar ? styles.newLogoContainer : styles.logoContainer}>
                 <MenuIcon className={styles.icons} onClick={() => handleToggerSlidebar()} />
                 <Tooltip title="YouTube Home" placement="bottom-end">
+                    {/* <Link to="/" ref={ref}> */}
                     <div className={styles.logo}>
                         <img src={logo} alt='youtube\s logo' />
                     </div>
+                    {/* </Link> */}
                 </Tooltip>
             </div>
             <div className={styles.searchContainer}>

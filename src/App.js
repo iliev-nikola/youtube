@@ -19,6 +19,8 @@ import VideoCard from './Components/VideoCard/VideoCard';
 import videos from './videos';
 import OpenVideo from './Components/OpenVideo/OpenVideo';
 import SignIn from "./Components/SignIn/SignIn";
+import allVideos from './firebase';
+
 
 
 export default function App() {

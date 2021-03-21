@@ -10,6 +10,10 @@
   height: 360px;
 }
 
+.video video {
+  outline: none;
+}
+
 .info {
   color: rgb(255, 255, 255);
   font-size: 18px;
@@ -19,7 +23,7 @@
 
 .commentsContainer {
   width: 640px;
-  margin-top:20px;
+  margin-top: 20px;
 }
 
 .userName {
@@ -35,14 +39,44 @@
   font-weight: 400;
 }
 
-.someComment{
-    margin: 20px 0;
+.someComment {
+  margin: 20px 0;
 }
 
-.input{
-    width: 584px;
+.input {
+  width: 584px;
 }
 
-.input input{
-    color: rgb(255, 255, 255);
+.input input,
+.addFirstComment {
+  color: rgb(255, 255, 255);
+}
+
+.addFirstComment {
+  width: 200px;
+  margin: 0 auto;
+  margin-top: 30px;
+}
+
+.mainComm{
+  display: flex;
+  align-items: center;
+}
+
+.userLogo{
+  color: rgb(255, 255, 255);
+  background-color: cornflowerblue;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  margin-right: 20px;
+  width: 40px;
+  height: 30px;
+  padding-top: 10px;
+}
+
+@media only screen and (max-width: 600px) {
+  .mainContainer {
+    width: auto;
+  }
 }

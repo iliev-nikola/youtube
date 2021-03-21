@@ -1,4 +1,4 @@
-import { auth } from './firebase';
+import { auth, firestore } from './firebase';
 
 export function generateId() {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
@@ -23,3 +23,4 @@ export function getCurrentUser() {
   // const user = auth.currentUser;
   return JSON.parse(localStorage.getItem('currentUser'));
 }
+
