@@ -7,15 +7,15 @@ import {
   Link
 } from "react-router-dom";
 import './App.css';
-import Header from './components/Header/Header';
-import Slidebar from './components/Slidebar/Slidebar';
+import Header from './Components/Header/Header';
+import Slidebar from './Components/Slidebar/Slidebar';
 import HomeIcon from '@material-ui/icons/Home';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 import HistoryIcon from '@material-ui/icons/History';
-import SignUp from './components/SignUp/SignUp';
-import ErrorPage from './components/errorPage/errorPage';
-import VideoCard from './components/VideoCard/VideoCard';
+import SignUp from './Components/SignUp/SignUp';
+import ErrorPage from './Components/ErrorPage/ErrorPage';
+import VideoCard from './Components/VideoCard/VideoCard';
 import videos from './videos';
 
 

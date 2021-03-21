@@ -1,4 +1,4 @@
-import generateId from './utils';
+import { generateId } from './utils';
 const videos = [
     {
         'id': generateId(),
