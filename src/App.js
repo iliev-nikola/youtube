@@ -7,6 +7,7 @@ import {
   Redirect
 } from "react-router-dom";
 import './App.css';
+import './Reset.css';
 import { isLoggedIn } from './utils';
 import Header from './Components/Header/Header';
 import Slidebar from './Components/Slidebar/Slidebar';
@@ -18,7 +19,10 @@ import SignUp from './Components/SignUp/SignUp';
 import ErrorPage from './Components/ErrorPage/ErrorPage';
 import VideoCard from './Components/VideoCard/VideoCard';
 import videos from './videos';
+import OpenVideo from './Components/OpenVideo/OpenVideo';
 import SignIn from "./Components/SignIn/SignIn";
+import allVideos from './firebase';
+
 import ResetPassword from './Components/ResetPassword/ResetPassword';
 import SignOut from "./Components/SignOut/SignOut";
 
@@ -50,7 +54,16 @@ export default function App() {
               </div>
             </div>
           </Route>
-          {/* <Route path="/videos/:videoId"></Route> */}
+          <Route path="/video/:id">
+            <Header handleToggerSlidebar={handleToggerSlidebar} slidebar={slidebar} />
+            <div className={slidebar ? 'open' : 'notVisible'}>
+                <Slidebar slidebar={slidebar} Icon={HomeIcon} type={'Home'} />
+                <Slidebar slidebar={slidebar} Icon={WhatshotIcon} type={'Trending'} />
+                <Slidebar slidebar={slidebar} Icon={VideoLibraryIcon} type={'Library'} />
+                <Slidebar slidebar={slidebar} Icon={HistoryIcon} type={'History'} />
+              </div>
+            <OpenVideo />
+          </Route>
           <Route path="/signup">
             {!isLoggedIn() ? <SignUp /> : <Redirect to="/" />}
           </Route>

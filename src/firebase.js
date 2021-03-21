@@ -50,3 +50,11 @@ export function getUserDocument(uid) {
     //     alert("Error fetching user", error);
     // }
 };
+export const allVideos = [];
+firestore.collection("videos")
+    .get()
+    .then((videos) => {
+        videos.forEach((video) => {
+            allVideos.push(video.data());
+        });
+    })

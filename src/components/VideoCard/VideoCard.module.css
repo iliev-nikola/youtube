@@ -3,26 +3,40 @@
   margin: 10px;
   text-align: center;
   cursor: pointer;
+  position: relative;
 }
 
 .title {
   color: rgb(255, 255, 255);
   font-size: 14px;
   font-weight: 500;
+  margin: 10px 0;
 }
 
 .description {
   color: rgb(170, 170, 170);
 }
 
-.container img{
-    width: 100px;
+.container img {
+  width: 100px;
 }
 
-.video{
+.video {
   width: 275px;
 }
 
-.video video{
-  height: 200px;
+.video video {
+  height: 155px;
+}
+
+.duration {
+  position: absolute;
+  bottom: 55px;
+  right: 3px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: rgb(255, 255, 255);
+  padding: 4px 3px;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 2px;
 }
