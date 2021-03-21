@@ -17,6 +17,7 @@ import ErrorPage from './Components/ErrorPage/ErrorPage';
 import VideoCard from './Components/VideoCard/VideoCard';
 import videos from './videos';
 import SignIn from "./Components/SignIn/SignIn";
+import ResetPassword from './Components/ResetPassword/ResetPassword';
 
 
 export default function App() {
@@ -54,6 +55,9 @@ export default function App() {
           </Route>
           <Route path="/signin">
             <SignIn />
+          </Route>
+          <Route path="/reset">
+            <ResetPassword />
           </Route>
           <Route path="*">
             <ErrorPage />
