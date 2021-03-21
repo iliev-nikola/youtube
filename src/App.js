@@ -3,10 +3,12 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
+  Redirect
 } from "react-router-dom";
 import './App.css';
 import './Reset.css';
+import { isLoggedIn } from './utils';
 import Header from './Components/Header/Header';
 import Slidebar from './Components/Slidebar/Slidebar';
 import HomeIcon from '@material-ui/icons/Home';
@@ -21,6 +23,8 @@ import OpenVideo from './Components/OpenVideo/OpenVideo';
 import SignIn from "./Components/SignIn/SignIn";
 import allVideos from './firebase';
 
+import ResetPassword from './Components/ResetPassword/ResetPassword';
+import SignOut from "./Components/SignOut/SignOut";
 
 
 export default function App() {
@@ -40,15 +44,13 @@ export default function App() {
                 <Slidebar slidebar={slidebar} Icon={HistoryIcon} type={'History'} />
               </div>
               <div className='videoContainer'>
-                {
-                  videos.map(video => (
-                    <Link to={'/video/' + video.id} className='link' key={video.id} >
-                      <div >
-                        <VideoCard url={video.url} title={video.title} author={video.author} duration={video.duration} />
-                      </div>
-                    </Link>
-                  ))
-                }
+                {videos.map(video => (
+                  <Link to={video.id} className='link' key={video.id}>
+                    <div >
+                      <VideoCard url={video.url} title={video.title} author={video.author} />
+                    </div>
+                  </Link>
+                ))}
               </div>
             </div>
           </Route>
@@ -63,10 +65,16 @@ export default function App() {
             <OpenVideo />
           </Route>
           <Route path="/signup">
-            <SignUp />
+            {!isLoggedIn() ? <SignUp /> : <Redirect to="/" />}
+          </Route>
+          <Route path="/signout">
+            {isLoggedIn() ? <SignOut /> : <Redirect to="/" />}
           </Route>
           <Route path="/signin">
-            <SignIn />
+            {!isLoggedIn() ? <SignIn /> : <Redirect to="/" />}
+          </Route>
+          <Route path="/reset">
+            {!isLoggedIn() ? <ResetPassword /> : <Redirect to="/" />}
           </Route>
           <Route path="*">
             <ErrorPage />
