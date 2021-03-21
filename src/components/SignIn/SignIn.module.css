@@ -1,9 +1,9 @@
 .signUp {
   margin: 0 auto;
   width: 400px;
-  margin-top: 50px;
+  margin-top: 100px;
   border: 1px solid white;
-  padding: 30px 20px 100px 20px;
+  padding: 30px 20px 40px 20px;
   border-radius: 4px;
   background-color: #333;
   text-align: center;
@@ -11,10 +11,32 @@
 
 #logo {
   width: 100px;
+  margin: 20px 0 10px 0;
+}
+
+.welcomeText {
+  margin: 5px;
+  color: #e4e4e4;
+}
+
+h2.welcomeText {
+  font-weight: 400;
+}
+
+p.welcomeText {
+  font-size: 16px;
+  margin-bottom: 30px;
+}
+
+.link {
+  text-decoration: none;
+  color: #1a73e8;
+  width: inherit;
+  text-align: start;
 }
 
 .container {
-  width: 80%;
+  width: 90%;
   margin: 20px;
   color: white;
 }
@@ -28,6 +50,14 @@
   display: flex;
   justify-content: flex-end;
   width: 420px;
+  color: #1a73e8;
+}
+
+.buttons {
+  display: flex;
+  width: 88%;
+  margin: 0 auto 30px auto;
+  align-items: center;
 }
 
 @media only screen and (max-width: 600px) {

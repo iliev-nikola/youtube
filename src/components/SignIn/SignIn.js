@@ -5,6 +5,11 @@ import { auth } from '../../firebase';
 import { Link, useHistory } from "react-router-dom"
 import { setCurrentUser, validateEmail } from '../../utils'
 import logo from '../../assets/logo.png'
+// const styles = theme => ({
+//     multilineColor: {
+//         color: 'red'
+//     }
+// });
 
 
 export default function SignIn() {
@@ -48,20 +53,27 @@ export default function SignIn() {
 
     return (
         <form className={styles.signUp}>
-            <img src={logo} alt="logo" id={styles.logo}></img>
+            <img src={logo} alt="logo" id={styles.logo} />
+            <h2 className={styles.welcomeText}>Sign in</h2>
+            <p className={styles.welcomeText}>to continue to YouTube</p>
             <div className={styles.container}>
-                <TextField type="email" className={styles.inputs} size="small" fullWidth label="Email" variant="outlined" value={email} id="email" onChange={(e) => onInputChange(e)} autoComplete="off" />
+                <TextField type="email" className={styles.inputs} size="medium" fullWidth label="Email" variant="outlined" value={email} id="email" onChange={(e) => onInputChange(e)} autoComplete="off" />
             </div>
             <div className={styles.container}>
-                <TextField type="password" className={styles.inputs} size="small" label="Password" variant="outlined" value={password} id="password" onChange={(e) => onInputChange(e)} />
+                <TextField InputProps={{
+                    className: styles.inputs
+                }} type="password" className={styles.inputs} size="medium" label="Password" variant="outlined" value={password} id="password" onChange={(e) => onInputChange(e)} />
             </div>
-            <Link to="signup">Create account</Link>
-            <div className={styles.button}>
-                <Button variant="contained" color="primary"
-                    onClick={(e) => signInWithEmailAndPasswordHandler(e, email, password)}>
-                    sign in
+            <div className={styles.buttons}>
+                <Link to="signup" className={styles.link}>Create account</Link>
+                <div className={styles.button}>
+                    <Button variant="contained" color="primary"
+                        onClick={(e) => signInWithEmailAndPasswordHandler(e, email, password)}>
+                        sign in
                 </Button>
+                </div>
             </div>
+            <Link to="reset" className={styles.link} >Password reset</Link>
         </form>
     );
 }
