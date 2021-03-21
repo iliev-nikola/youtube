@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import React, { useState } from "react";
 import {
   BrowserRouter as Router,
@@ -14,7 +13,7 @@ import WhatshotIcon from '@material-ui/icons/Whatshot';
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 import HistoryIcon from '@material-ui/icons/History';
 import SignUp from './Components/SignUp/SignUp';
-import ErrorPage from './Components/ErrorPage/ErrorPage';
+import ErrorPage from './Components/errorPage/ErrorPage';
 import VideoCard from './Components/VideoCard/VideoCard';
 import videos from './videos';
 
