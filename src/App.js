@@ -1,9 +1,9 @@
-/* eslint-disable no-undef */
 import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+  Route,
+  Link
 } from "react-router-dom";
 import './App.css';
 import Header from './Components/Header/Header';
@@ -13,10 +13,11 @@ import WhatshotIcon from '@material-ui/icons/Whatshot';
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 import HistoryIcon from '@material-ui/icons/History';
 import SignUp from './Components/SignUp/SignUp';
-import ErrorPage from './Components/ErrorPage/ErrorPage';
+import ErrorPage from './Components/errorPage/ErrorPage';
 import VideoCard from './Components/VideoCard/VideoCard';
 import videos from './videos';
 import SignIn from "./Components/SignIn/SignIn";
+
 
 export default function App() {
   const [slidebar, toggleSlidebar] = useState(false);
@@ -37,24 +38,17 @@ export default function App() {
               <div className='videoContainer'>
                 {
                   videos.map(video => (
-                    <div key={video.id}>
-                      <VideoCard url={video.url} title={video.title} author={video.author} />
-                    </div>
+                    <Link to={video.id} className='link' key={video.id}>
+                      <div >
+                        <VideoCard url={video.url} title={video.title} author={video.author} />
+                      </div>
+                    </Link>
                   ))
                 }
-                <div
-                  id="scrollableDiv"
-                  style={{
-                    height: 300,
-                    overflow: 'auto',
-                    display: 'flex',
-                    flexDirection: 'column-reverse',
-                  }}
-                >
-                </div>
               </div>
             </div>
           </Route>
+          <Route path="/:videoId"></Route>
           <Route path="/signup">
             <SignUp />
           </Route>

@@ -26,7 +26,7 @@ export default function Header({ handleToggerSlidebar, slidebar }) {
                     <span className={styles.searchCont}><SearchIcon className={styles.searchIcon} /></span>
                 </Tooltip>
                 <Tooltip title="Search with your voice">
-                    <KeyboardVoiceIcon className={styles.icons, styles.voice} />
+                    <KeyboardVoiceIcon className={styles.icons + styles.voice} />
                 </Tooltip>
             </div>
             <div className={styles.userContainer}>

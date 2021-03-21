@@ -2,99 +2,114 @@ import { generateId } from './utils';
 const videos = [
     {
         'id': generateId(),
-        'url': 'https://youtu.be/_ONaB1omF2E',
-        'author': 'Miley Cyrus, Dua Lipa',
-        'title': 'Prisoner'
-    },
-    {
-        'id': generateId(),
-        'url': 'https://www.youtube.com/watch?v=q0hyYWKXF0Q',
-        'author': 'TONES AND I',
-        'title': 'Dance monkey'
-    },
-    {
-        'id': generateId(),
-        'url': 'https://www.youtube.com/watch?v=iDeMxlhm8XI&list=RDMM&start_radio=1',
-        'author': 'Joel Corry x MNEK',
-        'title': 'Head & Heart'
-    },
-    {
-        'id': generateId(),
-        'url': 'https://www.youtube.com/watch?v=lP-_IxX8YkY&list=RDMM&index=2',
+        'url': 'https://v.ftcdn.net/04/18/07/01/240_F_418070104_TXXlp63Lf6e1cVxsQbS4caLA2NbpSdvm_ST.mp4',
         'author': 'Konfuz',
-        'title': 'Ратата/Ratatatata'
+        'title': 'Ратата/Ratatatata',
+        'duration': '0.11'
     },
     {
         'id': generateId(),
-        'url': 'https://www.youtube.com/watch?v=M66U_DuMCS8&list=RDMM&index=3',
+        'url': 'https://v.ftcdn.net/04/19/27/81/240_F_419278143_28u7vSShiLOEUW5cNkxU5H6oLmnmGen9_ST.mp4',
+        'author': 'Miley Cyrus, Dua Lipa',
+        'title': 'Prisoner',
+        'duration': '0.19'
+    },
+    {
+        'id': generateId(),
+        'url': 'https://v.ftcdn.net/04/20/96/20/240_F_420962031_RUNOpWPDOXQGNsXBiBRxG4k8KW0zCh1U_ST.mp4',
+        'author': 'TONES AND I',
+        'title': 'Dance monkey',
+        'duration': '0.24'
+    },
+    {
+        'id': generateId(),
+        'url': 'https://v.ftcdn.net/04/19/44/64/240_F_419446488_OU83I1d47vEZGvm6WbUIe5P9HIchEPLT_ST.mp4',
+        'author': 'Joel Corry x MNEK',
+        'title': 'Head & Heart',
+        'duration': '0.19'
+    },
+    {
+        'id': generateId(),
+        'url': 'https://v.ftcdn.net/04/19/96/73/240_F_419967302_9uoMGRSa02VKGGmXbvAuECMLNcQLoGVo_ST.mp4',
         'author': 'Imagine Dragons',
-        'title': 'Whatever It Takes'
+        'title': 'Whatever It Takes',
+        'duration': '0.13'
     },
     {
         'id': generateId(),
-        'url': 'https://www.youtube.com/watch?v=Td2bsJIaC5M&list=RDMM&index=4',
+        'url': 'https://v.ftcdn.net/04/18/54/93/240_F_418549315_uk2V1ffWGPrd3MpNR8lSCZbuWWDKbKGL_ST.mp4',
         'author': 'Take Me To Church',
-        'title': 'Hozier'
+        'title': 'Hozier',
+        'duration': '0.15'
     },
     {
         'id': generateId(),
-        'url': 'https://www.youtube.com/watch?v=ele2DMU49Jk&list=RDMM&index=11',
+        'url': 'https://v.ftcdn.net/04/17/62/53/240_F_417625375_w740Mn96YYGVo3WshOVnTpOIwho7wKMi_ST.mp4',
         'author': 'SAINt JHN',
-        'title': 'Roses'
+        'title': 'Roses',
+        'duration': '0.20'
     },
     {
         'id': generateId(),
-        'url': 'https://www.youtube.com/watch?v=jIoEaTN7GGo&list=RDMM&index=12',
+        'url': 'https://v.ftcdn.net/04/17/38/10/240_F_417381044_C0SuNTQFvpYIhq24iD2rc0b8JszkVFOY_ST.mp4',
         'author': 'Topic, A7S',
-        'title': 'Breaking Me'
+        'title': 'Breaking Me',
+        'duration': '0.10'
     },
     {
         'id': generateId(),
-        'url': 'https://www.youtube.com/watch?v=9ojaKTbcImU&list=RDMM&index=13',
+        'url': 'https://v.ftcdn.net/04/16/78/14/240_F_416781486_iXZ3iKivZQdhj20tLeGx3TU7yMIdw9NU_ST.mp4',
         'author': 'Dynoro & Fumaratto',
-        'title': 'Me Provocas'
+        'title': 'Me Provocas',
+        'duration': '0.09'
     },
     {
         'id': generateId(),
-        'url': 'https://www.youtube.com/watch?v=5y_KJAg8bHI&list=RDMM&index=21',
+        'url': 'https://v.ftcdn.net/04/19/39/24/240_F_419392479_vedPYtzG86LkqXfNTxso1ztGMf6hT7FE_ST.mp4',
         'author': 'Avicii',
-        'title': 'Wake Me Up'
+        'title': 'Wake Me Up',
+        'duration': '0.13'
     },
     {
         'id': generateId(),
-        'url': 'https://www.youtube.com/watch?v=o2DXt11SMNI&list=RDMM&index=24',
+        'url': 'https://v.ftcdn.net/04/19/20/22/240_F_419202226_lcYL9FwpCEZXaNTElmLwIlhNget3Sfa4_ST.mp4',
         'author': 'Maroon 5',
-        'title': 'Memories'
+        'title': 'Memories',
+        'duration': '0.14'
     },
     {
         'id': generateId(),
-        'url': 'https://www.youtube.com/watch?v=nMVFSwfV6wk&list=RDnMVFSwfV6wk&start_radio=1',
+        'url': 'https://v.ftcdn.net/04/17/68/11/240_F_417681108_RlVthyQkjZrEe5jH74LAHFDSRm0SA5RR_ST.mp4',
         'author': '24kGoldn, Iann Dior',
-        'title': 'Mood'
+        'title': 'Mood',
+        'duration': '0.09'
     },
     {
         'id': generateId(),
-        'url': 'https://www.youtube.com/watch?v=itLr4eFDYeM',
+        'url': 'https://v.ftcdn.net/04/16/30/98/240_F_416309869_bLUsSEs5Gac0IZXgXzlCCgsHX7KxIdFk_ST.mp4',
         'author': 'Deep House Mix 2021',
         'title': 'TSG'
     },
     {
         'id': generateId(),
-        'url': 'https://www.youtube.com/watch?v=Jt6ydoCDaA4',
+        'url': 'https://v.ftcdn.net/04/18/43/47/240_F_418434766_4cnb4EA1C7eEHUhF03bl9cKR2iS4c5DX_ST.mp4',
         'author': 'Mascota',
-        'title': 'Autumn-Winter Fashion 2020'
+        'title': 'Autumn-Winter Fashion 2020',
+        'duration': '0.08'
     },
     {
         'id': generateId(),
-        'url': 'https://www.youtube.com/watch?v=Zv1QV6lrc_Y',
+        'url': 'https://v.ftcdn.net/04/18/15/61/240_F_418156122_yIbRLW1d3sI1kakQNbgOXw8S0ebGu8Ci_ST.mp4',
         'author': 'Martin Garrix',
-        'title': 'Forbidden Voices'
+        'title': 'Forbidden Voices',
+        'duration': '0.09'
     },
     {
         'id': generateId(),
-        'url': 'https://www.youtube.com/watch?v=2ciLHgyzGbs',
+        'url': 'https://v.ftcdn.net/04/17/13/43/240_F_417134324_1dhtOPGDjyHP3o1670SK5Ke8sg2Pv8Kn_ST.mp4',
         'author': 'Mascota & D-Trax feat. Poli Hubavenska',
-        'title': 'Zaidi'
+        'title': 'Zaidi',
+        'duration': '0.11'
     },
 
 ]

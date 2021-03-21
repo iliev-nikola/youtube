@@ -18,3 +18,11 @@
 .container img{
     width: 100px;
 }
+
+.video{
+  width: 275px;
+}
+
+.video video{
+  height: 200px;
+}
