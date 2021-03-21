@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import { isLoggedIn } from '../../utils';
 
 export default function Header({ handleToggerSlidebar, slidebar }) {
-    const ref = React.createRef();
+    // const ref = React.createRef();
     const guestHeader = (
         <Link to="/signin" className={styles.link} title='Sign in'>
             <div className={styles.signIn}>

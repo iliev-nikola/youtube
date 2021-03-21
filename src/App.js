@@ -21,8 +21,6 @@ import VideoCard from './Components/VideoCard/VideoCard';
 import videos from './videos';
 import OpenVideo from './Components/OpenVideo/OpenVideo';
 import SignIn from "./Components/SignIn/SignIn";
-import allVideos from './firebase';
-
 import ResetPassword from './Components/ResetPassword/ResetPassword';
 import SignOut from "./Components/SignOut/SignOut";
 
@@ -57,11 +55,11 @@ export default function App() {
           <Route path="/video/:id">
             <Header handleToggerSlidebar={handleToggerSlidebar} slidebar={slidebar} />
             <div className={slidebar ? 'open' : 'notVisible'}>
-                <Slidebar slidebar={slidebar} Icon={HomeIcon} type={'Home'} />
-                <Slidebar slidebar={slidebar} Icon={WhatshotIcon} type={'Trending'} />
-                <Slidebar slidebar={slidebar} Icon={VideoLibraryIcon} type={'Library'} />
-                <Slidebar slidebar={slidebar} Icon={HistoryIcon} type={'History'} />
-              </div>
+              <Slidebar slidebar={slidebar} Icon={HomeIcon} type={'Home'} />
+              <Slidebar slidebar={slidebar} Icon={WhatshotIcon} type={'Trending'} />
+              <Slidebar slidebar={slidebar} Icon={VideoLibraryIcon} type={'Library'} />
+              <Slidebar slidebar={slidebar} Icon={HistoryIcon} type={'History'} />
+            </div>
             <OpenVideo />
           </Route>
           <Route path="/signup">

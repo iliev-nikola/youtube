@@ -1,5 +1,5 @@
 import { signOut } from '../../utils';
-import { Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 export default function SignOut() {
     const history = useHistory();
