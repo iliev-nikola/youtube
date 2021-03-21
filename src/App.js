@@ -1,9 +1,10 @@
 /* eslint-disable no-undef */
-import React, { useState} from "react";
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+  Route,
+  Link
 } from "react-router-dom";
 import './App.css';
 import Header from './components/Header/Header';
@@ -16,6 +17,7 @@ import SignUp from './components/SignUp/SignUp';
 import ErrorPage from './components/errorPage/errorPage';
 import VideoCard from './components/VideoCard/VideoCard';
 import videos from './videos';
+
 
 export default function App() {
   const [slidebar, toggleSlidebar] = useState(false);
@@ -36,24 +38,17 @@ export default function App() {
               <div className='videoContainer'>
                 {
                   videos.map(video => (
-                    <div key={video.id}>
-                      <VideoCard url={video.url} title={video.title} author={video.author} />
-                    </div>
+                    <Link to={video.id} className='link' key={video.id}>
+                      <div >
+                        <VideoCard url={video.url} title={video.title} author={video.author} />
+                      </div>
+                    </Link>
                   ))
                 }
-                <div
-                  id="scrollableDiv"
-                  style={{
-                    height: 300,
-                    overflow: 'auto',
-                    display: 'flex',
-                    flexDirection: 'column-reverse',
-                  }}
-                >
-                </div>
               </div>
             </div>
           </Route>
+          <Route path="/:videoId"></Route>
           <Route path="/signup">
             <SignUp />
           </Route>
