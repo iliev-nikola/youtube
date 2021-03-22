@@ -71,11 +71,11 @@
   border: 1px solid #3ea6ff;
   color: #3ea6ff;
   border-radius: 2px;
-  padding: 5px 11px;
+  width: 85px;
+  padding: 5px 8px;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
-  vertical-align: middle;
 }
 
 .userContainer {
@@ -84,20 +84,37 @@
   margin-right: 18px;
 }
 
-.link {
-  text-decoration: none;
-}
-
 #userIcons {
   display: flex;
-  align-items: center;
 }
 
 .dropdownContainer {
   position: relative;
 }
 
-#userIcon {
+.displayFlex {
+  display: flex;
+  align-items: center;
+  padding: 10px 0 10px 0;
+}
+
+.displayFlex > .userIcon {
+  cursor: auto;
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+  padding: 10px 0 10px 0;
+  cursor: pointer;
+}
+
+.listItem:hover {
+  background-color: #3a3a3a;
+}
+
+.userIcon {
+  box-sizing: border-box;
   font-size: 22px;
   background-color: rgb(255, 166, 0);
   display: flex;
@@ -111,20 +128,76 @@
   overflow: hidden;
 }
 
+#userIcon:active {
+  border: 1px solid rgb(37, 93, 245);
+}
+
+.marginNone {
+  margin: 0;
+  padding: 0;
+}
+
+.divider {
+  color: white;
+}
+
+.iconColorGrey {
+  color: grey;
+  margin-left: 10px;
+}
+
+.text {
+  margin: 0 0 0 15px;
+  font-size: 15px;
+}
+
+.greyText {
+  color: #aaaaaa;
+}
+
+.notifyTitle {
+  margin: 10px;
+  font-weight: 400;
+  text-align: left;
+}
+
+.links {
+  text-decoration: none;
+  color: white;
+}
+
 .dropdown {
+  margin: 0;
+  padding: 0px;
   position: absolute;
   top: 0;
   z-index: 1;
   width: 250px;
   background-color: #212121;
   border: 1px solid #393838;
+  border-top: none;
   right: 45px;
 }
 
+.line {
+  height: 1px;
+  line-height: 1px;
+  width: 100%;
+  background-color: #3a3a3a;
+  padding: 0;
+  margin: 5px 0 5px 0;
+}
+
 #dropdownNotify {
-  right: 30px;
+  top: 35px;
+  right: 0;
   width: 300px;
   text-align: center;
+}
+
+#bigNotifyIcon {
+  margin-top: 20px;
+  color: #aaaaaa;
 }
 
 @media only screen and (max-width: 650px) {

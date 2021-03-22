@@ -1,24 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import { Tooltip } from '@material-ui/core';
 import VideoCallIcon from '@material-ui/icons/VideoCall';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import styles from './Header.module.css';
 import { getCurrentUser } from '../../utils';
 import { Link, useHistory } from "react-router-dom";
 
-
-export default function LeadingClickAway() {
+export default function User() {
     const history = useHistory();
-    const [openNotify, setOpenNotify] = React.useState(false);
+    const [openNotify, setOpenNotify] = useState(false);
     const handleClickNotify = () => {
         setOpenNotify((prev) => !prev);
     };
     const handleClickAwayNotify = () => {
         setOpenNotify(false);
     };
-    const [openProfile, setOpenProfile] = React.useState(false);
+    const [openProfile, setOpenProfile] = useState(false);
     const handleClickProfile = () => {
         setOpenProfile((prev) => !prev);
     };
@@ -29,7 +30,7 @@ export default function LeadingClickAway() {
     return (
         <div id={styles.userIcons}>
             <Tooltip title="Upload a video" placement="bottom">
-                <VideoCallIcon className={styles.icons} onClick={() => history.push('/upload')} />
+                <VideoCallIcon fontSize='medium' className={styles.icons} onClick={() => history.push('/upload')} />
             </Tooltip>
             <ClickAwayListener
                 mouseEvent="onMouseDown"
@@ -42,8 +43,10 @@ export default function LeadingClickAway() {
                     </Tooltip>
                     {openNotify ? (
                         <div id={styles.dropdownNotify} className={styles.dropdown}>
-                            <NotificationsIcon />
-                            No new notifications.
+                            <h4 className={styles.notifyTitle}>Notifications</h4>
+                            <div className={styles.line}></div>
+                            <NotificationsIcon fontSize="large" id={styles.bigNotifyIcon} />
+                            <p className={styles.greyText}>No new notifications.</p>
                         </div>
                     ) : null}
                 </div>
@@ -56,15 +59,35 @@ export default function LeadingClickAway() {
             >
                 <div className={styles.dropdownContainer} >
                     <Tooltip title="My profile" placement="bottom">
-                        <h1 onClick={handleClickProfile} id={styles.userIcon}>{getCurrentUser().names[0]}</h1>
+                        <h1 onClick={handleClickProfile} className={styles.userIcon}>{getCurrentUser().names[0]}</h1>
                     </Tooltip>
                     {openProfile ? (
-                        <div id={styles.dropdownProfile} className={styles.dropdown}>
-                            Profile.
-                        </div>
+                        <ul id={styles.dropdownProfile} className={styles.dropdown}>
+                            <li className={styles.displayFlex}>
+                                <h1 className={styles.userIcon}>{getCurrentUser().names[0]}</h1>
+                                <div>
+                                    <h4 className={styles.marginNone}>{getCurrentUser().names}</h4>
+                                    <p className={styles.marginNone}>{getCurrentUser().email}</p>
+                                </div>
+                            </li>
+                            <div className={styles.line}></div>
+                            <Link to='/channel' className={styles.links}>
+                                <li className={styles.listItem}>
+                                    <AccountBoxIcon className={styles.iconColorGrey} />
+                                    <p className={styles.text}>My channel</p>
+                                </li>
+                            </Link>
+                            <div className={styles.line}></div>
+                            <Link to='/signout' className={styles.links}>
+                                <li className={styles.listItem}>
+                                    <ExitToAppIcon className={styles.iconColorGrey} />
+                                    <p className={styles.text}>Sign out</p>
+                                </li>
+                            </Link>
+                        </ul>
                     ) : null}
                 </div>
             </ClickAwayListener>
-        </div>
+        </div >
     );
 }

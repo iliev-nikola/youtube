@@ -81,7 +81,7 @@ export default function SignUp() {
 
     return (
         <form className={styles.signUp}>
-            <img src={logo} alt="logo" id={styles.logo} />
+            <img src={logo} alt="logo" id={styles.logo} onClick={() => history.push('/')} />
             <h2 className={styles.welcomeText}>Create your Account</h2>
             <p className={styles.welcomeText}>to continue to YouTube</p>
             <div className={styles.container}>

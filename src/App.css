@@ -7,6 +7,8 @@
   margin: 0 auto;
   display: flex;
   flex-wrap: wrap-reverse;
+  z-index: -1;
+  position: relative;
 }
 
 .open {
@@ -19,7 +21,7 @@
   cursor: pointer;
 }
 
-.notVisible{
+.notVisible {
   display: none;
 }
 

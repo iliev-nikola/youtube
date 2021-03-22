@@ -7,13 +7,10 @@ import { setCurrentUser, validateEmail, login } from '../../utils';
 import logo from '../../assets/logo.png';
 import firebase from "firebase/app";
 
-
-
 export default function SignIn() {
     const history = useHistory();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    // const [error, setError] = useState(null);
 
     const signInWithEmailAndPasswordHandler = (event, email, password) => {
         event.preventDefault();
@@ -26,20 +23,10 @@ export default function SignIn() {
             return alert('Enter a password');
         }
 
-        // auth.signInWithEmailAndPassword(email, password)
-        //     .then((res) => {
-        //         // getUserDocument(getCurrentUser().uid);
-        //         setEmail('');
-        //         setPassword('');
-        //         setCurrentUser();
-        //         history.push('/');
-        //     })
-        //     .catch(err => alert(err));
         auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-            .then(res => {
+            .then(() => {
                 return auth.signInWithEmailAndPassword(email, password)
-                    .then((res) => {
-                        // getUserDocument(getCurrentUser().uid);
+                    .then(() => {
                         setEmail('');
                         setPassword('');
                         setCurrentUser();
@@ -64,7 +51,7 @@ export default function SignIn() {
 
     return (
         <form className={styles.signUp}>
-            <img src={logo} alt="logo" id={styles.logo} />
+            <img src={logo} alt="logo" id={styles.logo} onClick={() => history.push('/')} />
             <h2 className={styles.welcomeText}>Sign in</h2>
             <p className={styles.welcomeText}>to continue to YouTube</p>
             <div className={styles.container}>

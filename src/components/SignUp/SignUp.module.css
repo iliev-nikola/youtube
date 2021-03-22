@@ -5,13 +5,14 @@
   border: 1px solid white;
   padding: 30px 20px 40px 20px;
   border-radius: 4px;
-  background-color: #333;
+  background-color: #848181;
   text-align: center;
 }
 
 #logo {
   width: 100px;
   margin: 20px 0 10px 0;
+  cursor: pointer;
 }
 
 .welcomeText {
@@ -39,7 +40,7 @@ p.welcomeText {
 
 .link {
   text-decoration: none;
-  color: #1a73e8;
+  color: #001abf;
   width: inherit;
   text-align: start;
 }
