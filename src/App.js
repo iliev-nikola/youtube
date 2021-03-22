@@ -22,6 +22,7 @@ import OpenVideo from './Components/OpenVideo/OpenVideo';
 import SignIn from "./Components/SignIn/SignIn";
 import ResetPassword from './Components/ResetPassword/ResetPassword';
 import SignOut from "./Components/SignOut/SignOut";
+import UploadVideo from './Components/UploadVideo/UploadVideo';
 
 
 export default function App() {
@@ -64,6 +65,7 @@ export default function App() {
             <OpenVideo />
           </Route>
           <Route path="/upload">
+            <UploadVideo />
           </Route>
           <Route path="/signout">
             {/* {isLoggedIn() ? <SignOut /> : <Redirect to="/" />} */}
