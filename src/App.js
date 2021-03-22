@@ -28,24 +28,29 @@ import SignOut from "./Components/SignOut/SignOut";
 export default function App() {
   const [slidebar, toggleSlidebar] = useState(false);
   const handleToggerSlidebar = () => toggleSlidebar(value => !value);
+  const header = <><Header handleToggerSlidebar={handleToggerSlidebar} slidebar={slidebar} /></>;
+  const slideBar = <>
+    <Slidebar slidebar={slidebar} Icon={HomeIcon} type={'Home'} />
+    <Slidebar slidebar={slidebar} Icon={WhatshotIcon} type={'Trending'} />
+    <Slidebar slidebar={slidebar} Icon={VideoLibraryIcon} type={'Library'} />
+    <Slidebar slidebar={slidebar} Icon={HistoryIcon} type={'History'} />
+  </>
+
   return (
     <Router>
       <>
         <Switch>
           <Route exact path="/">
-            <Header handleToggerSlidebar={handleToggerSlidebar} slidebar={slidebar} />
+            {header}
             <div className='mainContainer'>
               <div className={slidebar ? 'open' : 'close'}>
-                <Slidebar slidebar={slidebar} Icon={HomeIcon} type={'Home'} />
-                <Slidebar slidebar={slidebar} Icon={WhatshotIcon} type={'Trending'} />
-                <Slidebar slidebar={slidebar} Icon={VideoLibraryIcon} type={'Library'} />
-                <Slidebar slidebar={slidebar} Icon={HistoryIcon} type={'History'} />
+                {slideBar}
               </div>
               <div className='videoContainer'>
                 {videos.map(video => (
-                  <Link to={video.id} className='link' key={video.id}>
+                  <Link to={`/video/${video.id}`} className='link' key={video.id}>
                     <div >
-                      <VideoCard url={video.url} title={video.title} author={video.author} />
+                      <VideoCard url={video.url} title={video.title} author={video.author} duration={video.duration} />
                     </div>
                   </Link>
                 ))}
@@ -53,14 +58,13 @@ export default function App() {
             </div>
           </Route>
           <Route path="/video/:id">
-            <Header handleToggerSlidebar={handleToggerSlidebar} slidebar={slidebar} />
+            {header}
             <div className={slidebar ? 'open' : 'notVisible'}>
-              <Slidebar slidebar={slidebar} Icon={HomeIcon} type={'Home'} />
-              <Slidebar slidebar={slidebar} Icon={WhatshotIcon} type={'Trending'} />
-              <Slidebar slidebar={slidebar} Icon={VideoLibraryIcon} type={'Library'} />
-              <Slidebar slidebar={slidebar} Icon={HistoryIcon} type={'History'} />
+              {slideBar}
             </div>
             <OpenVideo />
+          </Route>
+          <Route path="/upload">
           </Route>
           <Route path="/signup">
             {!isLoggedIn() ? <SignUp /> : <Redirect to="/" />}

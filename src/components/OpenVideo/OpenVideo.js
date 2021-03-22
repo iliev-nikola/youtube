@@ -36,7 +36,7 @@ export default function OpenVideo() {
                             {currentVideo.comments ?
 
                                 currentVideo.comments.map(currentComment => (
-                                    <div div key = { currentComment.user } className = { styles.mainComm } >
+                                    <div key = { currentComment.user } className = { styles.mainComm } >
                                         <div className={styles.userLogo}>{currentComment.user[0]}</div>
                                         <div className={styles.someComment}>
                                             <p className={styles.userName}>{currentComment.user}</p>

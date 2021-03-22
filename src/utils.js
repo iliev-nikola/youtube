@@ -19,7 +19,7 @@ export function setCurrentUser() {
       firestore.collection('users').get()
         .then(res => res.docs.map(el => el.data()))
         .then(res => res.find(el => el.email === user.email))
-        .then(res => localStorage.setItem('currentUser', JSON.stringify(...res)))
+        .then(res => localStorage.setItem('currentUser', JSON.stringify(res)))
 
     }
   });
