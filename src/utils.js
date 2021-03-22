@@ -17,10 +17,10 @@ export function setCurrentUser() {
   auth.onAuthStateChanged(user => {
     if (user) {
       firestore.collection('users').get()
-        .then(res => res.docs.map(el => el.data()))
+        .then(res => Array.from(res.docs))
+        .then(res => res.map(el => el.data()))
         .then(res => res.find(el => el.email === user.email))
-        .then(res => localStorage.setItem('currentUser', JSON.stringify(...res)))
-
+        .then(res => localStorage.setItem('currentUser', JSON.stringify(res)))
     }
   });
 }

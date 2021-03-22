@@ -7,7 +7,6 @@ import { Input } from '@material-ui/core'
 import { firestore, allVideos } from '../../firebase';
 export default function OpenVideo() {
     const { id } = useParams();
-
     const currentVideo = allVideos.find(video => video.id === id);
     // firestore.collection("videos")
     //     .get()
@@ -36,7 +35,7 @@ export default function OpenVideo() {
                             {currentVideo.comments ?
 
                                 currentVideo.comments.map(currentComment => (
-                                    <div div key = { currentComment.user } className = { styles.mainComm } >
+                                    <div key={currentComment.user} className={styles.mainComm} >
                                         <div className={styles.userLogo}>{currentComment.user[0]}</div>
                                         <div className={styles.someComment}>
                                             <p className={styles.userName}>{currentComment.user}</p>
@@ -46,9 +45,9 @@ export default function OpenVideo() {
                                 ))
                                 : <div className={styles.addFirstComment}>Добави първия коментар...</div>}
                         </div>
+                    </div>
                 </div>
             </div>
-        </div>
         </div >
     );
 }

@@ -7,7 +7,6 @@ import {
   Redirect
 } from "react-router-dom";
 import './App.css';
-import './Reset.css';
 import { isLoggedIn } from './utils';
 import Header from './Components/Header/Header';
 import Slidebar from './Components/Slidebar/Slidebar';
@@ -28,6 +27,7 @@ import SignOut from "./Components/SignOut/SignOut";
 export default function App() {
   const [slidebar, toggleSlidebar] = useState(false);
   const handleToggerSlidebar = () => toggleSlidebar(value => !value);
+
   return (
     <Router>
       <>
@@ -43,7 +43,7 @@ export default function App() {
               </div>
               <div className='videoContainer'>
                 {videos.map(video => (
-                  <Link to={video.id} className='link' key={video.id}>
+                  <Link to={`/video/${video.id}`} className='link' key={video.id}>
                     <div >
                       <VideoCard url={video.url} title={video.title} author={video.author} />
                     </div>
@@ -62,17 +62,22 @@ export default function App() {
             </div>
             <OpenVideo />
           </Route>
-          <Route path="/signup">
-            {!isLoggedIn() ? <SignUp /> : <Redirect to="/" />}
-          </Route>
           <Route path="/signout">
-            {isLoggedIn() ? <SignOut /> : <Redirect to="/" />}
+            {/* {isLoggedIn() ? <SignOut /> : <Redirect to="/" />} */}
+            <SignOut />
+          </Route>
+          {/* {isLoggedIn() ? <Redirect to='/' /> : null} */}
+          <Route path="/signup">
+            {/* {!isLoggedIn() ? <SignUp /> : <Redirect to="/" />} */}
+            <SignUp />
           </Route>
           <Route path="/signin">
-            {!isLoggedIn() ? <SignIn /> : <Redirect to="/" />}
+            {/* {!isLoggedIn() ? <SignIn /> : <Redirect to="/" />} */}
+            <SignIn />
           </Route>
           <Route path="/reset">
-            {!isLoggedIn() ? <ResetPassword /> : <Redirect to="/" />}
+            {/* {!isLoggedIn() ? <ResetPassword /> : <Redirect to="/" />} */}
+            <ResetPassword />
           </Route>
           <Route path="*">
             <ErrorPage />
