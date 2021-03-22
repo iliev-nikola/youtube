@@ -1,17 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import KeyboardVoiceIcon from '@material-ui/icons/KeyboardVoice';
 import VideoCallIcon from '@material-ui/icons/VideoCall';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
 import logo from '../../assets/logo.png';
 import styles from './Header.module.css';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { Tooltip } from '@material-ui/core';
-import { Link } from "react-router-dom";
-import { isLoggedIn } from '../../utils';
+import { Link, useHistory } from "react-router-dom";
+import { isLoggedIn, getCurrentUser } from '../../utils';
+import LeadingClickAway from './User';
 
 export default function Header({ handleToggerSlidebar, slidebar }) {
-    // const ref = React.useRef(null);
+    // const ref = React.createRef();
+    const history = useHistory();
     const guestHeader = (
         <Link to="/signin" className={styles.link} title='Sign in'>
             <div className={styles.signIn}>
@@ -20,9 +24,8 @@ export default function Header({ handleToggerSlidebar, slidebar }) {
             </div>
         </Link>)
     const userHeader = (
-        <div>
-            <VideoCallIcon className={styles.icons} />
-            <Link to="/signout">Sign out</Link>
+        <div id={styles.userIcons}>
+            <LeadingClickAway />
         </div>)
     return (
         <div className={styles.header}>
@@ -30,7 +33,7 @@ export default function Header({ handleToggerSlidebar, slidebar }) {
                 <MenuIcon className={styles.icons} onClick={handleToggerSlidebar} />
                 <Tooltip title="YouTube Home" placement="bottom-end">
                     {/* <Link to="/" ref={ref}> */}
-                    <div className={styles.logo}>
+                    <div className={styles.logo} onClick={() => history.push('/')}>
                         <img src={logo} alt='youtube\s logo' />
                     </div>
                     {/* </Link> */}

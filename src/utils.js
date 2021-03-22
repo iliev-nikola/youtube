@@ -13,21 +13,21 @@ export function validateEmail(email) {
   return pattern.test(String(email).toLowerCase());
 }
 
-export function setCurrentUser() {
-  auth.onAuthStateChanged(user => {
-    if (user) {
-      firestore.collection('users').get()
-        .then(res => res.docs.map(el => el.data()))
-        .then(res => res.find(el => el.email === user.email))
-        .then(res => localStorage.setItem('currentUser', JSON.stringify(res)))
-
-    }
-  });
-}
-
 export function getCurrentUser() {
   return JSON.parse(localStorage.getItem('currentUser'));
 }
+
+// export function setCurrentUser() {
+//   auth.onAuthStateChanged(user => {
+//     if (user) {
+//       firestore.collection('users').get()
+//         .then(res => Array.from(res.docs))
+//         .then(res => res.map(el => el.data()))
+//         .then(res => res.find(el => el.email === user.email))
+//         .then(res => localStorage.setItem('currentUser', JSON.stringify(res))) 
+//     }
+//   });
+// }
 
 export function login() {
   localStorage.setItem('isLoggedIn', true);

@@ -22,10 +22,8 @@
 }
 
 .icons {
-  width: 2%;
   cursor: pointer;
-  margin-top: 4px;
-  padding: 0 8px;
+  padding: 4px;
 }
 
 .header img {
@@ -88,6 +86,45 @@
 
 .link {
   text-decoration: none;
+}
+
+#userIcons {
+  display: flex;
+  align-items: center;
+}
+
+.dropdownContainer {
+  position: relative;
+}
+
+#userIcon {
+  font-size: 22px;
+  background-color: rgb(255, 166, 0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  margin: 0 8px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.dropdown {
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  width: 250px;
+  background-color: #212121;
+  border: 1px solid #393838;
+  right: 45px;
+}
+
+#dropdownNotify {
+  right: 30px;
+  width: 300px;
+  text-align: center;
 }
 
 @media only screen and (max-width: 650px) {
