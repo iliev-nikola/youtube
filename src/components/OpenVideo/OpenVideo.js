@@ -8,7 +8,7 @@ import { firestore, allVideos } from '../../firebase';
 export default function OpenVideo() {
     const { id } = useParams();
 
-    const currentVideo = allVideos.find(video => video.id === id);
+    const currentVideo = videos.find(video => video.id === id);
     // firestore.collection("videos")
     //     .get()
     //     .then((videos) => {
