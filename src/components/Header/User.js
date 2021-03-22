@@ -10,7 +10,7 @@ import styles from './Header.module.css';
 import { getCurrentUser } from '../../utils';
 import { Link, useHistory } from "react-router-dom";
 
-export default function LeadingClickAway() {
+export default function User() {
     const history = useHistory();
     const [openNotify, setOpenNotify] = useState(false);
     const handleClickNotify = () => {
@@ -30,7 +30,7 @@ export default function LeadingClickAway() {
     return (
         <div id={styles.userIcons}>
             <Tooltip title="Upload a video" placement="bottom">
-                <VideoCallIcon className={styles.icons} onClick={() => history.push('/upload')} />
+                <VideoCallIcon fontSize='medium' className={styles.icons} onClick={() => history.push('/upload')} />
             </Tooltip>
             <ClickAwayListener
                 mouseEvent="onMouseDown"

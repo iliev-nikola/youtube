@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { TextField, Button } from '@material-ui/core';
-import styles from './ResetPassword.module.css';
+import styles from '../SignIn/SignIn.module.css';
 import { auth } from '../../firebase';
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import logo from '../../assets/logo.png'
 
 export default function ResetPassword() {
+    const history = useHistory();
     const [email, setEmail] = useState('');
     const [emailHasBeenSent, setEmailHasBeenSent] = useState(false);
     const sendResetEmail = event => {
@@ -27,7 +28,7 @@ export default function ResetPassword() {
 
     return (
         <form className={styles.signUp}>
-            <img src={logo} alt="logo" id={styles.logo} />
+            <img src={logo} alt="logo" id={styles.logo} onClick={() => history.push('/')} />
             <h2 className={styles.welcomeText}>Reset your password</h2>
             <p className={styles.welcomeText}>to continue to YouTube</p>
             {emailHasBeenSent && (

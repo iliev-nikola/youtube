@@ -71,11 +71,11 @@
   border: 1px solid #3ea6ff;
   color: #3ea6ff;
   border-radius: 2px;
-  padding: 5px 11px;
+  width: 85px;
+  padding: 5px 8px;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
-  vertical-align: middle;
 }
 
 .userContainer {
@@ -84,13 +84,8 @@
   margin-right: 18px;
 }
 
-.link {
-  text-decoration: none;
-}
-
 #userIcons {
   display: flex;
-  align-items: center;
 }
 
 .dropdownContainer {
@@ -194,8 +189,8 @@
 }
 
 #dropdownNotify {
-  top: 40px;
-  right: 30px;
+  top: 35px;
+  right: 0;
   width: 300px;
   text-align: center;
 }
