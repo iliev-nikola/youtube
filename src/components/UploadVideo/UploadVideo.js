@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './UploadVideo.module.css';
 import { TextField, Button } from '@material-ui/core';
-import { useDropzone } from 'react-dropzone';
+import Dropzone from 'react-dropzone';
 export default function UploadVideo() {
     const [title, setTitle] = useState("");
     const [author, setAuthor] = useState("");
@@ -11,32 +11,27 @@ export default function UploadVideo() {
     const changeAuthor = (e) => {
         setAuthor(e.target.value);
     }
-
-    const {
-        acceptedFiles,
-        getRootProps,
-        getInputProps
-    } = useDropzone({
-        maxFiles: 1,
-        accept: 'image/png'
-    });
-
     const onSubmit = (e) => {
+    }
+    const onDrop = (acceptedFiles) => {
         console.log(acceptedFiles);
     }
-
     return (
         <div className={styles.mainContainer}>
             <form onSubmit={onSubmit}>
-                <section>
-                    <div {...getRootProps()}>
-                        <input {...getInputProps()}/>
-                        <p>Upload your video</p>
-                    </div>
-                    {/* 
-                    <p>{files[0] ? files[0] : null}</p> */}
-                    <p>{acceptedFiles?'ne':'da'}</p>
-                </section>
+                <Dropzone
+                    onDrop={onDrop}
+                    accept="image/png"
+                >
+                    {({ getRootProps, getInputProps, isDragActive, isDragReject }) => (
+                        <div {...getRootProps()} className={styles.uploadContainer}>
+                            <input {...getInputProps()} />
+                            {!isDragActive && 'Click here or drop a file to upload!'}
+                            {isDragActive && !isDragReject && "Drop it like it's hot!"}
+                            {isDragReject && "File type not accepted, sorry!"}
+                        </div>
+                    )}
+                </Dropzone>
                 <TextField type="text" className={styles.inputs} size="small" label="Title" variant="outlined" value={title} onChange={changeTitle} />
                 <TextField type="text" size="small" label="Author" variant="outlined" value={author} onChange={changeAuthor} />
                 <Button variant="contained" color="primary" onClick={onSubmit}>Upload</Button>
