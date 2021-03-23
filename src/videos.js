@@ -1,5 +1,5 @@
-import {firestore } from '../src/firebase';
-const videos = [
+import { db } from '../src/firebase';
+export const videos = [
     {
         'id': "31ee4649-83c3-4e7c-900e-41a96cbe018e",
         'url': 'https://v.ftcdn.net/04/18/07/01/240_F_418070104_TXXlp63Lf6e1cVxsQbS4caLA2NbpSdvm_ST.mp4',
@@ -268,4 +268,3 @@ const videos = [
 //     firestore.collection('videos').doc(video.id).set({ ...video });
 // });
 
-export default videos;

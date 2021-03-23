@@ -1,4 +1,3 @@
-
 const randomComments = [
     {
         'user': 'Haroon Fenton',
@@ -57,6 +56,6 @@ const randomComments = [
         'comment': 'A Grammy winning song!'
     }
 
-]
+];
 
 export default randomComments;

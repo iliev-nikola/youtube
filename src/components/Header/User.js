@@ -30,7 +30,7 @@ export default function User() {
     return (
         <div id={styles.userIcons}>
             <Tooltip title="Upload a video" placement="bottom">
-                <VideoCallIcon fontSize='medium' className={styles.icons} onClick={() => history.push('/upload')} />
+                <VideoCallIcon fontSize='default' className={styles.icons} onClick={() => history.push('/upload')} />
             </Tooltip>
             <ClickAwayListener
                 mouseEvent="onMouseDown"
@@ -62,7 +62,7 @@ export default function User() {
                         <h1 onClick={handleClickProfile} className={styles.userIcon}>{getCurrentUser().names[0]}</h1>
                     </Tooltip>
                     {openProfile ? (
-                        <ul id={styles.dropdownProfile} className={styles.dropdown}>
+                        <ul className={styles.dropdown}>
                             <li className={styles.displayFlex}>
                                 <h1 className={styles.userIcon}>{getCurrentUser().names[0]}</h1>
                                 <div>

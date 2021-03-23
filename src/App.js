@@ -17,13 +17,12 @@ import HistoryIcon from '@material-ui/icons/History';
 import SignUp from './Components/SignUp/SignUp';
 import ErrorPage from './Components/ErrorPage/ErrorPage';
 import VideoCard from './Components/VideoCard/VideoCard';
-import videos from './videos';
+import { videos } from './videos';
 import OpenVideo from './Components/OpenVideo/OpenVideo';
 import SignIn from "./Components/SignIn/SignIn";
 import ResetPassword from './Components/ResetPassword/ResetPassword';
 import SignOut from "./Components/SignOut/SignOut";
 import UploadVideo from './Components/UploadVideo/UploadVideo';
-
 
 export default function App() {
   const [slidebar, toggleSlidebar] = useState(false);
@@ -92,4 +91,3 @@ export default function App() {
     </Router>
   );
 }
-

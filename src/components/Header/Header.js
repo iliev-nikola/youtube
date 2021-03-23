@@ -32,17 +32,18 @@ export default function Header({ handleToggerSlidebar, slidebar }) {
                     {/* <Link to="/" ref={ref}> */}
                     <div className={styles.logo} onClick={() => history.push('/')}>
                         <img src={logo} alt='youtube\s logo' />
+                        <span className={styles.countryCode}>BG</span>
                     </div>
                     {/* </Link> */}
                 </Tooltip>
             </div>
             <div className={styles.searchContainer}>
-                <input type="text"></input>
+                <input type="text" placeholder="Search" ></input>
                 <Tooltip title="Search">
-                    <span className={styles.searchCont}><SearchIcon className={styles.searchIcon} /></span>
+                    <span className={styles.searchCont}><SearchIcon className={styles.searchIcon} fontSize="small" /></span>
                 </Tooltip>
                 <Tooltip title="Search with your voice">
-                    <KeyboardVoiceIcon className={styles.icons + styles.voice} />
+                    <KeyboardVoiceIcon className={styles.icons} id={styles.voiceIcon} />
                 </Tooltip>
             </div>
             <div className={styles.userContainer}>

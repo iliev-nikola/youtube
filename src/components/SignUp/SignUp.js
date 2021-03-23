@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { TextField, Button } from '@material-ui/core';
 import styles from './SignUp.module.css';
-import { auth, firestore } from '../../firebase';
+import { auth, db } from '../../firebase';
 import { Link, useHistory } from "react-router-dom"
 import { validateEmail } from '../../utils'
 import logo from '../../assets/logo.png'
-
 
 export default function SignUp() {
     const history = useHistory();
@@ -41,14 +40,14 @@ export default function SignUp() {
                     names: displayName,
                     email: email,
                     videos: [],
-                    history: []
+                    history: [],
                 }
-                const user = auth.currentUser;
+                const user = res.user;
                 user.updateProfile({
                     displayName: displayName,
                 });
 
-                firestore.collection('users').doc(res.uid).set(data);
+                db.collection('users').doc(res.uid).set(data);
                 setFirstName('');
                 setLastName('');
                 setEmail('');

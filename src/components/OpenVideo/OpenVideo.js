@@ -1,14 +1,14 @@
 import React from 'react';
 import { useParams } from "react-router-dom";
-import videos from "../../videos";
+import { videos } from "../../videos";
 import styles from './OpenVideo.module.css';
 import ReactPlayer from 'react-player';
 import { Input } from '@material-ui/core'
-import { firestore, allVideos } from '../../firebase';
+import { db, allVideos } from '../../firebase';
 export default function OpenVideo() {
     const { id } = useParams();
     const currentVideo = videos.find(video => video.id === id);
-    // firestore.collection("videos")
+    // db.collection("videos")
     //     .get()
     //     .then((videos) => {
     //         videos.forEach((video) => {

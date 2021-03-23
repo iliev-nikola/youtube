@@ -13,11 +13,11 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 export const auth = firebase.auth();
-export const firestore = firebase.firestore();
+export const db = firebase.firestore();
 
 export function generateUserDocument(user, additionalData) {
     if (!user) return;
-    firestore.doc(`users/${user.uid}`).get()
+    db.doc(`users/${user.uid}`).get()
         .then(res => console.log(res))
     // const snapshot = await userRef.get();
     // if (!snapshot.exists) {
@@ -37,7 +37,7 @@ export function generateUserDocument(user, additionalData) {
 };
 export function getUserDocument(uid) {
     if (!uid) return null;
-    firestore.doc(`users/${uid}`).get()
+    db.doc(`users/${uid}`).get()
         .then(res => console.log(res.data()))
         .catch(err => alert(err));
     // try {
@@ -51,7 +51,7 @@ export function getUserDocument(uid) {
     // }
 };
 export const allVideos = [];
-firestore.collection("videos")
+db.collection("videos")
     .get()
     .then((videos) => {
         videos.forEach((video) => {
