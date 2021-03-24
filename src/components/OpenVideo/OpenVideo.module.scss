@@ -1,0 +1,84 @@
+$main-color: rgb(255, 255, 255);
+$main-size: 18px;
+.mainContainer {
+  width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+
+  .video {
+    width: 640px;
+    height: 360px;
+
+    > video {
+      outline: none;
+    }
+  }
+
+  .info {
+    color: $main-color;
+    font-size: $main-size;
+    font-weight: 500;
+    margin-top: 5px;
+  }
+
+  .commentsContainer {
+    width: 640px;
+    margin-top: 20px;
+  }
+
+  .userName {
+    font-size: $main-size;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 5px;
+  }
+
+  .comment {
+    color: $main-color;
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  .someComment {
+    margin: 20px 0;
+  }
+
+  .input {
+    width: 584px;
+  }
+
+  .input input,
+  .addFirstComment {
+    color: $main-color;
+  }
+
+  .addFirstComment {
+    width: 200px;
+    margin: 0 auto;
+    margin-top: 30px;
+  }
+
+  .mainComm {
+    display: flex;
+    align-items: center;
+  }
+
+  .userLogo {
+    color: $main-color;
+    background-color: cornflowerblue;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    margin-right: 20px;
+    width: 40px;
+    height: 30px;
+    padding-top: 10px;
+  }
+
+  @media only screen and (max-width: 600px) {
+    .mainContainer {
+      width: auto;
+    }
+  }
+}

@@ -3,19 +3,29 @@
 }
 
 .videoContainer {
-  width: 1200px;
+  width: 1190px;
   margin: 0 auto;
   display: flex;
-  flex-wrap: wrap-reverse;
-  z-index: -1;
+  flex-wrap: wrap;
+  z-index: 0;
   position: relative;
+  justify-content: center;
 }
 
 .open {
-  position: absolute;
   z-index: 1;
-  position: sticky;
-  top: 0;
+  position: fixed;
+  top: 50px;
+}
+
+.close {
+  position: fixed;
+  top: 50px;
+  width: 150px;
+}
+
+.slideContainer{
+  width: 60px;
 }
 
 .link {

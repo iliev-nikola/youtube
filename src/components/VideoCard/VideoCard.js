@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './VideoCard.module.css';
+import styles from './VideoCard.module.scss';
 import HoverVideoPlayer from 'react-hover-video-player';
 export default function VideoCard({ url, title, id, author, duration }) {
     return (

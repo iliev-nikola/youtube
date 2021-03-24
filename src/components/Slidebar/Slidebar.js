@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Slidebar.module.css';
+import styles from './Slidebar.module.scss';
 import { Tooltip } from '@material-ui/core';
 export default function Slidebar({ Icon, type, slidebar }) {
     return (

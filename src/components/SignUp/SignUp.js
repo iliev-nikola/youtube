@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TextField, Button } from '@material-ui/core';
-import styles from './SignUp.module.css';
+import styles from './SignUp.module.scss';
 import { auth, db } from '../../firebase';
 import { Link, useHistory } from "react-router-dom"
 import { validateEmail } from '../../utils'
@@ -84,15 +84,15 @@ export default function SignUp() {
             <h2 className={styles.welcomeText}>Create your Account</h2>
             <p className={styles.welcomeText}>to continue to YouTube</p>
             <div className={styles.container}>
-                <TextField className={styles.inputs} size="small" label="First name" variant="outlined" value={firstName} onChange={(e) => onInputChange(e)} id="firstName" autoComplete="off" />
-                <TextField className={styles.inputs} size="small" label="Last name" variant="outlined" value={lastName} id="lastName" onChange={(e) => onInputChange(e)} autoComplete="off" />
+                <TextField required className={styles.inputs} size="small" label="First name" variant="outlined" value={firstName} onChange={(e) => onInputChange(e)} id="firstName" autoComplete="new-password" />
+                <TextField required className={styles.inputs} size="small" label="Last name" variant="outlined" value={lastName} id="lastName" onChange={(e) => onInputChange(e)} autoComplete="new-password" />
             </div>
             <div className={styles.emailContainer}>
-                <TextField type="email" size="small" fullWidth label="Email" variant="outlined" value={email} id="email" onChange={(e) => onInputChange(e)} autoComplete="off" />
+                <TextField required type="email" size="small" fullWidth label="Email" variant="outlined" value={email} id="email" onChange={(e) => onInputChange(e)} autoComplete="off" />
             </div>
             <div className={styles.container}>
-                <TextField type="password" className={styles.inputs} size="small" label="Password" variant="outlined" value={password} id="password" onChange={(e) => onInputChange(e)} />
-                <TextField type="password" className={styles.inputs} size="small" label="Confirm" variant="outlined" value={rePassword} id="rePassword" onChange={(e) => onInputChange(e)} />
+                <TextField required type="password" className={styles.inputs} size="small" label="Password" variant="outlined" value={password} id="password" onChange={(e) => onInputChange(e)} />
+                <TextField required type="password" className={styles.inputs} size="small" label="Confirm" variant="outlined" value={rePassword} id="rePassword" onChange={(e) => onInputChange(e)} />
             </div>
             <p id={styles.info}>Use 6 or more characters</p>
             <div className={styles.buttons}>

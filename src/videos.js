@@ -268,3 +268,8 @@ export const videos = [
 //     firestore.collection('videos').doc(video.id).set({ ...video });
 // });
 
+export function getAllVideos() {
+    return new Promise((res, rej) => {
+        res(videos);
+    });
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from "react-router-dom";
 import { videos } from "../../videos";
-import styles from './OpenVideo.module.css';
+import styles from './OpenVideo.module.scss';
 import ReactPlayer from 'react-player';
 import { Input } from '@material-ui/core'
 import { db, allVideos } from '../../firebase';

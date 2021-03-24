@@ -5,6 +5,5 @@ export default function SignOut() {
     const history = useHistory();
     signOut();
     history.push('/');
-    // return <Redirect to="/" />
     return null;
 }

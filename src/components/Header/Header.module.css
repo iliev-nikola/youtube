@@ -6,6 +6,8 @@
   align-items: center;
   position: sticky;
   top: 0;
+  z-index: 1;
+  background-color: #202020;
 }
 
 .logoContainer,
@@ -112,6 +114,7 @@
 
 .dropdownContainer {
   position: relative;
+  z-index: 1;
 }
 
 .displayFlex {
@@ -151,11 +154,6 @@
 
 .userIcon:active {
   border: 1px solid rgb(37, 93, 245);
-  box-shadow: 1px 1px 1px 1px grey;
-}
-
-.userIcon:focus {
-  box-shadow: 1px 1px 1px 1px grey;
 }
 
 .marginNone {

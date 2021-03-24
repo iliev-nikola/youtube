@@ -1,20 +1,23 @@
 import React, { useState } from 'react';
-import styles from './UploadVideo.module.css';
+import styles from './UploadVideo.module.scss';
 import { TextField, Button } from '@material-ui/core';
 import Dropzone from 'react-dropzone';
+
 export default function UploadVideo() {
-    const [title, setTitle] = useState("");
-    const [author, setAuthor] = useState("");
+    const [title, setTitle] = useState('');
+    const [artist, setArtist] = useState('');
+    let file;
     const changeTitle = (e) => {
         setTitle(e.target.value);
     }
-    const changeAuthor = (e) => {
-        setAuthor(e.target.value);
+    const changeArtist = (e) => {
+        setArtist(e.target.value);
     }
-    const onSubmit = (e) => {
+    const onSubmit = () => {
+        console.log(file);
     }
     const onDrop = (acceptedFiles) => {
-        console.log(acceptedFiles);
+        file = acceptedFiles;
     }
     return (
         <div className={styles.mainContainer}>
@@ -22,6 +25,8 @@ export default function UploadVideo() {
                 <Dropzone
                     onDrop={onDrop}
                     accept="image/png"
+                    multiple={false}
+                    maxFiles={1}
                 >
                     {({ getRootProps, getInputProps, isDragActive, isDragReject }) => (
                         <div {...getRootProps()} className={styles.uploadContainer}>
@@ -32,8 +37,8 @@ export default function UploadVideo() {
                         </div>
                     )}
                 </Dropzone>
-                <TextField type="text" className={styles.inputs} size="small" label="Title" variant="outlined" value={title} onChange={changeTitle} />
-                <TextField type="text" size="small" label="Author" variant="outlined" value={author} onChange={changeAuthor} />
+                <TextField type="text" required className={styles.inputs} size="small" label="Title" variant="outlined" value={title} onChange={changeTitle} />
+                <TextField type="text" required size="small" label="Artist" variant="outlined" value={artist} onChange={changeArtist} />
                 <Button variant="contained" color="primary" onClick={onSubmit}>Upload</Button>
             </form>
         </div>
