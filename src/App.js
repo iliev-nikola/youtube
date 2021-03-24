@@ -48,7 +48,7 @@ export default function App() {
               <div className='videoContainer'>
                 {videos.map(video => (
                   <Link to={`/video/${video.id}`} className='link' key={video.id}>
-                    <div >
+                    <div>
                       <VideoCard url={video.url} title={video.title} author={video.author} duration={video.duration} />
                     </div>
                   </Link>

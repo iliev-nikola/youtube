@@ -14,6 +14,8 @@
 .open {
   position: absolute;
   z-index: 1;
+  position: sticky;
+  top: 0;
 }
 
 .link {
