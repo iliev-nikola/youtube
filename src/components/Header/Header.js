@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import KeyboardVoiceIcon from '@material-ui/icons/KeyboardVoice';
@@ -6,20 +6,23 @@ import logo from '../../assets/logo.png';
 import styles from './Header.module.css';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { Tooltip } from '@material-ui/core';
-import { Link, useHistory } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import { isLoggedIn } from '../../utils';
 import User from './User';
+import { auth } from '../../firebase';
 
 export default function Header({ handleToggerSlidebar, slidebar }) {
     // const ref = React.createRef();
     const history = useHistory();
+
     const guestHeader = (
-        <Link to="/signin" className={styles.links} title='Sign in'>
+        // it was a Link here, instead of <a>. Maybe it reload whole page when going to signin page
+        <a href='/signin' className={styles.links} title='Sign in'>
             <div className={styles.signIn}>
                 <AccountCircleIcon />
                 <span>SIGN IN</span>
             </div>
-        </Link>)
+        </a>)
     const userHeader = (
         <div id={styles.userIcons}>
             <User />
@@ -31,7 +34,7 @@ export default function Header({ handleToggerSlidebar, slidebar }) {
                 <Tooltip title="YouTube Home" placement="bottom-end">
                     {/* <Link to="/" ref={ref}> */}
                     <div className={styles.logo} onClick={() => history.push('/')}>
-                        <img src={logo} alt='youtube\s logo' />
+                        <img src={logo} alt="youtube's logo" />
                         <span className={styles.countryCode}>BG</span>
                     </div>
                     {/* </Link> */}

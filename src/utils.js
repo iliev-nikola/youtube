@@ -1,4 +1,5 @@
-import { auth, db } from './firebase';
+import { auth } from './firebase';
+import { Redirect, useHistory } from "react-router-dom";
 
 export function generateId() {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
@@ -20,22 +21,18 @@ export function getCurrentUser() {
 export function setCurrentUser() {
   auth.onAuthStateChanged(user => {
     if (user) {
-      db.collection('users').get()
-        .then(res => Array.from(res.docs))
-        .then(res => res.map(el => el.data()))
-        .then(res => res.find(el => el.email === user.email))
-        .then(res => localStorage.setItem('currentUser', JSON.stringify(res)))
+      localStorage.setItem('currentUser', JSON.stringify(user));
     }
   });
 }
 
 export function login() {
-  localStorage.setItem('isLoggedIn', true);
+  localStorage.setItem('isLoggedIn', JSON.stringify(true));
 }
 
 export function signOut() {
   auth.signOut();
-  localStorage.setItem('isLoggedIn', false);
+  localStorage.setItem('isLoggedIn', JSON.stringify(false));
   localStorage.setItem('currentUser', null);
 }
 

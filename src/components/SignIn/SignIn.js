@@ -6,11 +6,64 @@ import { Link, useHistory } from "react-router-dom";
 import { setCurrentUser, validateEmail, login } from '../../utils';
 import logo from '../../assets/logo.png';
 import firebase from "firebase/app";
+import {
+    fade,
+    ThemeProvider,
+    withStyles,
+    makeStyles,
+    createMuiTheme,
+} from '@material-ui/core/styles';
+import InputBase from '@material-ui/core/InputBase';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import { green } from '@material-ui/core/colors';
 
 export default function SignIn() {
     const history = useHistory();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    // const useStyles = makeStyles((theme) => ({
+    //     root: {
+    //         display: 'flex',
+    //         flexWrap: 'wrap',
+    //     },
+    //     margin: {
+    //         margin: theme.spacing(1),
+    //     },
+    //     multilineColor: {
+    //         color: 'white'
+    //     },
+    //     asd: {
+    //         color: 'red'
+    //     }
+    // }));
+    // const CssTextField = withStyles({
+    //     root: {
+    //         '& label.Mui-focused': {
+    //             color: 'white',
+    //         },
+    //         '& .MuiInput-underline:after': {
+    //             borderBottomColor: 'white',
+    //             color: 'white',
+    //         },
+    //         '& .MuiOutlinedInput-root': {
+    //             '& fieldset': {
+    //                 borderColor: 'white',
+    //                 color: 'white',
+    //             },
+    //             '&:hover fieldset': {
+    //                 borderColor: 'white',
+    //                 color: 'white',
+    //             },
+    //             '&.Mui-focused fieldset': {
+    //                 borderColor: 'white',
+    //                 color: 'white',
+    //             },
+    //         },
+    //     },
+    // })(TextField);
+
+    // const classes = useStyles();
 
     const signInWithEmailAndPasswordHandler = (event, email, password) => {
         event.preventDefault();
@@ -23,20 +76,17 @@ export default function SignIn() {
             return alert('Enter a password');
         }
 
-        auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+        auth.signInWithEmailAndPassword(email, password)
             .then(() => {
-                return auth.signInWithEmailAndPassword(email, password)
-                    .then(() => {
-                        setEmail('');
-                        setPassword('');
-                        setCurrentUser();
-                        login();
-                        history.push('/');
-                    })
-                    .catch(err => alert(err));
+                setEmail('');
+                setPassword('');
+                setCurrentUser();
+                login();
+                history.push('/');
             })
             .catch(err => alert(err));
     };
+
     const onInputChange = (e) => {
         e.preventDefault();
         const { id, value } = e.currentTarget;
@@ -50,18 +100,24 @@ export default function SignIn() {
     };
 
     return (
-        <form className={styles.signUp}>
+        <form className={styles.signIn}>
             <img src={logo} alt="logo" id={styles.logo} onClick={() => history.push('/')} />
             <h2 className={styles.welcomeText}>Sign in</h2>
             <p className={styles.welcomeText}>to continue to YouTube</p>
             <div className={styles.container}>
-                <TextField type="email" className={styles.inputs} size="medium" fullWidth label="Email" variant="outlined" value={email} id="email" onChange={(e) => onInputChange(e)} autoComplete="off" />
+                <TextField type="email" required className={styles.inputs} size="medium" label="Email" variant="outlined" value={email} id="email" onChange={(e) => onInputChange(e)} autoComplete="off" />
             </div>
             <div className={styles.container}>
-                <TextField InputProps={{
-                    className: styles.inputs
-                }} type="password" className={styles.inputs} size="medium" label="Password" variant="outlined" value={password} id="password" onChange={(e) => onInputChange(e)} />
+                <TextField type="password" required className={styles.inputs} size="medium" label="Password" variant="outlined" value={password} id="password" onChange={(e) => onInputChange(e)} autoComplete="off" />
             </div>
+            {/* <CssTextField
+                InputProps={{ className: classes.multilineColor }}
+                InputLabelProps={{ className: classes.asd }}
+                className={classes.margin}
+                label="Custom CSS"
+                variant="outlined"
+                id="custom-css-outlined-input"
+            /> */}
             <div className={styles.buttons}>
                 <Link to="signup" className={styles.link}>Create account</Link>
                 <div className={styles.button}>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import { Tooltip } from '@material-ui/core';
 import VideoCallIcon from '@material-ui/icons/VideoCall';
@@ -7,11 +7,24 @@ import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import styles from './Header.module.css';
-import { getCurrentUser } from '../../utils';
-import { Link, useHistory } from "react-router-dom";
+import { getCurrentUser, signOut } from '../../utils';
+import { Link, Redirect, useHistory } from "react-router-dom";
+import { auth } from '../../firebase';
 
 export default function User() {
     const history = useHistory();
+    const [user, setUser] = useState(null);
+    useEffect(() => {
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                setUser(user);
+            }
+        });
+
+        // return () => {
+        //     setUser(null);
+        // };
+    }, []);
     const [openNotify, setOpenNotify] = useState(false);
     const handleClickNotify = () => {
         setOpenNotify((prev) => !prev);
@@ -59,15 +72,15 @@ export default function User() {
             >
                 <div className={styles.dropdownContainer} >
                     <Tooltip title="My profile" placement="bottom">
-                        <h1 onClick={handleClickProfile} className={styles.userIcon}>{getCurrentUser().names[0]}</h1>
+                        <h1 onClick={handleClickProfile} className={styles.userIcon}>{user ? user.displayName[0] : null}</h1>
                     </Tooltip>
                     {openProfile ? (
                         <ul className={styles.dropdown}>
                             <li className={styles.displayFlex}>
-                                <h1 className={styles.userIcon}>{getCurrentUser().names[0]}</h1>
+                                <h1 className={styles.userIcon}>{user ? user.displayName[0] : null}</h1>
                                 <div>
-                                    <h4 className={styles.marginNone}>{getCurrentUser().names}</h4>
-                                    <p className={styles.marginNone}>{getCurrentUser().email}</p>
+                                    <h4 className={styles.marginNone}>{user ? user.displayName : null}</h4>
+                                    <p className={styles.marginNone}>{user ? user.email : null}</p>
                                 </div>
                             </li>
                             <div className={styles.line}></div>

@@ -17,18 +17,7 @@
   justify-content: center;
 }
 
-.searchCont {
-  margin-right: 10px;
-  display: inline-block;
-  height: 28px;
-  width: 65px;
-  text-align: center;
-  background-color: rgb(48, 48, 48);
+.link {
   cursor: pointer;
-}
-
-.searchIcon {
-  margin-top: 4px;
-  color: rgba(255, 255, 255, 0.5);
-  width: 20px;
+  color: rgb(37, 93, 245);
 }

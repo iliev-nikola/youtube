@@ -27,7 +27,7 @@ export default function ResetPassword() {
     };
 
     return (
-        <form className={styles.signUp}>
+        <form className={styles.signIn} >
             <img src={logo} alt="logo" id={styles.logo} onClick={() => history.push('/')} />
             <h2 className={styles.welcomeText}>Reset your password</h2>
             <p className={styles.welcomeText}>to continue to YouTube</p>
@@ -37,7 +37,7 @@ export default function ResetPassword() {
                 </div>
             )}
             <div className={styles.container}>
-                <TextField type="email" className={styles.inputs} size="medium" fullWidth label="Email" variant="outlined" value={email} id="email" onChange={(e) => onInputChange(e)} autoComplete="off" />
+                <TextField type="email" name="new-password" required className={styles.inputs} size="medium" label="Email" variant="outlined" value={email} id="email" onChange={(e) => onInputChange(e)} autoComplete="new-password" />
             </div>
             <div className={styles.buttons}>
                 <Link to="signin" className={styles.link}>Sign in instead</Link>
