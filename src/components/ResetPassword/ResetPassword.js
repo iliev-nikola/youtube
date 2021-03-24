@@ -11,8 +11,7 @@ export default function ResetPassword() {
     const [emailHasBeenSent, setEmailHasBeenSent] = useState(false);
     const sendResetEmail = event => {
         event.preventDefault();
-        auth
-            .sendPasswordResetEmail(email)
+        auth.sendPasswordResetEmail(email)
             .then(() => {
                 setEmailHasBeenSent(true);
                 setTimeout(() => { setEmailHasBeenSent(false) }, 3000);
