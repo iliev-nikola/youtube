@@ -1,5 +1,7 @@
+$main-color: rgb(255, 255, 255);
+$main-background: #333;
 .slidebars {
-  color: rgb(255, 255, 255);
+  color: $main-color;
   font-size: 16px;
   font-weight: 600;
   padding: 16px 0;
@@ -12,24 +14,20 @@
 }
 
 .open {
-  color: rgb(255, 255, 255);
+  color: $main-color;
   font-size: 16px;
   padding: 0 24px;
   height: 40px;
-  background-color: #333;
+  background-color: $main-background;
   width: 162px;
   display: flex;
   align-items: center;
   cursor: pointer;
 }
 
-.openContainer {
-  background-color: white;
-}
-
 .slidebars:hover,
 .open:hover {
-  background-color: #333;
+  background-color: $main-background;
 }
 
 .openTitle {

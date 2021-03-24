@@ -41,6 +41,6 @@ export default function UploadVideo() {
                 <TextField type="text" required size="small" label="Artist" variant="outlined" value={artist} onChange={changeArtist} />
                 <Button variant="contained" color="primary" onClick={onSubmit}>Upload</Button>
             </form>
-        </div>
+        </div >
     )
 }
