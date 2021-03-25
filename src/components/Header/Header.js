@@ -14,6 +14,17 @@ import { auth } from '../../firebase';
 export default function Header({ handleToggerSlidebar, slidebar }) {
     // const ref = React.createRef();
     const history = useHistory();
+    const [inputSearchValue, setInputSearchValue] = useState('');
+    const onInputChange = (e) => {
+        setInputSearchValue(e.currentTarget.value);
+    }
+
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter' || e.type === 'click') {
+            let value = inputSearchValue.split(' ').map(el => el.toLowerCase().trim()).join('+');
+            history.push('/search/' + value);
+        }
+    }
 
     const guestHeader = (
         // it was a Link here, instead of <a>. Maybe it reload whole page when going to signin page
@@ -41,9 +52,9 @@ export default function Header({ handleToggerSlidebar, slidebar }) {
                 </Tooltip>
             </div>
             <div className={styles.searchContainer}>
-                <input type="text" placeholder="Search" ></input>
+                <input type="text" placeholder="Search" value={inputSearchValue} onChange={(e) => onInputChange(e)} onKeyPress={(e) => handleKeyPress(e)}></input>
                 <Tooltip title="Search">
-                    <span className={styles.searchCont}><SearchIcon className={styles.searchIcon} fontSize="small" /></span>
+                    <span onClick={(e) => handleKeyPress(e)} className={styles.searchCont}><SearchIcon className={styles.searchIcon} fontSize="small" /></span>
                 </Tooltip>
                 <Tooltip title="Search with your voice">
                     <KeyboardVoiceIcon className={styles.icons} id={styles.voiceIcon} />

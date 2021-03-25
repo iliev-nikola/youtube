@@ -4,7 +4,7 @@ import {
   Switch,
   Route,
   Link,
-  Redirect
+  Redirect,
 } from "react-router-dom";
 import './App.css';
 import HomeIcon from '@material-ui/icons/Home';
@@ -21,11 +21,15 @@ import SignIn from "./Components/SignIn/SignIn";
 import ResetPassword from './Components/ResetPassword/ResetPassword';
 import SignOut from "./Components/SignOut/SignOut";
 import UploadVideo from './Components/UploadVideo/UploadVideo';
-import { isLoggedIn } from './utils';
-import { videos, getAllVideos } from './videos';
+import { filterVideos, isLoggedIn } from './utils';
+import { getAllVideos } from './videos';
 import { auth } from "./firebase";
+import image from './Components/Search/no-search-result.png';
+import Search from "./Components/Search/Search";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 export default function App() {
+  // CHECK IF LOGGED IN
   // this is not working...
   const [isLogged, setLogged] = useState(null);
   useEffect(() => {
@@ -41,12 +45,17 @@ export default function App() {
   }, [isLogged]);
 
   // videos fetch call
-  // const [videos, setVideos] = useState([]);
+  const [videos, setVideos] = useState([]);
+  useEffect(() => {
+    getAllVideos().then((result) => setVideos(result));
+  }, []);
 
-  // useEffect(() => {
-  //   getAllVideos().then((result) => setVideos(result));
-  // }, []);
+  // ON SEARCH HANDLER
+  function onSearch(value) {
+    setVideos(filterVideos(value));
+  }
 
+  // HEADER & SLIDEBAR
   const [slidebar, toggleSlidebar] = useState(false);
   const handleToggerSlidebar = () => toggleSlidebar(value => !value);
   const header = <Header handleToggerSlidebar={handleToggerSlidebar} slidebar={slidebar} />;
@@ -70,13 +79,15 @@ export default function App() {
                 </div>
               </div>
               <div className='videoContainer'>
-                {videos.map(video => (
+
+                {videos.length ? videos.map(video => (
                   <Link to={`/video/${video.id}`} className='link' key={video.id}>
                     <div>
                       <VideoCard url={video.url} title={video.title} author={video.author} duration={video.duration} />
                     </div>
                   </Link>
-                ))}
+                )) : <img src={image} alt='No search results' id='noSearchResImg' />}
+
               </div>
             </div>
           </Route>
@@ -87,11 +98,18 @@ export default function App() {
             </div>
             <OpenVideo />
           </Route>
+          <Route exact path="/search/">
+            <Redirect to="/" />
+          </Route>
+          <Route path="/search/:id">
+            {header}
+            <Search slidebar={slidebar} slideBarContainer={slideBarContainer} />
+          </Route>
           <Route exact path="/upload">
             <UploadVideo />
           </Route>
           <Route exact path="/signout">
-            {/* {isLogged ? <SignOut /> : <Redirect to="/" />} */}
+            {isLogged ? <SignOut /> : <Redirect to="/" />}
             <SignOut />
           </Route>
           <Route exact path="/signup">
