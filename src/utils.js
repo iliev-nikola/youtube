@@ -1,6 +1,6 @@
 import { auth } from './firebase';
 import { Redirect, useHistory } from "react-router-dom";
-import { videos } from './videos';
+import { videos } from './service';
 
 export function generateId() {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
@@ -46,11 +46,22 @@ export function filterVideos(params) {
     return videos.filter(el => el.title.toLowerCase().includes(params) || el.author.toLowerCase().includes(params));
   }
 
-  let output = [];
+  let filtered = videos;
   params.forEach(word => {
-    let filtered = videos.filter(el => el.title.toLowerCase().includes(word) || el.author.toLowerCase().includes(word));
-    output = output.concat(filtered);
+    if (word !== ' ') {
+      filtered = filtered.filter(el => el.title.toLowerCase().includes(word) || el.author.toLowerCase().includes(word));
+    }
   });
 
-  return Array.from(new Set(output));
+  return filtered;
+
+  // let output = [];
+  // params.forEach(word => {
+  //   if (word !== ' ') {
+  //     let filtered = videos.filter(el => el.title.toLowerCase().includes(word) || el.author.toLowerCase().includes(word));
+  //     output = output.concat(filtered);
+  //   }
+  // });
+
+  // return Array.from(new Set(output));
 }

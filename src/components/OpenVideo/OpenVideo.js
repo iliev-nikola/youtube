@@ -1,40 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from "react-router-dom";
+import { Redirect, Route, Router, useHistory, useParams } from "react-router-dom";
 import styles from './OpenVideo.module.scss';
-import { getVideo } from "../../videos";
+import { getVideo } from "../../service";
 import ReactPlayer from 'react-player';
-import { Input } from '@material-ui/core'
-import { db, allVideos } from '../../firebase';
+import { Input, Link } from '@material-ui/core'
 export default function OpenVideo() {
     const { id } = useParams();
+    const history = useHistory();
     const [video, setVideo] = useState([]);
+    const [inputValue, setInputValue] = useState('');
+    const onInputChange = (e) => {
+        setInputValue(e.currentTarget.value);
+    }
 
     useEffect(() => {
         getVideo(id).then(res => setVideo(res));
     }, [id]);
 
-    const [comment, setComment] = useState('');
-    // db.collection("videos")
-    //     .get()
-    //     .then((videos) => {
-    //         videos.forEach((video) => {
-    //             if(video.id===id){
-    //             console.log(video.data())
-    //             render(
-    //                 <div></div>
-    //             )
-
-    //             }
-    //         })
-    //     })
-    // console.log([...allVideos],currentVideo);
-    let comments =[];
     const handleKeyPress = (e) => {
-        if (e.key === 'Enter' || e.code === 'click') {
-            setComment(e.target.value);
-            video.comments.push(comment);
-            console.log(video.comments);
-            e.target.value = '';
+        if (e.key === 'Enter' && inputValue) {
+            video.comments.unshift({ comment: inputValue, user: Math.random() });
+            setInputValue('');
         }
     }
 
@@ -42,24 +28,24 @@ export default function OpenVideo() {
         <div className={styles.mainContainer}>
             <div>
                 <div><ReactPlayer url={video.url} controls playing={true} className={styles.video} />
-                    <p className={styles.info}>{video.author} - {video.title}</p>
+                    <p className={styles.info}>{video.artist} - {video.title}</p>
+                    <a href={`/user/${video.authorId}`}>{video.author}</a>
                     <div>
                         <div className={styles.commentsContainer}>
                             <div>
-                                <Input placeholder='Добавяне на публичен коментар...' className={styles.input} onKeyPress={handleKeyPress} />
+                                <Input placeholder='Add a public comment' className={styles.input} onKeyPress={handleKeyPress} onChange={onInputChange} value={inputValue} />
                             </div>
                             {video.comments ?
-
                                 video.comments.map(currentComment => (
                                     <div key={currentComment.user} className={styles.mainComm} >
-                                        <div className={styles.userLogo}>{currentComment.user[0]}</div>
+                                        {/* <div className={styles.userLogo}>{currentComment.user[0]}</div> */}
                                         <div className={styles.someComment}>
                                             <p className={styles.userName}>{currentComment.user}</p>
                                             <p className={styles.comment}>{currentComment.comment}</p>
                                         </div>
                                     </div>
                                 ))
-                                : <div className={styles.addFirstComment}>Добави първия коментар...</div>}
+                                : <div className={styles.addFirstComment}>Add your first comment...</div>}
                         </div>
                     </div>
                 </div>

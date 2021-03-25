@@ -9,7 +9,6 @@
   flex-wrap: wrap;
   z-index: 0;
   position: relative;
-  justify-content: center;
 }
 
 .open {
@@ -24,7 +23,7 @@
   width: 150px;
 }
 
-.slideContainer{
+.slideContainer {
   width: 60px;
 }
 
