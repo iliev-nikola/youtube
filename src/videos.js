@@ -92,21 +92,24 @@ export const videos = [
         'url': 'https://v.ftcdn.net/04/20/96/20/240_F_420962031_RUNOpWPDOXQGNsXBiBRxG4k8KW0zCh1U_ST.mp4',
         'author': 'TONES AND I',
         'title': 'Dance monkey',
-        'duration': '00:24'
+        'duration': '00:24',
+        'comments' : []
     },
     {
         'id': "598903ef-d5af-45fa-be3a-be33ab18e1f1",
         'url': 'https://v.ftcdn.net/04/19/44/64/240_F_419446488_OU83I1d47vEZGvm6WbUIe5P9HIchEPLT_ST.mp4',
         'author': 'Joel Corry x MNEK',
         'title': 'Head & Heart',
-        'duration': '00:19'
+        'duration': '00:19',
+        'comments' : []
     },
     {
         'id': "16503dfe-e3d7-48b0-809a-819f38152c3d",
         'url': 'https://v.ftcdn.net/04/19/96/73/240_F_419967302_9uoMGRSa02VKGGmXbvAuECMLNcQLoGVo_ST.mp4',
         'author': 'Imagine Dragons',
         'title': 'Whatever It Takes',
-        'duration': '00:13'
+        'duration': '00:13',
+        'comments' : []
     },
     {
         'id': "c3d727c2-5708-4b3f-b4fe-a9031eed3dd3",
@@ -138,14 +141,16 @@ export const videos = [
         'url': 'https://v.ftcdn.net/04/17/62/53/240_F_417625375_w740Mn96YYGVo3WshOVnTpOIwho7wKMi_ST.mp4',
         'author': 'SAINt JHN',
         'title': 'Roses',
-        'duration': '00:20'
+        'duration': '00:20',
+        'comments' : []
     },
     {
         'id': "be670dcb-2efb-439f-a219-b27c5345e555",
         'url': 'https://v.ftcdn.net/04/17/38/10/240_F_417381044_C0SuNTQFvpYIhq24iD2rc0b8JszkVFOY_ST.mp4',
         'author': 'Topic, A7S',
         'title': 'Breaking Me',
-        'duration': '00:10'
+        'duration': '00:10',
+        'comments' : []
     },
     {
         'id': "d317f213-99b7-4a6e-bf14-35e6baf562a4",
@@ -169,7 +174,8 @@ export const videos = [
         'url': 'https://v.ftcdn.net/04/19/39/24/240_F_419392479_vedPYtzG86LkqXfNTxso1ztGMf6hT7FE_ST.mp4',
         'author': 'Avicii',
         'title': 'Wake Me Up',
-        'duration': '00:13'
+        'duration': '00:13',
+        'comments' : []
     },
     {
         'id': "201f662d-de08-49c0-9d9c-9b54a2a652dc",
@@ -196,7 +202,8 @@ export const videos = [
         'url': 'https://v.ftcdn.net/04/17/68/11/240_F_417681108_RlVthyQkjZrEe5jH74LAHFDSRm0SA5RR_ST.mp4',
         'author': '24kGoldn, Iann Dior',
         'title': 'Mood',
-        'duration': '00:09'
+        'duration': '00:09',
+        'comments' : []
     },
     {
         'id': "8901b7ed-c448-4133-a9e0-f9139e07eca4",
@@ -220,14 +227,16 @@ export const videos = [
         'url': 'https://v.ftcdn.net/04/18/43/47/240_F_418434766_4cnb4EA1C7eEHUhF03bl9cKR2iS4c5DX_ST.mp4',
         'author': 'Mascota',
         'title': 'Autumn-Winter Fashion 2020',
-        'duration': '00:08'
+        'duration': '00:08',
+        'comments' : []
     },
     {
         'id': "41fb79e7-6a5b-496c-9618-75f185745783",
         'url': 'https://v.ftcdn.net/04/18/15/61/240_F_418156122_yIbRLW1d3sI1kakQNbgOXw8S0ebGu8Ci_ST.mp4',
         'author': 'Martin Garrix',
         'title': 'Forbidden Voices',
-        'duration': '00:09'
+        'duration': '00:09',
+        'comments' : []
     },
     {
         'id': "58684c43-0a87-4575-8941-b3e04e7bb3cd",

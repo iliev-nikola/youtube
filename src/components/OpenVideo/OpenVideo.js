@@ -1,42 +1,45 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from "react-router-dom";
+import { Link, Redirect, useHistory, useParams } from "react-router-dom";
 import styles from './OpenVideo.module.scss';
 import { getVideo } from "../../videos";
 import ReactPlayer from 'react-player';
 import { Input } from '@material-ui/core'
-import { db, allVideos } from '../../firebase';
+import { auth } from '../../firebase';
+import { isLoggedIn } from '../../utils';
+import { generateId } from '../../utils';
 export default function OpenVideo() {
+    const history = useHistory();
     const { id } = useParams();
     const [video, setVideo] = useState([]);
+    const [inputValue, setInputValue] = useState('');
+    const [user, setUser] = useState(null);
+
+    const onInputChange = (e) => {
+        setInputValue(e.target.value);
+    }
+
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter' && inputValue) {
+            if (video.comments) {
+                video.comments.unshift({ comment: inputValue, user: user.displayName });
+            } else {
+
+            }
+            setInputValue('');
+        }
+    }
 
     useEffect(() => {
         getVideo(id).then(res => setVideo(res));
     }, [id]);
 
-    const [comment, setComment] = useState('');
-    // db.collection("videos")
-    //     .get()
-    //     .then((videos) => {
-    //         videos.forEach((video) => {
-    //             if(video.id===id){
-    //             console.log(video.data())
-    //             render(
-    //                 <div></div>
-    //             )
-
-    //             }
-    //         })
-    //     })
-    // console.log([...allVideos],currentVideo);
-    let comments =[];
-    const handleKeyPress = (e) => {
-        if (e.key === 'Enter' || e.code === 'click') {
-            setComment(e.target.value);
-            video.comments.push(comment);
-            console.log(video.comments);
-            e.target.value = '';
-        }
-    }
+    useEffect(() => {
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                setUser(user);
+            }
+        });
+    }, [user]);
 
     return (
         <div className={styles.mainContainer}>
@@ -45,13 +48,13 @@ export default function OpenVideo() {
                     <p className={styles.info}>{video.author} - {video.title}</p>
                     <div>
                         <div className={styles.commentsContainer}>
-                            <div>
-                                <Input placeholder='Добавяне на публичен коментар...' className={styles.input} onKeyPress={handleKeyPress} />
+                            <div onClick={() => !user ? history.push('/signin') : null}>
+                                < Input placeholder='Добавяне на публичен коментар...' className={styles.input} onChange={onInputChange} onKeyPress={handleKeyPress} />
                             </div>
                             {video.comments ?
 
-                                video.comments.map(currentComment => (
-                                    <div key={currentComment.user} className={styles.mainComm} >
+                                video.comments.map((currentComment, index) => (
+                                    <div key={index} className={styles.mainComm} >
                                         <div className={styles.userLogo}>{currentComment.user[0]}</div>
                                         <div className={styles.someComment}>
                                             <p className={styles.userName}>{currentComment.user}</p>
