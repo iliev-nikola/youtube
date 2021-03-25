@@ -5,14 +5,25 @@ import { getVideo } from "../../videos";
 import ReactPlayer from 'react-player';
 import { Input } from '@material-ui/core'
 import { auth } from '../../firebase';
-import { isLoggedIn } from '../../utils';
-import { generateId } from '../../utils';
+import ThumbDownIcon from '@material-ui/icons/ThumbDown';
+import ThumbUp from '@material-ui/icons/ThumbUp';
+import LikeOrDislikeVideo from './LikeOrDislikeVideo';
 export default function OpenVideo() {
     const history = useHistory();
     const { id } = useParams();
     const [video, setVideo] = useState([]);
     const [inputValue, setInputValue] = useState('');
     const [user, setUser] = useState(null);
+    const [likes, setLikes] = useState(0);
+    const [dislikes, setDislikes] = useState(0);
+
+    const liked = () => {
+        setLikes(likes + 1);
+    }
+
+    const disliked = () => {
+        setDislikes(dislikes + 1);
+    }
 
     const onInputChange = (e) => {
         setInputValue(e.target.value);
@@ -45,6 +56,10 @@ export default function OpenVideo() {
         <div className={styles.mainContainer}>
             <div>
                 <div><ReactPlayer url={video.url} controls playing={true} className={styles.video} />
+                    <div className={styles.likesContainer}>
+                        <div>{user ? <ThumbUp /> : <LikeOrDislikeVideo button={<ThumbUp />} content={'Like this video?'} />}</div>
+                        <div>{user ? <ThumbDownIcon /> : <LikeOrDislikeVideo button={<ThumbDownIcon />} content={`Don't like this video?`} />}</div>
+                    </div>
                     <p className={styles.info}>{video.author} - {video.title}</p>
                     <div>
                         <div className={styles.commentsContainer}>

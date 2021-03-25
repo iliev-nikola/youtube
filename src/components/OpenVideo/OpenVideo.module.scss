@@ -75,15 +75,47 @@ $main-size: 18px;
     height: 30px;
     padding-top: 10px;
   }
+
+  .likesContainer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+    .up,
+    .down {
+      width: 40px;
+      height: 40px;
+      margin-left: 20px;
+      color: $main-color;
+      cursor: pointer;
+    }
+  }
+}
+
+.messageContainer {
+  opacity: 0.8;
+  background: #333;
+  color: rgb(170, 170, 170);
+
+  .info {
+    padding: 10px 0;
+    border-bottom: 1px solid rgb(170, 170, 170);
+  }
+
+  .signin {
+    cursor: pointer;
+    color: rgb(62, 166, 255);
+    font-size: 18px;
+    font-weight: 500;
+    padding: 10px 0;
+  }
 }
 
 @media only screen and (max-width: 600px) {
   .mainContainer {
     width: auto;
     text-align: center;
-
   }
-  .video{
+  .video {
     width: auto;
   }
 }
