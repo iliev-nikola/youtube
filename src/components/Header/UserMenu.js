@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import { Tooltip } from '@material-ui/core';
 import VideoCallIcon from '@material-ui/icons/VideoCall';
@@ -6,12 +6,11 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import styles from './Header.module.css';
-import { getCurrentUser, signOut } from '../../utils';
-import { Link, Redirect, useHistory } from "react-router-dom";
+import styles from './Header.module.scss';
+import { Link, useHistory } from "react-router-dom";
 import { auth } from '../../firebase';
 
-export default function User() {
+export default function UserMenu() {
     const history = useHistory();
     const [user, setUser] = useState(null);
     useEffect(() => {
@@ -20,10 +19,6 @@ export default function User() {
                 setUser(user);
             }
         });
-
-        // return () => {
-        //     setUser(null);
-        // };
     }, []);
     const [openNotify, setOpenNotify] = useState(false);
     const handleClickNotify = () => {

@@ -1,15 +1,13 @@
-$main-color: rgb(255, 255, 255);
+$main-color: rgb(170, 170, 170);
 $main-size: 18px;
-.mainContainer {
+.mainContainer,
+.notActive {
   width: 1200px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
 
   .video {
-    width: 640px;
-    height: 360px;
-
     > video {
       outline: none;
     }
@@ -19,7 +17,6 @@ $main-size: 18px;
     color: $main-color;
     font-size: $main-size;
     font-weight: 500;
-    margin-top: 5px;
   }
 
   .commentsContainer {
@@ -78,15 +75,19 @@ $main-size: 18px;
 
   .likesContainer {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    color: $main-color;
     margin-top: 10px;
-    .up,
-    .down {
-      width: 40px;
-      height: 40px;
-      margin-left: 20px;
-      color: $main-color;
-      cursor: pointer;
+    align-items: center;
+    .thumbs {
+      display: flex;
+
+      .button {
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        margin-left: 20px;
+      }
     }
   }
 }
@@ -107,7 +108,13 @@ $main-size: 18px;
     font-size: 18px;
     font-weight: 500;
     padding: 10px 0;
+    text-decoration: none;
   }
+}
+
+.notActive {
+  opacity: 0.3;
+  pointer-events: none;
 }
 
 @media only screen and (max-width: 600px) {
@@ -115,7 +122,9 @@ $main-size: 18px;
     width: auto;
     text-align: center;
   }
-  .video {
-    width: auto;
+  .video video {
+    width: 200px;
+    /* height: 360px; */
+    height: auto;
   }
 }

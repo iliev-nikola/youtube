@@ -15,41 +15,6 @@ firebase.initializeApp(firebaseConfig);
 export const auth = firebase.auth();
 export const db = firebase.firestore();
 
-export function generateUserDocument(user, additionalData) {
-    if (!user) return;
-    db.doc(`users/${user.uid}`).get()
-        .then(res => console.log(res))
-    // const snapshot = await userRef.get();
-    // if (!snapshot.exists) {
-    //     const { email, displayName, photoURL } = user;
-    //     try {
-    //         await userRef.set({
-    //             displayName,
-    //             email,
-    //             photoURL,
-    //             ...additionalData
-    //         });
-    //     } catch (error) {
-    //         alert("Error creating user document", error);
-    //     }
-    // }
-    // return getUserDocument(user.uid);
-};
-export function getUserDocument(uid) {
-    if (!uid) return null;
-    db.doc(`users/${uid}`).get()
-        .then(res => console.log(res.data()))
-        .catch(err => alert(err));
-    // try {
-    //     const userDocument = await firestore.doc(`users/${uid}`).get();
-    //     return {
-    //         uid,
-    //         ...userDocument.data()
-    //     };
-    // } catch (error) {
-    //     alert("Error fetching user", error);
-    // }
-};
 export const allVideos = [];
 db.collection("videos")
     .get()

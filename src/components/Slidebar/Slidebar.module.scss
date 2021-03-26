@@ -19,7 +19,6 @@ $main-background: #333;
   padding: 0 24px;
   height: 40px;
   background-color: $main-background;
-  width: 162px;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -32,6 +31,12 @@ $main-background: #333;
 
 .openTitle {
   margin-left: 20px;
+}
+
+@media only screen and (min-width: 660px) {
+  .open {
+    width: 162px;
+  }
 }
 
 @media only screen and (max-width: 650px) {

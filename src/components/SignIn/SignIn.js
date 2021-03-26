@@ -5,6 +5,8 @@ import { auth } from '../../firebase';
 import { Link, useHistory } from "react-router-dom";
 import { setCurrentUser, validateEmail, login } from '../../utils';
 import logo from '../../assets/logo.png';
+import { Snackbar } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 import firebase from "firebase/app";
 import {
     fade,
@@ -22,48 +24,6 @@ export default function SignIn() {
     const history = useHistory();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    // const useStyles = makeStyles((theme) => ({
-    //     root: {
-    //         display: 'flex',
-    //         flexWrap: 'wrap',
-    //     },
-    //     margin: {
-    //         margin: theme.spacing(1),
-    //     },
-    //     multilineColor: {
-    //         color: 'white'
-    //     },
-    //     asd: {
-    //         color: 'red'
-    //     }
-    // }));
-    // const CssTextField = withStyles({
-    //     root: {
-    //         '& label.Mui-focused': {
-    //             color: 'white',
-    //         },
-    //         '& .MuiInput-underline:after': {
-    //             borderBottomColor: 'white',
-    //             color: 'white',
-    //         },
-    //         '& .MuiOutlinedInput-root': {
-    //             '& fieldset': {
-    //                 borderColor: 'white',
-    //                 color: 'white',
-    //             },
-    //             '&:hover fieldset': {
-    //                 borderColor: 'white',
-    //                 color: 'white',
-    //             },
-    //             '&.Mui-focused fieldset': {
-    //                 borderColor: 'white',
-    //                 color: 'white',
-    //             },
-    //         },
-    //     },
-    // })(TextField);
-
-    // const classes = useStyles();
 
     const signInWithEmailAndPasswordHandler = (event, email, password) => {
         event.preventDefault();
@@ -125,9 +85,11 @@ export default function SignIn() {
                         onClick={(e) => signInWithEmailAndPasswordHandler(e, email, password)}>
                         sign in
                 </Button>
+
                 </div>
             </div>
             <Link to="reset" className={styles.link} >Password reset</Link>
+
         </form>
     );
 }

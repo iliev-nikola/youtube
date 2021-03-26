@@ -1,40 +1,52 @@
 import React, { useEffect, useState } from 'react';
-import { Link, Redirect, useHistory, useParams } from "react-router-dom";
+import { Redirect, Route, Router, useHistory, useParams } from "react-router-dom";
 import styles from './OpenVideo.module.scss';
-import { getVideo } from "../../videos";
+import { getVideo } from "../../service";
 import ReactPlayer from 'react-player';
-import { Input } from '@material-ui/core'
 import { auth } from '../../firebase';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import ThumbUp from '@material-ui/icons/ThumbUp';
 import LikeOrDislikeVideo from './LikeOrDislikeVideo';
-export default function OpenVideo() {
+import { Input, Link } from '@material-ui/core'
+import { getAllVideos } from '../../service';
+import VideoCard from '../VideoCard/VideoCard';
+export default function OpenVideo({ slidebar }) {
     const history = useHistory();
     const { id } = useParams();
     const [video, setVideo] = useState([]);
     const [inputValue, setInputValue] = useState('');
     const [user, setUser] = useState(null);
-    const [likes, setLikes] = useState(0);
-    const [dislikes, setDislikes] = useState(0);
+    const [videos, setVideos] = useState([]);
 
-    const liked = () => {
-        setLikes(likes + 1);
-    }
-
-    const disliked = () => {
-        setDislikes(dislikes + 1);
-    }
-
+    useEffect(() => {
+        getAllVideos().then((result) => setVideos(result));
+    }, []);
+    // const [likes, setLikes] = useState(0);
+    // const [dislikes, setDislikes] = useState(0);
+    // const [isLiked, setIsLiked] = useState(false);
+    // const [isDisliked, setIsDisliked] = useState(false);
     const onInputChange = (e) => {
-        setInputValue(e.target.value);
+        setInputValue(e.currentTarget.value);
     }
+
+    // const liked = () => {
+    //     setLikes(1);
+    //     setDislikes(0);
+    //     setIsLiked(true);
+    //     setIsDisliked(false);
+    // }
+
+    // const disliked = () => {
+    //     setDislikes(1);
+    //     setLikes(0);
+    //     setIsLiked(false);
+    //     setIsDisliked(true);
+    // }
 
     const handleKeyPress = (e) => {
         if (e.key === 'Enter' && inputValue) {
             if (video.comments) {
                 video.comments.unshift({ comment: inputValue, user: user.displayName });
-            } else {
-
             }
             setInputValue('');
         }
@@ -53,35 +65,52 @@ export default function OpenVideo() {
     }, [user]);
 
     return (
-        <div className={styles.mainContainer}>
+        <div className={slidebar ? styles.notActive : styles.mainContainer}>
             <div>
                 <div><ReactPlayer url={video.url} controls playing={true} className={styles.video} />
                     <div className={styles.likesContainer}>
-                        <div>{user ? <ThumbUp /> : <LikeOrDislikeVideo button={<ThumbUp />} content={'Like this video?'} />}</div>
-                        <div>{user ? <ThumbDownIcon /> : <LikeOrDislikeVideo button={<ThumbDownIcon />} content={`Don't like this video?`} />}</div>
+                        <div className={styles.hashtags}>
+                            {`#${video.title}#video#${video.artist}#youtube`}
+                        </div>
+                        <div className={styles.thumbs}>
+                            {user ? <ThumbUp className={styles.button} /> : <LikeOrDislikeVideo button={<ThumbUp className={styles.button} />} content={'Like this video?'} />}
+                            {user ? <ThumbDownIcon className={styles.button} /> : <LikeOrDislikeVideo button={<ThumbDownIcon className={styles.button} />} content={`Don't like this video?`} />}
+                        </div>
                     </div>
-                    <p className={styles.info}>{video.author} - {video.title}</p>
+                    <p className={styles.info}>{video.artist} - {video.title}</p>
+                    <a href={`/user/${video.authorId}`}>{video.author}</a>
                     <div>
                         <div className={styles.commentsContainer}>
                             <div onClick={() => !user ? history.push('/signin') : null}>
                                 < Input placeholder='Добавяне на публичен коментар...' className={styles.input} onChange={onInputChange} onKeyPress={handleKeyPress} />
                             </div>
                             {video.comments ?
-
                                 video.comments.map((currentComment, index) => (
                                     <div key={index} className={styles.mainComm} >
                                         <div className={styles.userLogo}>{currentComment.user[0]}</div>
-                                        <div className={styles.someComment}>
-                                            <p className={styles.userName}>{currentComment.user}</p>
-                                            <p className={styles.comment}>{currentComment.comment}</p>
+                                        <div className={styles.commentsContainer}>
+                                            <div className={styles.someComment}>
+                                                <p className={styles.userName}>{currentComment.user}</p>
+                                                <p className={styles.comment}>{currentComment.comment}</p>
+                                            </div>
                                         </div>
                                     </div>
                                 ))
-                                : <div className={styles.addFirstComment}>Добави първия коментар...</div>}
+                                : <div className={styles.addFirstComment}>Add your first comment...</div>}
                         </div>
+
                     </div>
                 </div>
             </div>
-        </div >
+            <div>
+                {videos.map(video => (
+                    <Link to={`/video/${video.id}`} className='link' key={video.id}>
+                        <div>
+                            <VideoCard url={video.url} title={video.title} author={video.artist} duration={video.duration} />
+                        </div>
+                    </Link>
+                ))}
+            </div>
+        </div>
     );
 }
