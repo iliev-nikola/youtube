@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
         paddingLeft: '150px'
     },
     container: {
-        paddingLeft: '150px',
+        paddingLeft: '100px',
     }
 }));
 
@@ -86,6 +86,11 @@ export default function ScrollableTabsButtonAuto({ videos, history, liked }) {
                     <a href={`/video/${video.id}`} className='link' key={video.id}>
                         <div >
                             <VideoCard url={video.url} title={video.title} author={video.artist} duration={video.duration} />
+                            {/* check if is current user to show this */}
+                            <div className={styles.optionsContainer}>
+                                <a href={`/edit/${video.id}`} className='link'>Edit</a>
+                                <a href={`/delete/${video.id}`} className='link'>Delete</a>
+                            </div>
                         </div>
                     </a>
                 ))}
@@ -120,6 +125,6 @@ export default function ScrollableTabsButtonAuto({ videos, history, liked }) {
             <TabPanel value={value} index={6}>
                 Item Seven
       </TabPanel>
-        </div>
+        </div >
     );
 }

@@ -104,11 +104,11 @@ export default function OpenVideo({ slidebar }) {
             </div>
             <div>
                 {videos.map(video => (
-                    <Link to={`/video/${video.id}`} className='link' key={video.id}>
+                    <a href={`/video/${video.id}`} className='link' key={video.id}>
                         <div>
                             <VideoCard url={video.url} title={video.title} author={video.artist} duration={video.duration} />
                         </div>
-                    </Link>
+                    </a>
                 ))}
             </div>
         </div>

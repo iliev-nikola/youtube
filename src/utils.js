@@ -41,6 +41,10 @@ export function isLoggedIn() {
   return JSON.parse(localStorage.getItem('isLoggedIn'));
 }
 
+export function isCurrentUser(userId) {
+  // check if the current logged user is the same as the opened user profile
+}
+
 export function filterVideos(params) {
   if (!Array.isArray(params)) {
     return videos.filter(el => el.title.toLowerCase().includes(params) || el.author.toLowerCase().includes(params));
@@ -54,14 +58,4 @@ export function filterVideos(params) {
   });
 
   return filtered;
-
-  // let output = [];
-  // params.forEach(word => {
-  //   if (word !== ' ') {
-  //     let filtered = videos.filter(el => el.title.toLowerCase().includes(word) || el.author.toLowerCase().includes(word));
-  //     output = output.concat(filtered);
-  //   }
-  // });
-
-  // return Array.from(new Set(output));
 }

@@ -5,6 +5,7 @@ import { auth } from '../../firebase';
 import { getUser, getUserVideos } from '../../service';
 import VideoCard from '../VideoCard/VideoCard';
 import ScrollableTabsButtonAuto from './CurrentUserTabs';
+import styles from './UserProfile.module.scss';
 
 export default function UserProfile({ slidebar, slideBarContainer }) {
     const { id } = useParams();
@@ -24,7 +25,7 @@ export default function UserProfile({ slidebar, slideBarContainer }) {
                 setHistory(res[1]);
                 setLiked(res[2]);
             })
-    }, [id]);
+    }, [id, user]);
 
     return (
         <div className='mainContainer'>
@@ -32,10 +33,18 @@ export default function UserProfile({ slidebar, slideBarContainer }) {
                 {slideBarContainer}
             </div>
             <div className='videoContainer'>
+                <div className={styles.profileInfo}>
+                    <h1 className={styles.icon}>{user ? user.name[0] : null}</h1>
+                    <div className={styles.infoBox}>
+                        <h1 className={styles.names}>{user ? user.name : null}</h1>
+                        {/* if is logged in */}
+                        <h1 className={styles.email}>{user ? user.email : null}</h1>
+                    </div>
+                </div>
                 {/* if is logged in */}
                 <ScrollableTabsButtonAuto videos={myVideos} history={history} liked={liked} />
                 {/* else */}
-            </div>
-        </div>
+            </div >
+        </div >
     )
 }

@@ -2,3 +2,60 @@
   display: flex;
   flex-wrap: wrap;
 }
+
+.editContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.optionsContainer {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 30px 0 30px;
+  margin-bottom: 20px;
+
+  a {
+    color: yellow;
+
+    &:hover {
+      color: white;
+    }
+  }
+}
+
+.profileInfo {
+  background-color: #202020;
+  width: 100%;
+  padding: 20px 0 20px 150px;
+  display: flex;
+  align-items: center;
+
+  .icon {
+    box-sizing: border-box;
+    font-size: 40px;
+    font-weight: 600;
+    background-color: rgb(255, 166, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 80px;
+    margin: 0 8px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+  .infoBox {
+    color: white;
+    margin-left: 20px;
+    .names {
+      font-size: 30px;
+      font-weight: 600;
+    }
+
+    .email {
+      padding-top: 10px;
+      font-size: 20px;
+    }
+  }
+}
