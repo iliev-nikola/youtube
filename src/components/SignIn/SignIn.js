@@ -110,14 +110,6 @@ export default function SignIn() {
             <div className={styles.container}>
                 <TextField type="password" required className={styles.inputs} size="medium" label="Password" variant="outlined" value={password} id="password" onChange={(e) => onInputChange(e)} autoComplete="off" />
             </div>
-            {/* <CssTextField
-                InputProps={{ className: classes.multilineColor }}
-                InputLabelProps={{ className: classes.asd }}
-                className={classes.margin}
-                label="Custom CSS"
-                variant="outlined"
-                id="custom-css-outlined-input"
-            /> */}
             <div className={styles.buttons}>
                 <Link to="signup" className={styles.link}>Create account</Link>
                 <div className={styles.button}>
