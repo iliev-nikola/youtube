@@ -8,8 +8,8 @@ export default function VideoCard({ url, title, id, author, duration }) {
                 videoSrc={url} className={styles.video}
             />
             <div className={styles.duration}>{duration}</div>
-            <p className={styles.title}>{title}</p>
-            <p className={styles.description}>{author}</p>
+            <span className={styles.title}>{title}</span>
+            <span className={styles.description}>{author}</span>
         </div>
     );
 }

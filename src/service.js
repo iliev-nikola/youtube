@@ -1,4 +1,5 @@
 import { db } from './firebase';
+import { getCurrentUser } from './utils';
 export const videos = [
     {
         'id': "31ee4649-83c3-4e7c-900e-41a96cbe018e",
@@ -98,7 +99,8 @@ export const videos = [
         'author': 'Bat Georgi',
         'authorId': '3',
         'title': 'Dance monkey',
-        'duration': '00:24'
+        'duration': '00:24',
+        'comments': []
     },
     {
         'id': "598903ef-d5af-45fa-be3a-be33ab18e1f1",
@@ -107,7 +109,8 @@ export const videos = [
         'author': 'Nikola Iliev',
         'authorId': '1',
         'title': 'Head & Heart',
-        'duration': '00:19'
+        'duration': '00:19',
+        'comments': []
     },
     {
         'id': "16503dfe-e3d7-48b0-809a-819f38152c3d",
@@ -116,7 +119,8 @@ export const videos = [
         'author': 'Marina Damyanova',
         'authorId': '2',
         'title': 'Whatever It Takes',
-        'duration': '00:13'
+        'duration': '00:13',
+        'comments': []
     },
     {
         'id': "c3d727c2-5708-4b3f-b4fe-a9031eed3dd3",
@@ -152,7 +156,8 @@ export const videos = [
         'author': 'Nikola Iliev',
         'authorId': '1',
         'title': 'Roses',
-        'duration': '00:20'
+        'duration': '00:20',
+        'comments': []
     },
     {
         'id': "be670dcb-2efb-439f-a219-b27c5345e555",
@@ -161,7 +166,8 @@ export const videos = [
         'author': 'Marina Damyanova',
         'authorId': '2',
         'title': 'Breaking Me',
-        'duration': '00:10'
+        'duration': '00:10',
+        'comments': []
     },
     {
         'id': "d317f213-99b7-4a6e-bf14-35e6baf562a4",
@@ -189,7 +195,8 @@ export const videos = [
         'author': 'Nikola Iliev',
         'authorId': '1',
         'title': 'Wake Me Up',
-        'duration': '00:13'
+        'duration': '00:13',
+        'comments': []
     },
     {
         'id': "201f662d-de08-49c0-9d9c-9b54a2a652dc",
@@ -220,7 +227,8 @@ export const videos = [
         'author': 'Bat Georgi',
         'authorId': '3',
         'title': 'Mood',
-        'duration': '00:09'
+        'duration': '00:09',
+        'comments': []
     },
     {
         'id': "8901b7ed-c448-4133-a9e0-f9139e07eca4",
@@ -248,7 +256,8 @@ export const videos = [
         'author': 'Nikola Iliev',
         'authorId': '1',
         'title': 'Autumn-Winter Fashion 2020',
-        'duration': '00:08'
+        'duration': '00:08',
+        'comments': []
     },
     {
         'id': "41fb79e7-6a5b-496c-9618-75f185745783",
@@ -257,7 +266,8 @@ export const videos = [
         'author': 'Bat Georgi',
         'authorId': '3',
         'title': 'Forbidden Voices',
-        'duration': '00:09'
+        'duration': '00:09',
+        'comments': []
     },
     {
         'id': "58684c43-0a87-4575-8941-b3e04e7bb3cd",
@@ -304,9 +314,9 @@ export const users = [
         'videos': [
             "31ee4649-83c3-4e7c-900e-41a96cbe018e", "598903ef-d5af-45fa-be3a-be33ab18e1f1", "a5e16ccb-9027-49c0-82d2-13642745d966", "a33d1a12-043e-41bb-abdb-27ad60f5d0d6", "ab0dfcc5-d9bc-4e1d-aa36-2236d7f1cdfb"
         ],
-        'history': [],
-        'liked': [],
-        'dislaked': []
+        'history': ["f1649485-6650-474a-91ac-adfb753a8ac7",],
+        'liked': ["be670dcb-2efb-439f-a219-b27c5345e555", "201f662d-de08-49c0-9d9c-9b54a2a652dc",],
+        'dislaked': ["8901b7ed-c448-4133-a9e0-f9139e07eca4", "58684c43-0a87-4575-8941-b3e04e7bb3cd"]
     },
     {
         'name': 'Marina Damyanova',
@@ -315,9 +325,9 @@ export const users = [
         'videos': [
             "f1649485-6650-474a-91ac-adfb753a8ac7", "16503dfe-e3d7-48b0-809a-819f38152c3d", "be670dcb-2efb-439f-a219-b27c5345e555", "201f662d-de08-49c0-9d9c-9b54a2a652dc", "8901b7ed-c448-4133-a9e0-f9139e07eca4", "58684c43-0a87-4575-8941-b3e04e7bb3cd"
         ],
-        'history': [],
-        'liked': [],
-        'dislaked': []
+        'history': ["0f106e12-1888-4d73-92ed-d2fd6bb435ce", "c3d727c2-5708-4b3f-b4fe-a9031eed3dd3",],
+        'liked': ["d317f213-99b7-4a6e-bf14-35e6baf562a4", "37da9b99-613a-4b14-9cc6-2cd65ca04ac7",],
+        'dislaked': ["41fb79e7-6a5b-496c-9618-75f185745783"]
     },
     {
         'name': 'Bat Georgi',
@@ -326,9 +336,9 @@ export const users = [
         'videos': [
             "0f106e12-1888-4d73-92ed-d2fd6bb435ce", "c3d727c2-5708-4b3f-b4fe-a9031eed3dd3", "d317f213-99b7-4a6e-bf14-35e6baf562a4", "37da9b99-613a-4b14-9cc6-2cd65ca04ac7", "41fb79e7-6a5b-496c-9618-75f185745783"
         ],
-        'history': [],
-        'liked': [],
-        'dislaked': []
+        'history': ["31ee4649-83c3-4e7c-900e-41a96cbe018e", "598903ef-d5af-45fa-be3a-be33ab18e1f1",],
+        'liked': ["be670dcb-2efb-439f-a219-b27c5345e555", "201f662d-de08-49c0-9d9c-9b54a2a652dc",],
+        'dislaked': ["8901b7ed-c448-4133-a9e0-f9139e07eca4",]
     }
 ];
 
@@ -355,4 +365,12 @@ export function getUserVideos(arr) {
     return new Promise((res, rej) => {
         res(filtered);
     });
+}
+
+export function pushToHistory(id) {
+    // find current user in firebase and push the id in the history array
+}
+
+export function pushToLiked(id) {
+    // find current user in firebase and push the id in the liked array
 }

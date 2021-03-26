@@ -1,15 +1,13 @@
-$main-color: rgb(255, 255, 255);
+$main-color: rgb(170, 170, 170);
 $main-size: 18px;
-.mainContainer {
+.mainContainer,
+.notActive {
   width: 1200px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
 
   .video {
-    width: 640px;
-    height: 360px;
-
     > video {
       outline: none;
     }
@@ -19,7 +17,6 @@ $main-size: 18px;
     color: $main-color;
     font-size: $main-size;
     font-weight: 500;
-    margin-top: 5px;
   }
 
   .commentsContainer {
@@ -75,15 +72,59 @@ $main-size: 18px;
     height: 30px;
     padding-top: 10px;
   }
+
+  .likesContainer {
+    display: flex;
+    justify-content: space-between;
+    color: $main-color;
+    margin-top: 10px;
+    align-items: center;
+    .thumbs {
+      display: flex;
+
+      .button {
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        margin-left: 20px;
+      }
+    }
+  }
+}
+
+.messageContainer {
+  opacity: 0.8;
+  background: #333;
+  color: rgb(170, 170, 170);
+
+  .info {
+    padding: 10px 0;
+    border-bottom: 1px solid rgb(170, 170, 170);
+  }
+
+  .signin {
+    cursor: pointer;
+    color: rgb(62, 166, 255);
+    font-size: 18px;
+    font-weight: 500;
+    padding: 10px 0;
+    text-decoration: none;
+  }
+}
+
+.notActive {
+  opacity: 0.3;
+  pointer-events: none;
 }
 
 @media only screen and (max-width: 600px) {
   .mainContainer {
     width: auto;
     text-align: center;
-
   }
-  .video{
-    width: auto;
+  .video video {
+    width: 200px;
+    /* height: 360px; */
+    height: auto;
   }
 }

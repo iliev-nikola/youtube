@@ -6,7 +6,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import styles from './Header.module.css';
+import styles from './Header.module.scss';
 import { Link, useHistory } from "react-router-dom";
 import { auth } from '../../firebase';
 

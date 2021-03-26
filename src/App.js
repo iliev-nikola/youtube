@@ -6,7 +6,8 @@ import {
   Link,
   Redirect,
 } from "react-router-dom";
-import './App.css';
+import './App.scss';
+import './reset.css';
 import HomeIcon from '@material-ui/icons/Home';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
@@ -25,7 +26,6 @@ import { isLoggedIn } from './utils';
 import { getAllVideos } from './service';
 import image from './Components/Search/no-search-result.png';
 import Search from "./Components/Search/Search";
-import InfiniteScroll from "react-infinite-scroll-component";
 import UserProfile from "./Components/UserProfile/UserProfile";
 
 export default function App() {
@@ -46,6 +46,7 @@ export default function App() {
 
   // videos fetch call
   const [videos, setVideos] = useState([]);
+
   useEffect(() => {
     getAllVideos().then((result) => setVideos(result));
   }, []);
@@ -60,7 +61,7 @@ export default function App() {
     <Slidebar slidebar={slidebar} Icon={VideoLibraryIcon} type={'Library'} />
     <Slidebar slidebar={slidebar} Icon={HistoryIcon} type={'History'} />
   </>)
-
+ 
   return (
     <Router>
       <>
@@ -73,7 +74,7 @@ export default function App() {
                   {slideBarContainer}
                 </div>
               </div>
-              <div className='videoContainer'>
+              <div className={!slidebar ? 'videoContainer' : 'notActive'}>
                 {videos.length ? videos.map(video => (
                   <Link to={`/video/${video.id}`} className='link' key={video.id}>
                     <div>
@@ -86,10 +87,12 @@ export default function App() {
           </Route>
           <Route path="/video/:id">
             {header}
+
             <div className={slidebar ? 'open' : 'notVisible'}>
               {slideBarContainer}
             </div>
-            <OpenVideo />
+            <OpenVideo slidebar={slidebar} />
+
           </Route>
           <Route exact path="/search/">
             <Redirect to="/" />
