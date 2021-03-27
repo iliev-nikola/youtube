@@ -9,9 +9,12 @@
 }
 
 .videoContainer {
-  margin: 0 auto;
   z-index: 0;
   position: relative;
+
+  .video video {
+    width: 50px;
+  }
 }
 
 .notActive {
@@ -60,6 +63,8 @@
   .videoContainer,
   .notActive {
     padding-left: 72px;
+    width: 1300px;
+    margin: 0 auto;
   }
 }
 
@@ -72,10 +77,5 @@
 @media only screen and (max-width: 850px) {
   .videoContainer {
     justify-content: center;
-  }
-  .open {
-    position: relative;
-    width: 162px;
-    padding: 0;
   }
 }

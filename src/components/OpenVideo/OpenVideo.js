@@ -21,27 +21,41 @@ export default function OpenVideo({ slidebar }) {
     useEffect(() => {
         getAllVideos().then((result) => setVideos(result));
     }, []);
-    // const [likes, setLikes] = useState(0);
-    // const [dislikes, setDislikes] = useState(0);
-    // const [isLiked, setIsLiked] = useState(false);
-    // const [isDisliked, setIsDisliked] = useState(false);
+    const [likes, setLikes] = useState(video.likes);
+    const [dislikes, setDislikes] = useState(video.dislikes);
+    const [isLiked, setIsLiked] = useState(false);
+    const [isDisliked, setIsDisliked] = useState(false);
     const onInputChange = (e) => {
         setInputValue(e.currentTarget.value);
     }
 
-    // const liked = () => {
-    //     setLikes(1);
-    //     setDislikes(0);
-    //     setIsLiked(true);
-    //     setIsDisliked(false);
-    // }
+    const like = () => {
+        if (!isLiked) {
+            setIsLiked(true);
+            setLikes(video.likes + 1);
+        } else {
+            setIsLiked(false);
+            setLikes(video.likes);
+        }
+        if (isDisliked) {
+            setDislikes(video.dislikes);
+        }
+        setIsDisliked(false);
+    }
 
-    // const disliked = () => {
-    //     setDislikes(1);
-    //     setLikes(0);
-    //     setIsLiked(false);
-    //     setIsDisliked(true);
-    // }
+    const dislike = () => {
+        if (!isDisliked) {
+            setIsDisliked(true);
+            setDislikes(video.dislikes + 1);
+        } else {
+            setIsDisliked(false);
+            setDislikes(video.dislikes);
+        }
+        if (isLiked) {
+            setLikes(video.likes);
+        }
+        setIsLiked(false);
+    }
 
     const handleKeyPress = (e) => {
         if (e.key === 'Enter' && inputValue) {
@@ -51,6 +65,18 @@ export default function OpenVideo({ slidebar }) {
             setInputValue('');
         }
     }
+    const numberLikes = (
+        <><ThumbUp className={isLiked ? styles.liked : styles.button} onClick={like} /><span>{likes}</span></>
+    );
+    const loggedNumberLikes = (
+        <><LikeOrDislikeVideo button={<ThumbUp className={styles.button} />} content={'Like this video?'} /><span>{likes}</span></>
+    );
+    const numberDislikes = (
+        <><ThumbDownIcon className={isDisliked ? styles.disliked : styles.button} onClick={dislike} /><span>{dislikes}</span></>
+    );
+    const loggedNumberDIslikes = (
+        <><LikeOrDislikeVideo button={<ThumbDownIcon className={styles.button} />} content={`Don't like this video?`} /><span>{dislikes}</span></>
+    );
 
     useEffect(() => {
         getVideo(id).then(res => setVideo(res));
@@ -63,7 +89,10 @@ export default function OpenVideo({ slidebar }) {
             }
         });
     }, [user]);
-
+    useEffect(() => {
+        setDislikes(video.dislikes);
+        setLikes(video.likes);
+    }, [video.likes, video.dislikes])
     return (
         <div className={slidebar ? styles.notActive : styles.mainContainer}>
             <div>
@@ -73,8 +102,8 @@ export default function OpenVideo({ slidebar }) {
                             {`#${video.title}#video#${video.artist}#youtube`}
                         </div>
                         <div className={styles.thumbs}>
-                            {user ? <ThumbUp className={styles.button} /> : <LikeOrDislikeVideo button={<ThumbUp className={styles.button} />} content={'Like this video?'} />}
-                            {user ? <ThumbDownIcon className={styles.button} /> : <LikeOrDislikeVideo button={<ThumbDownIcon className={styles.button} />} content={`Don't like this video?`} />}
+                            {user ? <>{numberLikes}</> : <>{loggedNumberLikes}</>}
+                            {user ? <>{numberDislikes}</> : <>{loggedNumberDIslikes}</>}
                         </div>
                     </div>
                     <p className={styles.info}>{video.artist} - {video.title}</p>
@@ -102,7 +131,7 @@ export default function OpenVideo({ slidebar }) {
                     </div>
                 </div>
             </div>
-            <div>
+            <div className={styles.otherVideos}>
                 {videos.map(video => (
                     <Link to={`/video/${video.id}`} className='link' key={video.id}>
                         <div>

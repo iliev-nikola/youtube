@@ -21,7 +21,9 @@ export const videos = [
                 'user': 'Tymoteusz Lucero',
                 'comment': 'So cool!!!'
             }
-        ]
+        ],
+        'likes' : 1242,
+        'dislikes' : 354
     },
     {
         'id': "f1649485-6650-474a-91ac-adfb753a8ac7",
@@ -89,7 +91,9 @@ export const videos = [
                 'comment': 'A Grammy winning song!'
             }
 
-        ]
+        ],
+        'likes' : 243,
+        'dislikes' : 12
     },
     {
         'id': "0f106e12-1888-4d73-92ed-d2fd6bb435ce",
@@ -99,7 +103,9 @@ export const videos = [
         'authorId': '3',
         'title': 'Dance monkey',
         'duration': '00:24',
-        'comments' : []
+        'comments' : [],
+        'likes' : 9394,
+        'dislikes' : 2345
     },
     {
         'id': "598903ef-d5af-45fa-be3a-be33ab18e1f1",
@@ -109,7 +115,9 @@ export const videos = [
         'authorId': '1',
         'title': 'Head & Heart',
         'duration': '00:19',
-        'comments' : []
+        'comments' : [],
+        'likes' : 1242,
+        'dislikes' : 304
     },
     {
         'id': "16503dfe-e3d7-48b0-809a-819f38152c3d",
@@ -119,7 +127,9 @@ export const videos = [
         'authorId': '2',
         'title': 'Whatever It Takes',
         'duration': '00:13',
-        'comments' : []
+        'comments' : [],
+        'likes' : 359,
+        'dislikes' : 125
     },
     {
         'id': "c3d727c2-5708-4b3f-b4fe-a9031eed3dd3",
@@ -146,7 +156,9 @@ export const videos = [
                 'user': 'Stanislaw Morton',
                 'comment': 'The music is SO good and not so understandable that people can not find it.'
             }
-        ]
+        ],
+        'likes' : 2435,
+        'dislikes' : 254
     },
     {
         'id': "a5e16ccb-9027-49c0-82d2-13642745d966",
@@ -156,7 +168,9 @@ export const videos = [
         'authorId': '1',
         'title': 'Roses',
         'duration': '00:20',
-        'comments' : []
+        'comments' : [],
+        'likes' : 884,
+        'dislikes' : 213
     },
     {
         'id': "be670dcb-2efb-439f-a219-b27c5345e555",
@@ -166,7 +180,9 @@ export const videos = [
         'authorId': '2',
         'title': 'Breaking Me',
         'duration': '00:10',
-        'comments' : []
+        'comments' : [],
+        'likes' : 9494,
+        'dislikes' : 2345
     },
     {
         'id': "d317f213-99b7-4a6e-bf14-35e6baf562a4",
@@ -185,7 +201,9 @@ export const videos = [
                 'user': 'Tymoteusz Lucero',
                 'comment': 'So cool!!!'
             }
-        ]
+        ],
+        'likes' : 945,
+        'dislikes' : 123
     },
     {
         'id': "a33d1a12-043e-41bb-abdb-27ad60f5d0d6",
@@ -195,7 +213,9 @@ export const videos = [
         'authorId': '1',
         'title': 'Wake Me Up',
         'duration': '00:13',
-        'comments' : []
+        'comments' : [],
+        'likes' : 2145,
+        'dislikes' : 754
     },
     {
         'id': "201f662d-de08-49c0-9d9c-9b54a2a652dc",
@@ -217,7 +237,9 @@ export const videos = [
             'user': 'Arandeep Hail',
             'comment': 'lol yummy song is my fav'
         },
-        ]
+        ],
+        'likes' : 8385,
+        'dislikes' : 1435
     },
     {
         'id': "37da9b99-613a-4b14-9cc6-2cd65ca04ac7",
@@ -227,7 +249,9 @@ export const videos = [
         'authorId': '3',
         'title': 'Mood',
         'duration': '00:09',
-        'comments' : []
+        'comments' : [],
+        'likes' : 3944,
+        'dislikes' : 1245
     },
     {
         'id': "8901b7ed-c448-4133-a9e0-f9139e07eca4",
@@ -246,7 +270,9 @@ export const videos = [
                 'user': 'Tymoteusz Lucero',
                 'comment': 'So cool!!!'
             }
-        ]
+        ],
+        'likes' : 5678,
+        'dislikes' : 124
     },
     {
         'id': "ab0dfcc5-d9bc-4e1d-aa36-2236d7f1cdfb",
@@ -256,7 +282,9 @@ export const videos = [
         'authorId': '1',
         'title': 'Autumn-Winter Fashion 2020',
         'duration': '00:08',
-        'comments' : []
+        'comments' : [],
+        'likes' : 3567,
+        'dislikes' : 1234
     },
     {
         'id': "41fb79e7-6a5b-496c-9618-75f185745783",
@@ -266,7 +294,9 @@ export const videos = [
         'authorId': '3',
         'title': 'Forbidden Voices',
         'duration': '00:09',
-        'comments' : []
+        'comments' : [],
+        'likes' : 4678,
+        'dislikes' : 2467
     },
     {
         'id': "58684c43-0a87-4575-8941-b3e04e7bb3cd",
@@ -301,7 +331,9 @@ export const videos = [
                 'user': 'Stanislaw Morton',
                 'comment': 'The music is SO good and not so understandable that people can not find it.'
             }
-        ]
+        ],
+        'likes' : 12456,
+        'dislikes' : 7686
     },
 ];
 

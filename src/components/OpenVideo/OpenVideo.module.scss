@@ -81,12 +81,19 @@ $main-size: 18px;
     align-items: center;
     .thumbs {
       display: flex;
+      align-items: center;
 
-      .button {
+      .button,
+      .liked,
+      .disliked {
         width: 40px;
         height: 40px;
         cursor: pointer;
         margin-left: 20px;
+      }
+      .liked,
+      .disliked {
+        color: rgb(62, 166, 255);
       }
     }
   }
@@ -117,6 +124,10 @@ $main-size: 18px;
   pointer-events: none;
 }
 
+.otherVideos {
+  height: 20px;
+}
+
 @media only screen and (max-width: 600px) {
   .mainContainer {
     width: auto;
@@ -126,5 +137,12 @@ $main-size: 18px;
     width: 200px;
     /* height: 360px; */
     height: auto;
+  }
+}
+
+@media only screen and (max-width: 850px) {
+  .mainContainer {
+    flex-direction: column;
+    width: 300px;
   }
 }

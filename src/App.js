@@ -78,7 +78,7 @@ export default function App() {
                 {videos.length ? videos.map(video => (
                   <Link to={`/video/${video.id}`} className='link' key={video.id}>
                     <div>
-                      <VideoCard url={video.url} title={video.title} author={video.artist} duration={video.duration} />
+                      <VideoCard  url={video.url} title={video.title} author={video.artist} duration={video.duration} />
                     </div>
                   </Link>
                 )) : <img src={image} alt='No search results' id='noSearchResImg' />}
