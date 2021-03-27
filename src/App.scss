@@ -1,11 +1,14 @@
-.mainContainer {
-  display: flex;
-}
+$flex: flex;
 
+.mainContainer,
 .videoContainer,
-.notActive {
-  display: flex;
-  flex-wrap: wrap;
+.notActive,
+.openMainContainer {
+  display: $flex;
+  .videoContainer,
+  .notActive {
+    flex-wrap: wrap;
+  }
 }
 
 .videoContainer {
@@ -32,7 +35,8 @@
 
 .open {
   z-index: 1;
-  background-color: #333;
+  background-color: rgb(33, 33, 33);
+  transition: 0.5s;
 }
 
 .close {
@@ -49,7 +53,6 @@
 }
 
 .openMainContainer {
-  display: flex;
   z-index: 0;
   margin: 0 auto;
   position: relative;

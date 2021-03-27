@@ -1,3 +1,4 @@
+$flex: flex;
 .signUp {
   margin: 0 auto;
   width: 400px;
@@ -27,8 +28,13 @@
     }
   }
 
+  .container,
+  .button,
+  .buttons {
+    display: $flex;
+  }
+
   .container {
-    display: flex;
     justify-content: space-between;
     width: 90%;
     margin: 20px;
@@ -44,13 +50,11 @@
   }
 
   .button {
-    display: flex;
     justify-content: flex-end;
     width: 420px;
   }
 
   .buttons {
-    display: flex;
     width: 88%;
     margin: 0 auto 30px auto;
     align-items: center;
@@ -77,4 +81,12 @@
       width: auto;
     }
   }
+}
+.alert{
+  position: absolute;
+  top: 0 ;
+}
+.alert div {
+  height: 40px;
+  transition: 0.5s;
 }

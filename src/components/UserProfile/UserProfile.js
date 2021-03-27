@@ -5,7 +5,7 @@ import { getUser, getUserVideos } from '../../service';
 import VideoCard from '../VideoCard/VideoCard';
 import styles from './UserProfile.scss';
 
-export default function UserProfile({ slidebar, slideBarContainer }) {
+export default function UserProfile({ sidebar, sideBarContainer }) {
     const { id } = useParams();
     const [user, setUser] = useState(null);
     const [videos, setVideos] = useState([]);
@@ -22,8 +22,8 @@ export default function UserProfile({ slidebar, slideBarContainer }) {
 
     return (
         <div className='mainContainer'>
-            <div className={slidebar ? 'open' : 'close'}>
-                {slideBarContainer}
+            <div className={sidebar ? 'open' : 'close'}>
+                {sideBarContainer}
             </div>
             <div className='videoContainer'>
                 {videos.map(video => (

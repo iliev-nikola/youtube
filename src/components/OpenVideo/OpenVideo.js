@@ -10,21 +10,23 @@ import LikeOrDislikeVideo from './LikeOrDislikeVideo';
 import { Input, Link } from '@material-ui/core'
 import { getAllVideos } from '../../service';
 import VideoCard from '../VideoCard/VideoCard';
-export default function OpenVideo({ slidebar }) {
+export default function OpenVideo({ sidebar }) {
     const history = useHistory();
     const { id } = useParams();
     const [video, setVideo] = useState([]);
     const [inputValue, setInputValue] = useState('');
     const [user, setUser] = useState(null);
     const [videos, setVideos] = useState([]);
-
-    useEffect(() => {
-        getAllVideos().then((result) => setVideos(result));
-    }, []);
     const [likes, setLikes] = useState(video.likes);
     const [dislikes, setDislikes] = useState(video.dislikes);
     const [isLiked, setIsLiked] = useState(false);
     const [isDisliked, setIsDisliked] = useState(false);
+    const [views, setViews] = useState(video.views);
+
+    useEffect(() => {
+        getAllVideos().then((result) => setVideos(result));
+    }, []);
+
     const onInputChange = (e) => {
         setInputValue(e.currentTarget.value);
     }
@@ -65,6 +67,7 @@ export default function OpenVideo({ slidebar }) {
             setInputValue('');
         }
     }
+
     const numberLikes = (
         <><ThumbUp className={isLiked ? styles.liked : styles.button} onClick={like} /><span>{likes}</span></>
     );
@@ -89,24 +92,31 @@ export default function OpenVideo({ slidebar }) {
             }
         });
     }, [user]);
+
     useEffect(() => {
         setDislikes(video.dislikes);
         setLikes(video.likes);
     }, [video.likes, video.dislikes])
+
+    useEffect(() => {
+        setViews(video.views + 1);
+    }, [video.views])
+
     return (
-        <div className={slidebar ? styles.notActive : styles.mainContainer}>
+        <div className={sidebar ? styles.notActive : styles.mainContainer}>
             <div>
                 <div><ReactPlayer url={video.url} controls playing={true} className={styles.video} />
                     <div className={styles.likesContainer}>
                         <div className={styles.hashtags}>
-                            {`#${video.title}#video#${video.artist}#youtube`}
+                            {`#${video.title}#video#${video.views}#youtube`}
                         </div>
                         <div className={styles.thumbs}>
                             {user ? <>{numberLikes}</> : <>{loggedNumberLikes}</>}
                             {user ? <>{numberDislikes}</> : <>{loggedNumberDIslikes}</>}
                         </div>
+                        <div>{views} views</div>
                     </div>
-                    <p className={styles.info}>{video.artist} - {video.title}</p>
+                    <p className={styles.info}>{video.title}</p>
                     <a href={`/user/${video.authorId}`}>{video.author}</a>
                     <div>
                         <div className={styles.commentsContainer}>
@@ -135,7 +145,7 @@ export default function OpenVideo({ slidebar }) {
                 {videos.map(video => (
                     <Link to={`/video/${video.id}`} className='link' key={video.id}>
                         <div>
-                            <VideoCard url={video.url} title={video.title} author={video.artist} duration={video.duration} />
+                            <VideoCard url={video.url} title={video.title}  duration={video.duration} />
                         </div>
                     </Link>
                 ))}
