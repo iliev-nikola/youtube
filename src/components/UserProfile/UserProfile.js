@@ -7,7 +7,7 @@ import VideoCard from '../VideoCard/VideoCard';
 import ScrollableTabsButtonAuto from './CurrentUserTabs';
 import styles from './UserProfile.module.scss';
 
-export default function UserProfile({ slidebar, slideBarContainer }) {
+export default function UserProfile({ sidebar, sideBarContainer }) {
     const { id } = useParams();
     const [user, setUser] = useState(null);
     const [myVideos, setMyVideos] = useState([]);
@@ -29,8 +29,8 @@ export default function UserProfile({ slidebar, slideBarContainer }) {
 
     return (
         <div className='mainContainer'>
-            <div className={slidebar ? 'open' : 'close'}>
-                {slideBarContainer}
+            <div className={sidebar ? 'open' : 'close'}>
+                {sideBarContainer}
             </div>
             <div className='videoContainer'>
                 <div className={styles.profileInfo}>

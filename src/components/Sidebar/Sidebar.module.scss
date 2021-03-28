@@ -1,10 +1,10 @@
 $main-color: rgb(255, 255, 255);
-$main-background: #333;
-.slidebars {
+$main-background: rgb(33, 33, 33);
+.sidebars {
   color: $main-color;
   font-size: 16px;
   font-weight: 600;
-  padding: 16px 0;
+  padding: 20px 0;
   width: 72px;
   height: 44px;
   cursor: pointer;
@@ -16,17 +16,18 @@ $main-background: #333;
 .open {
   color: $main-color;
   font-size: 16px;
-  padding: 0 24px;
+  padding: 10px 24px;
   height: 40px;
   background-color: $main-background;
   display: flex;
   align-items: center;
   cursor: pointer;
+  transition: 0.5s;
 }
 
-.slidebars:hover,
+.sidebars:hover,
 .open:hover {
-  background-color: $main-background;
+  background-color: #333;
 }
 
 .openTitle {
@@ -40,7 +41,7 @@ $main-background: #333;
 }
 
 @media only screen and (max-width: 650px) {
-  .slidebars {
+  .sidebars {
     display: none;
   }
 }

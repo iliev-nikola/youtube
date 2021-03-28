@@ -10,7 +10,8 @@ import { useHistory } from "react-router-dom";
 import { isLoggedIn } from '../../utils';
 import UserMenu from './UserMenu';
 
-export default function Header({ handleToggerSlidebar, slidebar }) {
+
+export default function Header({ handleToggerSidebar, sidebar }) {
     const history = useHistory();
     const [inputSearchValue, setInputSearchValue] = useState('');
     const onInputChange = (e) => {
@@ -37,8 +38,8 @@ export default function Header({ handleToggerSlidebar, slidebar }) {
         </div>)
     return (
         <div className={styles.header}>
-            <div className={slidebar ? styles.newLogoContainer : styles.logoContainer}>
-                <MenuIcon className={styles.icons} onClick={handleToggerSlidebar} />
+            <div className={sidebar ? styles.newLogoContainer : styles.logoContainer}>
+                <MenuIcon className={styles.icons} onClick={handleToggerSidebar} />
                 <Tooltip title="YouTube Home" placement="bottom-end">
                     <div className={styles.logo} onClick={() => history.push('/')}>
                         <img src={logo} alt="youtube's logo" />
@@ -46,7 +47,7 @@ export default function Header({ handleToggerSlidebar, slidebar }) {
                     </div>
                 </Tooltip>
             </div>
-            <div className={slidebar ? styles.notActive : styles.otherContainer}>
+            <div className={sidebar ? styles.notActive : styles.otherContainer}>
                 <div className={styles.searchContainer}>
                     <input type="text" placeholder="Search" value={inputSearchValue} onChange={(e) => onInputChange(e)} onKeyPress={(e) => handleKeyPress(e)}></input>
                     <Tooltip title="Search">

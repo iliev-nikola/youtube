@@ -16,13 +16,12 @@ import SignUp from './Components/SignUp/SignUp';
 import ErrorPage from './Components/ErrorPage/ErrorPage';
 import VideoCard from './Components/VideoCard/VideoCard';
 import Header from './Components/Header/Header';
-import Slidebar from './Components/Slidebar/Slidebar';
+import Sidebar from './Components/Sidebar/Sidebar';
 import OpenVideo from './Components/OpenVideo/OpenVideo';
 import SignIn from "./Components/SignIn/SignIn";
 import ResetPassword from './Components/ResetPassword/ResetPassword';
 import SignOut from "./Components/SignOut/SignOut";
 import UploadVideo from './Components/UploadVideo/UploadVideo';
-import { isLoggedIn } from './utils';
 import { getAllVideos } from './service';
 import image from './Components/Search/no-search-result.png';
 import Search from "./Components/Search/Search";
@@ -46,15 +45,18 @@ export default function App() {
     getAllVideos().then((result) => setVideos(result));
   }, []);
 
-  // HEADER & SLIDEBAR
-  const [slidebar, toggleSlidebar] = useState(false);
-  const handleToggerSlidebar = () => toggleSlidebar(value => !value);
-  const header = <Header handleToggerSlidebar={handleToggerSlidebar} slidebar={slidebar} />;
-  const slideBarContainer = (<>
-    <Slidebar slidebar={slidebar} Icon={HomeIcon} type={'Home'} />
-    <Slidebar slidebar={slidebar} Icon={WhatshotIcon} type={'Trending'} />
-    <Slidebar slidebar={slidebar} Icon={VideoLibraryIcon} type={'Library'} />
-    <Slidebar slidebar={slidebar} Icon={HistoryIcon} type={'History'} />
+  // HEADER & SIDEBAR
+  const [sidebar, setSidebar] = useState(false);
+  const handleToggerSidebar = () => {
+    setSidebar(value => !value);
+  }
+
+  const header = <Header handleToggerSidebar={handleToggerSidebar} sidebar={sidebar} />;
+  const sideBarContainer = (<>
+    <Sidebar sidebar={sidebar} Icon={HomeIcon} type={'Home'} />
+    <Sidebar sidebar={sidebar} Icon={WhatshotIcon} type={'Trending'} />
+    <Sidebar sidebar={sidebar} Icon={VideoLibraryIcon} type={'Library'} />
+    <Sidebar sidebar={sidebar} Icon={HistoryIcon} type={'History'} />
   </>)
 
   return (
@@ -64,16 +66,16 @@ export default function App() {
           <Route exact path="/">
             {header}
             <div className='mainContainer'>
-              <div className='slideContainer'>
-                <div className={slidebar ? 'open' : 'close'}>
-                  {slideBarContainer}
+              <div className='sideContainer'>
+                <div className={sidebar ? 'open' : 'close'}>
+                  {sideBarContainer}
                 </div>
               </div>
-              <div className={!slidebar ? 'videoContainer' : 'notActive'}>
+              <div className={!sidebar ? 'videoContainer' : 'notActive'}>
                 {videos.length ? videos.map(video => (
                   <Link to={`/video/${video.id}`} className='link' key={video.id}>
                     <div>
-                      <VideoCard url={video.url} title={video.title} author={video.artist} duration={video.duration} />
+                      <VideoCard url={video.url} title={video.title} duration={video.duration} views={video.views} />
                     </div>
                   </Link>
                 )) : <img src={image} alt='No search results' id='noSearchResImg' />}
@@ -82,21 +84,26 @@ export default function App() {
           </Route>
           <Route path="/video/:id">
             {header}
-            <OpenVideo slidebar={slidebar} slideBarContainer={slideBarContainer} />
+
+            <div className={sidebar ? 'open' : 'notVisible'}>
+              {sideBarContainer}
+            </div>
+            <OpenVideo sidebar={sidebar} />
+
           </Route>
           <Route exact path="/search/">
             <Redirect to="/" />
           </Route>
           <Route path="/search/:id">
             {header}
-            <Search slidebar={slidebar} slideBarContainer={slideBarContainer} />
+            <Search sidebar={sidebar} sideBarContainer={sideBarContainer} />
           </Route>
           <Route exact path="/upload">
             <UploadVideo />
           </Route>
           <Route path="/user/:id">
             {header}
-            <UserProfile slidebar={slidebar} slideBarContainer={slideBarContainer} />
+            <UserProfile sidebar={sidebar} sideBarContainer={sideBarContainer} />
           </Route>
           <Route exact path="/signout">
             {user ? <SignOut /> : <Redirect to="/" />}

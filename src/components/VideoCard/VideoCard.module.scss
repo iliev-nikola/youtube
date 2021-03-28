@@ -1,5 +1,4 @@
 .container {
-  background-color: unset;
   margin: 10px;
   text-align: center;
   cursor: pointer;
@@ -13,20 +12,16 @@
   margin: 10px 0;
 }
 
-.description {
+.description,
+.views {
   color: rgb(170, 170, 170);
-}
-
-.container img {
-  width: 100px;
 }
 
 .video {
   width: 275px;
-}
-
-.video video {
-  height: 155px;
+  video {
+    height: 155px;
+  }
 }
 
 .duration {
