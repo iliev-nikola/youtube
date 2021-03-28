@@ -79,7 +79,7 @@ export default function UserMenu() {
                                 </div>
                             </li>
                             <div className={styles.line}></div>
-                            <Link to='/channel' className={styles.links}>
+                            <Link to={`/user/${user.uid}`} className={styles.links}>
                                 <li className={styles.listItem}>
                                     <AccountBoxIcon className={styles.iconColorGrey} />
                                     <p className={styles.text}>My channel</p>

@@ -24,7 +24,6 @@ export default function SignIn() {
     const history = useHistory();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
     const signInWithEmailAndPasswordHandler = (event, email, password) => {
         event.preventDefault();
         [email, password] = [email.trim(), password.trim()];

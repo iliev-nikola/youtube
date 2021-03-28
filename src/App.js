@@ -27,23 +27,18 @@ import { getAllVideos } from './service';
 import image from './Components/Search/no-search-result.png';
 import Search from "./Components/Search/Search";
 import UserProfile from "./Components/UserProfile/UserProfile";
+import { auth } from "./firebase";
 
 export default function App() {
   // CHECK IF LOGGED IN
-  // this is not working...
-  const [isLogged, setLogged] = useState(null);
+  const [user, setUser] = useState(null);
   useEffect(() => {
-    if (isLoggedIn()) {
-      setLogged(true);
-    } else {
-      setLogged(false);
-    }
-
-    return () => {
-      setLogged(null);
-    };
-  }, [isLogged]);
-
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        setUser(user);
+      }
+    });
+  });
   // videos fetch call
   const [videos, setVideos] = useState([]);
 
@@ -61,7 +56,7 @@ export default function App() {
     <Slidebar slidebar={slidebar} Icon={VideoLibraryIcon} type={'Library'} />
     <Slidebar slidebar={slidebar} Icon={HistoryIcon} type={'History'} />
   </>)
- 
+
   return (
     <Router>
       <>
@@ -87,12 +82,7 @@ export default function App() {
           </Route>
           <Route path="/video/:id">
             {header}
-
-            <div className={slidebar ? 'open' : 'notVisible'}>
-              {slideBarContainer}
-            </div>
-            <OpenVideo slidebar={slidebar} />
-
+            <OpenVideo slidebar={slidebar} slideBarContainer={slideBarContainer} />
           </Route>
           <Route exact path="/search/">
             <Redirect to="/" />
@@ -109,20 +99,16 @@ export default function App() {
             <UserProfile slidebar={slidebar} slideBarContainer={slideBarContainer} />
           </Route>
           <Route exact path="/signout">
-            {/* {isLogged ? <SignOut /> : <Redirect to="/" />} */}
-            <SignOut />
+            {user ? <SignOut /> : <Redirect to="/" />}
           </Route>
           <Route exact path="/signup">
-            {!isLogged ? <SignUp /> : <Redirect to="/" />}
-            {/* <SignUp /> */}
+            {!user ? <SignUp /> : <Redirect to="/" />}
           </Route>
           <Route exact path="/signin">
-            {!isLogged ? <SignIn /> : <Redirect to="/" />}
-            {/* <SignIn /> */}
+            {!user ? <SignIn /> : <Redirect to="/" />}
           </Route>
           <Route exact path="/reset">
-            {!isLogged ? <ResetPassword /> : <Redirect to="/" />}
-            {/* <ResetPassword /> */}
+            {!user ? <ResetPassword /> : <Redirect to="/" />}
           </Route>
           <Route path="*">
             <ErrorPage />

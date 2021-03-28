@@ -1,5 +1,4 @@
 import { auth } from './firebase';
-import { Redirect, useHistory } from "react-router-dom";
 import { videos } from './service';
 
 export function generateId() {
@@ -47,13 +46,13 @@ export function isCurrentUser(userId) {
 
 export function filterVideos(params) {
   if (!Array.isArray(params)) {
-    return videos.filter(el => el.title.toLowerCase().includes(params) || el.author.toLowerCase().includes(params));
+    return videos.filter(el => el.title.toLowerCase().includes(params) || el.artist.toLowerCase().includes(params));
   }
 
   let filtered = videos;
   params.forEach(word => {
     if (word !== ' ') {
-      filtered = filtered.filter(el => el.title.toLowerCase().includes(word) || el.author.toLowerCase().includes(word));
+      filtered = filtered.filter(el => el.title.toLowerCase().includes(word) || el.artist.toLowerCase().includes(word));
     }
   });
 
