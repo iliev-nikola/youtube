@@ -66,18 +66,27 @@ export default function UserMenu() {
                 onClickAway={handleClickAwayProfile}
             >
                 <div className={styles.dropdownContainer} >
-                    <Tooltip title="My profile" placement="bottom">
-                        <h1 onClick={handleClickProfile} className={styles.userIcon}>{user ? user.displayName[0] : null}</h1>
-                    </Tooltip>
+                    {user ?
+                        <Tooltip title="My profile" placement="bottom">
+                            {user.photoURL ?
+                                <img className={styles.userPhoto} onClick={handleClickProfile} src={user.photoURL} alt='user logo' />
+                                : <h1 onClick={handleClickProfile} className={styles.userIcon}>{user ? user.displayName[0] : null}</h1>}
+                        </Tooltip>
+                        : null}
                     {openProfile ? (
                         <ul className={styles.dropdown}>
-                            <li className={styles.displayFlex}>
-                                <h1 className={styles.userIcon}>{user ? user.displayName[0] : null}</h1>
-                                <div>
-                                    <h4 className={styles.marginNone}>{user ? user.displayName : null}</h4>
-                                    <p className={styles.marginNone}>{user ? user.email : null}</p>
-                                </div>
-                            </li>
+                            {user ?
+                                <li className={styles.displayFlex}>
+                                    {user.photoURL ?
+                                        <img className={styles.userPhoto} src={user.photoURL} alt='user logo' /> :
+                                        <h1 className={styles.userIcon}>{user.displayName[0]}</h1>
+                                    }
+                                    <div className={styles.userInfo}>
+                                        <h4 className={styles.marginNone}>{user.displayName}</h4>
+                                        <p className={styles.marginNone}>{user.email}</p>
+                                    </div>
+                                </li> : null
+                            }
                             <div className={styles.line}></div>
                             <Link to={`/user/${user.uid}`} className={styles.links}>
                                 <li className={styles.listItem}>

@@ -1,0 +1,23 @@
+- users
+    - email
+    - names
+
+- videos
+    - title
+    - description
+    - duration
+    - author
+    - authorId
+    - url
+    - views
+    - likes
+    - dislikes
+    - isLikedBy: []
+    - isDislikedBy: []
+    - isWatchedBy: []
+
+- comments
+    video:
+        [
+            {names, comment, photoURL, userID}
+        ]

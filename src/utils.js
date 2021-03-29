@@ -1,4 +1,5 @@
-import { auth } from './firebase';
+import ProgressBar from './Components/ProgressBar/ProgressBar';
+import { auth, db } from './firebase';
 import { videos } from './service';
 
 export function generateId() {
@@ -21,13 +22,21 @@ export function getCurrentUser() {
 export function setCurrentUser() {
   auth.onAuthStateChanged(user => {
     if (user) {
-      localStorage.setItem('currentUser', JSON.stringify(user));
-    }
+      const data = {
+        displayName: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+        uid: user.uid
+      }
+      localStorage.setItem('currentUser', JSON.stringify(data));
+
+    };
   });
 }
 
 export function login() {
   localStorage.setItem('isLoggedIn', JSON.stringify(true));
+  setCurrentUser();
 }
 
 export function signOut() {
@@ -41,20 +50,28 @@ export function isLoggedIn() {
 }
 
 export function isCurrentUser(userId) {
-  // check if the current logged user is the same as the opened user profile
+  return getCurrentUser().uid === userId;
 }
 
 export function filterVideos(params) {
   if (!Array.isArray(params)) {
-    return videos.filter(el => el.title.toLowerCase().includes(params) || el.artist.toLowerCase().includes(params));
+    return videos.filter(el => el.title.toLowerCase().includes(params));
   }
 
   let filtered = videos;
   params.forEach(word => {
     if (word !== ' ') {
-      filtered = filtered.filter(el => el.title.toLowerCase().includes(word) || el.artist.toLowerCase().includes(word));
+      filtered = filtered.filter(el => el.title.toLowerCase().includes(word));
     }
   });
 
   return filtered;
+}
+
+export function loading(condition) {
+  if (condition === 'off') {
+    return <ProgressBar isOn={false} />
+  } else {
+    return <ProgressBar isOn={true} />
+  }
 }

@@ -5,6 +5,7 @@ import {
   Route,
   Link,
   Redirect,
+  useHistory,
 } from "react-router-dom";
 import './App.scss';
 import './reset.css';
@@ -27,10 +28,14 @@ import image from './Components/Search/no-search-result.png';
 import Search from "./Components/Search/Search";
 import UserProfile from "./Components/UserProfile/UserProfile";
 import { auth } from "./firebase";
+import ProgressBar from "./Components/ProgressBar/ProgressBar";
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 export default function App() {
   // CHECK IF LOGGED IN
   const [user, setUser] = useState(null);
+  const [videos, setVideos] = useState([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     auth.onAuthStateChanged(user => {
       if (user) {
@@ -38,12 +43,15 @@ export default function App() {
       }
     });
   });
-  // videos fetch call
-  const [videos, setVideos] = useState([]);
 
   useEffect(() => {
-    getAllVideos().then((result) => setVideos(result));
+    setLoading(true);
+    getAllVideos().then((result) => setVideos(result)).finally(() => setLoading(false));
   }, []);
+
+  const fetchMoreData = () => {
+    getAllVideos().then((result) => setVideos(videos.concat(result)))
+  };
 
   // HEADER & SIDEBAR
   const [sidebar, setSidebar] = useState(false);
@@ -62,6 +70,7 @@ export default function App() {
   return (
     <Router>
       <>
+        <ProgressBar isOn={loading} />
         <Switch>
           <Route exact path="/">
             {header}
@@ -72,13 +81,29 @@ export default function App() {
                 </div>
               </div>
               <div className={!sidebar ? 'videoContainer' : 'notActive'}>
-                {videos.length ? videos.map(video => (
+                <InfiniteScroll
+                  // className={!sidebar ? 'videoContainer' : 'notActive'}
+                  dataLength={videos.length}
+                  next={fetchMoreData}
+                  hasMore={true}
+                  scrollThreshold="100%"
+                  loader={<h4>Loading...</h4>}
+                >
+                  {videos.length ? videos.map(video => (
+                    <Link to={`/video/${video.id}`} className='link' key={video.id}>
+                      <div>
+                        <VideoCard url={video.url} title={video.title} duration={video.duration} views={video.views} />
+                      </div>
+                    </Link>
+                  )) : <img src={image} alt='No search results' id='noSearchResImg' />}
+                </InfiniteScroll>
+                {/* {videos.length ? videos.map(video => (
                   <Link to={`/video/${video.id}`} className='link' key={video.id}>
                     <div>
                       <VideoCard url={video.url} title={video.title} duration={video.duration} views={video.views} />
                     </div>
                   </Link>
-                )) : <img src={image} alt='No search results' id='noSearchResImg' />}
+                )) : <img src={image} alt='No search results' id='noSearchResImg' />} */}
               </div>
             </div>
           </Route>
@@ -112,7 +137,8 @@ export default function App() {
             {!user ? <SignUp /> : <Redirect to="/" />}
           </Route>
           <Route exact path="/signin">
-            {!user ? <SignIn /> : <Redirect to="/" />}
+            {/* {!user ? <SignIn /> : <Redirect to="/" />} */}
+            <SignIn />
           </Route>
           <Route exact path="/reset">
             {!user ? <ResetPassword /> : <Redirect to="/" />}

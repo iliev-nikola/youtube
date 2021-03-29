@@ -15,15 +15,33 @@
   .welcomeText {
     margin: 5px;
     color: #e4e4e4;
-    
     > h2 {
       font-weight: 400;
+      font-size: 22px;
     }
-
     > p {
       font-size: 16px;
-      margin-bottom: 30px;
+      margin: 10px 0 30px 0;
     }
+  }
+
+  .logo {
+    width: 35px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .socialIcons {
+    width: 120px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .loginWithText {
+    text-align: left;
+    margin-left: 28px;
+    margin-bottom: 10px;
   }
 
   .link {
@@ -31,6 +49,12 @@
     color: #001abf;
     width: inherit;
     text-align: start;
+  }
+
+  .options {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 22px;
   }
 
   .container {
@@ -43,17 +67,13 @@
     width: 100%;
   }
 
-  .button {
-    display: flex;
-    justify-content: flex-end;
-    width: 420px;
-  }
-
   .buttons {
+    text-align: center;
     display: flex;
     width: 88%;
     margin: 0 auto 30px auto;
     align-items: center;
+    justify-content: space-between;
   }
 
   @media only screen and (max-width: 600px) {

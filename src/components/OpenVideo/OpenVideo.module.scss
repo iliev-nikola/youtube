@@ -21,7 +21,6 @@ $main-size: 18px;
 
   .commentsContainer {
     width: 640px;
-    margin-top: 20px;
   }
 
   .userName {
@@ -59,18 +58,37 @@ $main-size: 18px;
   .mainComm {
     display: flex;
     align-items: center;
+    margin-top: 20px;
   }
+
+  // .userLogo {
+  //   color: $main-color;
+  //   background-color: cornflowerblue;
+  //   border-radius: 50%;
+  //   display: flex;
+  //   justify-content: center;
+  //   margin-right: 20px;
+  //   width: 40px;
+  //   height: 30px;
+  //   padding-top: 10px;
+  // }
 
   .userLogo {
     color: $main-color;
     background-color: cornflowerblue;
-    border-radius: 50%;
+    box-sizing: border-box;
+    font-size: 22px;
     display: flex;
+    align-items: center;
     justify-content: center;
+    width: 45px;
+    height: 40px;
     margin-right: 20px;
-    width: 40px;
-    height: 30px;
-    padding-top: 10px;
+    border-radius: 50%;
+    overflow: hidden;
+    .userPic {
+      width: 100%;
+    }
   }
 
   .likesContainer {

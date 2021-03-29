@@ -59,7 +59,7 @@ $center: center;
   margin: -2px 0 -5px 0;
 }
 
-.header img {
+.siteLogo {
   width: 80px;
   margin-left: 20px;
 }
@@ -67,7 +67,7 @@ $center: center;
 .countryCode {
   color: rgb(170, 170, 170);
   font-size: 10px;
-  margin : 0 -12px 0 2px;
+  margin: 0 -12px 0 2px;
   font-weight: 500;
 }
 
@@ -157,6 +157,15 @@ $center: center;
   overflow: hidden;
 }
 
+.userPhoto {
+  border-radius: 50%;
+  width: 32px;
+  margin: 0 8px;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
 .userIcon:active {
   border: 1px solid rgb(37, 93, 245);
 }
@@ -195,13 +204,18 @@ $center: center;
   color: white;
 }
 
+.userInfo {
+  padding-right: 10px;
+}
+
 .dropdown {
   margin: 0;
   padding: 0px;
   position: absolute;
   top: 0;
   z-index: 1;
-  width: 250px;
+  min-width: 250px;
+  width: auto;
   background-color: #212121;
   border: 1px solid #393838;
   border-top: none;
