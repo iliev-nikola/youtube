@@ -1,0 +1,33 @@
+.microphone {
+  z-index: 20;
+  position: absolute;
+  color: white;
+
+  bottom: 20px;
+  position: fixed;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  background: lightcoral;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.notListening {
+  display: none;
+}
+
+.listening {
+  width: 30px;
+  height: 400px;
+  padding: 0 0 16px 32px;
+  z-index: 2;
+  background-color: #333;
+  position: absolute;
+  top: 20%;
+  left: 30%;
+}

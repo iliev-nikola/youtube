@@ -10,6 +10,7 @@ import LikeOrDislikeVideo from './LikeOrDislikeVideo';
 import { Input, Link } from '@material-ui/core'
 import { getAllVideos } from '../../service';
 import VideoCard from '../VideoCard/VideoCard';
+import { db } from '../../firebase';
 export default function OpenVideo({ sidebar }) {
     const history = useHistory();
     const { id } = useParams();
@@ -22,7 +23,12 @@ export default function OpenVideo({ sidebar }) {
     const [isLiked, setIsLiked] = useState(false);
     const [isDisliked, setIsDisliked] = useState(false);
     const [views, setViews] = useState(video.views);
-
+    // useEffect(() => {
+    //     db.collection('videos').doc(id).get()
+    //         .then(res => {
+    //             setVideo({ ...res.data() });
+    //         })
+    // }, [id])
     useEffect(() => {
         getAllVideos().then((result) => setVideos(result));
     }, []);
@@ -141,7 +147,7 @@ export default function OpenVideo({ sidebar }) {
                     </div>
                 </div>
             </div>
-            <div className={styles.otherVideos}>
+            {/* <div className={styles.otherVideos}>
                 {videos.map(video => (
                     <Link to={`/video/${video.id}`} className='link' key={video.id}>
                         <div>
@@ -149,7 +155,7 @@ export default function OpenVideo({ sidebar }) {
                         </div>
                     </Link>
                 ))}
-            </div>
+            </div> */}
         </div>
     );
 }

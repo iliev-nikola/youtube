@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Link,
   Redirect,
+  useHistory,
 } from "react-router-dom";
 import './App.scss';
 import './reset.css';
@@ -27,8 +28,19 @@ import image from './Components/Search/no-search-result.png';
 import Search from "./Components/Search/Search";
 import UserProfile from "./Components/UserProfile/UserProfile";
 import { auth } from "./firebase";
+import VoiceControl from './Components/VoiceControl/VoiceControl';
 
 export default function App() {
+  const [videos, setVideos] = useState([]);
+  // useEffect(() => {
+  //   db.collection("videos").onSnapshot(snapshot => {
+  //     setVideos(snapshot.docs.map(doc => ({
+  //       id: doc.id,
+  //       info: doc.data()
+  //     })))
+  //   })
+  // }, [])
+
   // CHECK IF LOGGED IN
   const [user, setUser] = useState(null);
   useEffect(() => {
@@ -39,7 +51,6 @@ export default function App() {
     });
   });
   // videos fetch call
-  const [videos, setVideos] = useState([]);
 
   useEffect(() => {
     getAllVideos().then((result) => setVideos(result));
@@ -61,6 +72,7 @@ export default function App() {
 
   return (
     <Router>
+      <VoiceControl />
       <>
         <Switch>
           <Route exact path="/">
@@ -72,9 +84,10 @@ export default function App() {
                 </div>
               </div>
               <div className={!sidebar ? 'videoContainer' : 'notActive'}>
-                {videos.length ? videos.map(video => (
+                {videos.length ? videos.map((video) => (
                   <Link to={`/video/${video.id}`} className='link' key={video.id}>
                     <div>
+                      {/* <iframe src={info.url} title='s'></iframe> */}
                       <VideoCard url={video.url} title={video.title} duration={video.duration} views={video.views} />
                     </div>
                   </Link>
