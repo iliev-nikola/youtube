@@ -1,3 +1,8 @@
+.videoContainer {
+  width: -webkit-fill-available;
+  margin-left: 72px;
+}
+
 .container {
   display: flex;
   flex-wrap: wrap;
@@ -25,7 +30,6 @@
 
 .profileInfo {
   background-color: #202020;
-  width: 100%;
   padding: 20px 0 20px 150px;
   display: flex;
   align-items: center;

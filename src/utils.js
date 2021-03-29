@@ -1,4 +1,5 @@
-import { auth } from './firebase';
+import ProgressBar from './Components/ProgressBar/ProgressBar';
+import { auth, db } from './firebase';
 import { videos } from './service';
 
 export function generateId() {
@@ -21,13 +22,21 @@ export function getCurrentUser() {
 export function setCurrentUser() {
   auth.onAuthStateChanged(user => {
     if (user) {
-      localStorage.setItem('currentUser', JSON.stringify(user));
-    }
+      const data = {
+        displayName: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+        uid: user.uid
+      }
+      localStorage.setItem('currentUser', JSON.stringify(data));
+
+    };
   });
 }
 
 export function login() {
   localStorage.setItem('isLoggedIn', JSON.stringify(true));
+  setCurrentUser();
 }
 
 export function signOut() {
@@ -41,7 +50,7 @@ export function isLoggedIn() {
 }
 
 export function isCurrentUser(userId) {
-  // check if the current logged user is the same as the opened user profile
+  return getCurrentUser().uid === userId;
 }
 
 export function filterVideos(params) {
@@ -57,4 +66,12 @@ export function filterVideos(params) {
   });
 
   return filtered;
+}
+
+export function loading(condition) {
+  if (condition === 'off') {
+    return <ProgressBar isOn={false} />
+  } else {
+    return <ProgressBar isOn={true} />
+  }
 }

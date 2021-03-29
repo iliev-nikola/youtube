@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { TextField, Button } from '@material-ui/core';
 import styles from './SignIn.module.scss';
-import { auth } from '../../firebase';
+import { auth, googleProvider, facebookProvider, gitHubProvider, db } from '../../firebase';
 import { Link, useHistory } from "react-router-dom";
 import { setCurrentUser, validateEmail, login } from '../../utils';
 import logo from '../../assets/logo.png';
+import gitHubLogo from '../../assets/gitHubLogo.png';
+import facebookLogo from '../../assets/facebookLogo.png';
+import googleLogo from '../../assets/googleLogo.png';
+
 import { Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 
@@ -14,6 +18,34 @@ export default function SignIn() {
     const [password, setPassword] = useState('');
     const [alert, setAlert] = useState('');
     const [open, setOpen] = useState(false);
+
+    const onProviderClick = (provider) => {
+        auth.signInWithPopup(provider)
+            .then((res) => {
+                login();
+                console.log(res);
+                history.push('/');
+                return res;
+            })
+            .then(res => {
+                const data = {
+                    displayName: res.user.displayName,
+                    email: res.user.email,
+                    photoURL: res.user.photoURL,
+                    uid: res.user.uid
+                }
+                db.collection('users').where('uid', '==', res.user.uid).get()
+                    .then(res => {
+                        console.log(res)
+                        if (!res.docs.length) {
+                            db.collection('users').doc(res.uid).set(data);
+                        }
+                    })
+            })
+            .catch(error => {
+                setAlert(error.message);
+            });
+    }
 
     const signInWithEmailAndPasswordHandler = (event, email, password) => {
         event.preventDefault();
@@ -29,15 +61,32 @@ export default function SignIn() {
         }
 
         auth.signInWithEmailAndPassword(email, password)
-            .then(() => {
+            .then(res => {
                 setEmail('');
                 setPassword('');
                 setCurrentUser();
                 login();
                 history.push('/');
+                return res;
             })
-            .catch(err => err);
-    };
+
+            .then(res => {
+                const data = {
+                    displayName: res.user.displayName,
+                    email: res.user.email,
+                    photoURL: res.user.photoURL,
+                    uid: res.user.uid
+                }
+                db.collection('users').where('uid', '==', res.user.uid).get()
+                    .then(res => {
+                        console.log(res)
+                        if (!res.docs.length) {
+                            db.collection('users').doc(res.uid).set(data);
+                        }
+                    })
+                    .catch(err => err);
+            })
+    }
 
     const onInputChange = (e) => {
         e.preventDefault();
@@ -74,16 +123,24 @@ export default function SignIn() {
             </div> : null}
             <form className={styles.signIn}>
                 <img src={logo} alt="logo" id={styles.logo} onClick={() => history.push('/')} />
-                <h2 className={styles.welcomeText}>Sign in</h2>
-                <p className={styles.welcomeText}>to continue to YouTube</p>
+                <div className={styles.welcomeText}>
+                    <h2>Sign in</h2>
+                    <p>to continue to YouTube</p>
+                </div>
                 <div className={styles.container}>
                     <TextField type="email" required className={styles.inputs} size="medium" label="Email" variant="outlined" value={email} id="email" onChange={(e) => onInputChange(e)} autoComplete="off" />
                 </div>
                 <div className={styles.container}>
                     <TextField type="password" required className={styles.inputs} size="medium" label="Password" variant="outlined" value={password} id="password" onChange={(e) => onInputChange(e)} autoComplete="off" />
                 </div>
+                <p className={styles.loginWithText}>Login with:</p>
                 <div className={styles.buttons}>
-                    <Link to="signup" className={styles.link}>Create account</Link>
+                    <div className={styles.socialIcons}>
+                        <img onClick={() => onProviderClick(facebookProvider)} src={facebookLogo} alt='Facebook logo' className={styles.logo} />
+                        <img onClick={() => onProviderClick(googleProvider)} src={googleLogo} alt='Google logo' className={styles.logo} />
+                        <img onClick={() => onProviderClick(gitHubProvider)} src={gitHubLogo} alt='GitHub logo' className={styles.logo} />
+                    </div>
+                    <p>or</p>
                     <div className={styles.button}>
                         <Button variant="contained" color="primary"
                             onClick={(e) => {
@@ -91,12 +148,13 @@ export default function SignIn() {
                                 handleClick();
                             }}>
                             sign in
-                </Button>
-
+                        </Button>
                     </div>
                 </div>
-                <Link to="reset" className={styles.link} >Password reset</Link>
-
+                <div className={styles.options}>
+                    <Link to="signup" className={styles.link}>Create account</Link>
+                    <Link to="reset" className={styles.link} >Password reset</Link>
+                </div>
             </form>
         </>
     );

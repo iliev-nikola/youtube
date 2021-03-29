@@ -401,7 +401,7 @@ export function getUserVideos(arr) {
     });
 }
 
-export function pushToHistory(id) {
+export function pushToWatched(id) {
     // find current user in firebase and push the id in the history array
 }
 

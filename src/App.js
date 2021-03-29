@@ -29,9 +29,10 @@ import Search from "./Components/Search/Search";
 import UserProfile from "./Components/UserProfile/UserProfile";
 import { auth } from "./firebase";
 import VoiceControl from './Components/VoiceControl/VoiceControl';
+import ProgressBar from "./Components/ProgressBar/ProgressBar";
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 export default function App() {
-  const [videos, setVideos] = useState([]);
   // useEffect(() => {
   //   db.collection("videos").onSnapshot(snapshot => {
   //     setVideos(snapshot.docs.map(doc => ({
@@ -43,6 +44,8 @@ export default function App() {
 
   // CHECK IF LOGGED IN
   const [user, setUser] = useState(null);
+  const [videos, setVideos] = useState([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     auth.onAuthStateChanged(user => {
       if (user) {
@@ -53,8 +56,13 @@ export default function App() {
   // videos fetch call
 
   useEffect(() => {
-    getAllVideos().then((result) => setVideos(result));
+    setLoading(true);
+    getAllVideos().then((result) => setVideos(result)).finally(() => setLoading(false));
   }, []);
+
+  const fetchMoreData = () => {
+    getAllVideos().then((result) => setVideos(videos.concat(result)))
+  };
 
   // HEADER & SIDEBAR
   const [sidebar, setSidebar] = useState(false);
@@ -74,6 +82,7 @@ export default function App() {
     <Router>
       <VoiceControl />
       <>
+        <ProgressBar isOn={loading} />
         <Switch>
           <Route exact path="/">
             {header}
@@ -84,14 +93,22 @@ export default function App() {
                 </div>
               </div>
               <div className={!sidebar ? 'videoContainer' : 'notActive'}>
-                {videos.length ? videos.map((video) => (
-                  <Link to={`/video/${video.id}`} className='link' key={video.id}>
-                    <div>
-                      {/* <iframe src={info.url} title='s'></iframe> */}
-                      <VideoCard url={video.url} title={video.title} duration={video.duration} views={video.views} />
-                    </div>
-                  </Link>
-                )) : <img src={image} alt='No search results' id='noSearchResImg' />}
+                <InfiniteScroll
+                  // className={!sidebar ? 'videoContainer' : 'notActive'}
+                  dataLength={videos.length}
+                  next={fetchMoreData}
+                  hasMore={true}
+                  scrollThreshold="100%"
+                  loader={<h4>Loading...</h4>}
+                >
+                  {videos.length ? videos.map(video => (
+                    <Link to={`/video/${video.id}`} className='link' key={video.id}>
+                      <div>
+                        <VideoCard url={video.url} title={video.title} duration={video.duration} views={video.views} />
+                      </div>
+                    </Link>
+                  )) : <img src={image} alt='No search results' id='noSearchResImg' />}
+                </InfiniteScroll>
               </div>
             </div>
           </Route>
@@ -125,7 +142,8 @@ export default function App() {
             {!user ? <SignUp /> : <Redirect to="/" />}
           </Route>
           <Route exact path="/signin">
-            {!user ? <SignIn /> : <Redirect to="/" />}
+            {/* {!user ? <SignIn /> : <Redirect to="/" />} */}
+            <SignIn />
           </Route>
           <Route exact path="/reset">
             {!user ? <ResetPassword /> : <Redirect to="/" />}

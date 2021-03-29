@@ -28,8 +28,10 @@ export default function ResetPassword() {
     return (
         <form className={styles.signIn} >
             <img src={logo} alt="logo" id={styles.logo} onClick={() => history.push('/')} />
-            <h2 className={styles.welcomeText}>Reset your password</h2>
-            <p className={styles.welcomeText}>to continue to YouTube</p>
+            <div className={styles.welcomeText}>
+                <h2>Reset your password</h2>
+                <p>to continue to YouTube</p>
+            </div>
             {emailHasBeenSent && (
                 <div className="py-3 bg-green-400 w-full text-white text-center mb-3">
                     An email has been sent to you!

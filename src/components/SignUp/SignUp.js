@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { TextField, Button, Snackbar } from '@material-ui/core';
 import styles from './SignUp.module.scss';
 import { auth, db } from '../../firebase';
-import { Link, useHistory } from "react-router-dom";
-import { validateEmail } from '../../utils';
+import { Link, Redirect, useHistory } from "react-router-dom";
+import { signOut, validateEmail } from '../../utils';
 import logo from '../../assets/logo.png';
 import { Alert } from '@material-ui/lab';
+import SignIn from '../SignIn/SignIn';
 
 export default function SignUp() {
     const history = useHistory();
@@ -39,26 +40,21 @@ export default function SignUp() {
         auth.createUserWithEmailAndPassword(email, password)
             .then((res) => {
                 let displayName = firstName[0].toUpperCase() + firstName.slice(1).toLowerCase() + ' ' + lastName[0].toUpperCase() + lastName.slice(1).toLowerCase();
-                const data = {
-                    names: displayName,
-                    email: email,
-                    videos: [],
-                    history: [],
-                }
                 const user = res.user;
-                user.updateProfile({
+                return user.updateProfile({
                     displayName: displayName,
                 });
-
-                db.collection('users').doc(res.uid).set(data);
+            })
+            .then(() => {
                 setFirstName('');
                 setLastName('');
                 setEmail('');
                 setPassword('');
                 setRePassword('');
+                signOut()
                 history.push('/signin');
             })
-            .catch(err => err);
+            .catch(err => setAlert(err));
     };
     const onInputChange = (e) => {
         e.preventDefault();
@@ -81,7 +77,6 @@ export default function SignUp() {
         }
     };
 
-
     const handleClick = () => {
         setOpen(true);
     };
@@ -95,7 +90,7 @@ export default function SignUp() {
 
     return (
         <>
-          <div className={styles.alert}>
+            <div className={styles.alert}>
                 <Snackbar anchorOrigin={{
                     vertical: 'top',
                     horizontal: 'right',
@@ -105,8 +100,10 @@ export default function SignUp() {
             </div>
             <form className={styles.signUp}>
                 <img src={logo} alt="logo" id={styles.logo} onClick={() => history.push('/')} />
-                <h2 className={styles.welcomeText}>Create your Account</h2>
-                <p className={styles.welcomeText}>to continue to YouTube</p>
+                <div className={styles.welcomeText}>
+                    <h2>Create your Account</h2>
+                    <p>to continue to YouTube</p>
+                </div>
                 <div className={styles.container}>
                     <TextField required className={styles.inputs} size="small" label="First name" variant="outlined" value={firstName} onChange={(e) => onInputChange(e)} id="firstName" autoComplete="new-password" />
                     <TextField required className={styles.inputs} size="small" label="Last name" variant="outlined" value={lastName} id="lastName" onChange={(e) => onInputChange(e)} autoComplete="new-password" />

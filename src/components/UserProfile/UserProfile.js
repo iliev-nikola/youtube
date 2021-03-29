@@ -32,8 +32,9 @@ export default function UserProfile({ sidebar, sideBarContainer }) {
             <div className={sidebar ? 'open' : 'close'}>
                 {sideBarContainer}
             </div>
-            <div className='videoContainer'>
+            <div className={styles.videoContainer}>
                 <div className={styles.profileInfo}>
+                    {/* check for imageURL */}
                     <h1 className={styles.icon}>{user ? user.name[0] : null}</h1>
                     <div className={styles.infoBox}>
                         <h1 className={styles.names}>{user ? user.name : null}</h1>

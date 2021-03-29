@@ -13,14 +13,11 @@
 
 # firebase deploy
 /.github
-/functions
 .firebaserc
 database.rules.json
 firebase.json
 firestore.indexes.json
 firestore.rules
-remoteconfig.template.json
-storage.rules
 
 # misc
 .DS_Store

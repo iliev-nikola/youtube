@@ -10,8 +10,7 @@ import { useHistory } from "react-router-dom";
 import { isLoggedIn } from '../../utils';
 import UserMenu from './UserMenu';
 
-
-export default function Header({ handleToggerSidebar, sidebar }) {
+export default function Header({ handleToggleSidebar, sidebar }) {
     const history = useHistory();
     const [inputSearchValue, setInputSearchValue] = useState('');
     const onInputChange = (e) => {
@@ -39,10 +38,10 @@ export default function Header({ handleToggerSidebar, sidebar }) {
     return (
         <div className={styles.header}>
             <div className={sidebar ? styles.newLogoContainer : styles.logoContainer}>
-                <MenuIcon className={styles.icons} onClick={handleToggerSidebar} />
+                <MenuIcon className={styles.icons} onClick={handleToggleSidebar} />
                 <Tooltip title="YouTube Home" placement="bottom-end">
                     <div className={styles.logo} onClick={() => history.push('/')}>
-                        <img src={logo} alt="youtube's logo" />
+                        <img className={styles.siteLogo} src={logo} alt="youtube's logo" />
                         <span className={styles.countryCode}>BG</span>
                     </div>
                 </Tooltip>
@@ -61,7 +60,6 @@ export default function Header({ handleToggerSidebar, sidebar }) {
                     {isLoggedIn() ? userHeader : guestHeader}
                 </div>
             </div>
-
         </div>
     )
 }
