@@ -35,6 +35,8 @@ export default function SignUp() {
             setAlert('Confirm password');
         } else if (password !== rePassword) {
             setAlert('Passwords didn\'t match');
+        } else {
+            
         }
 
         auth.createUserWithEmailAndPassword(email, password)

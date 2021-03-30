@@ -11,59 +11,43 @@ import { Input, Link } from '@material-ui/core'
 import { getAllVideos } from '../../service';
 import VideoCard from '../VideoCard/VideoCard';
 import { db } from '../../firebase';
+import { useDispatch, useSelector } from 'react-redux';
+import { likeVideo, dislikeVideo } from './Likes.actions';
+import { likeIt, likeVideos } from './Likes.actions';
+
 export default function OpenVideo({ sidebar }) {
     const history = useHistory();
     const { id } = useParams();
     const [video, setVideo] = useState([]);
     const [inputValue, setInputValue] = useState('');
     const [user, setUser] = useState(null);
-    const [videos, setVideos] = useState([]);
-    const [likes, setLikes] = useState(video.likes);
-    const [dislikes, setDislikes] = useState(video.dislikes);
     const [isLiked, setIsLiked] = useState(false);
     const [isDisliked, setIsDisliked] = useState(false);
-    const [views, setViews] = useState(video.views);
-    // useEffect(() => {
-    //     db.collection('videos').doc(id).get()
-    //         .then(res => {
-    //             setVideo({ ...res.data() });
-    //         })
-    // }, [id])
+
     useEffect(() => {
-        getAllVideos().then((result) => setVideos(result));
-    }, []);
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                setUser(user);
+            }
+        });
+    }, [user]);
+
+    useEffect(() => {
+        db.collection('videos2').doc(id).get()
+            .then(res => {
+                setVideo({ ...res.data() });
+            })
+    }, [id])
 
     const onInputChange = (e) => {
         setInputValue(e.currentTarget.value);
     }
-
-    const like = () => {
-        if (!isLiked) {
-            setIsLiked(true);
-            setLikes(video.likes + 1);
-        } else {
-            setIsLiked(false);
-            setLikes(video.likes);
-        }
-        if (isDisliked) {
-            setDislikes(video.dislikes);
-        }
-        setIsDisliked(false);
-    }
-
-    const dislike = () => {
-        if (!isDisliked) {
-            setIsDisliked(true);
-            setDislikes(video.dislikes + 1);
-        } else {
-            setIsDisliked(false);
-            setDislikes(video.dislikes);
-        }
-        if (isLiked) {
-            setLikes(video.likes);
-        }
-        setIsLiked(false);
-    }
+    const dispatch = useDispatch();
+    useEffect(() => {
+        likeIt(video, id);
+        // console.log(video);
+        console.log(id);
+    }, [video, id])
 
     const handleKeyPress = (e) => {
         if (e.key === 'Enter' && inputValue) {
@@ -75,38 +59,17 @@ export default function OpenVideo({ sidebar }) {
     }
 
     const numberLikes = (
-        <><ThumbUp className={isLiked ? styles.liked : styles.button} onClick={like} /><span>{likes}</span></>
+        <><ThumbUp className={isLiked ? styles.liked : styles.button} onClick={() => { dispatch(likeIt(video, id)) }} /><span>{video.likes}</span></>
     );
     const loggedNumberLikes = (
-        <><LikeOrDislikeVideo button={<ThumbUp className={styles.button} />} content={'Like this video?'} /><span>{likes}</span></>
+        <><LikeOrDislikeVideo button={<ThumbUp className={styles.button} />} content={'Like this video?'} /><span>{video.likes}</span></>
     );
     const numberDislikes = (
-        <><ThumbDownIcon className={isDisliked ? styles.disliked : styles.button} onClick={dislike} /><span>{dislikes}</span></>
+        <><ThumbDownIcon className={isDisliked ? styles.disliked : styles.button} onClick={() => { dispatch(dislikeVideo()) }} /><span>{video.dislikes}</span></>
     );
     const loggedNumberDIslikes = (
-        <><LikeOrDislikeVideo button={<ThumbDownIcon className={styles.button} />} content={`Don't like this video?`} /><span>{dislikes}</span></>
+        <><LikeOrDislikeVideo button={<ThumbDownIcon className={styles.button} />} content={`Don't like this video?`} /><span>{video.dislikes}</span></>
     );
-
-    useEffect(() => {
-        getVideo(id).then(res => setVideo(res));
-    }, [id]);
-
-    useEffect(() => {
-        auth.onAuthStateChanged(user => {
-            if (user) {
-                setUser(user);
-            }
-        });
-    }, [user]);
-
-    useEffect(() => {
-        setDislikes(video.dislikes);
-        setLikes(video.likes);
-    }, [video.likes, video.dislikes])
-
-    useEffect(() => {
-        setViews(video.views + 1);
-    }, [video.views])
 
     return (
         <div className={sidebar ? styles.notActive : styles.mainContainer}>
@@ -120,7 +83,7 @@ export default function OpenVideo({ sidebar }) {
                             {user ? <>{numberLikes}</> : <>{loggedNumberLikes}</>}
                             {user ? <>{numberDislikes}</> : <>{loggedNumberDIslikes}</>}
                         </div>
-                        <div>{views} views</div>
+                        <div>{video.views} views</div>
                     </div>
                     <p className={styles.info}>{video.title}</p>
                     <a href={`/user/${video.authorId}`}>{video.author}</a>

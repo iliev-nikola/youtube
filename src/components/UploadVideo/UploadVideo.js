@@ -18,6 +18,7 @@ export default function UploadVideo() {
     }
     const onDrop = (acceptedFiles) => {
         file = acceptedFiles;
+        console.log(file);
     }
     return (
         <div className={styles.mainContainer}>

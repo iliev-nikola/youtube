@@ -19,13 +19,25 @@ $center: center;
 }
 
 .header {
-  color: #fff;
   height: 56px;
   position: sticky;
   top: 0;
   z-index: 1;
-  background-color: #202020;
   justify-content: space-between;
+  color: rgb(170, 170, 170);
+  background-color: #202020;
+}
+
+.header input {
+  width: 562px;
+  height: 26px;
+  outline: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 16px;
+}
+
+.header input:focus {
+  border: 1px solid #1c62b9;
 }
 
 .otherContainer,
@@ -76,28 +88,26 @@ $center: center;
   margin-left: -10px;
 }
 
-.header input {
-  width: 562px;
-  height: 26px;
-  border: 1px #333 solid;
-  background-color: black;
-  outline: none;
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 16px;
-}
-
-.header input:focus {
-  border: 1px solid #1c62b9;
-}
-
 .searchCont {
   margin-right: 10px;
   display: inline-block;
   height: 30px;
   width: 65px;
   text-align: center;
-  background-color: rgb(48, 48, 48);
   cursor: pointer;
+}
+
+.searchDark .searchCont {
+  background-color: rgb(48, 48, 48);
+}
+
+.searchLight .searchCont {
+  background-color: #f8f8f8;
+}
+
+.searchDark input {
+  border: 1px #333 solid;
+  background-color: black;
 }
 
 .searchIcon {
