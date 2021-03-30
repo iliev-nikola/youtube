@@ -3,7 +3,7 @@ import {
 } from '../actions/currentUser.action';
 
 const INITIAL_STATE = {
-    user: null
+    user: []
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {

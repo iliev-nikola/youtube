@@ -8,22 +8,21 @@ import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import ThumbUp from '@material-ui/icons/ThumbUp';
 import LikeOrDislikeVideo from './LikeOrDislikeVideo';
 import { Input, Link } from '@material-ui/core'
-import { getAllVideos } from '../../service';
-import VideoCard from '../VideoCard/VideoCard';
 import { db } from '../../firebase';
 import { useDispatch, useSelector } from 'react-redux';
-import { likeVideo, dislikeVideo } from './Likes.actions';
-import { likeIt, likeVideos } from './Likes.actions';
+import { likeIt, dislikeIt } from './Likes.actions';
 
 export default function OpenVideo({ sidebar }) {
     const history = useHistory();
+    const dispatch = useDispatch();
     const { id } = useParams();
     const [video, setVideo] = useState([]);
     const [inputValue, setInputValue] = useState('');
     const [user, setUser] = useState(null);
     const [isLiked, setIsLiked] = useState(false);
     const [isDisliked, setIsDisliked] = useState(false);
-
+    const state = useSelector(state => state.likes);
+    
     useEffect(() => {
         auth.onAuthStateChanged(user => {
             if (user) {
@@ -42,12 +41,6 @@ export default function OpenVideo({ sidebar }) {
     const onInputChange = (e) => {
         setInputValue(e.currentTarget.value);
     }
-    const dispatch = useDispatch();
-    useEffect(() => {
-        likeIt(video, id);
-        // console.log(video);
-        console.log(id);
-    }, [video, id])
 
     const handleKeyPress = (e) => {
         if (e.key === 'Enter' && inputValue) {
@@ -65,7 +58,7 @@ export default function OpenVideo({ sidebar }) {
         <><LikeOrDislikeVideo button={<ThumbUp className={styles.button} />} content={'Like this video?'} /><span>{video.likes}</span></>
     );
     const numberDislikes = (
-        <><ThumbDownIcon className={isDisliked ? styles.disliked : styles.button} onClick={() => { dispatch(dislikeVideo()) }} /><span>{video.dislikes}</span></>
+        <><ThumbDownIcon className={isDisliked ? styles.disliked : styles.button} onClick={() => { dispatch(dislikeIt(video, id)) }} /><span>{video.dislikes}</span></>
     );
     const loggedNumberDIslikes = (
         <><LikeOrDislikeVideo button={<ThumbDownIcon className={styles.button} />} content={`Don't like this video?`} /><span>{video.dislikes}</span></>

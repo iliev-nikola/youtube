@@ -1,4 +1,5 @@
 import { db } from "../firebase";
+
 export const FETCH_VIDEOS_SUCCEEDED = 'FETCH_VIDEOS_SUCCEEDED';
 export const FETCH_VIDEOS_REQUESTED = 'FETCH_VIDEOS_REQUESTED';
 

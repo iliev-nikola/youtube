@@ -8,13 +8,13 @@ export const getCurrentUser = (user) => ({
 
 export const currUser = () => {
     return function (dispatch, getState) {
-        const user = getState().user;
-       
+        let user = getState().user;
+
         auth.onAuthStateChanged(currUser => {
             if (currUser) {
-                dispatch(getCurrentUser(currUser));
-                console.log(user);
+                user = currUser;
             }
         })
+        console.log(user);
     }
 };

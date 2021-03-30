@@ -38,7 +38,7 @@ export default function App() {
   const [user, setUser] = useState(null);
   const dispatch = useDispatch();
   const videos = useSelector((state) => state.videos.videos);
-  const [hasMore, setHasMore] = useState(false);
+  // const [hasMore, setHasMore] = useState(false);
   const [sidebar, setSidebar] = useState(false);
 
   useEffect(() => {
