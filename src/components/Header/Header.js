@@ -47,7 +47,7 @@ export default function Header({ handleToggleSidebar, sidebar }) {
                 </Tooltip>
             </div>
             <div className={sidebar ? styles.notActive : styles.otherContainer}>
-                <div className={styles.searchContainer}>
+                <div className={styles.searchContaine}>
                     <input type="text" placeholder="Search" value={inputSearchValue} onChange={(e) => onInputChange(e)} onKeyPress={(e) => handleKeyPress(e)}></input>
                     <Tooltip title="Search">
                         <span onClick={(e) => handleKeyPress(e)} className={styles.searchCont}><SearchIcon className={styles.searchIcon} fontSize="small" /></span>

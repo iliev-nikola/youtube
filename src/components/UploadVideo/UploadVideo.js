@@ -97,9 +97,6 @@ export default function UploadVideo() {
         }
         setOpen(false);
     };
-
-
-
     return (
         <>
             {alert ? <div className={styles.alert}>

@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from './VideoCard.module.scss';
-import HoverVideoPlayer from 'react-hover-video-player';
 export default function VideoCard({ url, title, id, duration, views }) {
     return (
         <div className={styles.container} id={id}>

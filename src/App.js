@@ -22,7 +22,7 @@ import SignIn from "./Components/SignIn/SignIn";
 import ResetPassword from './Components/ResetPassword/ResetPassword';
 import SignOut from "./Components/SignOut/SignOut";
 import UploadVideo from './Components/UploadVideo/UploadVideo';
-import { getAllVideos } from './service';
+import { getAllVideos, getUser } from './service';
 import image from './Components/Search/no-search-result.png';
 import Search from "./Components/Search/Search";
 import UserProfile from "./Components/UserProfile/UserProfile";
@@ -30,23 +30,29 @@ import { auth } from "./firebase";
 import VoiceControl from './Components/VoiceControl/VoiceControl';
 import ProgressBar from "./Components/ProgressBar/ProgressBar";
 import InfiniteScroll from 'react-infinite-scroll-component';
-
+import { useDispatch, useSelector } from "react-redux";
+import { fetchVideos } from './allVideos/allVideos.actions';
+import { currUser } from './Components/redux/actions/currentUser.action';
 export default function App() {
-  // useEffect(() => {
-  //   db.collection("videos").onSnapshot(snapshot => {
-  //     setVideos(snapshot.docs.map(doc => ({
-  //       id: doc.id,
-  //       info: doc.data()
-  //     })))
-  //   })
-  // }, [])
-
-  // CHECK IF LOGGED IN
-  const [user, setUser] = useState(null);
-  const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
+  const dispatch = useDispatch();
+  const videos = useSelector((state) => state.videos.videos);
   const [hasMore, setHasMore] = useState(false);
   const [sidebar, setSidebar] = useState(false);
+
+  useEffect(() => {
+    dispatch(currUser());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchVideos());
+    if (videos.length) {
+      setLoading(false);
+    }
+  }, [videos, dispatch]);
+
+  // CHECK IF LOGGED IN
   useEffect(() => {
     auth.onAuthStateChanged(user => {
       if (user) {
@@ -57,24 +63,24 @@ export default function App() {
     });
   });
 
-  const fetchMoreData = useCallback(() => {
-    setLoading(true);
+  // const fetchMoreData = useCallback(() => {
+  //   setLoading(true);
 
-    if (videos.length >= 100) {
-      setHasMore(false);
-      setLoading(false);
-    }
+  //   if (videos.length >= 100) {
+  //     setHasMore(false);
+  //     setLoading(false);
+  //   }
 
-    setTimeout(() => {
-      getAllVideos().then((result) => setVideos(videos.concat(result)));
-      setLoading(false)
-    }, 1000)
-  }, [videos]);
+  //   setTimeout(() => {
+  //     getAllVideos().then((result) => setVideos(videos.concat(result)));
+  //     setLoading(false)
+  //   }, 1000)
+  // }, [videos]);
 
-  useEffect(() => {
-    setLoading(true);
-    getAllVideos().then((result) => setVideos(result)).finally(() => setLoading(false));
-  }, []);
+
+  // const fetchMoreData = () => {
+  //   getAllVideos().then((result) => setVideos(videos.concat(result)))
+  // };
 
   // HEADER & SIDEBAR
   const handleToggleSidebar = () => {
@@ -106,21 +112,22 @@ export default function App() {
                 </div>
               </div>
               <div className={!sidebar ? 'videoContainer' : 'notActive'}>
-                <InfiniteScroll
-                  className={!sidebar ? 'videoContainer' : 'notActive'}
-                  dataLength={videos.length + 4}
-                  next={fetchMoreData}
-                  hasMore={hasMore}
-                  scrollThreshold="200px"
-                >
-                  {videos.length ? videos.map(video => (
-                    <Link to={`/video/${video.id}`} className='link' key={video.id + Math.random()}>
-                      <div>
-                        <VideoCard url={video.url} title={video.title} duration={video.duration} views={video.views} />
-                      </div>
-                    </Link>
-                  )) : <img src={image} alt='No search results' id='noSearchResImg' />}
-                </InfiniteScroll>
+                {/* <InfiniteScroll
+                  // className={!sidebar ? 'videoContainer' : 'notActive'}
+                  dataLength={videos.length}
+                  // next={fetchMoreData}
+                  hasMore={true}
+                  // scrollThreshold="100%"
+                  loader={<h4>Loading...</h4>}
+                > */}
+                {videos.length ? videos.map(video => (
+                  <Link to={`/video/${video.id}`} className='link' key={video.id}>
+                    <div>
+                      <VideoCard url={video.info.url} title={video.info.title} duration={video.info.duration} views={video.info.views} />
+                    </div>
+                  </Link>
+                )) : <img src={image} alt='No search results' id='noSearchResImg' />}
+                {/* </InfiniteScroll> */}
               </div>
             </div>
           </Route>

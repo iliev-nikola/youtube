@@ -1,5 +1,33 @@
 import { db } from './firebase';
 import { getCurrentUser } from './utils';
+// export const videos = [
+//     {
+
+//         'id': "31ee4649-83c3-4e7c-900e-41a96cbe018e",
+//         'url': 'https://firebasestorage.googleapis.com/v0/b/fir-5612c.appspot.com/o/videos%2FBullfinch%20-%202797.mp4?alt=media&token=8ffd149e-8517-4928-85c8-82c91c5c5516',
+//         'title': 'Konfuz - Ратата/Ratatatata',
+//         'author': 'Nikola Iliev',
+//         'authorId': '1',
+//         'duration': '00:11',
+//         'comments': [
+//             {
+//                 'user': 'Julia Callaghan',
+//                 'comment': 'this playlist is good!'
+//             },
+//             {
+//                 'user': 'Misbah Townsend',
+//                 'comment': 'Thank you, I LOVE THE MUSIC is perfect'
+//             },
+//             {
+//                 'user': 'Tymoteusz Lucero',
+//                 'comment': 'So cool!!!'
+//             }
+//         ],
+//         'likes': 1242,
+//         'dislikes': 354,
+//         'views': 325
+//     }
+// ]
 export const videos = [
     {
 
