@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import VideoCard from '../VideoCard/VideoCard';
 import styles from './UserProfile.module.scss';
+import AlertDialog from './DialogBoxes/AlertDialog';
+import FormDialog from './DialogBoxes/FormDialog';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -57,13 +58,42 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function ScrollableTabsButtonAuto({ videos, history, liked }) {
-    const classes = useStyles();
-    const [value, setValue] = React.useState(0);
 
-    const handleChange = (event, newValue) => {
+export default function ScrollableTabsButtonAuto({ videos, history, liked }) {
+    const [video, setVideo] = useState(null);
+    const [value, setValue] = useState(0);
+    const [openAlert, setOpenAlert] = useState(false);
+    const [openEdit, setOpenEdit] = useState(false);
+    const classes = useStyles();
+
+    const onEditOpen = (video) => {
+        setOpenEdit(true);
+        setVideo(video);
+    };
+    const onEditClick = (title, description) => {
+        console.log(title, description);
+        setOpenEdit(false);
+        //find and edit this video
+    };
+    const onDeleteClick = (e) => {
+        setOpenAlert(false);
+        console.log(e.target);
+        //find and delete this video
+    };
+    const onDeleteOpen = (video) => {
+        setOpenAlert(true);
+        setVideo(video);
+    };
+    const handleCloseEdit = () => {
+        setOpenEdit(false);
+    };
+    const handleCloseAlert = () => {
+        setOpenAlert(false);
+    };
+    const handleChange = (newValue) => {
         setValue(newValue);
     };
+
 
     return (
         <div className={classes.root}>
@@ -83,16 +113,16 @@ export default function ScrollableTabsButtonAuto({ videos, history, liked }) {
             </AppBar>
             <TabPanel value={value} index={0} className={classes.container}>
                 {videos.map(video => (
-                    <a href={`/video/${video.id}`} className='link' key={video.id}>
-                        <div >
+                    <div >
+                        <a href={`/video/${video.id}`} className='link' key={video.id}>
                             <VideoCard url={video.url} title={video.title} author={video.artist} duration={video.duration} />
-                            {/* check if is current user to show this */}
-                            <div className={styles.optionsContainer}>
-                                <a href={`/edit/${video.id}`} className='link'>Edit</a>
-                                <a href={`/delete/${video.id}`} className='link'>Delete</a>
-                            </div>
+                        </a>
+                        {/* check if is current user to show this */}
+                        <div className={styles.optionsContainer}>
+                            <p className='link' onClick={() => onEditOpen(video)}>Edit</p>
+                            <p className='link' onClick={() => onDeleteOpen(video)}>Delete</p>
                         </div>
-                    </a>
+                    </div>
                 ))}
             </TabPanel>
             <TabPanel value={value} index={1} className={classes.container}>
@@ -113,18 +143,8 @@ export default function ScrollableTabsButtonAuto({ videos, history, liked }) {
                     </a>
                 ))}
             </TabPanel>
-            <TabPanel value={value} index={3}>
-                Item Four
-      </TabPanel>
-            <TabPanel value={value} index={4}>
-                Item Five
-      </TabPanel>
-            <TabPanel value={value} index={5}>
-                Item Six
-      </TabPanel>
-            <TabPanel value={value} index={6}>
-                Item Seven
-      </TabPanel>
-        </div >
+            <FormDialog handleClose={handleCloseEdit} onEditClick={onEditClick} open={openEdit} video={video} />
+            <AlertDialog handleClose={handleCloseAlert} onDeleteClick={(e) => onDeleteClick(e)} open={openAlert} video={video} />
+        </div>
     );
 }

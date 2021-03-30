@@ -5,7 +5,6 @@ import {
   Route,
   Link,
   Redirect,
-  useHistory,
 } from "react-router-dom";
 import './App.scss';
 import './reset.css';
@@ -46,31 +45,43 @@ export default function App() {
   const [user, setUser] = useState(null);
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [hasMore, setHasMore] = useState(false);
+  const [sidebar, setSidebar] = useState(false);
   useEffect(() => {
     auth.onAuthStateChanged(user => {
       if (user) {
         setUser(user);
+      } else {
+        setUser(null);
       }
     });
   });
-  // videos fetch call
+
+  const fetchMoreData = useCallback(() => {
+    setLoading(true);
+
+    if (videos.length >= 100) {
+      setHasMore(false);
+      setLoading(false);
+    }
+
+    setTimeout(() => {
+      getAllVideos().then((result) => setVideos(videos.concat(result)));
+      setLoading(false)
+    }, 1000)
+  }, [videos]);
 
   useEffect(() => {
     setLoading(true);
     getAllVideos().then((result) => setVideos(result)).finally(() => setLoading(false));
   }, []);
 
-  const fetchMoreData = () => {
-    getAllVideos().then((result) => setVideos(videos.concat(result)))
-  };
-
   // HEADER & SIDEBAR
-  const [sidebar, setSidebar] = useState(false);
-  const handleToggerSidebar = () => {
+  const handleToggleSidebar = () => {
     setSidebar(value => !value);
   }
 
-  const header = <Header handleToggerSidebar={handleToggerSidebar} sidebar={sidebar} />;
+  const header = <Header handleToggleSidebar={handleToggleSidebar} sidebar={sidebar} />;
   const sideBarContainer = (<>
     <Sidebar sidebar={sidebar} Icon={HomeIcon} type={'Home'} />
     <Sidebar sidebar={sidebar} Icon={WhatshotIcon} type={'Trending'} />
@@ -86,7 +97,9 @@ export default function App() {
         <Switch>
           <Route exact path="/">
             {header}
-            <div className='mainContainer'>
+            <div className='mainContainer' onClick={(e) => {
+              if (e.target.className === 'mainContainer') setSidebar(false);
+            }}>
               <div className='sideContainer'>
                 <div className={sidebar ? 'open' : 'close'}>
                   {sideBarContainer}
@@ -94,15 +107,14 @@ export default function App() {
               </div>
               <div className={!sidebar ? 'videoContainer' : 'notActive'}>
                 <InfiniteScroll
-                  // className={!sidebar ? 'videoContainer' : 'notActive'}
-                  dataLength={videos.length}
+                  className={!sidebar ? 'videoContainer' : 'notActive'}
+                  dataLength={videos.length + 4}
                   next={fetchMoreData}
-                  hasMore={true}
-                  scrollThreshold="100%"
-                  loader={<h4>Loading...</h4>}
+                  hasMore={hasMore}
+                  scrollThreshold="200px"
                 >
                   {videos.length ? videos.map(video => (
-                    <Link to={`/video/${video.id}`} className='link' key={video.id}>
+                    <Link to={`/video/${video.id}`} className='link' key={video.id + Math.random()}>
                       <div>
                         <VideoCard url={video.url} title={video.title} duration={video.duration} views={video.views} />
                       </div>
@@ -142,8 +154,7 @@ export default function App() {
             {!user ? <SignUp /> : <Redirect to="/" />}
           </Route>
           <Route exact path="/signin">
-            {/* {!user ? <SignIn /> : <Redirect to="/" />} */}
-            <SignIn />
+            {!user ? <SignIn /> : <Redirect to="/" />}
           </Route>
           <Route exact path="/reset">
             {!user ? <ResetPassword /> : <Redirect to="/" />}

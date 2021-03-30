@@ -4,11 +4,10 @@ import styles from './SignIn.module.scss';
 import { auth, googleProvider, facebookProvider, gitHubProvider, db } from '../../firebase';
 import { Link, useHistory } from "react-router-dom";
 import { setCurrentUser, validateEmail, login } from '../../utils';
-import logo from '../../assets/logo.png';
+import logoBlack from '../../assets/logoBlack.png';
 import gitHubLogo from '../../assets/gitHubLogo.png';
 import facebookLogo from '../../assets/facebookLogo.png';
 import googleLogo from '../../assets/googleLogo.png';
-
 import { Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 
@@ -16,14 +15,13 @@ export default function SignIn() {
     const history = useHistory();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [alert, setAlert] = useState('');
+    const [alert, setAlert] = useState(null);
     const [open, setOpen] = useState(false);
 
     const onProviderClick = (provider) => {
         auth.signInWithPopup(provider)
             .then((res) => {
                 login();
-                console.log(res);
                 history.push('/');
                 return res;
             })
@@ -36,7 +34,6 @@ export default function SignIn() {
                 }
                 db.collection('users').where('uid', '==', res.user.uid).get()
                     .then(res => {
-                        console.log(res)
                         if (!res.docs.length) {
                             db.collection('users').doc(res.uid).set(data);
                         }
@@ -51,13 +48,11 @@ export default function SignIn() {
         event.preventDefault();
         [email, password] = [email.trim(), password.trim()];
         if (!email) {
-            setAlert('Enter an email');
+            return setAlert('Enter an email');
         } else if (!validateEmail(email)) {
-            setAlert('Enter a valid email');
+            return setAlert('Enter a valid email');
         } else if (!password) {
-            setAlert('Enter a password');
-        } else {
-            setAlert('');
+            return setAlert('Enter a password');
         }
 
         auth.signInWithEmailAndPassword(email, password)
@@ -69,7 +64,6 @@ export default function SignIn() {
                 history.push('/');
                 return res;
             })
-
             .then(res => {
                 const data = {
                     displayName: res.user.displayName,
@@ -79,13 +73,18 @@ export default function SignIn() {
                 }
                 db.collection('users').where('uid', '==', res.user.uid).get()
                     .then(res => {
-                        console.log(res)
                         if (!res.docs.length) {
                             db.collection('users').doc(res.uid).set(data);
                         }
+
                     })
-                    .catch(err => err);
+                    .catch(err => {
+                        setAlert(err.message);
+                    });
             })
+            .catch(err => {
+                setAlert(err.message);
+            });
     }
 
     const onInputChange = (e) => {
@@ -114,15 +113,19 @@ export default function SignIn() {
     return (
         <>
             {alert ? <div className={styles.alert}>
-                <Snackbar anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                }} open={open} autoHideDuration={7000} onClose={handleClose}>
-                    <Alert onClose={handleClose} severity="error">{alert}</Alert>
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                    }}
+                    open={open}
+                    autoHideDuration={5000}
+                    onClose={handleClose}>
+                    <Alert onClose={handleClose} severity='error'>{alert}</Alert>
                 </Snackbar>
             </div> : null}
             <form className={styles.signIn}>
-                <img src={logo} alt="logo" id={styles.logo} onClick={() => history.push('/')} />
+                <img src={logoBlack} alt="logo" id={styles.logo} onClick={() => history.push('/')} />
                 <div className={styles.welcomeText}>
                     <h2>Sign in</h2>
                     <p>to continue to YouTube</p>

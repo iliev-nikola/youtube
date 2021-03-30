@@ -2,25 +2,16 @@ import React from 'react';
 import styles from './VideoCard.module.scss';
 import HoverVideoPlayer from 'react-hover-video-player';
 export default function VideoCard({ url, title, id, duration, views }) {
-    // const stopMovie = (e) => {
-    //     e.target.pause();
-    //     console.log('off');
-    // }
-
-    // const playMovie = (e) => {
-    //     e.target.play();
-    //     console.log('on');
-    // }
     return (
         <div className={styles.container} id={id}>
-            <HoverVideoPlayer videoSrc={url} className={styles.video} />
-            {/* <video
+            <video
                 title={title}
                 onMouseOver={(e) => e.target.play()}
                 onMouseOut={(e) => e.target.pause()}
                 src={url + '#t=1'}
                 className={styles.video}
-            /> */}
+                muted={true}
+            />
             <div className={styles.duration}>{duration}</div>
             <p className={styles.title}>{title}</p>
             <p className={styles.views}>{views} views</p>

@@ -1,7 +1,7 @@
 .mainContainer {
   margin: 0 auto;
   text-align: center;
-  background-color: #848181;
+  background-color: #c7c4c4;
   width: 500px;
   padding: 20px 0;
   margin-top: 50px;
@@ -15,14 +15,28 @@
     color: #3f51b5;
     margin-bottom: 10px;
     padding-top: 150px;
+    outline: none;
+  }
+
+  #logo {
+    width: 120px;
+    margin-bottom: 20px;
+    cursor: pointer;
   }
 
   .mainContainer button {
     margin-top: 10px;
   }
 
-  .inputs div {
-    margin-right: 20px;
+  .fileInfo {
+    margin: 10px 0;
+  }
+
+  .inputs {
+    margin: 15px;
+    .input {
+      margin-bottom: 15px;
+    }
   }
 
   @media only screen and (max-width: 650px) {

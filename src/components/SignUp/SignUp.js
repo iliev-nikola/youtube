@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TextField, Button, Snackbar } from '@material-ui/core';
 import styles from './SignUp.module.scss';
 import { auth, db } from '../../firebase';
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { BrowserRouter, Link, Redirect, Router, useHistory } from "react-router-dom";
 import { signOut, validateEmail } from '../../utils';
-import logo from '../../assets/logo.png';
+import logoBlack from '../../assets/logoBlack.png';
 import { Alert } from '@material-ui/lab';
-import SignIn from '../SignIn/SignIn';
 
 export default function SignUp() {
     const history = useHistory();
@@ -15,26 +14,26 @@ export default function SignUp() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rePassword, setRePassword] = useState('');
-    const [alert, setAlert] = useState('');
+    const [alert, setAlert] = useState(null);
     const [open, setOpen] = useState(false);
 
     const createUserWithEmailAndPasswordHandler = (event, firstName, lastName, email, password, rePassword) => {
         event.preventDefault();
         [firstName, lastName, email, password, rePassword] = [firstName.trim(), lastName.trim(), email.trim(), password.trim(), rePassword.trim()];
         if (!firstName) {
-            setAlert('Enter a first name');
+            return setAlert('Enter a first name');
         } else if (!lastName) {
-            setAlert('Enter a last name');
+            return setAlert('Enter a last name');
         } else if (!email) {
-            setAlert('Enter an email');
+            return setAlert('Enter an email');
         } else if (!validateEmail(email)) {
-            setAlert('Enter a valid email');
+            return setAlert('Enter a valid email');
         } else if (!password) {
-            setAlert('Enter a password');
+            return setAlert('Enter a password');
         } else if (!rePassword) {
-            setAlert('Confirm password');
+            return setAlert('Confirm password');
         } else if (password !== rePassword) {
-            setAlert('Passwords didn\'t match');
+            return setAlert('Passwords didn\'t match');
         }
 
         auth.createUserWithEmailAndPassword(email, password)
@@ -51,11 +50,14 @@ export default function SignUp() {
                 setEmail('');
                 setPassword('');
                 setRePassword('');
-                signOut()
-                history.push('/signin');
+                signOut();
+                setTimeout(() => {
+                    history.push('/signin');
+                }, 1000);
             })
-            .catch(err => setAlert(err));
+            .catch(err => setAlert(err.message));
     };
+
     const onInputChange = (e) => {
         e.preventDefault();
         const { id, value } = e.currentTarget;
@@ -88,6 +90,13 @@ export default function SignUp() {
         setOpen(false);
     };
 
+    // const handleKeyPress = (e) => {
+    //     if (e.code === 'Enter') {
+    //         createUserWithEmailAndPasswordHandler(e, firstName, lastName, email, password, rePassword);
+    //         handleClick();
+    //     }
+    // }
+
     return (
         <>
             <div className={styles.alert}>
@@ -98,8 +107,8 @@ export default function SignUp() {
                     <Alert onClose={handleClose} severity="error">{alert}</Alert>
                 </Snackbar>
             </div>
-            <form className={styles.signUp}>
-                <img src={logo} alt="logo" id={styles.logo} onClick={() => history.push('/')} />
+            <form className={styles.signUp} action="/signin" method='POST'>
+                <img src={logoBlack} alt="logo" id={styles.logo} onClick={() => history.push('/')} />
                 <div className={styles.welcomeText}>
                     <h2>Create your Account</h2>
                     <p>to continue to YouTube</p>
