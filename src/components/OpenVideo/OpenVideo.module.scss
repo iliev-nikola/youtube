@@ -1,4 +1,4 @@
-$main-color: rgb(170, 170, 170);
+$main-color: var(--font-color);
 $main-size: 18px;
 .mainContainer,
 .notActive {
@@ -119,12 +119,12 @@ $main-size: 18px;
 
 .messageContainer {
   opacity: 0.8;
-  background: #333;
-  color: rgb(170, 170, 170);
+  // background: #333;
+  color: $main-color;
 
   .info {
     padding: 10px 0;
-    border-bottom: 1px solid rgb(170, 170, 170);
+    border-bottom: 1px solid $main-color;
   }
 
   .signin {

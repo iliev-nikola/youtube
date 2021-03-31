@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import KeyboardVoiceIcon from '@material-ui/icons/KeyboardVoice';
 import logo from '../../assets/logo.png';
+import blackLogo from '../../assets/logoBlack.png';
 import styles from './Header.module.scss';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { Tooltip } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import { isLoggedIn } from '../../utils';
 import UserMenu from './UserMenu';
+import { useSelector } from 'react-redux';
 
 export default function Header({ handleToggleSidebar, sidebar }) {
     const history = useHistory();
@@ -47,13 +48,10 @@ export default function Header({ handleToggleSidebar, sidebar }) {
                 </Tooltip>
             </div>
             <div className={sidebar ? styles.notActive : styles.otherContainer}>
-                <div className={styles.searchContaine}>
+                <div className={styles.searchContainer}>
                     <input type="text" placeholder="Search" value={inputSearchValue} onChange={(e) => onInputChange(e)} onKeyPress={(e) => handleKeyPress(e)}></input>
                     <Tooltip title="Search">
                         <span onClick={(e) => handleKeyPress(e)} className={styles.searchCont}><SearchIcon className={styles.searchIcon} fontSize="small" /></span>
-                    </Tooltip>
-                    <Tooltip title="Search with your voice">
-                        <KeyboardVoiceIcon className={styles.icons} id={styles.voiceIcon} />
                     </Tooltip>
                 </div>
                 <div className={styles.userContainer}>

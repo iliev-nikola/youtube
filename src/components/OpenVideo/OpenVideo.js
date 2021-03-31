@@ -21,8 +21,7 @@ export default function OpenVideo({ sidebar }) {
     const [user, setUser] = useState(null);
     const [isLiked, setIsLiked] = useState(false);
     const [isDisliked, setIsDisliked] = useState(false);
-    const state = useSelector(state => state.likes);
-    
+
     useEffect(() => {
         auth.onAuthStateChanged(user => {
             if (user) {
@@ -36,7 +35,7 @@ export default function OpenVideo({ sidebar }) {
             .then(res => {
                 setVideo({ ...res.data() });
             })
-    }, [id])
+    }, [id, video])
 
     const onInputChange = (e) => {
         setInputValue(e.currentTarget.value);
@@ -50,6 +49,11 @@ export default function OpenVideo({ sidebar }) {
             setInputValue('');
         }
     }
+
+
+    // let videoViews = video.views;
+    // db.collection('videos2').doc(id).update({ views: videoViews + 1 });
+
 
     const numberLikes = (
         <><ThumbUp className={isLiked ? styles.liked : styles.button} onClick={() => { dispatch(likeIt(video, id)) }} /><span>{video.likes}</span></>

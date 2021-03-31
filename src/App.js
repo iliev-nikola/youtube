@@ -22,7 +22,6 @@ import SignIn from "./Components/SignIn/SignIn";
 import ResetPassword from './Components/ResetPassword/ResetPassword';
 import SignOut from "./Components/SignOut/SignOut";
 import UploadVideo from './Components/UploadVideo/UploadVideo';
-import { getAllVideos, getUser } from './service';
 import image from './Components/Search/no-search-result.png';
 import Search from "./Components/Search/Search";
 import UserProfile from "./Components/UserProfile/UserProfile";
@@ -32,7 +31,8 @@ import ProgressBar from "./Components/ProgressBar/ProgressBar";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from "react-redux";
 import { fetchVideos } from './allVideos/allVideos.actions';
-import { currUser } from './Components/redux/actions/currentUser.action';
+import { handleDarkMode } from './theme/theme';
+
 export default function App() {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
@@ -41,9 +41,9 @@ export default function App() {
   // const [hasMore, setHasMore] = useState(false);
   const [sidebar, setSidebar] = useState(false);
 
-  useEffect(() => {
-    dispatch(currUser());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(handleDarkMode());
+  // }, [dispatch])
 
   useEffect(() => {
     dispatch(fetchVideos());
@@ -86,6 +86,11 @@ export default function App() {
   const handleToggleSidebar = () => {
     setSidebar(value => !value);
   }
+  // const stateTheme = useSelector(state => state.theme);
+  // console.log(stateTheme);
+  // useEffect(() => {
+  //   dispatch(handleDarkMode());
+  // }, [dispatch, stateTheme])
 
   const header = <Header handleToggleSidebar={handleToggleSidebar} sidebar={sidebar} />;
   const sideBarContainer = (<>
@@ -96,7 +101,10 @@ export default function App() {
   </>)
 
   return (
+
     <Router>
+
+      {/* <button onClick={() => dispatch(handleDarkMode())} >Toggle theme</button> */}
       <VoiceControl />
       <>
         <ProgressBar isOn={loading} />

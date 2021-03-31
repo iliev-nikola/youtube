@@ -2,14 +2,14 @@ import { auth, db } from '../../firebase';
 export const VIDEO_LIKES = 'VIDEO_LIKES';
 export const VIDEO_DISLIKES = 'VIDEO_DISLIKES';
 
-export const likeVideo = (like) => ({
+export const likeVideo = (likes) => ({
     type: VIDEO_LIKES,
-    payload: like
+    payload: likes
 });
 
-export const dislikeVideo = (dislike) => ({
+export const dislikeVideo = (likes) => ({
     type: VIDEO_DISLIKES,
-    payload: dislike
+    payload: likes
 });
 
 export const likeIt = (video, id) => {

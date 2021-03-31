@@ -14,18 +14,18 @@ export default function UserProfile({ sidebar, sideBarContainer }) {
     const [history, setHistory] = useState([]);
     const [liked, setLiked] = useState([]);
 
-    useEffect(() => {
-        getUser(id)
-            .then(res => {
-                setUser(res);
-                return Promise.all([getUserVideos(res.videos), getUserVideos(res.history), getUserVideos(res.liked)]);
-            })
-            .then(res => {
-                setMyVideos(res[0]);
-                setHistory(res[1]);
-                setLiked(res[2]);
-            })
-    }, [id, user]);
+    // useEffect(() => {
+    //     getUser(id)
+    //         .then(res => {
+    //             setUser(res);
+    //             return Promise.all([getUserVideos(res.videos), getUserVideos(res.history), getUserVideos(res.liked)]);
+    //         })
+    //         .then(res => {
+    //             setMyVideos(res[0]);
+    //             setHistory(res[1]);
+    //             setLiked(res[2]);
+    //         })
+    // }, [id, user]);
 
     return (
         <div className='mainContainer'>

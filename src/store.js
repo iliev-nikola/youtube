@@ -3,11 +3,13 @@ import thunk from "redux-thunk";
 import videosReducer from './allVideos/allVideos.reducer';
 import likesReducer from './Components/OpenVideo/Likes.reducer';
 import userReducer from './Components/redux/reducers/currentUser.reducer';
+import themeReducer from './theme/theme.reducer';
 
 const rootReducer = combineReducers({
   videos: videosReducer,
   likes: likesReducer,
-  user: userReducer
+  user: userReducer,
+  theme : themeReducer
 });
 
 const store = createStore(
