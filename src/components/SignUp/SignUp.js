@@ -19,6 +19,7 @@ export default function SignUp() {
 
     const createUserWithEmailAndPasswordHandler = (event, firstName, lastName, email, password, rePassword) => {
         event.preventDefault();
+        setOpen(true);
         [firstName, lastName, email, password, rePassword] = [firstName.trim(), lastName.trim(), email.trim(), password.trim(), rePassword.trim()];
         if (!firstName) {
             return setAlert('Enter a first name');
@@ -36,12 +37,13 @@ export default function SignUp() {
             return setAlert('Passwords didn\'t match');
         }
 
+        setOpen(false);
         auth.createUserWithEmailAndPassword(email, password)
             .then((res) => {
                 let displayName = firstName[0].toUpperCase() + firstName.slice(1).toLowerCase() + ' ' + lastName[0].toUpperCase() + lastName.slice(1).toLowerCase();
                 const user = res.user;
                 return user.updateProfile({
-                    displayName: displayName,
+                    displayName: displayName
                 });
             })
             .then(() => {
@@ -53,9 +55,12 @@ export default function SignUp() {
                 signOut();
                 setTimeout(() => {
                     history.push('/signin');
-                }, 1000);
+                }, 1000)
             })
-            .catch(err => setAlert(err.message));
+            .catch(err => {
+                setOpen(true);
+                setAlert(err.message);
+            });
     };
 
     const onInputChange = (e) => {
@@ -131,7 +136,6 @@ export default function SignUp() {
                         <Button variant="contained" color="primary"
                             onClick={(e) => {
                                 createUserWithEmailAndPasswordHandler(e, firstName, lastName, email, password, rePassword);
-                                handleClick();
                             }}>
                             sign up
                 </Button>

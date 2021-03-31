@@ -1,12 +1,13 @@
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
-import videosReducer from './allVideos/allVideos.reducer';
-import likesReducer from './Components/OpenVideo/Likes.reducer';
-import userReducer from './Components/redux/reducers/currentUser.reducer';
+import videoReducer from './redux/reducers/getVideos';
+import likeReducer from './redux/reducers/likeOrDislike';
+import userReducer from './redux/reducers/user';
 
+// make store reducer keys singular instead plural
 const rootReducer = combineReducers({
-  videos: videosReducer,
-  likes: likesReducer,
+  videos: videoReducer,
+  likeOrDislike: likeReducer,
   user: userReducer
 });
 

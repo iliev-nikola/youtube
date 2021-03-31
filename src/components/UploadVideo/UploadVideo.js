@@ -7,6 +7,7 @@ import { useHistory } from 'react-router';
 import { auth, db, storage } from '../../firebase';
 import CircularStatic from '../ProgressBar/CircularProgress';
 import { Alert } from '@material-ui/lab';
+import { getDate } from '../../utils';
 
 export default function UploadVideo() {
     const history = useHistory();
@@ -48,8 +49,8 @@ export default function UploadVideo() {
             return setAlert('Please add a title!');
         } else if (!description.trim()) {
             return setAlert('Please add a description!');
-        } else if (description.trim().length < 20) {
-            return setAlert('The description must be atleast 20 characters');
+        } else if (description.trim().length < 10) {
+            return setAlert('The description must be at least 10 characters');
         }
 
         setAlert(null);
@@ -70,9 +71,9 @@ export default function UploadVideo() {
                             url: downloadUrl,
                             author: user.displayName,
                             authorId: user.uid,
+                            authorPhotoURL: user.photoURL,
+                            date: getDate(),
                             views: 0,
-                            likes: 0,
-                            dislikes: 0,
                             isLikedBy: [],
                             isDislikedBy: [],
                             isWatchedBy: []

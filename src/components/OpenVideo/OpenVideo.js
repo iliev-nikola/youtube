@@ -12,8 +12,7 @@ import { getAllVideos } from '../../service';
 import VideoCard from '../VideoCard/VideoCard';
 import { db } from '../../firebase';
 import { useDispatch, useSelector } from 'react-redux';
-import { likeVideo, dislikeVideo } from './Likes.actions';
-import { likeIt, likeVideos } from './Likes.actions';
+import { likeVideo, dislikeVideo, likeIt } from '../../redux/actions/likeOrDislike';
 
 export default function OpenVideo({ sidebar }) {
     const history = useHistory();
@@ -33,7 +32,7 @@ export default function OpenVideo({ sidebar }) {
     }, [user]);
 
     useEffect(() => {
-        db.collection('videos2').doc(id).get()
+        db.collection('videos').doc(id).get()
             .then(res => {
                 setVideo({ ...res.data() });
             })
@@ -86,7 +85,7 @@ export default function OpenVideo({ sidebar }) {
                         <div>{video.views} views</div>
                     </div>
                     <p className={styles.info}>{video.title}</p>
-                    <a href={`/user/${video.authorId}`}>{video.author}</a>
+                    <a href={`/user/${video.authorID}`}>{video.author}</a>
                     <div>
                         <div className={styles.commentsContainer}>
                             <div onClick={() => !user ? history.push('/signin') : null}>

@@ -12,7 +12,7 @@ export const dislikeVideo = (like) => ({
     payload: like
 });
 
-export const likeIt = (video,id) => {
+export const likeIt = (video, id) => {
     return function (dispatch, getState) {
         let currentUser = auth.currentUser.uid;
         let userLiked = video.isLikedBy.some(uid => uid === currentUser);
@@ -23,7 +23,7 @@ export const likeIt = (video,id) => {
             video.likes += 1;
         }
         // db.collection('videos2').doc().update
-    
+
         console.log(userLiked, userDisliked);
         console.log(id);
     }

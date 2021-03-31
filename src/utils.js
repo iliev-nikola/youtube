@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react';
-import ProgressBar from './Components/ProgressBar/ProgressBar';
 import { auth, db } from './firebase';
 import { videos } from './service';
 
@@ -23,14 +21,15 @@ export function getCurrentUser() {
 export function setCurrentUser() {
   auth.onAuthStateChanged(user => {
     if (user) {
+      console.log(user);
       const data = {
         displayName: user.displayName,
         email: user.email,
         photoURL: user.photoURL,
-        uid: user.uid
+        uid: user.uid,
       }
-      localStorage.setItem('currentUser', JSON.stringify(data));
 
+      localStorage.setItem('currentUser', JSON.stringify(data));
     };
   });
 }
@@ -55,24 +54,42 @@ export function isCurrentUser(userId) {
 }
 
 export function filterVideos(params) {
-  if (!Array.isArray(params)) {
-    return videos.filter(el => el.title.toLowerCase().includes(params));
+  if (!params.length) return null;
+  if (params.length === 1) {
+    db.collection('videos2').get()
+      .then(res => res.docs)
+      .then(res => res.map(x => x.data()))
+      .then(res => {
+        const result = res.filter(el => el.title.toLowerCase().includes(params[0]));
+        console.log(result);
+        return result;
+      })
+  } else {
+    db.collection('videos').get()
+      .then(res => {
+        let filtered = res;
+        params.forEach(word => {
+          if (word !== ' ') {
+            filtered = filtered.filter(el => el.title.toLowerCase().includes(word));
+          }
+        });
+
+        return filtered;
+      });
   }
-
-  let filtered = videos;
-  params.forEach(word => {
-    if (word !== ' ') {
-      filtered = filtered.filter(el => el.title.toLowerCase().includes(word));
-    }
-  });
-
-  return filtered;
 }
 
-export function loading(condition) {
-  if (condition === 'off') {
-    return <ProgressBar isOn={false} />
-  } else {
-    return <ProgressBar isOn={true} />
-  }
+export function timeConvert(s) {
+  const seconds = Math.floor(s);
+  const min = Math.floor(seconds / 60);
+  const sec = seconds % 60;
+  return (`${min < 10 ? '0' + min : min}:${sec < 10 ? '0' + sec : sec}`)
+}
+
+export function getDate() {
+  const d = new Date();
+  const year = d.getFullYear();
+  const month = d.getMonth() + 1;
+  const day = d.getDate();
+  return `${day}-${month}-${year}`;
 }

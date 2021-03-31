@@ -23,7 +23,6 @@ import ResetPassword from './Components/ResetPassword/ResetPassword';
 import SignOut from "./Components/SignOut/SignOut";
 import UploadVideo from './Components/UploadVideo/UploadVideo';
 import { getAllVideos, getUser } from './service';
-import image from './Components/Search/no-search-result.png';
 import Search from "./Components/Search/Search";
 import UserProfile from "./Components/UserProfile/UserProfile";
 import { auth } from "./firebase";
@@ -31,19 +30,27 @@ import VoiceControl from './Components/VoiceControl/VoiceControl';
 import ProgressBar from "./Components/ProgressBar/ProgressBar";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from "react-redux";
-import { fetchVideos } from './allVideos/allVideos.actions';
-import { currUser } from './Components/redux/actions/currentUser.action';
+import { fetchVideos } from './redux/actions/getVideos';
+import { setUser } from './redux/actions/user';
+
 export default function App() {
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState(null);
   const dispatch = useDispatch();
   const videos = useSelector((state) => state.videos.videos);
-  const [hasMore, setHasMore] = useState(false);
   const [sidebar, setSidebar] = useState(false);
+  const user = useSelector(getUser);
+  // const [user, setUser] = useState(null);
+  // const [hasMore, setHasMore] = useState(false);
 
   useEffect(() => {
-    dispatch(currUser());
-  }, [dispatch]);
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        dispatch(setUser(user));
+      } else {
+        dispatch(setUser(null));
+      }
+    })
+  }, [dispatch])
 
   useEffect(() => {
     dispatch(fetchVideos());
@@ -53,15 +60,15 @@ export default function App() {
   }, [videos, dispatch]);
 
   // CHECK IF LOGGED IN
-  useEffect(() => {
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        setUser(user);
-      } else {
-        setUser(null);
-      }
-    });
-  });
+  // useEffect(() => {
+  //   auth.onAuthStateChanged(user => {
+  //     if (user) {
+  //       setUser(user);
+  //     } else {
+  //       setUser(null);
+  //     }
+  //   });
+  // });
 
   // const fetchMoreData = useCallback(() => {
   //   setLoading(true);
@@ -103,6 +110,7 @@ export default function App() {
         <Switch>
           <Route exact path="/">
             {header}
+            {/* make component for home page */}
             <div className='mainContainer' onClick={(e) => {
               if (e.target.className === 'mainContainer') setSidebar(false);
             }}>
@@ -123,22 +131,20 @@ export default function App() {
                 {videos.length ? videos.map(video => (
                   <Link to={`/video/${video.id}`} className='link' key={video.id}>
                     <div>
-                      <VideoCard url={video.info.url} title={video.info.title} duration={video.info.duration} views={video.info.views} />
+                      <VideoCard url={video.info.url} title={video.info.title} views={video.info.views} />
                     </div>
                   </Link>
-                )) : <img src={image} alt='No search results' id='noSearchResImg' />}
+                )) : null}
                 {/* </InfiniteScroll> */}
               </div>
             </div>
           </Route>
           <Route path="/video/:id">
             {header}
-
             <div className={sidebar ? 'open' : 'notVisible'}>
               {sideBarContainer}
             </div>
             <OpenVideo sidebar={sidebar} />
-
           </Route>
           <Route exact path="/search/">
             <Redirect to="/" />
@@ -154,18 +160,39 @@ export default function App() {
             {header}
             <UserProfile sidebar={sidebar} sideBarContainer={sideBarContainer} />
           </Route>
-          <Route exact path="/signout">
-            {user ? <SignOut /> : <Redirect to="/" />}
-          </Route>
-          <Route exact path="/signup">
-            {!user ? <SignUp /> : <Redirect to="/" />}
-          </Route>
-          <Route exact path="/signin">
-            {!user ? <SignIn /> : <Redirect to="/" />}
-          </Route>
-          <Route exact path="/reset">
-            {!user ? <ResetPassword /> : <Redirect to="/" />}
-          </Route>
+          <Route path="/signout"
+            render={() => {
+              if (auth.currentUser && user) {
+                return <SignOut />
+              } else {
+                return <Redirect to='/' />
+              }
+            }} />
+          <Route path="/signup"
+            render={() => {
+              if (auth.currentUser && user) {
+                return <Redirect to='/' />
+              } else {
+                return <SignUp />
+              }
+            }} />
+          <Route path="/signin"
+            render={() => {
+              if (auth.currentUser && user) {
+                return <Redirect to='/' />
+              } else {
+                return <SignIn />
+              }
+            }}
+          />
+          <Route exact path="/reset"
+            render={() => {
+              if (auth.currentUser && user) {
+                return <Redirect to='/' />
+              } else {
+                return <ResetPassword />
+              }
+            }} />
           <Route path="*">
             <ErrorPage />
           </Route>

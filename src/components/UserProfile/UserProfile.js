@@ -6,6 +6,7 @@ import { getUser, getUserVideos } from '../../service';
 import VideoCard from '../VideoCard/VideoCard';
 import ScrollableTabsButtonAuto from './CurrentUserTabs';
 import styles from './UserProfile.module.scss';
+import { useDispatch, useSelector } from "react-redux";
 
 export default function UserProfile({ sidebar, sideBarContainer }) {
     const { id } = useParams();
@@ -13,8 +14,10 @@ export default function UserProfile({ sidebar, sideBarContainer }) {
     const [myVideos, setMyVideos] = useState([]);
     const [history, setHistory] = useState([]);
     const [liked, setLiked] = useState([]);
+    const currentUser = useSelector(getUser);
 
     useEffect(() => {
+        // get videos, history, liked with query params
         getUser(id)
             .then(res => {
                 setUser(res);
@@ -34,17 +37,19 @@ export default function UserProfile({ sidebar, sideBarContainer }) {
             </div>
             <div className={styles.videoContainer}>
                 <div className={styles.profileInfo}>
-                    {/* check for imageURL */}
-                    <h1 className={styles.icon}>{user ? user.name[0] : null}</h1>
-                    <div className={styles.infoBox}>
-                        <h1 className={styles.names}>{user ? user.name : null}</h1>
-                        {/* if is logged in */}
-                        <h1 className={styles.email}>{user ? user.email : null}</h1>
-                    </div>
+                    {user && currentUser ?
+                        <>
+                            {user.photoURL && <img src={user.photoURL} alt='user logo' />}
+                            {!user.photoURL && <h1 className={styles.icon}>{user.name[0]}</h1>}
+                            <div className={styles.infoBox}>
+                                <h1 className={styles.names}>{user.name}</h1>
+                                {user.userId === currentUser.uid ? <h1 className={styles.email}>{user.email}</h1> : null}
+                            </div>
+                        </> : null}
                 </div>
-                {/* if is logged in */}
-                <ScrollableTabsButtonAuto videos={myVideos} history={history} liked={liked} />
-                {/* else */}
+                {user && currentUser ?
+                    <ScrollableTabsButtonAuto videos={myVideos}
+                        history={user.userId === currentUser.uid ? history : null} liked={liked} /> : null}
             </div >
         </div >
     )
