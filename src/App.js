@@ -22,7 +22,7 @@ import SignIn from "./Components/SignIn/SignIn";
 import ResetPassword from './Components/ResetPassword/ResetPassword';
 import SignOut from "./Components/SignOut/SignOut";
 import UploadVideo from './Components/UploadVideo/UploadVideo';
-import { getAllVideos, getUser } from './service';
+import { getAllVideos } from './service';
 import Search from "./Components/Search/Search";
 import UserProfile from "./Components/UserProfile/UserProfile";
 import { auth } from "./firebase";
@@ -32,6 +32,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from "react-redux";
 import { fetchVideos } from './redux/actions/getVideos';
 import { setUser } from './redux/actions/user';
+import { getUser } from './redux/selectors/user'
 
 export default function App() {
   const [loading, setLoading] = useState(true);
