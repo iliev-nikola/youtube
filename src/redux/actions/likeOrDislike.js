@@ -31,6 +31,8 @@ export const likeIt = (video, id) => {
             db.collection('videos2').doc(id).update({ isDislikedBy: video.isLikedBy.filter(user => user !== currentUser)  });
             db.collection('videos2').doc(id).update({ isLikedBy: [...video.isLikedBy, currentUser] });
         }
+        // db.collection('videos2').doc().update
+        console.log(id);
     }
 };
 

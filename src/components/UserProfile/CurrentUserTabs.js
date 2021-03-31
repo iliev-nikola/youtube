@@ -106,8 +106,8 @@ export default function ScrollableTabsButtonAuto({ videos, history, liked }) {
                     scrollButtons="auto"
                     aria-label="scrollable auto tabs example"
                 >
-                    <Tab label="My videos" {...a11yProps(0)} />
-                    <Tab label="History" {...a11yProps(1)} />
+                    <Tab label="Videos" {...a11yProps(0)} />
+                    {history ? <Tab label="History" {...a11yProps(1)} /> : null}
                     <Tab label="Liked" {...a11yProps(2)} />
                 </Tabs>
             </AppBar>
@@ -125,23 +125,24 @@ export default function ScrollableTabsButtonAuto({ videos, history, liked }) {
                     </div>
                 ))}
             </TabPanel>
-            <TabPanel value={value} index={1} className={classes.container}>
-                {history.map(video => (
-                    <a href={`/video/${video.id}`} className='link' key={video.id}>
-                        <div >
-                            <VideoCard url={video.url} title={video.title} author={video.artist} duration={video.duration} />
-                        </div>
-                    </a>
-                ))}
-            </TabPanel>
+            {history ?
+                <TabPanel value={value} index={1} className={classes.container}>
+                    {history.map(video => (
+                        <a href={`/video/${video.id}`} className='link' key={video.id}>
+                            <div >
+                                <VideoCard url={video.url} title={video.title} author={video.artist} duration={video.duration} />
+                            </div>
+                        </a>
+                    ))}
+                </TabPanel> : null}
             <TabPanel value={value} index={2} className={classes.container}>
-                {liked.map(video => (
+                {liked ? liked.map(video => (
                     <a href={`/video/${video.id}`} className='link' key={video.id}>
                         <div >
                             <VideoCard url={video.url} title={video.title} author={video.artist} duration={video.duration} />
                         </div>
                     </a>
-                ))}
+                )) : null}
             </TabPanel>
             <FormDialog handleClose={handleCloseEdit} onEditClick={onEditClick} open={openEdit} video={video} />
             <AlertDialog handleClose={handleCloseAlert} onDeleteClick={(e) => onDeleteClick(e)} open={openAlert} video={video} />

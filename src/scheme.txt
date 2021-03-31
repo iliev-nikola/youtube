@@ -1,17 +1,20 @@
 - users
+    - photoURL
     - email
     - names
 
 - videos
+    - id
     - title
     - description
     - duration
     - author
     - authorId
+    - authorPhotoURL
     - url
     - views
-    - likes
-    - dislikes
+    - likes //
+    - dislikes //
     - isLikedBy: []
     - isDislikedBy: []
     - isWatchedBy: []

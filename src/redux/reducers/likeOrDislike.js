@@ -1,12 +1,12 @@
 
-import { VIDEO_LIKES, VIDEO_DISLIKES } from './Likes.actions';
+import { VIDEO_LIKES, VIDEO_DISLIKES } from '../actions/likeOrDislike';
 
 const INITIAL_STATE = {
     likes: 0,
     dislikes: 0
 };
 
-const likesReducer = (state = INITIAL_STATE, action) => {
+const likeReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case VIDEO_LIKES:
             return {
@@ -24,4 +24,4 @@ const likesReducer = (state = INITIAL_STATE, action) => {
     }
 };
 
-export default likesReducer;
+export default likeReducer;

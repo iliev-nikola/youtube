@@ -1,6 +1,6 @@
 import {
     FETCH_VIDEOS_SUCCEEDED, FETCH_VIDEOS_REQUESTED
-} from './allVideos.actions';
+} from '../actions/getVideos';
 
 const INITIAL_STATE = {
     videos: [],
@@ -18,7 +18,7 @@ const reducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 videos: action.payload,
-                isLoading:false
+                isLoading: false
             };
 
         default:
