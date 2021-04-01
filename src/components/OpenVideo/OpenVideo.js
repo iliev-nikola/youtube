@@ -8,10 +8,9 @@ import ThumbUp from '@material-ui/icons/ThumbUp';
 import LikeOrDislikeVideo from './LikeOrDislikeVideo';
 import { Input, Link } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { dislikeIt, likeIt } from '../../redux/actions/videos';
+import { dislikeIt, likeIt, changeViews } from '../../redux/actions/videos';
 import { getVideos, getUser, getVideoComments } from '../../redux/selectors/selectors';
-import VideoCard from '../VideoCard/VideoCard';
-import { VideocamSharp } from '@material-ui/icons';
+
 import { getComments } from '../../redux/actions/comments';
 import { showUpdatedComments } from '../../redux/actions/comments';
 import Layout from '../Layout/Layout';
@@ -22,23 +21,21 @@ export default function OpenVideo({ sidebar }) {
     const dispatch = useDispatch();
     const { id } = useParams();
     const [inputValue, setInputValue] = useState('');
-    const [user, setUser] = useState(null);
     const [isLiked, setIsLiked] = useState(false);
     const [isDisliked, setIsDisliked] = useState(false);
     const reduxVideos = useSelector(getVideos);
     const video = reduxVideos.find(video => video.id === id);
     const comments = useSelector(getVideoComments);
-    useEffect(() => {
-        auth.onAuthStateChanged(user => {
-            if (user) {
-                setUser(user);
-            }
-        });
-    }, [user]);
-
+    const user = useSelector(getUser);
     useEffect(() => {
         dispatch(getComments(id));
-    }, [id, dispatch]);
+    }, [id, dispatch, reduxVideos]);
+
+    useEffect(() => {
+        dispatch(changeViews(video, id, user));
+
+    }, [user]);
+
 
     const onInputChange = (e) => {
         setInputValue(e.currentTarget.value);
@@ -46,18 +43,7 @@ export default function OpenVideo({ sidebar }) {
 
     const handleKeyPress = (e) => {
         if (e.key === 'Enter' && inputValue) {
-            // if (video.comments) {
-            //     video.comments.unshift({ comment: inputValue, user: user.displayName, photoURL: user.photoURL, userId: user.uid });
-            // }
             dispatch(showUpdatedComments(id, user, inputValue));
-            // const commentData = {
-            //     videoID: id,
-            //     comment: inputValue,
-            //     userID: user.uid,
-            //     displayName: user.displayName,
-
-            // }
-            // db.collection('comments').doc().set(commentData);
             setInputValue('');
         }
     }

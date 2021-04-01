@@ -19,13 +19,8 @@ export const updateVideo = (video) => ({
     payload: video,
 });
 
-export const updateViews = (video) => ({
-    type: VIEWS_VIDEO,
-    payload: video
-})
-
 export const fetchVideos = () => {
-    return function (dispatch, getState) {
+    return function (dispatch) {
         dispatch(setLoading());
         dispatch(fetchVideosRequested());
         db.collection('videos').onSnapshot(snapshot => {
@@ -85,20 +80,16 @@ export const dislikeIt = (video, id) => {
     }
 };
 
-// export const changeViews = (video, id) => {
-//     return function (dispatch) {
-//         const currentUser = auth.currentUser.uid;
-//         const isWatched = video.isWatchedBy.find(user => user === currentUser);
-//         let currentVideo;
-//         if (isWatched) {
-//             db.collection('videos').doc(id).update({ views: video.views + 1 })
-//                 .then(() => currentVideo = { ...video, views: video.views + 1 });
-//         } else {
-//             db.collection('videos').doc(id).update({ views: video.views + 1 });
-//             db.collection('videos').doc(id).update({ isWatchedBy: [...video.isWatchedBy, currentUser] })
-//                 .then(() => currentVideo = { ...video, views: video.views + 1, isWatchedBy: [...video.isWatchedBy, currentUser] });
-//         }
-//         dispatch(updateViews(currentVideo));
-//         console.log(currentVideo);
-//     }
-// }
+export const changeViews = (video, id, user) => {
+    return function () {
+        const isWatchedByUser = video.isWatchedBy.some(currentUser => currentUser.id === user.uid);
+        db.collection("videos")
+            .doc(id)
+            .update({ views: video.views + 1 });
+        if (!isWatchedByUser) {
+            db.collection("videos")
+                .doc(id)
+                .update({ isWatchedBy: [...video.isWatchedBy, user.uid] });
+        }
+    }
+}
