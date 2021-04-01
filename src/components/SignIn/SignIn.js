@@ -3,7 +3,7 @@ import { TextField, Button } from '@material-ui/core';
 import styles from './SignIn.module.scss';
 import { auth, googleProvider, facebookProvider, gitHubProvider, db } from '../../firebase';
 import { Link, useHistory } from "react-router-dom";
-import { setCurrentUser, validateEmail, login } from '../../utils';
+import { validateEmail } from '../../utils';
 import logoBlack from '../../assets/logoBlack.png';
 import gitHubLogo from '../../assets/gitHubLogo.png';
 import facebookLogo from '../../assets/facebookLogo.png';
@@ -20,24 +20,8 @@ export default function SignIn() {
 
     const onProviderClick = (provider) => {
         auth.signInWithPopup(provider)
-            .then((res) => {
-                login();
+            .then(() => {
                 history.push('/');
-                return res;
-            })
-            .then(res => {
-                const data = {
-                    displayName: res.user.displayName,
-                    email: res.user.email,
-                    photoURL: res.user.photoURL,
-                    uid: res.user.uid
-                }
-                db.collection('users').where('uid', '==', res.user.uid).get()
-                    .then(res => {
-                        if (!res.docs.length) {
-                            db.collection('users').doc(data.uid).set(data);
-                        }
-                    })
             })
             .catch(error => {
                 setAlert(error.message);
@@ -59,8 +43,6 @@ export default function SignIn() {
             .then(res => {
                 setEmail('');
                 setPassword('');
-                setCurrentUser();
-                login();
                 history.push('/');
                 return res;
             })
@@ -124,7 +106,7 @@ export default function SignIn() {
                     <Alert onClose={handleClose} severity='error'>{alert}</Alert>
                 </Snackbar>
             </div> : null}
-            <form className={styles.signIn}>
+            <form className={styles.signIn} >
                 <img src={logoBlack} alt="logo" id={styles.logo} onClick={() => history.push('/')} />
                 <div className={styles.welcomeText}>
                     <h2>Sign in</h2>

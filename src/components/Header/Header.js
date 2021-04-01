@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import logo from '../../assets/logo.png';
-import blackLogo from '../../assets/logoBlack.png';
 import styles from './Header.module.scss';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { Tooltip } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
-import { isLoggedIn } from '../../utils';
 import UserMenu from './UserMenu';
+import { useSelector } from 'react-redux';
+import { getUser } from '../../redux/selectors/user';
 
 export default function Header({ handleToggleSidebar, sidebar }) {
+    const user = useSelector(getUser);
     const history = useHistory();
     const [inputSearchValue, setInputSearchValue] = useState('');
+
     const onInputChange = (e) => {
         setInputSearchValue(e.currentTarget.value);
     }
@@ -54,7 +56,7 @@ export default function Header({ handleToggleSidebar, sidebar }) {
                     </Tooltip>
                 </div>
                 <div className={styles.userContainer}>
-                    {isLoggedIn() ? userHeader : guestHeader}
+                    {user ? userHeader : guestHeader}
                 </div>
             </div>
         </div>

@@ -1,8 +1,39 @@
+import { db } from '../../firebase';
 export const SET_USER = 'SET_USER';
+export const LOGOUT_USER = 'LOGOUT_USER';
 
-export const setUser = (user) => ({
-    type: SET_USER,
-    payload: {
-        user
-    }
+export const logout = () => ({
+    type: LOGOUT_USER
 });
+
+export const setUser = (user) => {
+    return function (dispatch, getState) {
+        fetchUser(user)
+            .then(newUser => {
+                return dispatch({
+                    type: SET_USER,
+                    payload: {
+                        user: newUser
+                    }
+                });
+            });
+    }
+}
+
+export const fetchUser = (user) => {
+    return db.collection('users')
+        .where('uid', '==', user.uid)
+        .get()
+        .then(res => {
+            if (res.docs.length) {
+                return res.docs[0].data();
+            } else {
+                const newUser = { ...user, theme: 'dark' };
+                db.collection('users')
+                    .doc(user.uid)
+                    .set(newUser);
+                // return user after success promise
+                return newUser;
+            }
+        })
+}

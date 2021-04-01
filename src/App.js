@@ -3,14 +3,12 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
   Redirect,
 } from "react-router-dom";
 import './App.scss';
 import './reset.css';
 import SignUp from './Components/SignUp/SignUp';
 import ErrorPage from './Components/ErrorPage/ErrorPage';
-import VideoCard from './Components/VideoCard/VideoCard';
 import OpenVideo from './Components/OpenVideo/OpenVideo';
 import SignIn from "./Components/SignIn/SignIn";
 import ResetPassword from './Components/ResetPassword/ResetPassword';
@@ -23,23 +21,15 @@ import VoiceControl from './Components/VoiceControl/VoiceControl';
 import ProgressBar from "./Components/ProgressBar/ProgressBar";
 import { useDispatch, useSelector } from "react-redux";
 import { handleDarkMode } from './theme/theme';
-import { fetchVideos } from './redux/actions/getVideos';
-import { setUser } from './redux/actions/user';
+import { setUser, logout } from './redux/actions/user';
 import { getUser } from './redux/selectors/user';
-import { getVideos } from './redux/selectors/getVideos';
 import { getIsLoading } from "./redux/selectors/loading";
+import HomePage from "./Components/HomePage/HomePage";
 
 export default function App() {
-  // const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  const videos = useSelector(getVideos);
   const user = useSelector(getUser);
   const isLoading = useSelector(getIsLoading);
-  // const [user, setUser] = useState(null);
-  // const [hasMore, setHasMore] = useState(false);
-  // useEffect(() => {
-  //   dispatch(isLoading);
-  // }, [dispatch, isLoading]);
 
   useEffect(() => {
     dispatch(handleDarkMode());
@@ -47,67 +37,22 @@ export default function App() {
 
   useEffect(() => {
     auth.onAuthStateChanged(user => {
+
       if (user) {
         dispatch(setUser(user));
       } else {
-        dispatch(setUser(null));
+        dispatch(logout());
       }
     })
-  }, [dispatch])
-
-
-
-  // const fetchMoreData = useCallback(() => {
-  //   setLoading(true);
-
-  //   if (videos.length >= 100) {
-  //     setHasMore(false);
-  //     setLoading(false);
-  //   }
-
-  //   setTimeout(() => {
-  //     getAllVideos().then((result) => setVideos(videos.concat(result)));
-  //     setLoading(false)
-  //   }, 1000)
-  // }, [videos]);
-
-
-  // const fetchMoreData = () => {
-  //   getAllVideos().then((result) => setVideos(videos.concat(result)))
-  // };
-
-  // HEADER & SIDEBAR
-
-  // const stateTheme = useSelector(state => state.theme);
-  // console.log(stateTheme);
-  // useEffect(() => {
-  //   dispatch(handleDarkMode());
-  // }, [dispatch, stateTheme])
-
+  }, [dispatch]);
 
   return (
-
     <Router>
       <VoiceControl />
       <>
         <ProgressBar isOn={isLoading} />
         <Switch>
-          <Route exact path="/">
-            {useEffect(() => {
-              dispatch(fetchVideos());
-              // if (videos.length) {
-              //   dispatch(setNotLoading())
-              //   // setLoading(false);
-              // }
-            }, [])}
-            {videos.length ? videos.map(video => (
-              <Link to={`/video/${video.id}`} className='link' key={video.id}>
-                <div>
-                  <VideoCard url={video.info.url} title={video.info.title} views={video.info.views} />
-                </div>
-              </Link>
-            )) : null}
-          </Route>
+          <Route exact path="/" component={HomePage} />
           <Route path="/video/:id" component={OpenVideo} />
           <Route path="/search/:id" component={Search} />
           <Route exact path="/search">

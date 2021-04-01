@@ -8,21 +8,15 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import styles from './Header.module.scss';
 import { Link, useHistory } from "react-router-dom";
-import { auth } from '../../firebase';
 import { useDispatch, useSelector } from "react-redux";
 import { handleDarkMode } from '../../theme/theme';
+import { getUser } from '../../redux/selectors/user';
 
 export default function UserMenu() {
     const history = useHistory();
     const dispatch = useDispatch();
-    const [user, setUser] = useState(null);
-    useEffect(() => {
-        auth.onAuthStateChanged(user => {
-            if (user) {
-                setUser(user);
-            }
-        });
-    }, []);
+    const user = useSelector(getUser);
+
     const [openNotify, setOpenNotify] = useState(false);
     const handleClickNotify = () => {
         setOpenNotify((prev) => !prev);

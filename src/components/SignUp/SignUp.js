@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { TextField, Button, Snackbar } from '@material-ui/core';
 import styles from './SignUp.module.scss';
-import { auth, db } from '../../firebase';
-import { BrowserRouter, Link, Redirect, Router, useHistory } from "react-router-dom";
-import { signOut, validateEmail } from '../../utils';
+import { auth } from '../../firebase';
+import { Link, useHistory } from "react-router-dom";
+import { validateEmail } from '../../utils';
 import logoBlack from '../../assets/logoBlack.png';
 import { Alert } from '@material-ui/lab';
 
@@ -52,10 +52,8 @@ export default function SignUp() {
                 setEmail('');
                 setPassword('');
                 setRePassword('');
-                signOut();
-                setTimeout(() => {
-                    history.push('/signin');
-                }, 1000)
+                auth.signOut();
+                history.push('/signin');
             })
             .catch(err => {
                 setOpen(true);
