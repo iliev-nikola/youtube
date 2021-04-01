@@ -1,6 +1,5 @@
 import { DARK_MODE, LIGHT_MODE } from './theme.reducer';
-import { auth, db } from '../firebase';
-import { getCurrentUser } from '../utils';
+
 export const darkMode = (theme) => ({
     type: DARK_MODE,
     payload: theme
@@ -14,32 +13,13 @@ export const lightMode = (theme) => ({
 
 export const handleDarkMode = () => {
     return function (dispatch, getState) {
-
-        // console.log(db.collection('users').doc(currentUser));
-
-        // db.collection('users').doc(currentUser).get()
-        //     .then(res => {
-        //         console.log(res.data())
-        //     })
-
-        // let a = db.collection('users').where('uid', '==', currentUser).get()
-        //     .then(res => {
-        //         res.forEach(res => console.log(res.data().theme))
-        //     })
-        if (getCurrentUser()) {
-            db.collection('users').doc(getCurrentUser().uid).get()
-                .then(res => console.log(res.id));
-        }
         const theme = getState().theme;
         // db.collection('videos2').doc(id).update({ likes: likes.likes + 1 });
-        let bgColor, textColor, bgColor2, headerColor, hovColor, titColor, fontCol, searchCol, searchBord;
+        let bgColor, textColor, bgColor2, headerColor, hovColor, titColor, fontCol, searchCol, searchBord, tColor, bColor;
+        let gColor;
         switch (theme.theme) {
             case 'dark':
                 theme.theme = 'light';
-                // db.collection('users').where('uid', '==', currentUser).get()
-                //     .then(res => {
-                //         res.forEach(res => res.update({ theme: 'light' }));
-                //     })
                 bgColor = '#181818';
                 bgColor2 = '#202020';
                 textColor = '#000';
@@ -49,6 +29,9 @@ export const handleDarkMode = () => {
                 fontCol = '#9d9d9d';
                 searchCol = '#323232';
                 searchBord = '#2c2c2c';
+                tColor = '#ffffff';
+                bColor = '#3c9ff4';
+                gColor='#717171';
                 break;
             case 'light':
                 theme.theme = 'dark';
@@ -60,6 +43,9 @@ export const handleDarkMode = () => {
                 fontCol = '#858585';
                 searchCol = '#f8f8f8';
                 searchBord = '#dadada';
+                tColor = '#181818';
+                bColor = '#5993e0';
+                gColor = '#828282';
                 break;
             default:
                 theme.theme = 'light';
@@ -74,5 +60,8 @@ export const handleDarkMode = () => {
         document.querySelector('body').style.setProperty('--font-color', fontCol);
         document.querySelector('body').style.setProperty('--search-color', searchCol);
         document.querySelector('body').style.setProperty('--search-bord', searchBord);
+        document.querySelector('body').style.setProperty('--t-color', tColor);
+        document.querySelector('body').style.setProperty('--b-color', bColor);
+        document.querySelector('body').style.setProperty('--g-color', gColor);
     }
 }

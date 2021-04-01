@@ -14,7 +14,10 @@ export default function UserProfile({ sidebar, sideBarContainer }) {
     const [myVideos, setMyVideos] = useState([]);
     const [history, setHistory] = useState([]);
     const [liked, setLiked] = useState([]);
+
+    // 
     const currentUser = useSelector(getUser);
+
 
     useEffect(() => {
         // get videos, history, liked with query params

@@ -13,10 +13,44 @@ $main-size: 18px;
     }
   }
 
-  .info {
-    color: $main-color;
+  .infoContainer {
+    border-bottom: 0.5px solid #e6e6e6;
+    padding-bottom: 10px;
+  }
+
+  .views {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--g-color);
+  }
+
+  .title {
+    color: var(--t-color);
     font-size: $main-size;
     font-weight: 500;
+    margin-top: 10px;
+  }
+
+  .hashtags {
+    color: var(--b-color);
+    font: size 12px;
+    font-weight: 400;
+    margin-top: 10px;
+  }
+
+  .userLogo {
+    text-decoration: none;
+    color: var(--t-color);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    margin-top: 5px;
+  }
+
+  .videoInfo {
+    display: flex;
+    align-items: center;
+    color: var(--t-color);
   }
 
   .commentsContainer {
@@ -102,8 +136,8 @@ $main-size: 18px;
       align-items: center;
 
       .button,
-      .liked,
-      .disliked {
+      .liked {
+        color: #909090;
         width: 40px;
         height: 40px;
         cursor: pointer;
@@ -145,6 +179,7 @@ $main-size: 18px;
 .otherVideos {
   height: 20px;
 }
+
 
 @media only screen and (max-width: 600px) {
   .mainContainer {

@@ -22,8 +22,7 @@ import SignIn from "./Components/SignIn/SignIn";
 import ResetPassword from './Components/ResetPassword/ResetPassword';
 import SignOut from "./Components/SignOut/SignOut";
 import UploadVideo from './Components/UploadVideo/UploadVideo';
-import image from './Components/Search/no-search-result.png';
-import { getUser } from './redux/selectors/user';
+import { getUser, getVideos } from './redux/selectors/selectors';
 import Search from "./Components/Search/Search";
 import UserProfile from "./Components/UserProfile/UserProfile";
 import { auth } from "./firebase";
@@ -32,30 +31,31 @@ import ProgressBar from "./Components/ProgressBar/ProgressBar";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from "react-redux";
 import { handleDarkMode } from './theme/theme';
-import { fetchVideos } from './redux/actions/getVideos';
-import { setUser } from './redux/actions/user';
+import { fetchVideos } from './redux/actions/videos';
+import { getComments } from './redux/actions/comments';
 
 export default function App() {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  const videos = useSelector((state) => state.videos.videos);
+  const videos = useSelector(getVideos);
   const [sidebar, setSidebar] = useState(false);
   const user = useSelector(getUser);
-  // const [user, setUser] = useState(null);
   // const [hasMore, setHasMore] = useState(false);
 
   useEffect(() => {
     dispatch(handleDarkMode());
+
   }, [dispatch])
-  useEffect(() => {
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        dispatch(setUser(user));
-      } else {
-        dispatch(setUser(null));
-      }
-    })
-  }, [dispatch])
+
+  // useEffect(() => {
+  //   auth.onAuthStateChanged(user => {
+  //     if (user) {
+  //       dispatch(setUser(user));
+  //     } else {
+  //       dispatch(setUser(null));
+  //     }
+  //   })
+  // }, [dispatch])
 
   useEffect(() => {
     dispatch(fetchVideos());
@@ -63,17 +63,6 @@ export default function App() {
       setLoading(false);
     }
   }, [videos, dispatch]);
-
-  // CHECK IF LOGGED IN
-  // useEffect(() => {
-  //   auth.onAuthStateChanged(user => {
-  //     if (user) {
-  //       setUser(user);
-  //     } else {
-  //       setUser(null);
-  //     }
-  //   });
-  // });
 
   // const fetchMoreData = useCallback(() => {
   //   setLoading(true);
@@ -89,20 +78,10 @@ export default function App() {
   //   }, 1000)
   // }, [videos]);
 
-
-  // const fetchMoreData = () => {
-  //   getAllVideos().then((result) => setVideos(videos.concat(result)))
-  // };
-
   // HEADER & SIDEBAR
   const handleToggleSidebar = () => {
     setSidebar(value => !value);
   }
-  // const stateTheme = useSelector(state => state.theme);
-  // console.log(stateTheme);
-  // useEffect(() => {
-  //   dispatch(handleDarkMode());
-  // }, [dispatch, stateTheme])
 
   const header = <Header handleToggleSidebar={handleToggleSidebar} sidebar={sidebar} />;
   const sideBarContainer = (<>
@@ -116,7 +95,6 @@ export default function App() {
 
     <Router>
 
-      {/* <button onClick={() => dispatch(handleDarkMode())} >Toggle theme</button> */}
       <VoiceControl />
       <>
         <ProgressBar isOn={loading} />
@@ -142,9 +120,9 @@ export default function App() {
                   loader={<h4>Loading...</h4>}
                 > */}
                 {videos.length ? videos.map(video => (
-                  <Link to={`/video/${video.id}`} className='link' key={video.id}>
+                  <Link to={`/video/${video.id}`} className='link' key={video.id} >
                     <div>
-                      <VideoCard url={video.info.url} title={video.info.title} views={video.info.views} />
+                      <VideoCard url={video.url} title={video.title} views={video.views} />
                     </div>
                   </Link>
                 )) : null}
