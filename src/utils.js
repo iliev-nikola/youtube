@@ -18,37 +18,6 @@ export function getCurrentUser() {
   return JSON.parse(localStorage.getItem('currentUser'));
 }
 
-export function setCurrentUser() {
-  auth.onAuthStateChanged(user => {
-    if (user) {
-      console.log(user);
-      const data = {
-        displayName: user.displayName,
-        email: user.email,
-        photoURL: user.photoURL,
-        uid: user.uid,
-      }
-
-      localStorage.setItem('currentUser', JSON.stringify(data));
-    };
-  });
-}
-
-export function login() {
-  localStorage.setItem('isLoggedIn', JSON.stringify(true));
-  setCurrentUser();
-}
-
-export function signOut() {
-  auth.signOut();
-  localStorage.setItem('isLoggedIn', JSON.stringify(false));
-  localStorage.setItem('currentUser', null);
-}
-
-export function isLoggedIn() {
-  return JSON.parse(localStorage.getItem('isLoggedIn'));
-}
-
 export function isCurrentUser(userId) {
   return getCurrentUser().uid === userId;
 }
@@ -56,7 +25,7 @@ export function isCurrentUser(userId) {
 export function filterVideos(params) {
   if (!params.length) return null;
   if (params.length === 1) {
-    db.collection('videos2').get()
+    return db.collection('videos').get()
       .then(res => res.docs)
       .then(res => res.map(x => x.data()))
       .then(res => {

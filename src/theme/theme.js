@@ -13,6 +13,22 @@ export const lightMode = (theme) => ({
 
 export const handleDarkMode = () => {
     return function (dispatch, getState) {
+
+        // console.log(db.collection('users').doc(currentUser));
+
+        // db.collection('users').doc(currentUser).get()
+        //     .then(res => {
+        //         console.log(res.data())
+        //     })
+
+        // let a = db.collection('users').where('uid', '==', currentUser).get()
+        //     .then(res => {
+        //         res.forEach(res => console.log(res.data().theme))
+        //     })
+        // if (getCurrentUser()) {
+        //     db.collection('users').doc(getCurrentUser().uid).get()
+        //         .then(res => res.id);
+        // }
         const theme = getState().theme;
         // db.collection('videos2').doc(id).update({ likes: likes.likes + 1 });
         let bgColor, textColor, bgColor2, headerColor, hovColor, titColor, fontCol, searchCol, searchBord, tColor, bColor;

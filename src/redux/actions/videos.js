@@ -1,4 +1,5 @@
 import { auth, db } from '../../firebase';
+import { setLoading, setNotLoading } from '../actions/loadingBar';
 export const FETCH_VIDEOS_SUCCEEDED = 'FETCH_VIDEOS_SUCCEEDED';
 export const FETCH_VIDEOS_REQUESTED = 'FETCH_VIDEOS_REQUESTED';
 export const UPDATE_VIDEO = 'UPDATE_VIDEO';
@@ -25,15 +26,14 @@ export const updateViews = (video) => ({
 
 export const fetchVideos = () => {
     return function (dispatch, getState) {
-        const videos = getState().videos.videos;
-        if (!videos.length) {
-            dispatch(fetchVideosRequested());
-            db.collection('videos').onSnapshot(snapshot => {
-                let dbVideos = [];
-                snapshot.docs.map(doc => (dbVideos.push({ ...doc.data() })))
-                dispatch(fetchVideosSucceded(dbVideos));
-            });
-        }
+        dispatch(setLoading());
+        dispatch(fetchVideosRequested());
+        db.collection('videos').onSnapshot(snapshot => {
+            let dbVideos = [];
+            snapshot.docs.map(doc => (dbVideos.push({ ...doc.data() })))
+            dispatch(fetchVideosSucceded(dbVideos));
+            dispatch(setNotLoading());
+        });
     }
 };
 
@@ -46,16 +46,16 @@ export const likeIt = (video, id) => {
         if (isLiked && !isDisliked) {
             return;
         }
-        if (!isLiked) {
-            db.collection('videos').doc(id).update({ isLikedBy: [...video.isLikedBy, currentUser] })
-                .then(() => currentVideo = { ...video, isLikedBy: [...video.isLikedBy, currentUser] });
-            currentVideo = { ...video, isLikedBy: [...video.isLikedBy, currentUser] };
-        }
         if (!isLiked && isDisliked) {
             const filterLikes = video.isLikedBy.filter(user => user !== currentUser);
             db.collection('videos').doc(id).update({ isDislikedBy: filterLikes })
             db.collection('videos').doc(id).update({ isLikedBy: [...video.isLikedBy, currentUser] })
                 .then(() => currentVideo = { ...video, isLikedBy: [...video.isLikedBy, currentUser], filterLikes });
+        }
+        if (!isLiked) {
+            db.collection('videos').doc(id).update({ isLikedBy: [...video.isLikedBy, currentUser] })
+                .then(() => currentVideo = { ...video, isLikedBy: [...video.isLikedBy, currentUser] });
+            currentVideo = { ...video, isLikedBy: [...video.isLikedBy, currentUser] };
         }
         dispatch(updateVideo(currentVideo));
     }

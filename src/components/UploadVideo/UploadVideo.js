@@ -7,7 +7,7 @@ import { useHistory } from 'react-router';
 import { auth, db, storage } from '../../firebase';
 import CircularStatic from '../ProgressBar/CircularProgress';
 import { Alert } from '@material-ui/lab';
-import { getDate } from '../../utils';
+import { generateId, getDate } from '../../utils';
 
 export default function UploadVideo() {
     const history = useHistory();
@@ -65,12 +65,14 @@ export default function UploadVideo() {
             () => {
                 uploadTask.snapshot.ref.getDownloadURL()
                     .then(downloadUrl => {
-                        db.collection('videos').doc().set({
+                        const id = generateId();
+                        db.collection('videos').doc(id).set({
+                            id: id,
                             title: title,
                             description: description,
                             url: downloadUrl,
                             author: user.displayName,
-                            authorId: user.uid,
+                            authorID: user.uid,
                             authorPhotoURL: user.photoURL,
                             date: getDate(),
                             views: 0,

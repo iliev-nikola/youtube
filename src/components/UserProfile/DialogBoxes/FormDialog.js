@@ -32,8 +32,8 @@ export default function FormDialog({ handleClose, onEditClick, open, video }) {
             return setAlert('Please add a title!');
         } else if (!description.trim()) {
             return setAlert('Please add a description!');
-        } else if (description.trim().length < 20) {
-            return setAlert('The description must be atleast 20 characters');
+        } else if (description.trim().length < 10) {
+            return setAlert('The description must be atleast 10 characters');
         }
 
         setTitle('');

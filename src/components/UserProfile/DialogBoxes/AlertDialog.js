@@ -27,7 +27,7 @@ export default function AlertDialog({ handleClose, onDeleteClick, open, video })
                     <Button onClick={handleClose} color="primary" autoFocus>
                         Cancel
                     </Button>
-                    <Button onClick={onDeleteClick} color="secondary">
+                    <Button onClick={() => onDeleteClick(video)} color="secondary">
                         Delete
                     </Button>
                 </DialogActions>
