@@ -1,4 +1,5 @@
-import { Link } from '@material-ui/core';
+import { Link } from 'react-router-dom';
+// import { Link } from '@material-ui/core';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchVideos } from '../../redux/actions/getVideos';

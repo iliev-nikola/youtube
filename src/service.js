@@ -1,5 +1,4 @@
 import { db } from './firebase';
-import { getCurrentUser } from './utils';
 
 export function getAllVideos() {
 }
