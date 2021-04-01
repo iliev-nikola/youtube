@@ -2,8 +2,8 @@
 import { VIDEO_LIKES, VIDEO_DISLIKES } from '../actions/likeOrDislike';
 
 const INITIAL_STATE = {
-    isLike: false,
-    isDislike: false,
+    likes: 0,
+    dislikes: 0
 };
 
 const likeReducer = (state = INITIAL_STATE, action) => {
@@ -11,14 +11,12 @@ const likeReducer = (state = INITIAL_STATE, action) => {
         case VIDEO_LIKES:
             return {
                 ...state,
-                isLike: true,
-                isDislike: false
+                likes: state.likes + action.payload
             };
         case VIDEO_DISLIKES:
             return {
                 ...state,
-                isLike: false,
-                isDislike: true
+                dislikes: state.dislikes + action.payload
             };
 
         default:

@@ -9,9 +9,12 @@ import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import styles from './Header.module.scss';
 import { Link, useHistory } from "react-router-dom";
 import { auth } from '../../firebase';
+import { useDispatch, useSelector } from "react-redux";
+import { handleDarkMode } from '../../theme/theme';
 
 export default function UserMenu() {
     const history = useHistory();
+    const dispatch = useDispatch();
     const [user, setUser] = useState(null);
     useEffect(() => {
         auth.onAuthStateChanged(user => {
@@ -34,7 +37,6 @@ export default function UserMenu() {
     const handleClickAwayProfile = () => {
         setOpenProfile(false);
     };
-
     return (
         <div id={styles.userIcons}>
             <Tooltip title="Upload a video" placement="bottom">
@@ -94,6 +96,8 @@ export default function UserMenu() {
                                     <p className={styles.text}>My channel</p>
                                 </li>
                             </Link>
+                            <div className={styles.line}></div>
+                            <button onClick={() => dispatch(handleDarkMode())} >Toggle theme</button>
                             <div className={styles.line}></div>
                             <Link to='/signout' className={styles.links}>
                                 <li className={styles.listItem}>

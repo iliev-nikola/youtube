@@ -35,7 +35,7 @@ export default function SignIn() {
                 db.collection('users').where('uid', '==', res.user.uid).get()
                     .then(res => {
                         if (!res.docs.length) {
-                            db.collection('users').doc(res.uid).set(data);
+                            db.collection('users').doc(data.uid).set(data);
                         }
                     })
             })
@@ -69,12 +69,12 @@ export default function SignIn() {
                     displayName: res.user.displayName,
                     email: res.user.email,
                     photoURL: res.user.photoURL,
-                    uid: res.user.uid
+                    uid: res.user.uid,
                 }
                 db.collection('users').where('uid', '==', res.user.uid).get()
                     .then(res => {
                         if (!res.docs.length) {
-                            db.collection('users').doc(res.uid).set(data);
+                            db.collection('users').doc(data.uid).set(data);
                         }
 
                     })

@@ -3,8 +3,7 @@ import {
 } from '../actions/getVideos';
 
 const INITIAL_STATE = {
-    videos: [],
-    isLoading: false
+    videos: []
 };
 
 const reducer = (state = INITIAL_STATE, action) => {
@@ -12,13 +11,11 @@ const reducer = (state = INITIAL_STATE, action) => {
         case FETCH_VIDEOS_REQUESTED:
             return {
                 ...state,
-                isLoading: true,
             };
         case FETCH_VIDEOS_SUCCEEDED:
             return {
                 ...state,
                 videos: action.payload,
-                isLoading: false
             };
 
         default:

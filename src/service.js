@@ -2,21 +2,16 @@ import { db } from './firebase';
 import { getCurrentUser } from './utils';
 
 export function getAllVideos() {
-    return new Promise((res, rej) => {
-        res();
-    });
 }
 
 export function getVideo(id) {
-
 }
 
-export function getUser(id) {
-
+export function getUserById(id) {
+    db.collection('users').doc(id).get().then(res => console.log(res.docs))
 }
 
 export function getUserVideos(arr) {
-
 }
 
 export function pushToWatched(id) {

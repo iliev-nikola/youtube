@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -8,40 +8,42 @@ import {
 } from "react-router-dom";
 import './App.scss';
 import './reset.css';
-import HomeIcon from '@material-ui/icons/Home';
-import WhatshotIcon from '@material-ui/icons/Whatshot';
-import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
-import HistoryIcon from '@material-ui/icons/History';
 import SignUp from './Components/SignUp/SignUp';
 import ErrorPage from './Components/ErrorPage/ErrorPage';
 import VideoCard from './Components/VideoCard/VideoCard';
-import Header from './Components/Header/Header';
-import Sidebar from './Components/Sidebar/Sidebar';
 import OpenVideo from './Components/OpenVideo/OpenVideo';
 import SignIn from "./Components/SignIn/SignIn";
 import ResetPassword from './Components/ResetPassword/ResetPassword';
 import SignOut from "./Components/SignOut/SignOut";
 import UploadVideo from './Components/UploadVideo/UploadVideo';
-import { getAllVideos } from './service';
 import Search from "./Components/Search/Search";
 import UserProfile from "./Components/UserProfile/UserProfile";
 import { auth } from "./firebase";
 import VoiceControl from './Components/VoiceControl/VoiceControl';
 import ProgressBar from "./Components/ProgressBar/ProgressBar";
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from "react-redux";
+import { handleDarkMode } from './theme/theme';
 import { fetchVideos } from './redux/actions/getVideos';
 import { setUser } from './redux/actions/user';
-import { getUser } from './redux/selectors/user'
+import { getUser } from './redux/selectors/user';
+import { getVideos } from './redux/selectors/getVideos';
+import { getIsLoading } from "./redux/selectors/loading";
 
 export default function App() {
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  const videos = useSelector((state) => state.videos.videos);
-  const [sidebar, setSidebar] = useState(false);
+  const videos = useSelector(getVideos);
   const user = useSelector(getUser);
+  const isLoading = useSelector(getIsLoading);
   // const [user, setUser] = useState(null);
   // const [hasMore, setHasMore] = useState(false);
+  // useEffect(() => {
+  //   dispatch(isLoading);
+  // }, [dispatch, isLoading]);
+
+  useEffect(() => {
+    dispatch(handleDarkMode());
+  }, [dispatch]);
 
   useEffect(() => {
     auth.onAuthStateChanged(user => {
@@ -53,23 +55,7 @@ export default function App() {
     })
   }, [dispatch])
 
-  useEffect(() => {
-    dispatch(fetchVideos());
-    if (videos.length) {
-      setLoading(false);
-    }
-  }, [videos, dispatch]);
 
-  // CHECK IF LOGGED IN
-  // useEffect(() => {
-  //   auth.onAuthStateChanged(user => {
-  //     if (user) {
-  //       setUser(user);
-  //     } else {
-  //       setUser(null);
-  //     }
-  //   });
-  // });
 
   // const fetchMoreData = useCallback(() => {
   //   setLoading(true);
@@ -91,76 +77,44 @@ export default function App() {
   // };
 
   // HEADER & SIDEBAR
-  const handleToggleSidebar = () => {
-    setSidebar(value => !value);
-  }
 
-  const header = <Header handleToggleSidebar={handleToggleSidebar} sidebar={sidebar} />;
-  const sideBarContainer = (<>
-    <Sidebar sidebar={sidebar} Icon={HomeIcon} type={'Home'} />
-    <Sidebar sidebar={sidebar} Icon={WhatshotIcon} type={'Trending'} />
-    <Sidebar sidebar={sidebar} Icon={VideoLibraryIcon} type={'Library'} />
-    <Sidebar sidebar={sidebar} Icon={HistoryIcon} type={'History'} />
-  </>)
+  // const stateTheme = useSelector(state => state.theme);
+  // console.log(stateTheme);
+  // useEffect(() => {
+  //   dispatch(handleDarkMode());
+  // }, [dispatch, stateTheme])
+
 
   return (
+
     <Router>
       <VoiceControl />
       <>
-        <ProgressBar isOn={loading} />
+        <ProgressBar isOn={isLoading} />
         <Switch>
           <Route exact path="/">
-            {header}
-            {/* make component for home page */}
-            <div className='mainContainer' onClick={(e) => {
-              if (e.target.className === 'mainContainer') setSidebar(false);
-            }}>
-              <div className='sideContainer'>
-                <div className={sidebar ? 'open' : 'close'}>
-                  {sideBarContainer}
+            {useEffect(() => {
+              dispatch(fetchVideos());
+              // if (videos.length) {
+              //   dispatch(setNotLoading())
+              //   // setLoading(false);
+              // }
+            }, [])}
+            {videos.length ? videos.map(video => (
+              <Link to={`/video/${video.id}`} className='link' key={video.id}>
+                <div>
+                  <VideoCard url={video.info.url} title={video.info.title} views={video.info.views} />
                 </div>
-              </div>
-              <div className={!sidebar ? 'videoContainer' : 'notActive'}>
-                {/* <InfiniteScroll
-                  // className={!sidebar ? 'videoContainer' : 'notActive'}
-                  dataLength={videos.length}
-                  // next={fetchMoreData}
-                  hasMore={true}
-                  // scrollThreshold="100%"
-                  loader={<h4>Loading...</h4>}
-                > */}
-                {videos.length ? videos.map(video => (
-                  <Link to={`/video/${video.id}`} className='link' key={video.id}>
-                    <div>
-                      <VideoCard url={video.info.url} title={video.info.title} views={video.info.views} />
-                    </div>
-                  </Link>
-                )) : null}
-                {/* </InfiniteScroll> */}
-              </div>
-            </div>
+              </Link>
+            )) : null}
           </Route>
-          <Route path="/video/:id">
-            {header}
-            <div className={sidebar ? 'open' : 'notVisible'}>
-              {sideBarContainer}
-            </div>
-            <OpenVideo sidebar={sidebar} />
-          </Route>
-          <Route exact path="/search/">
+          <Route path="/video/:id" component={OpenVideo} />
+          <Route path="/search/:id" component={Search} />
+          <Route exact path="/search">
             <Redirect to="/" />
           </Route>
-          <Route path="/search/:id">
-            {header}
-            <Search sidebar={sidebar} sideBarContainer={sideBarContainer} />
-          </Route>
-          <Route exact path="/upload">
-            <UploadVideo />
-          </Route>
-          <Route path="/user/:id">
-            {header}
-            <UserProfile sidebar={sidebar} sideBarContainer={sideBarContainer} />
-          </Route>
+          <Route path="/upload" component={UploadVideo} />
+          <Route path="/user/:id" component={UserProfile} />
           <Route path="/signout"
             render={() => {
               if (auth.currentUser && user) {
@@ -186,7 +140,7 @@ export default function App() {
               }
             }}
           />
-          <Route exact path="/reset"
+          <Route path="/reset"
             render={() => {
               if (auth.currentUser && user) {
                 return <Redirect to='/' />
@@ -199,6 +153,6 @@ export default function App() {
           </Route>
         </Switch>
       </>
-    </Router>
+    </Router >
   );
 }

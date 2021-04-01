@@ -24,16 +24,19 @@ $center: center;
   top: 0;
   z-index: 1;
   justify-content: space-between;
-  color: rgb(170, 170, 170);
-  background-color: #202020;
+  opacity: 100%;
+  background: var(--bg-color-32);
+  color: var(--header-color);
 }
 
 .header input {
   width: 562px;
   height: 26px;
   outline: none;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--tit-color);
   font-size: 16px;
+  background: var(--bg-color);
+  border: 2px solid var(--search-bord);
 }
 
 .header input:focus {
@@ -59,7 +62,7 @@ $center: center;
 
 .newLogoContainer {
   height: 56px;
-  background-color: rgb(33, 33, 33);
+  background: var(--bg-color-32);
 }
 
 .icons {
@@ -77,7 +80,7 @@ $center: center;
 }
 
 .countryCode {
-  color: rgb(170, 170, 170);
+  color: var(--font-color);
   font-size: 10px;
   margin: 0 -12px 0 2px;
   font-weight: 500;
@@ -88,25 +91,14 @@ $center: center;
 }
 
 .searchCont {
+  background: var(--search-color);
   margin-right: 10px;
   display: inline-block;
   height: 30px;
   width: 65px;
   text-align: center;
   cursor: pointer;
-}
-
-.searchDark .searchCont {
-  background-color: rgb(48, 48, 48);
-}
-
-.searchLight .searchCont {
-  background-color: #f8f8f8;
-}
-
-.searchDark input {
-  border: 1px #333 solid;
-  background-color: black;
+  border: 1px solid var(--search-bord);
 }
 
 .searchIcon {
@@ -115,7 +107,7 @@ $center: center;
 }
 
 .searchIcon:hover {
-  color: #989898;
+  color: var(--hov-color);
 }
 
 .signIn {
@@ -150,7 +142,7 @@ $center: center;
 }
 
 .listItem:hover {
-  background-color: #3a3a3a;
+  background-color: var(--hov-color);
 }
 
 .userIcon {
@@ -185,7 +177,7 @@ $center: center;
 }
 
 .divider {
-  color: white;
+  color: var(--font-color);
 }
 
 .iconColorGrey {
@@ -210,7 +202,7 @@ $center: center;
 
 .links {
   text-decoration: none;
-  color: white;
+  color: var(--font-color);
 }
 
 .userInfo {
@@ -225,18 +217,18 @@ $center: center;
   z-index: 1;
   min-width: 250px;
   width: auto;
-  background-color: #212121;
-  border: 1px solid #393838;
+  background: var(--bg-color);
+  border: 1px solid var(--search-bord);
   border-top: none;
   right: 45px;
   user-select: none;
 }
 
 .line {
-  height: 1px;
+  height: 2px;
   line-height: 1px;
   width: 100%;
-  background-color: #3a3a3a;
+  background-color: var(--search-bord);
   padding: 0;
   margin: 5px 0 5px 0;
 }
@@ -250,7 +242,7 @@ $center: center;
 
 #bigNotifyIcon {
   margin-top: 20px;
-  color: #aaaaaa;
+  color: var(--font-color);
 }
 
 @media only screen and (min-width: 660px) {
@@ -288,7 +280,6 @@ $center: center;
 
   .searchCont {
     background-color: unset;
-    color: #fff;
     width: 2%;
   }
 

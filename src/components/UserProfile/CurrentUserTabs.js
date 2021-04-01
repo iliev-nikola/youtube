@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Box from '@material-ui/core/Box';
 import VideoCard from '../VideoCard/VideoCard';
 import styles from './UserProfile.module.scss';
 import AlertDialog from './DialogBoxes/AlertDialog';
 import FormDialog from './DialogBoxes/FormDialog';
+import { AppBar, Tabs, Tab, Box } from '@material-ui/core';
+import { db } from '../../firebase';
+
+import { setLoading, setNotLoading } from '../../redux/actions/loadingBar';
+import { useDispatch } from 'react-redux';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -58,27 +59,34 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-
-export default function ScrollableTabsButtonAuto({ videos, history, liked }) {
+export default function ScrollableTabsButtonAuto({ videos, history, liked, user, currentUser }) {
     const [video, setVideo] = useState(null);
     const [value, setValue] = useState(0);
     const [openAlert, setOpenAlert] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
     const classes = useStyles();
+    const dispatch = useDispatch();
 
     const onEditOpen = (video) => {
         setOpenEdit(true);
+        dispatch(setLoading());
         setVideo(video);
     };
     const onEditClick = (title, description) => {
-        console.log(title, description);
+        dispatch(setNotLoading());
         setOpenEdit(false);
-        //find and edit this video
+        // db.collection('videos').doc(video.id).update({ title, description },
+        //     (error) => {
+        //         if (error) {
+        //             console.log('failed');
+        //         } else {
+        //             console.log('success');
+        //         }
+        //     });
     };
-    const onDeleteClick = (e) => {
+    const onDeleteClick = (video) => {
         setOpenAlert(false);
-        console.log(e.target);
-        //find and delete this video
+        db.collection('videos').doc(video.id).delete();
     };
     const onDeleteOpen = (video) => {
         setOpenAlert(true);
@@ -90,10 +98,9 @@ export default function ScrollableTabsButtonAuto({ videos, history, liked }) {
     const handleCloseAlert = () => {
         setOpenAlert(false);
     };
-    const handleChange = (newValue) => {
+    const handleChange = (e, newValue) => {
         setValue(newValue);
     };
-
 
     return (
         <div className={classes.root}>
@@ -108,22 +115,23 @@ export default function ScrollableTabsButtonAuto({ videos, history, liked }) {
                 >
                     <Tab label="Videos" {...a11yProps(0)} />
                     {history ? <Tab label="History" {...a11yProps(1)} /> : null}
+                    <Tab label="History" {...a11yProps(1)} />
                     <Tab label="Liked" {...a11yProps(2)} />
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0} className={classes.container}>
-                {videos.map(video => (
-                    <div >
-                        <a href={`/video/${video.id}`} className='link' key={video.id}>
+                {videos ? videos.map(video => (
+                    <div key={video.id}>
+                        <a href={`/video/${video.id}`} className='link'>
                             <VideoCard url={video.url} title={video.title} author={video.artist} duration={video.duration} />
                         </a>
-                        {/* check if is current user to show this */}
-                        <div className={styles.optionsContainer}>
-                            <p className='link' onClick={() => onEditOpen(video)}>Edit</p>
-                            <p className='link' onClick={() => onDeleteOpen(video)}>Delete</p>
-                        </div>
+                        {user.uid === currentUser.uid ?
+                            <div className={styles.optionsContainer}>
+                                <p className='link' onClick={() => onEditOpen(video)}>Edit</p>
+                                <p className='link' onClick={() => onDeleteOpen(video)}>Delete</p>
+                            </div> : null}
                     </div>
-                ))}
+                )) : null}
             </TabPanel>
             {history ?
                 <TabPanel value={value} index={1} className={classes.container}>

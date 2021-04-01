@@ -29,6 +29,7 @@ $flex: flex;
 
 .open,
 .close {
+  color: var(--header-color);
   position: fixed;
   top: 50px;
   height: 100%;
@@ -36,12 +37,12 @@ $flex: flex;
 
 .open {
   z-index: 1;
-  background-color: rgb(33, 33, 33);
+  background: var(--bg-color-32);
   transition: 0.5s;
 }
 
 .close {
-  background-color: #202020;
+  background: var(--bg-color-32);
 }
 
 .link {

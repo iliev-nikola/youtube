@@ -6,7 +6,7 @@
 }
 
 .title {
-  color: rgb(255, 255, 255);
+  color: var(--tit-color);
   font-size: 14px;
   font-weight: 500;
   margin: 10px 0;
@@ -14,7 +14,7 @@
 
 .description,
 .views {
-  color: rgb(170, 170, 170);
+  color: var(--font-color);
 }
 
 .video {
@@ -27,7 +27,7 @@
   bottom: 55px;
   right: 3px;
   background-color: rgba(0, 0, 0, 0.8);
-  color: rgb(255, 255, 255);
+  color: var(--tit-color);
   padding: 4px 3px;
   font-size: 12px;
   font-weight: 500;

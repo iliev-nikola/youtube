@@ -8,14 +8,16 @@ import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import ThumbUp from '@material-ui/icons/ThumbUp';
 import LikeOrDislikeVideo from './LikeOrDislikeVideo';
 import { Input, Link } from '@material-ui/core'
-import { getAllVideos } from '../../service';
-import VideoCard from '../VideoCard/VideoCard';
 import { db } from '../../firebase';
 import { useDispatch, useSelector } from 'react-redux';
-import { likeVideo, dislikeVideo, likeIt } from '../../redux/actions/likeOrDislike';
+import { likeVideo, dislikeIt, likeIt } from '../../redux/actions/likeOrDislike';
+import { getSidebar } from '../../redux/selectors/sidebar';
+import Layout from '../Layout/Layout';
 
-export default function OpenVideo({ sidebar }) {
+export default function OpenVideo() {
+    const sidebar = useSelector(getSidebar);
     const history = useHistory();
+    const dispatch = useDispatch();
     const { id } = useParams();
     const [video, setVideo] = useState([]);
     const [inputValue, setInputValue] = useState('');
@@ -36,17 +38,11 @@ export default function OpenVideo({ sidebar }) {
             .then(res => {
                 setVideo({ ...res.data() });
             })
-    }, [id])
+    }, [id, video])
 
     const onInputChange = (e) => {
         setInputValue(e.currentTarget.value);
     }
-    const dispatch = useDispatch();
-    useEffect(() => {
-        likeIt(video, id);
-        // console.log(video);
-        console.log(id);
-    }, [video, id])
 
     const handleKeyPress = (e) => {
         if (e.key === 'Enter' && inputValue) {
@@ -57,6 +53,11 @@ export default function OpenVideo({ sidebar }) {
         }
     }
 
+
+    // let videoViews = video.views;
+    // db.collection('videos2').doc(id).update({ views: videoViews + 1 });
+
+
     const numberLikes = (
         <><ThumbUp className={isLiked ? styles.liked : styles.button} onClick={() => { dispatch(likeIt(video, id)) }} /><span>{video.likes}</span></>
     );
@@ -64,53 +65,54 @@ export default function OpenVideo({ sidebar }) {
         <><LikeOrDislikeVideo button={<ThumbUp className={styles.button} />} content={'Like this video?'} /><span>{video.likes}</span></>
     );
     const numberDislikes = (
-        <><ThumbDownIcon className={isDisliked ? styles.disliked : styles.button} onClick={() => { dispatch(dislikeVideo()) }} /><span>{video.dislikes}</span></>
+        <><ThumbDownIcon className={isDisliked ? styles.disliked : styles.button} onClick={() => { dispatch(dislikeIt(video, id)) }} /><span>{video.dislikes}</span></>
     );
     const loggedNumberDIslikes = (
         <><LikeOrDislikeVideo button={<ThumbDownIcon className={styles.button} />} content={`Don't like this video?`} /><span>{video.dislikes}</span></>
     );
 
     return (
-        <div className={sidebar ? styles.notActive : styles.mainContainer}>
-            <div>
-                <div><ReactPlayer url={video.url} controls playing={true} className={styles.video} />
-                    <div className={styles.likesContainer}>
-                        <div className={styles.hashtags}>
-                            {`#${video.title} #video# ${video.views} #youtube`}
-                        </div>
-                        <div className={styles.thumbs}>
-                            {user ? <>{numberLikes}</> : <>{loggedNumberLikes}</>}
-                            {user ? <>{numberDislikes}</> : <>{loggedNumberDIslikes}</>}
-                        </div>
-                        <div>{video.views} views</div>
-                    </div>
-                    <p className={styles.info}>{video.title}</p>
-                    <a href={`/user/${video.authorID}`}>{video.author}</a>
-                    <div>
-                        <div className={styles.commentsContainer}>
-                            <div onClick={() => !user ? history.push('/signin') : null}>
-                                < Input placeholder='Добавяне на публичен коментар...' className={styles.input} onChange={onInputChange} onKeyPress={handleKeyPress} value={inputValue} />
+        <Layout>
+            <div className={sidebar ? styles.notActive : styles.mainContainer}>
+                <div>
+                    <div><ReactPlayer url={video.url} controls playing={true} className={styles.video} />
+                        <div className={styles.likesContainer}>
+                            <div className={styles.hashtags}>
+                                {`#${video.title} #video# ${video.views} #youtube`}
                             </div>
-                            {video.comments ?
-                                video.comments.map((currentComment, index) => (
-                                    <div key={index} className={styles.mainComm} >
-                                        <div className={styles.userLogo} onClick={() => history.push(`/user/${currentComment.userId}`)}>
-                                            {currentComment.photoURL ? <img className={styles.userPic} src={currentComment.photoURL} alt='user logo' /> : <h1>{currentComment.user[0]}</h1>}</div>
-                                        <div className={styles.commentsContainer}>
-                                            <div className={styles.someComment}>
-                                                <p className={styles.userName}>{currentComment.user}</p>
-                                                <p className={styles.comment}>{currentComment.comment}</p>
+                            <div className={styles.thumbs}>
+                                {user ? <>{numberLikes}</> : <>{loggedNumberLikes}</>}
+                                {user ? <>{numberDislikes}</> : <>{loggedNumberDIslikes}</>}
+                            </div>
+                            <div>{video.views} views</div>
+                        </div>
+                        <p className={styles.info}>{video.title}</p>
+                        <a href={`/user/${video.authorID}`}>{video.author}</a>
+                        <div>
+                            <div className={styles.commentsContainer}>
+                                <div onClick={() => !user ? history.push('/signin') : null}>
+                                    < Input placeholder='Добавяне на публичен коментар...' className={styles.input} onChange={onInputChange} onKeyPress={handleKeyPress} value={inputValue} />
+                                </div>
+                                {video.comments ?
+                                    video.comments.map((currentComment, index) => (
+                                        <div key={index} className={styles.mainComm} >
+                                            <div className={styles.userLogo} onClick={() => history.push(`/user/${currentComment.userId}`)}>
+                                                {currentComment.photoURL ? <img className={styles.userPic} src={currentComment.photoURL} alt='user logo' /> : <h1>{currentComment.user[0]}</h1>}</div>
+                                            <div className={styles.commentsContainer}>
+                                                <div className={styles.someComment}>
+                                                    <p className={styles.userName}>{currentComment.user}</p>
+                                                    <p className={styles.comment}>{currentComment.comment}</p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                ))
-                                : <div className={styles.addFirstComment}>Add your first comment...</div>}
-                        </div>
+                                    ))
+                                    : <div className={styles.addFirstComment}>Add your first comment...</div>}
+                            </div>
 
+                        </div>
                     </div>
                 </div>
-            </div>
-            {/* <div className={styles.otherVideos}>
+                {/* <div className={styles.otherVideos}>
                 {videos.map(video => (
                     <Link to={`/video/${video.id}`} className='link' key={video.id}>
                         <div>
@@ -119,6 +121,7 @@ export default function OpenVideo({ sidebar }) {
                     </Link>
                 ))}
             </div> */}
-        </div>
+            </div>
+        </Layout>
     );
 }

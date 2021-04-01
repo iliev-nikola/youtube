@@ -56,7 +56,7 @@ export function isCurrentUser(userId) {
 export function filterVideos(params) {
   if (!params.length) return null;
   if (params.length === 1) {
-    db.collection('videos2').get()
+    return db.collection('videos').get()
       .then(res => res.docs)
       .then(res => res.map(x => x.data()))
       .then(res => {

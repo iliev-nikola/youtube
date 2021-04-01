@@ -1,7 +1,7 @@
-$main-color: rgb(255, 255, 255);
+$main-color: var(--tit-color);
 $main-background: rgb(33, 33, 33);
 .sidebars {
-  color: $main-color;
+  color: var(--header-color);
   font-size: 16px;
   font-weight: 600;
   padding: 20px 0;
@@ -14,11 +14,11 @@ $main-background: rgb(33, 33, 33);
 }
 
 .open {
-  color: $main-color;
+  color: var(--header-color);
   font-size: 16px;
   padding: 10px 24px;
   height: 40px;
-  background-color: $main-background;
+  background: var(--bg-color-32);
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -27,7 +27,7 @@ $main-background: rgb(33, 33, 33);
 
 .sidebars:hover,
 .open:hover {
-  background-color: #333;
+  background-color: var(--hov-color);
 }
 
 .openTitle {
