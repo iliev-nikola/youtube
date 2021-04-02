@@ -12,7 +12,6 @@ import { getUser } from '../../redux/selectors/user';
 
 export default function Header({ handleToggleSidebar, sidebar }) {
     const user = useSelector(getUser);
-    console.log(111,user);
     const history = useHistory();
     const [inputSearchValue, setInputSearchValue] = useState('');
 

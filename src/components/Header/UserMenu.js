@@ -9,7 +9,7 @@ import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import styles from './Header.module.scss';
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { handleDarkMode } from '../../theme/theme';
+import { toggleTheme } from '../../theme/theme';
 import { getUser } from '../../redux/selectors/user';
 
 export default function UserMenu() {
@@ -91,7 +91,7 @@ export default function UserMenu() {
                                 </li>
                             </Link>
                             <div className={styles.line}></div>
-                            <button onClick={() => dispatch(handleDarkMode())} >Toggle theme</button>
+                            <button onClick={() => dispatch(toggleTheme())} >Toggle theme</button>
                             <div className={styles.line}></div>
                             <Link to='/signout' className={styles.links}>
                                 <li className={styles.listItem}>

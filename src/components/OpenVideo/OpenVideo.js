@@ -8,13 +8,11 @@ import LikeOrDislikeVideo from './LikeOrDislikeVideo';
 import { Input } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { dislikeIt, likeIt, changeViews, fetchVideo } from '../../redux/actions/videos';
-import { getVideos, getUser, getVideoComments, getVideo } from '../../redux/selectors/selectors';
+import { getUser, getVideoComments } from '../../redux/selectors/selectors';
 import { getComments } from '../../redux/actions/comments';
 import { showUpdatedComments } from '../../redux/actions/comments';
 import Layout from '../Layout/Layout';
 import { getVideoURL, getVideoID, getVideoTitle, getVideoViews, getVideoAuthor, getVideoDescription, getVideoLikes, getVideoDislikes, getVideoAuthorID } from '../../redux/selectors/video';
-
-
 
 export default function OpenVideo({ sidebar }) {
     const history = useHistory();
@@ -36,7 +34,6 @@ export default function OpenVideo({ sidebar }) {
     const authorID = useSelector(getVideoAuthorID);
     useEffect(() => {
         if (user && videoId) {
-            console.log(videoId);
             setIsLiked(videoLikes.some(userID => userID === user.uid));
             setIsDisliked(videoDislikes.some(userID => userID === user.uid));
         }
@@ -66,13 +63,13 @@ export default function OpenVideo({ sidebar }) {
         }
     }
     const numberLikes = (
-        <><ThumbUp className={isLiked ? styles.liked : styles.button} onClick={() => { dispatch(likeIt()) }} /><span>{videoId ? videoLikes.length : null}</span></>
+        <><ThumbUp className={isLiked ? styles.liked : styles.button} onClick={() => { dispatch(likeIt(id)) }} /><span>{videoId ? videoLikes.length : null}</span></>
     );
     const loggedNumberLikes = (
         <><LikeOrDislikeVideo button={<ThumbUp className={styles.button} />} content={'Like this video?'} /><span>{videoId ? videoLikes.length : null}</span></>
     );
     const numberDislikes = (
-        <><ThumbDownIcon className={isDisliked ? styles.disliked : styles.button} onClick={() => { dispatch(dislikeIt()) }} /><span>{videoId ? videoDislikes.length : null}</span></>
+        <><ThumbDownIcon className={isDisliked ? styles.disliked : styles.button} onClick={() => { dispatch(dislikeIt(id)) }} /><span>{videoId ? videoDislikes.length : null}</span></>
     );
     const loggedNumberDIslikes = (
         <><LikeOrDislikeVideo button={<ThumbDownIcon className={styles.button} />} content={`Don't like this video?`} /><span>{videoId ? videoDislikes.length : null}</span></>

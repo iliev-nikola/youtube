@@ -22,6 +22,7 @@ const reducer = (state = INITIAL_STATE, action) => {
             };
         case UPDATE_VIDEO: {
             const currentVideo = action.payload;
+            console.log(999,currentVideo);
             const index = state.videos.findIndex(video => video.id === currentVideo.id);
             const copiedVideos = [...state.videos];
             copiedVideos.splice(index, 1, currentVideo);

@@ -71,6 +71,7 @@ export const fetchMyVideos = (uid) => {
     }
 }
 
+
 export const likeIt = () => {
     return function (dispatch, getState) {
         const currentUser = auth.currentUser.uid;
@@ -112,7 +113,7 @@ export const dislikeIt = () => {
                 .then(() => currentVideo = { ...video, isDislikedBy: [...video.isDislikedBy, currentUser] });
         }
 
-        dispatch(updateVideo(currentVideo));
+        return dispatch(updateVideo(currentVideo))
     }
 };
 

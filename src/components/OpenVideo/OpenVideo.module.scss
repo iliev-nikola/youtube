@@ -180,6 +180,13 @@ $main-size: 18px;
   height: 20px;
 }
 
+.opened {
+  display: flex;
+}
+
+.closed {
+  display: none;
+}
 
 @media only screen and (max-width: 600px) {
   .mainContainer {
