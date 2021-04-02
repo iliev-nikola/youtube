@@ -1,10 +1,12 @@
 import {
-    FETCH_VIDEOS_SUCCEEDED, FETCH_VIDEOS_REQUESTED, UPDATE_VIDEO, FETCH_MY_VIDEOS_SUCCEEDED
+    FETCH_VIDEOS_SUCCEEDED, FETCH_VIDEOS_REQUESTED, UPDATE_VIDEO, FETCH_MY_VIDEOS_SUCCEEDED,
+    FETCH_VIDEO, INCREASE_VIEWS
 } from '../actions/videos';
 
 const INITIAL_STATE = {
     videos: [],
-    myVideos: []
+    myVideos: [],
+    video: null
 };
 
 const reducer = (state = INITIAL_STATE, action) => {
@@ -13,13 +15,16 @@ const reducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
             };
-
+        case FETCH_VIDEO:
+            return {
+                ...state,
+                video: action.payload,
+            };
         case UPDATE_VIDEO: {
             const currentVideo = action.payload;
             const index = state.videos.findIndex(video => video.id === currentVideo.id);
             const copiedVideos = [...state.videos];
             copiedVideos.splice(index, 1, currentVideo);
-            // copiedVideos.filter(video => video.id !== currentVideo.id);
             return {
                 ...state,
                 videos: copiedVideos
@@ -34,6 +39,11 @@ const reducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 myVideos: action.payload,
+            };
+        case INCREASE_VIEWS:
+            return {
+                ...state,
+                video: { ...state.video, views: state.video.views + 1 }
             };
         default:
             return state;
