@@ -40,29 +40,10 @@ export default function SignIn() {
         }
 
         auth.signInWithEmailAndPassword(email, password)
-            .then(res => {
+            .then(() => {
                 setEmail('');
                 setPassword('');
                 history.push('/');
-                return res;
-            })
-            .then(res => {
-                const data = {
-                    displayName: res.user.displayName,
-                    email: res.user.email,
-                    photoURL: res.user.photoURL,
-                    uid: res.user.uid,
-                }
-                db.collection('users').where('uid', '==', res.user.uid).get()
-                    .then(res => {
-                        if (!res.docs.length) {
-                            db.collection('users').doc(data.uid).set(data);
-                        }
-
-                    })
-                    .catch(err => {
-                        setAlert(err.message);
-                    });
             })
             .catch(err => {
                 setAlert(err.message);

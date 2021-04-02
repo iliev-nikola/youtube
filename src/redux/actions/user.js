@@ -28,12 +28,17 @@ export const fetchUser = (user) => {
             if (res.docs.length) {
                 return res.docs[0].data();
             } else {
-                const newUser = { ...user, theme: 'dark' };
-                db.collection('users')
+                const newUser = {
+                    displayName: user.displayName,
+                    email: user.email,
+                    photoURL: user.photoURL,
+                    uid: user.uid,
+                    theme: 'dark'
+                };
+                return db.collection('users')
                     .doc(user.uid)
-                    .set(newUser);
-                // return user after success promise
-                return newUser;
+                    .set(newUser)
+                    .then(() => newUser);
             }
-        })
+        });
 }

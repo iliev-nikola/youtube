@@ -10,13 +10,9 @@ import Layout from '../Layout/Layout';
 export default function UserProfile() {
     const { id } = useParams();
     const [user, setUser] = useState(null);
-    const [myVideos, setMyVideos] = useState([]);
     const [history, setHistory] = useState([]);
     const [liked, setLiked] = useState([]);
-
-    // 
     const currentUser = useSelector(getUser);
-
 
     useEffect(() => {
         db.collection('users').doc(id).get().then(res => setUser(res.data()));
@@ -24,9 +20,6 @@ export default function UserProfile() {
 
     useEffect(() => {
         const videosRef = db.collection('videos');
-        videosRef.where('authorID', '==', id).get()
-            .then(res => res.docs.map(el => el.data()))
-            .then(res => setMyVideos(res));
         videosRef.where('isWatchedBy', 'array-contains', id).get()
             .then(res => res.docs.map(el => el.data()))
             .then(res => setHistory(res));
@@ -52,7 +45,6 @@ export default function UserProfile() {
                     </div>
                     {user && currentUser ?
                         <ScrollableTabsButtonAuto
-                            videos={myVideos}
                             history={user.userId === currentUser.uid ? history : null}
                             liked={liked}
                             user={user}

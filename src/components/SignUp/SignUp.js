@@ -82,23 +82,12 @@ export default function SignUp() {
         }
     };
 
-    const handleClick = () => {
-        setOpen(true);
-    };
-
     const handleClose = (reason) => {
         if (reason === 'clickaway') {
             return;
         }
         setOpen(false);
     };
-
-    // const handleKeyPress = (e) => {
-    //     if (e.code === 'Enter') {
-    //         createUserWithEmailAndPasswordHandler(e, firstName, lastName, email, password, rePassword);
-    //         handleClick();
-    //     }
-    // }
 
     return (
         <>
@@ -110,7 +99,7 @@ export default function SignUp() {
                     <Alert onClose={handleClose} severity="error">{alert}</Alert>
                 </Snackbar>
             </div>
-            <form className={styles.signUp} action="/signin" method='POST'>
+            <form className={styles.signUp} >
                 <img src={logoBlack} alt="logo" id={styles.logo} onClick={() => history.push('/')} />
                 <div className={styles.welcomeText}>
                     <h2>Create your Account</h2>
@@ -127,7 +116,7 @@ export default function SignUp() {
                     <TextField required type="password" className={styles.inputs} size="small" label="Password" variant="outlined" value={password} id="password" onChange={(e) => onInputChange(e)} />
                     <TextField required type="password" className={styles.inputs} size="small" label="Confirm" variant="outlined" value={rePassword} id="rePassword" onChange={(e) => onInputChange(e)} />
                 </div>
-                <p id={styles.info}>Use 6 or more characters</p>
+                <p id={styles.info}>{password.length < 6 ? 'Use 6 or more characters' : ''}</p>
                 <div className={styles.buttons}>
                     <Link to="signin" className={styles.link}>Sign in instead</Link>
                     <div className={styles.button}>

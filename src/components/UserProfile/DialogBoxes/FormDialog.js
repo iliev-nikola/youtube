@@ -15,9 +15,7 @@ export default function FormDialog({ handleClose, onEditClick, open, video }) {
     const [description, setDescription] = useState('');
     const [alert, setAlert] = useState(null);
     const [openAlert, setOpenAlert] = useState(false);
-    const handleClick = () => {
-        setOpenAlert(true);
-    };
+
     const handleCloseAlert = (reason) => {
         if (reason === 'clickaway') {
             return;
@@ -26,7 +24,7 @@ export default function FormDialog({ handleClose, onEditClick, open, video }) {
     };
 
     const onSubmit = () => {
-        handleClick();
+        setOpenAlert(true);
 
         if (!title.trim()) {
             return setAlert('Please add a title!');
@@ -36,6 +34,7 @@ export default function FormDialog({ handleClose, onEditClick, open, video }) {
             return setAlert('The description must be atleast 10 characters');
         }
 
+        setOpenAlert(false);
         setTitle('');
         setDescription('');
         onEditClick(title, description);

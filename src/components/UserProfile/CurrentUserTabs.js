@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import VideoCard from '../VideoCard/VideoCard';
@@ -9,7 +9,10 @@ import { AppBar, Tabs, Tab, Box } from '@material-ui/core';
 import { db } from '../../firebase';
 
 import { setLoading, setNotLoading } from '../../redux/actions/loadingBar';
-import { useDispatch } from 'react-redux';
+import { editIt, deleteIt, fetchMyVideos } from '../../redux/actions/videos';
+import { useDispatch, useSelector } from 'react-redux';
+import { getMyVideos } from '../../redux/selectors/videos';
+
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -59,38 +62,35 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function ScrollableTabsButtonAuto({ videos, history, liked, user, currentUser }) {
+export default function ScrollableTabsButtonAuto({ history, liked, user, currentUser }) {
     const [video, setVideo] = useState(null);
     const [value, setValue] = useState(0);
     const [openAlert, setOpenAlert] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
     const classes = useStyles();
     const dispatch = useDispatch();
+    const myVideos = useSelector(getMyVideos);
+    console.log(myVideos);
+
+    useEffect(() => {
+        dispatch(fetchMyVideos(user.uid));
+    }, [dispatch, user]);
 
     const onEditOpen = (video) => {
         setOpenEdit(true);
-        dispatch(setLoading());
         setVideo(video);
-    };
-    const onEditClick = (title, description) => {
-        dispatch(setNotLoading());
-        setOpenEdit(false);
-        // db.collection('videos').doc(video.id).update({ title, description },
-        //     (error) => {
-        //         if (error) {
-        //             console.log('failed');
-        //         } else {
-        //             console.log('success');
-        //         }
-        //     });
-    };
-    const onDeleteClick = (video) => {
-        setOpenAlert(false);
-        db.collection('videos').doc(video.id).delete();
     };
     const onDeleteOpen = (video) => {
         setOpenAlert(true);
         setVideo(video);
+    };
+    const onEditClick = (title, description) => {
+        setOpenEdit(false);
+        dispatch(editIt(video, title, description));
+    };
+    const onDeleteClick = () => {
+        setOpenAlert(false);
+        dispatch(deleteIt(video, user.uid));
     };
     const handleCloseEdit = () => {
         setOpenEdit(false);
@@ -120,7 +120,7 @@ export default function ScrollableTabsButtonAuto({ videos, history, liked, user,
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0} className={classes.container}>
-                {videos ? videos.map(video => (
+                {myVideos && myVideos.length ? myVideos.map(video => (
                     <div key={video.id}>
                         <a href={`/video/${video.id}`} className='link'>
                             <VideoCard url={video.url} title={video.title} author={video.artist} duration={video.duration} />
@@ -131,26 +131,26 @@ export default function ScrollableTabsButtonAuto({ videos, history, liked, user,
                                 <p className='link' onClick={() => onDeleteOpen(video)}>Delete</p>
                             </div> : null}
                     </div>
-                )) : null}
+                )) : <h1 className={styles.emptyContainerTitle}>No videos added yet</h1>}
             </TabPanel>
             {history ?
                 <TabPanel value={value} index={1} className={classes.container}>
-                    {history.map(video => (
+                    {history.length ? history.map(video => (
                         <a href={`/video/${video.id}`} className='link' key={video.id}>
                             <div >
                                 <VideoCard url={video.url} title={video.title} author={video.artist} duration={video.duration} />
                             </div>
                         </a>
-                    ))}
+                    )) : <h1 className={styles.emptyContainerTitle}>Your history is empty</h1>}
                 </TabPanel> : null}
             <TabPanel value={value} index={2} className={classes.container}>
-                {liked ? liked.map(video => (
+                {liked && liked.length ? liked.map(video => (
                     <a href={`/video/${video.id}`} className='link' key={video.id}>
                         <div >
                             <VideoCard url={video.url} title={video.title} author={video.artist} duration={video.duration} />
                         </div>
                     </a>
-                )) : null}
+                )) : <h1 className={styles.emptyContainerTitle}>Like some videos first</h1>}
             </TabPanel>
             <FormDialog handleClose={handleCloseEdit} onEditClick={onEditClick} open={openEdit} video={video} />
             <AlertDialog handleClose={handleCloseAlert} onDeleteClick={(e) => onDeleteClick(e)} open={openAlert} video={video} />

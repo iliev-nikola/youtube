@@ -5,6 +5,7 @@ $flex: flex;
 .notActive,
 .openMainContainer {
   display: $flex;
+  flex-wrap: wrap;
   .videoContainer,
   .notActive {
     flex-wrap: wrap;

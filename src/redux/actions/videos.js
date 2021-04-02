@@ -1,17 +1,23 @@
-import { auth, db } from '../../firebase';
+import { auth, db, storage } from '../../firebase';
 import { setLoading, setNotLoading } from '../actions/loadingBar';
 export const FETCH_VIDEOS_SUCCEEDED = 'FETCH_VIDEOS_SUCCEEDED';
 export const FETCH_VIDEOS_REQUESTED = 'FETCH_VIDEOS_REQUESTED';
 export const UPDATE_VIDEO = 'UPDATE_VIDEO';
 export const VIEWS_VIDEO = 'VIEWS_VIDEO';
+export const FETCH_MY_VIDEOS_SUCCEEDED = 'FETCH_MY_VIDEOS_SUCCEEDED';
 
 export const fetchVideosRequested = () => ({
     type: FETCH_VIDEOS_REQUESTED,
 });
 
-export const fetchVideosSucceded = (videos) => ({
+export const fetchVideosSucceeded = (videos) => ({
     type: FETCH_VIDEOS_SUCCEEDED,
     payload: videos,
+});
+
+export const fetchMyVideosSucceeded = (myVideos) => ({
+    type: FETCH_MY_VIDEOS_SUCCEEDED,
+    payload: myVideos,
 });
 
 export const updateVideo = (video) => ({
@@ -22,20 +28,34 @@ export const updateVideo = (video) => ({
 export const updateViews = (video) => ({
     type: VIEWS_VIDEO,
     payload: video
-})
+});
 
 export const fetchVideos = () => {
-    return function (dispatch, getState) {
+    return function (dispatch) {
         dispatch(setLoading());
         dispatch(fetchVideosRequested());
         db.collection('videos').onSnapshot(snapshot => {
             let dbVideos = [];
             snapshot.docs.map(doc => (dbVideos.push({ ...doc.data() })))
-            dispatch(fetchVideosSucceded(dbVideos));
+            dispatch(fetchVideosSucceeded(dbVideos));
             dispatch(setNotLoading());
         });
     }
 };
+
+export const fetchMyVideos = (uid) => {
+    return function (dispatch, getState) {
+        dispatch(setLoading());
+        dispatch(fetchVideosRequested());
+        const videosRef = db.collection('videos');
+        videosRef.where('authorID', '==', uid).get()
+            .then(res => res.docs.map(el => el.data()))
+            .then(res => {
+                dispatch(fetchMyVideosSucceeded(res));
+                dispatch(setNotLoading());
+            });
+    }
+}
 
 export const likeIt = (video, id) => {
     return function (dispatch) {
@@ -102,3 +122,47 @@ export const dislikeIt = (video, id) => {
 //         console.log(currentVideo);
 //     }
 // }
+
+export const editIt = (video, title, description) => {
+    return function (dispatch) {
+        dispatch(setLoading());
+        const obj = { ...video, title, description }
+        db.collection('videos')
+            .doc(video.id)
+            .update(obj,
+                (error) => {
+                    if (error) {
+                        console.log('failed');
+                    } else {
+                        console.log('success');
+                    }
+                }).then(() => {
+                    console.log('success');
+                    dispatch(updateVideo(obj));
+                    dispatch(fetchMyVideos(video.authorID));
+                    dispatch(setNotLoading());
+                });
+    }
+};
+
+export const deleteIt = (video, uid) => {
+    return function (dispatch, setState) {
+        console.log(video);
+        dispatch(setLoading());
+        db.collection('videos')
+            .doc(video.id)
+            .delete()
+            .finally(() => {
+                console.log('successfully deleted from collection');
+                dispatch(fetchMyVideos(uid));
+                dispatch(setNotLoading());
+            });
+            const storageRef = storage.ref();
+        const videoRef = storageRef.child(video.url);
+        videoRef.delete().then(() => {
+            console.log('successfully deleted from storage');
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
+};

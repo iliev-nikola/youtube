@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchVideos } from '../../redux/actions/videos';
-import { getVideos } from '../../redux/selectors/getVideos';
+import { getVideos } from '../../redux/selectors/videos';
 import Layout from '../Layout/Layout';
 import VideoCard from '../VideoCard/VideoCard';
 
