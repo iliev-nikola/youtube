@@ -3,7 +3,7 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import { Tooltip } from '@material-ui/core';
 import VideoCallIcon from '@material-ui/icons/VideoCall';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
+import { db } from '../../firebase';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import styles from './Header.module.scss';
@@ -11,11 +11,13 @@ import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleTheme } from '../../theme/theme';
 import { getUser } from '../../redux/selectors/user';
+import { getVideos } from '../../redux/selectors/videos';
 
 export default function UserMenu() {
     const history = useHistory();
     const dispatch = useDispatch();
     const user = useSelector(getUser);
+    const videos = useSelector(getVideos);
 
     const [openNotify, setOpenNotify] = useState(false);
     const handleClickNotify = () => {
@@ -31,6 +33,7 @@ export default function UserMenu() {
     const handleClickAwayProfile = () => {
         setOpenProfile(false);
     };
+   
     return (
         <div id={styles.userIcons}>
             <Tooltip title="Upload a video" placement="bottom">

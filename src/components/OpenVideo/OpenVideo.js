@@ -42,8 +42,12 @@ export default function OpenVideo({ sidebar }) {
 
     useEffect(() => {
         dispatch(getComments(id));
+
+    }, [id, dispatch]);
+
+    useEffect(() => {
         dispatch(fetchVideo(id));
-    }, []);
+    }, [])
 
     useEffect(() => {
         if (videoId) {

@@ -27,11 +27,13 @@ import { getIsLoading } from "./redux/selectors/loading";
 import HomePage from "./Components/HomePage/HomePage";
 import { changeThemeColors } from './utils';
 
+
 export default function App() {
   const dispatch = useDispatch();
   const user = useSelector(getUser);
   const isLoading = useSelector(getIsLoading);
   const theme = useSelector(state => state.theme.theme);
+ 
 
   useEffect(() => {
     changeThemeColors(theme);
@@ -47,21 +49,7 @@ export default function App() {
     })
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   console.log('User: ', user)
-  //   if (user && user.uid) {
-  //     db.collection('videos').where('authorID', '==', 'RfXjuwWcP9QIlS8D0vtyA8Cipix2').onSnapshot(snapshot => {
-  //       console.log('Snapshot: ', snapshot)
-  //       snapshot.forEach(doc => {
-  //         console.log('Real Time update: ', doc.data())
 
-  //         // If the liked by array was changed!
-  //         //  disliked by 
-  //       })
-  //     })
-  //   }
-
-  // }, [user])
 
   return (
     <Router>

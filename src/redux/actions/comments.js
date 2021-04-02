@@ -14,16 +14,11 @@ export const updateComments = (comments) => ({
 
 export const getComments = (id) => {
     return function (dispatch) {
-        db.collection("comments")
-            .where("videoID", "==", id)
-            .get()
-            .then((comments) => {
-                let dbComments = [];
-                comments.forEach((doc) => {
-                    dbComments.push(doc.data());
-                });
-                dispatch(showComments(dbComments));
-            });
+        db.collection('comments').where("videoID", "==", id).onSnapshot(snapshot => {
+            let dbComments = [];
+            snapshot.docs.map(doc => (dbComments.push({ ...doc.data() })))
+            dispatch(showComments(dbComments));
+        });
     }
 }
 
@@ -34,7 +29,7 @@ export const showUpdatedComments = (id, user, inputValue) => {
             comment: inputValue,
             userID: user.uid,
             displayName: user.displayName,
-            photoURL : user.photoURL
+            photoURL: user.photoURL
         }
         db.collection('comments').doc().set(commentData)
             .then(() => {
