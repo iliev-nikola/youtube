@@ -1,9 +1,13 @@
 import { auth, db } from '../../firebase';
 import { setLoading, setNotLoading } from '../actions/loadingBar';
+import { getVideoWatched, getVideoID, getVideoViews, getVideo } from '../selectors/video';
+import { getUser } from '../selectors/user';
 export const FETCH_VIDEOS_SUCCEEDED = 'FETCH_VIDEOS_SUCCEEDED';
 export const FETCH_VIDEOS_REQUESTED = 'FETCH_VIDEOS_REQUESTED';
 export const UPDATE_VIDEO = 'UPDATE_VIDEO';
-export const VIEWS_VIDEO = 'VIEWS_VIDEO';
+export const FETCH_VIDEO = 'FETCH_VIDEO';
+export const INCREASE_VIEWS = 'INCREASE_VIEWS';
+export const INCREASE_LIKES = 'INCREASE_LIKES';
 
 export const fetchVideosRequested = () => ({
     type: FETCH_VIDEOS_REQUESTED,
@@ -19,6 +23,16 @@ export const updateVideo = (video) => ({
     payload: video,
 });
 
+export const fetchVideoSucceded = (video) => ({
+    type: FETCH_VIDEO,
+    payload: video,
+});
+
+export const increaseViews = () => ({
+    type: INCREASE_VIEWS
+})
+
+
 export const fetchVideos = () => {
     return function (dispatch) {
         dispatch(setLoading());
@@ -32,64 +46,75 @@ export const fetchVideos = () => {
     }
 };
 
-export const likeIt = (video, id) => {
-    return function (dispatch) {
+export const likeIt = () => {
+    return function (dispatch, getState) {
         const currentUser = auth.currentUser.uid;
-        const isLiked = video.isLikedBy.find(user => user === currentUser);
-        const isDisliked = video.isDislikedBy.find(user => user === currentUser);
-        let currentVideo;
-        if (isLiked && !isDisliked) {
+        const video = getVideo(getState());
+        const isLiked = video.isLikedBy.some(user => user === currentUser);
+        const isDisliked = video.isDislikedBy.some(user => user === currentUser);
+        let currentVideo = video;
+        if (isLiked) {
             return;
-        }
-        if (!isLiked && isDisliked) {
+        } else if (!isLiked && isDisliked) {
             const filterLikes = video.isLikedBy.filter(user => user !== currentUser);
-            db.collection('videos').doc(id).update({ isDislikedBy: filterLikes })
-            db.collection('videos').doc(id).update({ isLikedBy: [...video.isLikedBy, currentUser] })
+            db.collection('videos').doc(video.id).update({ isDislikedBy: filterLikes, isLikedBy: [...video.isLikedBy, currentUser] })
                 .then(() => currentVideo = { ...video, isLikedBy: [...video.isLikedBy, currentUser], filterLikes });
-        }
-        if (!isLiked) {
-            db.collection('videos').doc(id).update({ isLikedBy: [...video.isLikedBy, currentUser] })
+        } else if (!isLiked) {
+            db.collection('videos').doc(video.id).update({ isLikedBy: [...video.isLikedBy, currentUser] })
                 .then(() => currentVideo = { ...video, isLikedBy: [...video.isLikedBy, currentUser] });
-            currentVideo = { ...video, isLikedBy: [...video.isLikedBy, currentUser] };
+
         }
+
         dispatch(updateVideo(currentVideo));
     }
 };
 
-export const dislikeIt = (video, id) => {
-    return function (dispatch) {
+export const dislikeIt = () => {
+    return function (dispatch, getState) {
         const currentUser = auth.currentUser.uid;
-        const isLiked = video.isLikedBy.find(user => user === currentUser);
-        const isDisliked = video.isDislikedBy.find(user => user === currentUser);
-        let currentVideo;
-        if (isDisliked && !isLiked) {
+        const video = getVideo(getState());
+        const isLiked = video.isLikedBy.some(user => user === currentUser);
+        const isDisliked = video.isDislikedBy.some(user => user === currentUser);
+        let currentVideo = video;
+        if (isDisliked) {
             return;
-        }
-        if (!isDisliked) {
-            db.collection('videos').doc(id).update({ isDislikedBy: [...video.isDislikedBy, currentUser] })
-                .then(() => currentVideo = { ...video, isDislikedBy: [...video.isDislikedBy, currentUser] });
-            currentVideo = { ...video, isLikedBy: [...video.isLikedBy, currentUser] };
-        }
-        if (!isDisliked && isLiked) {
+        } else if (!isDisliked && isLiked) {
             const filterLikes = video.isLikedBy.filter(user => user !== currentUser);
-            db.collection('videos').doc(id).update({ isLikedBy: filterLikes })
-            db.collection('videos').doc(id).update({ isDislikedBy: [...video.isDislikedBy, currentUser] })
+            db.collection('videos').doc(video.id).update({ isLikedBy: filterLikes, isDislikedBy: [...video.isDislikedBy, currentUser] })
                 .then(() => currentVideo = { ...video, filterLikes, isDislikedBy: [...video.isDislikedBy, currentUser] });
+        } else if (!isDisliked) {
+            db.collection('videos').doc(video.id).update({ isDislikedBy: [...video.isDislikedBy, currentUser] })
+                .then(() => currentVideo = { ...video, isDislikedBy: [...video.isDislikedBy, currentUser] });
         }
+
         dispatch(updateVideo(currentVideo));
     }
 };
 
-export const changeViews = (video, id, user) => {
-    return function () {
-        const isWatchedByUser = video.isWatchedBy.some(currentUser => currentUser.id === user.uid);
+export const changeViews = () => {
+    return function (dispatch, getState) {
+        const user = getUser(getState());
+        const isWatchedBy = getVideoWatched(getState());
+        const videoID = getVideoID(getState());
+        const videoViews = getVideoViews(getState());
+        db.collection("videos")
+            .doc(videoID)
+            .update({ views: videoViews + 1 });
+        if (user && !isWatchedBy.includes(user.uid)) {
+
+            db.collection("videos")
+                .doc(videoID)
+                .update({ isWatchedBy: [...isWatchedBy, user.uid] });
+        }
+        return dispatch(increaseViews());
+    }
+}
+
+export const fetchVideo = (id) => {
+    return function (dispatch) {
         db.collection("videos")
             .doc(id)
-            .update({ views: video.views + 1 });
-        if (!isWatchedByUser) {
-            db.collection("videos")
-                .doc(id)
-                .update({ isWatchedBy: [...video.isWatchedBy, user.uid] });
-        }
+            .get()
+            .then(res => dispatch(fetchVideoSucceded(res.data())));
     }
 }

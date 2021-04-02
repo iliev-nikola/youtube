@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { Redirect, Route, Router, useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import styles from './OpenVideo.module.scss';
 import ReactPlayer from 'react-player';
-import { auth, db } from '../../firebase';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import ThumbUp from '@material-ui/icons/ThumbUp';
 import LikeOrDislikeVideo from './LikeOrDislikeVideo';
-import { Input, Link } from '@material-ui/core';
+import { Input } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { dislikeIt, likeIt, changeViews } from '../../redux/actions/videos';
-import { getVideos, getUser, getVideoComments } from '../../redux/selectors/selectors';
-
+import { dislikeIt, likeIt, changeViews, fetchVideo } from '../../redux/actions/videos';
+import { getVideos, getUser, getVideoComments, getVideo } from '../../redux/selectors/selectors';
 import { getComments } from '../../redux/actions/comments';
 import { showUpdatedComments } from '../../redux/actions/comments';
 import Layout from '../Layout/Layout';
+import { getVideoURL, getVideoID, getVideoTitle, getVideoViews, getVideoAuthor, getVideoDescription, getVideoLikes, getVideoDislikes, getVideoAuthorID } from '../../redux/selectors/video';
+
 
 
 export default function OpenVideo({ sidebar }) {
@@ -23,18 +23,36 @@ export default function OpenVideo({ sidebar }) {
     const [inputValue, setInputValue] = useState('');
     const [isLiked, setIsLiked] = useState(false);
     const [isDisliked, setIsDisliked] = useState(false);
-    const reduxVideos = useSelector(getVideos);
-    const video = reduxVideos.find(video => video.id === id);
     const comments = useSelector(getVideoComments);
     const user = useSelector(getUser);
+    const videoId = useSelector(getVideoID);
+    const videoTitle = useSelector(getVideoTitle);
+    const videoViews = useSelector(getVideoViews);
+    const videoAuthor = useSelector(getVideoAuthor);
+    const videoDescription = useSelector(getVideoDescription);
+    const videoURL = useSelector(getVideoURL);
+    const videoDislikes = useSelector(getVideoDislikes);
+    const videoLikes = useSelector(getVideoLikes);
+    const authorID = useSelector(getVideoAuthorID);
+    useEffect(() => {
+        if (user && videoId) {
+            console.log(videoId);
+            setIsLiked(videoLikes.some(userID => userID === user.uid));
+            setIsDisliked(videoDislikes.some(userID => userID === user.uid));
+        }
+    }, [videoId, user])
+
+
     useEffect(() => {
         dispatch(getComments(id));
-    }, [id, dispatch, reduxVideos]);
+        dispatch(fetchVideo(id));
+    }, []);
 
     useEffect(() => {
-        dispatch(changeViews(video, id, user));
-
-    }, [user]);
+        if (videoId) {
+            dispatch(changeViews());
+        }
+    }, [videoId]);
 
 
     const onInputChange = (e) => {
@@ -48,16 +66,16 @@ export default function OpenVideo({ sidebar }) {
         }
     }
     const numberLikes = (
-        <><ThumbUp className={isLiked ? styles.liked : styles.button} onClick={() => { dispatch(likeIt(video, id)) }} /><span>{video ? video.isLikedBy.length : null}</span></>
+        <><ThumbUp className={isLiked ? styles.liked : styles.button} onClick={() => { dispatch(likeIt()) }} /><span>{videoId ? videoLikes.length : null}</span></>
     );
     const loggedNumberLikes = (
-        <><LikeOrDislikeVideo button={<ThumbUp className={styles.button} />} content={'Like this video?'} /><span>{video ? video.isLikedBy.length : null}</span></>
+        <><LikeOrDislikeVideo button={<ThumbUp className={styles.button} />} content={'Like this video?'} /><span>{videoId ? videoLikes.length : null}</span></>
     );
     const numberDislikes = (
-        <><ThumbDownIcon className={isDisliked ? styles.disliked : styles.button} onClick={() => { dispatch(dislikeIt(video, id)) }} /><span>{video ? video.isDislikedBy.length : null}</span></>
+        <><ThumbDownIcon className={isDisliked ? styles.disliked : styles.button} onClick={() => { dispatch(dislikeIt()) }} /><span>{videoId ? videoDislikes.length : null}</span></>
     );
     const loggedNumberDIslikes = (
-        <><LikeOrDislikeVideo button={<ThumbDownIcon className={styles.button} />} content={`Don't like this video?`} /><span>{video ? video.isDislikedBy.length : null}</span></>
+        <><LikeOrDislikeVideo button={<ThumbDownIcon className={styles.button} />} content={`Don't like this video?`} /><span>{videoId ? videoDislikes.length : null}</span></>
     );
 
 
@@ -65,16 +83,16 @@ export default function OpenVideo({ sidebar }) {
         <Layout>
             <div className={sidebar ? styles.notActive : styles.mainContainer}>
                 <div>
-                    {video ?
+                    {videoId ?
                         <div>
-                            <ReactPlayer url={video.url} controls playing={true} className={styles.video} />
+                            <ReactPlayer url={videoURL} controls playing={true} className={styles.video} />
                             <div className={styles.hashtags}>
-                                {`#${video.title} #video# ${video.views} #youtube`}
+                                {`#${videoTitle} #video# ${videoViews} #youtube`}
                             </div>
                             <div className={styles.infoContainer}>
-                                <p className={styles.title}>{video.title}</p>
+                                <p className={styles.title}>{videoTitle}</p>
                                 <div className={styles.likesContainer}>
-                                    <div className={styles.views}>{video.views} views</div>
+                                    <div className={styles.views}>{videoViews} views</div>
                                     <div className={styles.thumbs}>
                                         {user ? <>{numberLikes}</> : <>{loggedNumberLikes}</>}
                                         {user ? <>{numberDislikes}</> : <>{loggedNumberDIslikes}</>}
@@ -82,8 +100,8 @@ export default function OpenVideo({ sidebar }) {
                                 </div>
                             </div>
                             <div className={styles.videoInfo}>
-                                <a className={styles.userLogo} href={`/user/${video.authorID}`}>{video.author[0]}</a>
-                                <span className={styles.descr}>{video.description}</span>
+                                <a className={styles.userLogo} href={`/user/${authorID}`}>{videoAuthor[0]}</a>
+                                <span className={styles.descr}>{videoDescription}</span>
                             </div>
                             <div>
                                 <div className={styles.commentsContainer}>
@@ -94,7 +112,9 @@ export default function OpenVideo({ sidebar }) {
                                         comments.map((currentComment, index) => (
                                             <div key={index} className={styles.mainComm} >
                                                 <div className={styles.userLogo} onClick={() => history.push(`/user/${currentComment.userID}`)}>
-                                                    {currentComment.photoURL ? <img className={styles.userPic} src={currentComment.photoURL} alt='user logo' /> : <h1>{currentComment.displayName}</h1>}</div>
+                                                    {currentComment.photoURL && <img className={styles.userPic} src={currentComment.photoURL} alt='user logo' />}
+                                                    {!currentComment.photoURL && <h1 className={styles.userPic}>{currentComment.displayName[0]}</h1>}
+                                                </div>
                                                 <div className={styles.commentsContainer}>
                                                     <div className={styles.someComment}>
                                                         <p className={styles.userName}>{currentComment.displayName}</p>
