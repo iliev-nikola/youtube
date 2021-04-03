@@ -4,6 +4,7 @@ import {
 
 const INITIAL_STATE = {
     notifications: []
+    
 };
 
 const notificationReducer = (state = INITIAL_STATE, action) => {

@@ -14,7 +14,6 @@ export default function VoiceControl() {
     setListening(true);
     console.log(recognition);
   }
-
   recognition.onend = () => {
     setListening(false);
   }
@@ -39,7 +38,6 @@ export default function VoiceControl() {
     }
 
   }
-
   return (
     <>
       <div className={styles.microphone} onClick={activeMicr}>Micr</div>

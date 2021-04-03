@@ -22,3 +22,10 @@ export function pushToLiked(id) {
     // find current user in firebase and push the id in the liked array
 }
 
+export function setNotificationsRead() {
+    db.collection('notifications').get().then(res => res.docs.map(el => el.data())).then(res =>{
+        res.forEach(el=>{
+            db.collection('notifications').doc(el.notID).update({ isRead : true });
+        })
+    });
+}

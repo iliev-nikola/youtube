@@ -11,19 +11,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleTheme } from '../../redux/actions/theme';
 import { getUser } from '../../redux/selectors/user';
 import { getNotifications } from '../../redux/actions/notifications';
+import { setNotificationsRead } from '../../service';
+import UserLogo from '../common/UserLogo/UserLogo';
 
 export default function UserMenu() {
     const history = useHistory();
     const dispatch = useDispatch();
     const user = useSelector(getUser);
+    const notifications = useSelector(state => state.notification.notifications);
     const [openNotify, setOpenNotify] = useState(false);
-    const [lastLengthNotif, setlastLengthNotif] = useState(0);
-    const [newLengthNotif, setNewLengthNotif] = useState(0);
-    const [isNewNotif, setIsNewNotif] = useState(false);
+    const [unreadNotifications, setUnreadNotifications] = useState([]);
 
     const handleClickNotify = () => {
         setOpenNotify((prev) => !prev);
-        setTimeout(() => setlastLengthNotif(notif.length), 6000);
+        setNotificationsRead();
     };
     const handleClickAwayNotify = () => {
         setOpenNotify(false);
@@ -37,27 +38,14 @@ export default function UserMenu() {
     const handleClickAwayProfile = () => {
         setOpenProfile(false);
     };
-    const notif = useSelector(state => state.notification.notifications);
-
-    useEffect(() => {
-        setlastLengthNotif(notif.length);
-    }, [])
 
     useEffect(() => {
         if (user) {
             dispatch(getNotifications(user.uid));
-            setNewLengthNotif(notif.length);
+            setUnreadNotifications(notifications.filter(notification => !notification.isRead));
         }
-    }, [user, notif.length]);
+    }, [user, dispatch, notifications]);
 
-    useEffect(() => {
-        if (lastLengthNotif !== newLengthNotif) {
-            setIsNewNotif(true);
-        } else {
-            setIsNewNotif(false);
-        }
-        // console.log(newLengthNotif - lastLengthNotif);
-    }, [lastLengthNotif, newLengthNotif, isNewNotif]);
 
     return (
         <div id={styles.userIcons}>
@@ -71,20 +59,21 @@ export default function UserMenu() {
             >
                 <div className={styles.dropdownContainer} >
                     <Tooltip title="Notifications" placement="bottom">
-                        <NotificationsIcon className={!isNewNotif ? styles.icons : styles.notif} onClick={handleClickNotify} />
+                        <NotificationsIcon className={styles.icons} onClick={handleClickNotify} />
                     </Tooltip>
+                    <span className={styles.badge}>{unreadNotifications.length}</span>
                     {openNotify ? (
                         <div id={styles.dropdownNotify} className={styles.dropdown}>
                             <h4 className={styles.notifyTitle}>Notifications</h4>
                             <div className={styles.line}></div>
-                            <NotificationsIcon fontSize="large" id={styles.bigNotifyIcon} />
-                            <p className={styles.greyText}>
-                                {notif ? notif.map((notification, index) => (
-                                    <div key={index} className={index < newLengthNotif - lastLengthNotif ? styles.noread : styles.read}>
-                                        <span>{notification.status}</span>
+                            <div className={styles.greyText}>
+                                {notifications ? notifications.map((notification, index) => (
+                                    <div key={index} className={!notification.isRead ? styles.notReadNot : styles.readNot}>
+                                        <UserLogo user={notification} />
+                                        <span>{`${notification.displayName} ${notification.status} your video `} <Link to={`/video/${notification.videoID}`}>{notification.videoTitle}</Link></span>
                                     </div>
                                 )) : null}
-                            </p>
+                            </div>
                         </div>
                     ) : null}
                 </div>
@@ -98,9 +87,10 @@ export default function UserMenu() {
                 <div className={styles.dropdownContainer} >
                     {user ?
                         <Tooltip title="My profile" placement="bottom">
-                            {user.photoURL ?
+                            {/* {user.photoURL ?
                                 <img className={styles.userPhoto} onClick={handleClickProfile} src={user.photoURL} alt='user logo' />
-                                : <h1 onClick={handleClickProfile} className={styles.userIcon}>{user ? user.displayName[0] : null}</h1>}
+                                : <h1 onClick={handleClickProfile} className={styles.userIcon}>{user ? user.displayName[0] : null}</h1>} */}
+                            <UserLogo user={user} className={styles.userIcon} />
                         </Tooltip>
                         : null}
                     {openProfile ? (

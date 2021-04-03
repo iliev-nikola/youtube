@@ -69,6 +69,16 @@ $center: center;
   cursor: pointer;
   padding: 4px;
 }
+.badge {
+  position: absolute;
+  padding: 4px;
+  right: -2px;
+  font-size: 10px;
+  font-weight: 900;
+  border-radius: 50%;
+  background: red;
+  color: white;
+}
 
 #voiceIcon {
   margin: -2px 0 -5px 0;
@@ -94,12 +104,17 @@ $center: center;
   color: red;
 }
 
-.noread{
-  background-color: red;
+.notReadNot,
+.readNot {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 10px;
+  align-items: baseline;
+  font-size: 13px;
 }
 
-.read{
-  background-color: white;
+.notReadNot{
+  background: rgba(170,170,170, 0.1)
 }
 
 .searchCont {
