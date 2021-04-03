@@ -1,39 +1,64 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import { Tooltip } from '@material-ui/core';
 import VideoCallIcon from '@material-ui/icons/VideoCall';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { db } from '../../firebase';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import styles from './Header.module.scss';
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleTheme } from '../../theme/theme';
+import { toggleTheme } from '../../redux/actions/theme';
 import { getUser } from '../../redux/selectors/user';
-import { getVideos } from '../../redux/selectors/videos';
+import { getNotifications } from '../../redux/actions/notifications';
 
 export default function UserMenu() {
     const history = useHistory();
     const dispatch = useDispatch();
     const user = useSelector(getUser);
-    const videos = useSelector(getVideos);
-
     const [openNotify, setOpenNotify] = useState(false);
+    const [lastLengthNotif, setlastLengthNotif] = useState(0);
+    const [newLengthNotif, setNewLengthNotif] = useState(0);
+    const [isNewNotif, setIsNewNotif] = useState(false);
+
     const handleClickNotify = () => {
         setOpenNotify((prev) => !prev);
+        setTimeout(() => setlastLengthNotif(notif.length), 6000);
     };
     const handleClickAwayNotify = () => {
         setOpenNotify(false);
     };
     const [openProfile, setOpenProfile] = useState(false);
+
     const handleClickProfile = () => {
         setOpenProfile((prev) => !prev);
     };
+
     const handleClickAwayProfile = () => {
         setOpenProfile(false);
     };
-   
+    const notif = useSelector(state => state.notification.notifications);
+
+    useEffect(() => {
+        setlastLengthNotif(notif.length);
+    }, [])
+
+    useEffect(() => {
+        if (user) {
+            dispatch(getNotifications(user.uid));
+            setNewLengthNotif(notif.length);
+        }
+    }, [user, notif.length]);
+
+    useEffect(() => {
+        if (lastLengthNotif !== newLengthNotif) {
+            setIsNewNotif(true);
+        } else {
+            setIsNewNotif(false);
+        }
+        // console.log(newLengthNotif - lastLengthNotif);
+    }, [lastLengthNotif, newLengthNotif, isNewNotif]);
+
     return (
         <div id={styles.userIcons}>
             <Tooltip title="Upload a video" placement="bottom">
@@ -46,14 +71,20 @@ export default function UserMenu() {
             >
                 <div className={styles.dropdownContainer} >
                     <Tooltip title="Notifications" placement="bottom">
-                        <NotificationsIcon className={styles.icons} onClick={handleClickNotify} />
+                        <NotificationsIcon className={!isNewNotif ? styles.icons : styles.notif} onClick={handleClickNotify} />
                     </Tooltip>
                     {openNotify ? (
                         <div id={styles.dropdownNotify} className={styles.dropdown}>
                             <h4 className={styles.notifyTitle}>Notifications</h4>
                             <div className={styles.line}></div>
                             <NotificationsIcon fontSize="large" id={styles.bigNotifyIcon} />
-                            <p className={styles.greyText}>No new notifications.</p>
+                            <p className={styles.greyText}>
+                                {notif ? notif.map((notification, index) => (
+                                    <div key={index} className={index < newLengthNotif - lastLengthNotif ? styles.noread : styles.read}>
+                                        <span>{notification.status}</span>
+                                    </div>
+                                )) : null}
+                            </p>
                         </div>
                     ) : null}
                 </div>

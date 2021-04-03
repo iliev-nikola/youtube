@@ -90,6 +90,18 @@ $center: center;
   cursor: pointer;
 }
 
+.notif {
+  color: red;
+}
+
+.noread{
+  background-color: red;
+}
+
+.read{
+  background-color: white;
+}
+
 .searchCont {
   background: var(--search-color);
   margin-right: 10px;

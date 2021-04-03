@@ -12,8 +12,8 @@ import { getUser, getVideoComments } from '../../redux/selectors/selectors';
 import { getComments } from '../../redux/actions/comments';
 import { showUpdatedComments } from '../../redux/actions/comments';
 import Layout from '../Layout/Layout';
-import { getVideoURL, getVideoID, getVideoTitle, getVideoViews, getVideoAuthor, getVideoDescription, getVideoLikes, getVideoDislikes, getVideoAuthorID } from '../../redux/selectors/video';
-
+import { getVideo,getVideoURL, getVideoID, getVideoTitle, getVideoViews, getVideoAuthor, getVideoDescription, getVideoLikes, getVideoDislikes, getVideoAuthorID } from '../../redux/selectors/video';
+import { showUpdatedNotifications } from '../../redux/actions/notifications';
 export default function OpenVideo({ sidebar }) {
     const history = useHistory();
     const dispatch = useDispatch();
@@ -23,6 +23,7 @@ export default function OpenVideo({ sidebar }) {
     const [isDisliked, setIsDisliked] = useState(false);
     const comments = useSelector(getVideoComments);
     const user = useSelector(getUser);
+    const video = useSelector(getVideo);
     const videoId = useSelector(getVideoID);
     const videoTitle = useSelector(getVideoTitle);
     const videoViews = useSelector(getVideoViews);
@@ -37,8 +38,7 @@ export default function OpenVideo({ sidebar }) {
             setIsLiked(videoLikes.some(userID => userID === user.uid));
             setIsDisliked(videoDislikes.some(userID => userID === user.uid));
         }
-    }, [videoId, user])
-
+    }, [videoId, user, videoLikes, videoDislikes])
 
     useEffect(() => {
         dispatch(getComments(id));
@@ -47,7 +47,7 @@ export default function OpenVideo({ sidebar }) {
 
     useEffect(() => {
         dispatch(fetchVideo(id));
-    }, [])
+    }, [videoLikes, videoDislikes])
 
     useEffect(() => {
         if (videoId) {
@@ -67,7 +67,7 @@ export default function OpenVideo({ sidebar }) {
         }
     }
     const numberLikes = (
-        <><ThumbUp className={isLiked ? styles.liked : styles.button} onClick={() => { dispatch(likeIt(id)) }} /><span>{videoId ? videoLikes.length : null}</span></>
+        <><ThumbUp className={isLiked ? styles.liked : styles.button} onClick={() => { dispatch(likeIt(id)); dispatch(showUpdatedNotifications(video, user, 'like')) }} /><span>{videoId ? videoLikes.length : null}</span></>
     );
     const loggedNumberLikes = (
         <><LikeOrDislikeVideo button={<ThumbUp className={styles.button} />} content={'Like this video?'} /><span>{videoId ? videoLikes.length : null}</span></>

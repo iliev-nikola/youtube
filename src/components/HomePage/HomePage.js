@@ -19,7 +19,7 @@ export default function HomePage() {
 
     useEffect(() => {
         if (videos) {
-            const initialState = videos.slice(0, 4);
+            const initialState = videos.slice(0, 15);
             setVisibleVideos(initialState);
         }
     }, [])
@@ -35,14 +35,14 @@ export default function HomePage() {
     return (
         <Layout>
             <div className='videoContainer'>
-                <InfiniteScroll
+                {/* <InfiniteScroll
                     dataLength={visibleVideos.length}
                     next={fetchMoreData}
-                    hasMore={videos.length > visibleVideos.length}
+                    hasMore={true}
                     loader={<h4>Loading...</h4>}
-                >
+                > */}
                     {
-                        visibleVideos.map(video => (
+                        videos.map(video => (
                             <Link to={`/video/${video.id}`} className='link' key={video.id}>
                                 <div>
                                     <VideoCard url={video.url} title={video.title} views={video.views} />
@@ -50,7 +50,7 @@ export default function HomePage() {
                             </Link>
                         ))
                     }
-                </InfiniteScroll>
+                {/* </InfiniteScroll> */}
             </div>
         </Layout >
     )

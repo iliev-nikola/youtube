@@ -1,4 +1,5 @@
 import { db } from "../../firebase";
+import firebase from "firebase/app";
 export const SHOW_COMMENTS = 'SHOW_COMMENTS';
 export const UPDATE_COMMENTS = 'UPDATE_COMMENTS';
 
@@ -29,7 +30,8 @@ export const showUpdatedComments = (id, user, inputValue) => {
             comment: inputValue,
             userID: user.uid,
             displayName: user.displayName,
-            photoURL: user.photoURL
+            photoURL: user.photoURL,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
         }
         db.collection('comments').doc().set(commentData)
             .then(() => {
@@ -42,7 +44,6 @@ export const showUpdatedComments = (id, user, inputValue) => {
                             dbComments.push(doc.data());
                         });
                         dispatch(showComments(dbComments));
-                        console.log(dbComments);
                     });
             })
     }

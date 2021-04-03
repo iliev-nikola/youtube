@@ -21,3 +21,4 @@ export function pushToWatched(id) {
 export function pushToLiked(id) {
     // find current user in firebase and push the id in the liked array
 }
+

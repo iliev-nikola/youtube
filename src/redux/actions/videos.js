@@ -88,9 +88,7 @@ export const likeIt = () => {
         } else if (!isLiked) {
             db.collection('videos').doc(video.id).update({ isLikedBy: [...video.isLikedBy, currentUser] })
                 .then(() => currentVideo = { ...video, isLikedBy: [...video.isLikedBy, currentUser] });
-
         }
-
         dispatch(updateVideo(currentVideo));
     }
 };
