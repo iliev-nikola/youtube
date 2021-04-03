@@ -13,8 +13,9 @@ import { getComments } from '../../redux/actions/comments';
 import { showUpdatedComments } from '../../redux/actions/comments';
 import Layout from '../Layout/Layout';
 import { getVideo, getVideoURL, getVideoID, getVideoTitle, getVideoViews, getVideoAuthor, getVideoDescription, getVideoLikes, getVideoDislikes, getVideoAuthorID } from '../../redux/selectors/video';
-import { updatedNotifications, deleteNotif } from '../../redux/actions/notifications';
 import UserLogo from '../common/UserLogo/UserLogo';
+import { updatedNotifications, deleteComment } from '../../service';
+
 export default function OpenVideo({ sidebar }) {
     const history = useHistory();
     const dispatch = useDispatch();
@@ -43,7 +44,6 @@ export default function OpenVideo({ sidebar }) {
 
     useEffect(() => {
         dispatch(getComments(id));
-
     }, [id, dispatch]);
 
     useEffect(() => {
@@ -56,7 +56,6 @@ export default function OpenVideo({ sidebar }) {
         }
     }, [videoId]);
 
-
     const onInputChange = (e) => {
         setInputValue(e.currentTarget.value);
     }
@@ -67,19 +66,24 @@ export default function OpenVideo({ sidebar }) {
             setInputValue('');
         }
     }
+    const handleClick = ()=>{
+        dispatch(likeIt(id));
+        updatedNotifications(video, user, 'like')
+    }
     const numberLikes = (
-        <><ThumbUp className={isLiked ? styles.liked : styles.button} onClick={() => { dispatch(likeIt(id)); dispatch(updatedNotifications(video, user, 'like')) }} /><span>{videoId ? videoLikes.length : null}</span></>
+        <><ThumbUp className={isLiked ? styles.liked : styles.button} onClick={() => {
+            handleClick();
+        }} /><span>{videoId ? videoLikes.length : null}</span></>
     );
     const loggedNumberLikes = (
         <><LikeOrDislikeVideo button={<ThumbUp className={styles.button} />} content={'Like this video?'} /><span>{videoId ? videoLikes.length : null}</span></>
     );
     const numberDislikes = (
-        <><ThumbDownIcon className={isDisliked ? styles.disliked : styles.button} onClick={() => { dispatch(dislikeIt(id)); dispatch(deleteNotif('1d394f23-ff29-4b9c-be22-0369531cd394')) }} /><span>{videoId ? videoDislikes.length : null}</span></>
+        <><ThumbDownIcon className={isDisliked ? styles.disliked : styles.button} onClick={() => { dispatch(dislikeIt(id))}} /><span>{videoId ? videoDislikes.length : null}</span></>
     );
     const loggedNumberDIslikes = (
         <><LikeOrDislikeVideo button={<ThumbDownIcon className={styles.button} />} content={`Don't like this video?`} /><span>{videoId ? videoDislikes.length : null}</span></>
     );
-
 
     return (
         <Layout>

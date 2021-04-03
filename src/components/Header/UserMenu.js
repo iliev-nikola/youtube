@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleTheme } from '../../redux/actions/theme';
 import { getUser } from '../../redux/selectors/user';
 import { getNotifications } from '../../redux/actions/notifications';
-import { setNotificationsRead } from '../../service';
+import { deleteNotification } from '../../service';
 import UserLogo from '../common/UserLogo/UserLogo';
 
 export default function UserMenu() {
@@ -21,10 +21,9 @@ export default function UserMenu() {
     const notifications = useSelector(state => state.notification.notifications);
     const [openNotify, setOpenNotify] = useState(false);
     const [unreadNotifications, setUnreadNotifications] = useState([]);
-
     const handleClickNotify = () => {
         setOpenNotify((prev) => !prev);
-        setNotificationsRead();
+
     };
     const handleClickAwayNotify = () => {
         setOpenNotify(false);
@@ -40,8 +39,12 @@ export default function UserMenu() {
     };
 
     useEffect(() => {
+        dispatch(getNotifications(user.uid));
+    }, []);
+
+    useEffect(() => {
         if (user) {
-            dispatch(getNotifications(user.uid));
+            // dispatch(getNotifications(user.uid));
             setUnreadNotifications(notifications.filter(notification => !notification.isRead));
         }
     }, [user, dispatch, notifications]);
@@ -71,6 +74,7 @@ export default function UserMenu() {
                                     <div key={index} className={!notification.isRead ? styles.notReadNot : styles.readNot}>
                                         <UserLogo user={notification} />
                                         <span>{`${notification.displayName} ${notification.status} your video `} <Link to={`/video/${notification.videoID}`}>{notification.videoTitle}</Link></span>
+                                        <span onClick={()=>deleteNotification(notification.notID)}>XXX</span>
                                     </div>
                                 )) : null}
                             </div>
@@ -87,10 +91,10 @@ export default function UserMenu() {
                 <div className={styles.dropdownContainer} >
                     {user ?
                         <Tooltip title="My profile" placement="bottom">
-                            {/* {user.photoURL ?
+                            {user.photoURL ?
                                 <img className={styles.userPhoto} onClick={handleClickProfile} src={user.photoURL} alt='user logo' />
-                                : <h1 onClick={handleClickProfile} className={styles.userIcon}>{user ? user.displayName[0] : null}</h1>} */}
-                            <UserLogo user={user} className={styles.userIcon} />
+                                : <h1 onClick={handleClickProfile} className={styles.userIcon}>{user ? user.displayName[0] : null}</h1>}
+                            {/* <UserLogo user={user} className={styles.userIcon} onClick={handleClickProfile} /> */}
                         </Tooltip>
                         : null}
                     {openProfile ? (

@@ -153,7 +153,7 @@ export default function ScrollableTabsButtonAuto({ history, liked, user, current
                 )) : <h1 className={styles.emptyContainerTitle}>Like some videos first</h1>}
             </TabPanel>
             <FormDialog handleClose={handleCloseEdit} onEditClick={onEditClick} open={openEdit} video={video} />
-            <AlertDialog handleClose={handleCloseAlert} onDeleteClick={(e) => onDeleteClick(e)} open={openAlert} video={video} />
+            <AlertDialog handleClose={handleCloseAlert} onDeleteClick={onDeleteClick} open={openAlert} video={video} />
         </div>
     );
 }

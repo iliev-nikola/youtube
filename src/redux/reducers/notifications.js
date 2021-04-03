@@ -1,5 +1,5 @@
 import {
-    SHOW_NOTIFICATIONS, UPDATE_NOTIFICATIONS
+    SHOW_NOTIFICATIONS
 } from '../actions/notifications';
 
 const INITIAL_STATE = {
@@ -14,11 +14,6 @@ const notificationReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 notifications: action.payload
             };
-        case UPDATE_NOTIFICATIONS:
-            return {
-                ...state,
-                notifications: action.payload
-            }
         default:
             return state;
     }
