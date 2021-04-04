@@ -10,11 +10,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { dislikeIt, likeIt, changeViews, fetchVideo } from '../../redux/actions/videos';
 import { getUser, getVideoComments } from '../../redux/selectors/selectors';
 import { getComments } from '../../redux/actions/comments';
-import { showUpdatedComments } from '../../redux/actions/comments';
 import Layout from '../Layout/Layout';
 import { getVideo, getVideoURL, getVideoID, getVideoTitle, getVideoViews, getVideoAuthor, getVideoDescription, getVideoLikes, getVideoDislikes, getVideoAuthorID } from '../../redux/selectors/video';
 import UserLogo from '../common/UserLogo/UserLogo';
-import { updatedNotifications, deleteComment } from '../../service';
+import { updatedNotifications, createComments } from '../../service';
+import PlaylistModal from '../Playlists/PlaylistModal';
+
 
 export default function OpenVideo({ sidebar }) {
     const history = useHistory();
@@ -62,11 +63,11 @@ export default function OpenVideo({ sidebar }) {
 
     const handleKeyPress = (e) => {
         if (e.key === 'Enter' && inputValue) {
-            dispatch(showUpdatedComments(id, user, inputValue));
+            createComments(id, user, inputValue);
             setInputValue('');
         }
     }
-    const handleClick = ()=>{
+    const handleClick = () => {
         dispatch(likeIt(id));
         updatedNotifications(video, user, 'like')
     }
@@ -79,7 +80,7 @@ export default function OpenVideo({ sidebar }) {
         <><LikeOrDislikeVideo button={<ThumbUp className={styles.button} />} content={'Like this video?'} /><span>{videoId ? videoLikes.length : null}</span></>
     );
     const numberDislikes = (
-        <><ThumbDownIcon className={isDisliked ? styles.disliked : styles.button} onClick={() => { dispatch(dislikeIt(id))}} /><span>{videoId ? videoDislikes.length : null}</span></>
+        <><ThumbDownIcon className={isDisliked ? styles.disliked : styles.button} onClick={() => { dispatch(dislikeIt(id)) }} /><span>{videoId ? videoDislikes.length : null}</span></>
     );
     const loggedNumberDIslikes = (
         <><LikeOrDislikeVideo button={<ThumbDownIcon className={styles.button} />} content={`Don't like this video?`} /><span>{videoId ? videoDislikes.length : null}</span></>
@@ -102,11 +103,13 @@ export default function OpenVideo({ sidebar }) {
                                     <div className={styles.thumbs}>
                                         {user ? <>{numberLikes}</> : <>{loggedNumberLikes}</>}
                                         {user ? <>{numberDislikes}</> : <>{loggedNumberDIslikes}</>}
+                                        {/* {video ? <PlaylistModal /> : null} */}
                                     </div>
                                 </div>
                             </div>
                             <div className={styles.videoInfo}>
                                 <a className={styles.userLogo} href={`/user/${authorID}`}>{videoAuthor[0]}</a>
+                                <PlaylistModal video={video} />
                                 <span className={styles.descr}>{videoDescription}</span>
                             </div>
                             <div>

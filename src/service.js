@@ -31,6 +31,30 @@ export function setNotificationsRead() {
     });
 }
 
+export function createComments(id, user, inputValue) {
+    const commentData = {
+        videoID: id,
+        comment: inputValue,
+        userID: user.uid,
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    }
+    db.collection('comments').doc().set(commentData)
+        .then(() => {
+            db.collection("comments")
+                .where("videoID", "==", id)
+                .get()
+                .then((comments) => {
+                    let dbComments = [];
+                    comments.forEach((doc) => {
+                        dbComments.push(doc.data());
+                    });
+
+                });
+        })
+}
+
 export function updatedNotifications(video, user, status) {
     const id = generateId();
     const notificationsData = {
@@ -64,4 +88,27 @@ export const deleteNotification = (id) => {
 
 export const deleteComment = (id) => {
     db.collection("comments").doc(id).delete();
+}
+
+export const createPlaylist = (user, inputValue) => {
+    const id = generateId();
+    const data = {
+        playlistID: id,
+        playlistName: inputValue,
+        userID: user.uid,
+        videos: []
+    }
+    db.collection('playlists').doc(id).set(data);
+}
+
+export const addVideoToPlaylist = (video, id) => {
+    db.collection('playlists').doc(id).update({
+        videos: firebase.firestore.FieldValue.arrayUnion(video)
+    });
+}
+
+export const removeVideoFromPlaylist = (video, id) => {
+    db.collection('playlists').doc(id).update({
+        videos: firebase.firestore.FieldValue.arrayRemove(video)
+    });
 }

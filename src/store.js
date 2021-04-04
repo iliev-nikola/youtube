@@ -7,6 +7,7 @@ import commentsReducer from './redux/reducers/comments';
 import loadingReducer from './redux/reducers/loadingBar';
 import sidebarReducer from './redux/reducers/sidebar';
 import notificationReducer from './redux/reducers/notifications';
+import playlistReducer from './redux/reducers/playlists';
 // make store reducer keys singular instead plural
 const rootReducer = combineReducers({
   videos: videoReducer,
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
   comments: commentsReducer,
   loading: loadingReducer,
   sidebar: sidebarReducer,
-  notification : notificationReducer
+  notification: notificationReducer,
+  playlist: playlistReducer
 });
 
 const store = createStore(
