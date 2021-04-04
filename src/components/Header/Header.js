@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import logo from '../../assets/logo.png';
 import styles from './Header.module.scss';
@@ -9,8 +8,9 @@ import { useHistory } from "react-router-dom";
 import UserMenu from './UserMenu';
 import { useSelector } from 'react-redux';
 import { getUser } from '../../redux/selectors/user';
+import SidebarOpen from '../Sidebar/SidebarOpen';
 
-export default function Header({ handleToggleSidebar, sidebar }) {
+export default function Header() {
     const user = useSelector(getUser);
     const history = useHistory();
     const [inputSearchValue, setInputSearchValue] = useState('');
@@ -38,17 +38,9 @@ export default function Header({ handleToggleSidebar, sidebar }) {
             <UserMenu />
         </div>)
     return (
-        <div className={styles.header}>
-            <div className={sidebar ? styles.newLogoContainer : styles.logoContainer}>
-                <MenuIcon className={styles.icons} onClick={handleToggleSidebar} />
-                <Tooltip title="YouTube Home" placement="bottom-end">
-                    <div className={styles.logo} onClick={() => history.push('/')}>
-                        <img className={styles.siteLogo} src={logo} alt="youtube's logo" />
-                        <span className={styles.countryCode}>BG</span>
-                    </div>
-                </Tooltip>
-            </div>
-            <div className={sidebar ? styles.notActive : styles.otherContainer}>
+        <div className={styles.headerContainer}>
+            <div className={styles.header}>
+                <SidebarOpen />
                 <div className={styles.searchContainer}>
                     <input type="text" placeholder="Search" value={inputSearchValue} onChange={(e) => onInputChange(e)} onKeyPress={(e) => handleKeyPress(e)}></input>
                     <Tooltip title="Search">

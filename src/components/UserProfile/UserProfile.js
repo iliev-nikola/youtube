@@ -30,28 +30,26 @@ export default function UserProfile() {
 
     return (
         <Layout>
-            <div className='mainContainer'>
-                <div className={styles.videoContainer}>
-                    <div className={styles.profileInfo}>
-                        {user && currentUser ?
-                            <>
-                                {user.photoURL && <img className={styles.icon} src={user.photoURL} alt='user logo' />}
-                                {!user.photoURL && <h1 className={styles.icon}>{user.displayName[0]}</h1>}
-                                <div className={styles.infoBox}>
-                                    <h1 className={styles.names}>{user.displayName}</h1>
-                                    {user.uid === currentUser.uid ? <h1 className={styles.email}>{user.email}</h1> : null}
-                                </div>
-                            </> : null}
-                    </div>
+            <div className={styles.profileContainer}>
+                <div className={styles.profileInfo}>
                     {user && currentUser ?
-                        <ScrollableTabsButtonAuto
-                            history={user.userId === currentUser.uid ? history : null}
-                            liked={liked}
-                            user={user}
-                            currentUser={currentUser} />
+                        <>
+                            {user.photoURL && <img className={styles.icon} src={user.photoURL} alt='user logo' />}
+                            {!user.photoURL && <h1 className={styles.icon}>{user.displayName[0]}</h1>}
+                            <div className={styles.infoBox}>
+                                <h1 className={styles.names}>{user.displayName}</h1>
+                                {user.uid === currentUser.uid ? <h1 className={styles.email}>{user.email}</h1> : null}
+                            </div>
+                        </> : null}
+                </div>
+                {user && currentUser ?
+                    <ScrollableTabsButtonAuto
+                        history={user.userId === currentUser.uid ? history : null}
+                        liked={liked}
+                        user={user}
+                        currentUser={currentUser} />
 
-                        : null}
-                </div >
+                    : null}
             </div >
         </Layout>
     )

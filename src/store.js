@@ -5,7 +5,6 @@ import videoReducer from './redux/reducers/videos';
 import userReducer from './redux/reducers/user';
 import commentsReducer from './redux/reducers/comments';
 import loadingReducer from './redux/reducers/loadingBar';
-import sidebarReducer from "./redux/reducers/sidebar";
 import alertReducer from "./redux/reducers/alertNotifier";
 import notificationReducer from './redux/reducers/notifications';
 import playlistReducer from './redux/reducers/playlists';
@@ -16,7 +15,6 @@ const rootReducer = combineReducers({
   theme: themeReducer,
   comments: commentsReducer,
   loading: loadingReducer,
-  sidebar: sidebarReducer,
   alert: alertReducer,
   notification: notificationReducer,
   playlist: playlistReducer

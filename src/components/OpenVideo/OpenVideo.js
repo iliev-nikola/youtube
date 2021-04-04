@@ -16,9 +16,10 @@ import { getVideo, getVideoURL, getVideoID, getVideoTitle, getVideoViews, getVid
 import UserLogo from '../common/UserLogo/UserLogo';
 import { updatedNotifications, createComments } from '../../service';
 import PlaylistModal from '../Playlists/PlaylistModal';
+import Header from '../Header/Header';
 
 
-export default function OpenVideo({ sidebar }) {
+export default function OpenVideo() {
     const history = useHistory();
     const dispatch = useDispatch();
     const { id } = useParams();
@@ -93,55 +94,54 @@ export default function OpenVideo({ sidebar }) {
     );
 
     return (
-        <Layout>
-            <div className={sidebar ? styles.notActive : styles.mainContainer}>
-                <div>
-                    {videoId ?
-                        <div>
-                            <ReactPlayer url={videoURL} controls playing={true} className={styles.video} />
-                            <div className={styles.hashtags}>
-                                {`#${videoTitle} #video# ${videoViews} #youtube`}
-                            </div>
-                            <div className={styles.infoContainer}>
-                                <p className={styles.title}>{videoTitle}</p>
-                                <div className={styles.likesContainer}>
-                                    <div className={styles.views}>{videoViews} views</div>
-                                    <div className={styles.thumbs}>
-                                        {user ? <>{numberLikes}</> : <>{loggedNumberLikes}</>}
-                                        {user ? <>{numberDislikes}</> : <>{loggedNumberDIslikes}</>}
-                                        {/* {video ? <PlaylistModal /> : null} */}
-                                    </div>
+        <>
+            <Header />
+            <div className={styles.videoContainer}>
+                {videoId ?
+                    <div>
+                        <ReactPlayer url={videoURL} controls playing={true} className={styles.video} />
+                        <div className={styles.hashtags}>
+                            {`#${videoTitle} #video# ${videoViews} #youtube`}
+                        </div>
+                        <div className={styles.infoContainer}>
+                            <p className={styles.title}>{videoTitle}</p>
+                            <div className={styles.likesContainer}>
+                                <div className={styles.views}>{videoViews} views</div>
+                                <div className={styles.thumbs}>
+                                    {user ? <>{numberLikes}</> : <>{loggedNumberLikes}</>}
+                                    {user ? <>{numberDislikes}</> : <>{loggedNumberDIslikes}</>}
+                                    {/* {video ? <PlaylistModal /> : null} */}
                                 </div>
                             </div>
-                            <div className={styles.videoInfo}>
-                                <a className={styles.userLogo} href={`/user/${authorID}`}>{videoAuthor[0]}</a>
-                                <PlaylistModal video={video} />
-                                <span className={styles.descr}>{videoDescription}</span>
-                            </div>
-                            <div>
-                                <div className={styles.commentsContainer}>
-                                    <div onClick={() => !user ? history.push('/signin') : null}>
-                                        < Input placeholder='Add a public comment...' className={styles.input} onChange={onInputChange} onKeyPress={handleKeyPress} value={inputValue} />
-                                    </div>
-                                    {comments ?
-                                        comments.map((currentComment, index) => (
-                                            <div key={index} className={styles.mainComm} >
-                                                <div className={styles.userLogo} onClick={() => history.push(`/user/${currentComment.userID}`)}>
-                                                    <UserLogo user={currentComment} />
-                                                </div>
-                                                <div className={styles.commentsContainer}>
-                                                    <div className={styles.someComment}>
-                                                        <p className={styles.userName}>{currentComment.displayName}</p>
-                                                        <p className={styles.comment}>{currentComment.comment}</p>
-                                                    </div>
+                        </div>
+                        <div className={styles.videoInfo}>
+                            <a className={styles.userLogo} href={`/user/${authorID}`}>{videoAuthor[0]}</a>
+                            <PlaylistModal video={video} />
+                            <span className={styles.descr}>{videoDescription}</span>
+                        </div>
+                        <div>
+                            <div className={styles.commentsContainer}>
+                                <div onClick={() => !user ? history.push('/signin') : null}>
+                                    < Input placeholder='Add a public comment...' className={styles.input} onChange={onInputChange} onKeyPress={handleKeyPress} value={inputValue} />
+                                </div>
+                                {comments ?
+                                    comments.map((currentComment, index) => (
+                                        <div key={index} className={styles.mainComm} >
+                                            <div className={styles.userLogo} onClick={() => history.push(`/user/${currentComment.userID}`)}>
+                                                <UserLogo user={currentComment} />
+                                            </div>
+                                            <div className={styles.commentsContainer}>
+                                                <div className={styles.someComment}>
+                                                    <p className={styles.userName}>{currentComment.displayName}</p>
+                                                    <p className={styles.comment}>{currentComment.comment}</p>
                                                 </div>
                                             </div>
-                                        ))
-                                        : <div className={styles.addFirstComment}>Add your first comment...</div>}
-                                </div>
+                                        </div>
+                                    ))
+                                    : <div className={styles.addFirstComment}>Add your first comment...</div>}
                             </div>
-                        </div> : null}
-                </div>
+                        </div>
+                    </div> : null}
                 {/* <div className={styles.otherVideos}>
                 {reduxVideos.map(video => (
                     <Link to={`/video/${video.id}`} className='link' key={video.id}>
@@ -152,6 +152,6 @@ export default function OpenVideo({ sidebar }) {
                 ))}
             </div> */}
             </div>
-        </Layout>
+        </>
     );
 }

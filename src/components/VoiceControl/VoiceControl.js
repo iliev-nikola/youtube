@@ -9,6 +9,7 @@ export const recognition = new SpeechRecognition();
 export default function VoiceControl() {
   const history = useHistory();
   const [isListening, setListening] = useState(false);
+  const [transcript,setTranscript] = useState('');
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   const recognition = new SpeechRecognition();
   recognition.lang = 'en-US';
@@ -35,11 +36,12 @@ export default function VoiceControl() {
     } else {
       history.push('/search/' + params);
     }
+    setTranscript(command);
   }
   return (
     <>
       <div className={styles.microphone} onClick={activeMicr}>Micr</div>
-      <div className={isListening ? styles.listening : styles.notListening}>Listening</div>
+      <div className={isListening ? styles.listening : styles.notListening}>{transcript}</div>
     </>
   )
 }

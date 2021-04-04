@@ -20,19 +20,16 @@ export default function Search() {
     }, [id])
     return (
         <Layout>
-            <div className='mainContainer'>
-                <div className='videoContainer'>
-                    {
-                        filtered ? filtered.map(video => (
-                            <a href={`/video/${video.id}`} className='link' key={video.id}>
-                                <div >
-                                    <VideoCard url={video.url} title={video.title} duration={video.duration} />
-                                </div>
-                            </a>
-                        )) : <img src={image} alt='No search results' id='noSearchResImg' />
-                    }
-                </div>
-            </div>
+
+            {
+                filtered ? filtered.map(video => (
+                    <a href={`/video/${video.id}`} className='link' key={video.id}>
+                        <div >
+                            <VideoCard url={video.url} title={video.title} duration={video.duration} />
+                        </div>
+                    </a>
+                )) : <img src={image} alt='No search results' id='noSearchResImg' />
+            }
         </Layout>
     )
 }
