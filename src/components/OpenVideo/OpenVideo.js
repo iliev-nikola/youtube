@@ -13,6 +13,7 @@ import { getComments } from '../../redux/actions/comments';
 import { showUpdatedComments } from '../../redux/actions/comments';
 import Layout from '../Layout/Layout';
 import { getVideoURL, getVideoID, getVideoTitle, getVideoViews, getVideoAuthor, getVideoDescription, getVideoLikes, getVideoDislikes, getVideoAuthorID } from '../../redux/selectors/video';
+import { setAlertOn } from '../../redux/actions/alertNotifier';
 
 export default function OpenVideo({ sidebar }) {
     const history = useHistory();
@@ -42,12 +43,11 @@ export default function OpenVideo({ sidebar }) {
 
     useEffect(() => {
         dispatch(getComments(id));
-
     }, [id, dispatch]);
 
     useEffect(() => {
         dispatch(fetchVideo(id));
-    }, [])
+    }, [videoDislikes, videoLikes]);
 
     useEffect(() => {
         if (videoId) {
@@ -57,7 +57,12 @@ export default function OpenVideo({ sidebar }) {
 
 
     const onInputChange = (e) => {
-        setInputValue(e.currentTarget.value);
+        const value = e.currentTarget.value;
+        if (value.length > 100) {
+            return dispatch(setAlertOn('error', 'Comment should not exceed 100 characters!'));
+        }
+
+        setInputValue(value);
     }
 
     const handleKeyPress = (e) => {

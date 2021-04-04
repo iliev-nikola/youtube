@@ -1,30 +1,30 @@
 import React, { useState } from 'react';
 import { TextField, Button } from '@material-ui/core';
 import styles from './SignIn.module.scss';
-import { auth, googleProvider, facebookProvider, gitHubProvider, db } from '../../firebase';
+import { auth, googleProvider, facebookProvider, gitHubProvider } from '../../firebase';
 import { Link, useHistory } from "react-router-dom";
 import { validateEmail } from '../../utils';
 import logoBlack from '../../assets/logoBlack.png';
 import gitHubLogo from '../../assets/gitHubLogo.png';
 import facebookLogo from '../../assets/facebookLogo.png';
 import googleLogo from '../../assets/googleLogo.png';
-import { Snackbar } from '@material-ui/core';
-import { Alert } from '@material-ui/lab';
+import { setAlertOn } from '../../redux/actions/alertNotifier';
+import { useDispatch } from 'react-redux';
 
 export default function SignIn() {
     const history = useHistory();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [alert, setAlert] = useState(null);
-    const [open, setOpen] = useState(false);
+    const dispatch = useDispatch();
 
     const onProviderClick = (provider) => {
         auth.signInWithPopup(provider)
             .then(() => {
                 history.push('/');
+                dispatch(setAlertOn('success', 'Login successfull'));
             })
-            .catch(error => {
-                setAlert(error.message);
+            .catch(err => {
+                dispatch(setAlertOn('error', err.message));
             });
     }
 
@@ -32,21 +32,22 @@ export default function SignIn() {
         event.preventDefault();
         [email, password] = [email.trim(), password.trim()];
         if (!email) {
-            return setAlert('Enter an email');
+            return dispatch(setAlertOn('error', 'Enter an email'));
         } else if (!validateEmail(email)) {
-            return setAlert('Enter a valid email');
+            return dispatch(setAlertOn('error', 'Enter a valid email'));
         } else if (!password) {
-            return setAlert('Enter a password');
+            return dispatch(setAlertOn('error', 'Enter a password'));
         }
 
         auth.signInWithEmailAndPassword(email, password)
             .then(() => {
                 setEmail('');
                 setPassword('');
-                history.push('/');
+                history.replace('/');
+                dispatch(setAlertOn('success', 'Login successfull'));
             })
             .catch(err => {
-                setAlert(err.message);
+                dispatch(setAlertOn('error', err.message));
             });
     }
 
@@ -62,66 +63,40 @@ export default function SignIn() {
         }
     };
 
-    const handleClick = () => {
-        setOpen(true);
-    };
-
-    const handleClose = (reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-        setOpen(false);
-    };
-
     return (
-        <>
-            {alert ? <div className={styles.alert}>
-                <Snackbar
-                    anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                    }}
-                    open={open}
-                    autoHideDuration={5000}
-                    onClose={handleClose}>
-                    <Alert onClose={handleClose} severity='error'>{alert}</Alert>
-                </Snackbar>
-            </div> : null}
-            <form className={styles.signIn} >
-                <img src={logoBlack} alt="logo" id={styles.logo} onClick={() => history.push('/')} />
-                <div className={styles.welcomeText}>
-                    <h2>Sign in</h2>
-                    <p>to continue to YouTube</p>
+        <form className={styles.signIn} >
+            <img src={logoBlack} alt="logo" id={styles.logo} onClick={() => history.push('/')} />
+            <div className={styles.welcomeText}>
+                <h2>Sign in</h2>
+                <p>to continue to YouTube</p>
+            </div>
+            <div className={styles.container}>
+                <TextField type="email" required className={styles.inputs} size="medium" label="Email" variant="outlined" value={email} id="email" onChange={(e) => onInputChange(e)} autoComplete="off" />
+            </div>
+            <div className={styles.container}>
+                <TextField type="password" required className={styles.inputs} size="medium" label="Password" variant="outlined" value={password} id="password" onChange={(e) => onInputChange(e)} autoComplete="off" />
+            </div>
+            <p className={styles.loginWithText}>Login with:</p>
+            <div className={styles.buttons}>
+                <div className={styles.socialIcons}>
+                    <img onClick={() => onProviderClick(facebookProvider)} src={facebookLogo} alt='Facebook logo' className={styles.logo} />
+                    <img onClick={() => onProviderClick(googleProvider)} src={googleLogo} alt='Google logo' className={styles.logo} />
+                    <img onClick={() => onProviderClick(gitHubProvider)} src={gitHubLogo} alt='GitHub logo' className={styles.logo} />
                 </div>
-                <div className={styles.container}>
-                    <TextField type="email" required className={styles.inputs} size="medium" label="Email" variant="outlined" value={email} id="email" onChange={(e) => onInputChange(e)} autoComplete="off" />
-                </div>
-                <div className={styles.container}>
-                    <TextField type="password" required className={styles.inputs} size="medium" label="Password" variant="outlined" value={password} id="password" onChange={(e) => onInputChange(e)} autoComplete="off" />
-                </div>
-                <p className={styles.loginWithText}>Login with:</p>
-                <div className={styles.buttons}>
-                    <div className={styles.socialIcons}>
-                        <img onClick={() => onProviderClick(facebookProvider)} src={facebookLogo} alt='Facebook logo' className={styles.logo} />
-                        <img onClick={() => onProviderClick(googleProvider)} src={googleLogo} alt='Google logo' className={styles.logo} />
-                        <img onClick={() => onProviderClick(gitHubProvider)} src={gitHubLogo} alt='GitHub logo' className={styles.logo} />
-                    </div>
-                    <p>or</p>
-                    <div className={styles.button}>
-                        <Button variant="contained" color="primary"
-                            onClick={(e) => {
-                                signInWithEmailAndPasswordHandler(e, email, password);
-                                handleClick();
-                            }}>
-                            sign in
+                <p>or</p>
+                <div className={styles.button}>
+                    <Button variant="contained" color="primary"
+                        onClick={(e) => {
+                            signInWithEmailAndPasswordHandler(e, email, password);
+                        }}>
+                        sign in
                         </Button>
-                    </div>
                 </div>
-                <div className={styles.options}>
-                    <Link to="signup" className={styles.link}>Create account</Link>
-                    <Link to="reset" className={styles.link} >Password reset</Link>
-                </div>
-            </form>
-        </>
+            </div>
+            <div className={styles.options}>
+                <Link to="signup" className={styles.link}>Create account</Link>
+                <Link to="reset" className={styles.link} >Password reset</Link>
+            </div>
+        </form>
     );
 }

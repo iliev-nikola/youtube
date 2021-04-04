@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchVideos } from '../../redux/actions/videos';
 import { getVideos } from '../../redux/selectors/videos';
@@ -9,49 +9,37 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 export default function HomePage() {
     const dispatch = useDispatch();
-    const videos = useSelector(getVideos);
-    const [lastShown, setLastShown] = useState('');
+    let videos = useSelector(getVideos);
     const [visibleVideos, setVisibleVideos] = useState([]);
+    const [length, setLength] = useState(0);
     useEffect(() => {
         dispatch(fetchVideos());
-
+        // setLength(videos.length);
     }, []);
 
-    useEffect(() => {
-        if (videos) {
-            const initialState = videos.slice(0, 4);
-            setVisibleVideos(initialState);
-        }
-    }, [])
-
-    let fetchMoreData = () => {
-        let shownVideos = [];
-        let startIndex = videos.findIndex((video) => video.id === lastShown) + 1;
-        shownVideos = videos.slice(startIndex, startIndex + 3);
-        setVisibleVideos([...visibleVideos, ...shownVideos]);
-        setLastShown(shownVideos[shownVideos.length - 1].id);
-    };
+    const fetchMoreData = () => {
+        videos = videos.concat(videos.slice(4));
+    }
 
     return (
         <Layout>
-            <div className='videoContainer'>
-                <InfiniteScroll
-                    dataLength={visibleVideos.length}
-                    next={fetchMoreData}
-                    hasMore={videos.length > visibleVideos.length}
-                    loader={<h4>Loading...</h4>}
-                >
-                    {
-                        visibleVideos.map(video => (
-                            <Link to={`/video/${video.id}`} className='link' key={video.id}>
-                                <div>
-                                    <VideoCard url={video.url} title={video.title} views={video.views} />
-                                </div>
-                            </Link>
-                        ))
-                    }
-                </InfiniteScroll>
-            </div>
+            {/* <InfiniteScroll
+                className='videoContainer'
+                dataLength={4}
+                next={fetchMoreData}
+                children={visibleVideos}
+                hasMore={true}
+                scrollThreshold="200px"
+                loader={<h4>Loading...</h4>}
+            > */}
+            {visibleVideos.map(video => (
+                <Link to={`/video/${video.id}`} className='link' key={video.id + Math.random()}>
+                    <div>
+                        <VideoCard url={video.url} title={video.title} views={video.views} />
+                    </div>
+                </Link>
+            ))}
+            {/* </InfiniteScroll> */}
         </Layout >
     )
 }

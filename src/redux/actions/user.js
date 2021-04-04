@@ -1,4 +1,6 @@
 import { db } from '../../firebase';
+import { setAlertOn } from './alertNotifier';
+
 export const SET_USER = 'SET_USER';
 export const LOGOUT_USER = 'LOGOUT_USER';
 
@@ -16,7 +18,8 @@ export const setUser = (user) => {
                         user: newUser
                     }
                 });
-            });
+            })
+            .catch(err => dispatch(setAlertOn('error', err.message)));
     }
 }
 

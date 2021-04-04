@@ -6,38 +6,38 @@ import { Link, useHistory } from "react-router-dom";
 import { validateEmail } from '../../utils';
 import logoBlack from '../../assets/logoBlack.png';
 import { Alert } from '@material-ui/lab';
+import { useDispatch } from 'react-redux';
+import { setAlertOn } from '../../redux/actions/alertNotifier';
+
 
 export default function SignUp() {
     const history = useHistory();
+    const dispatch = useDispatch();
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rePassword, setRePassword] = useState('');
-    const [alert, setAlert] = useState(null);
-    const [open, setOpen] = useState(false);
 
     const createUserWithEmailAndPasswordHandler = (event, firstName, lastName, email, password, rePassword) => {
         event.preventDefault();
-        setOpen(true);
         [firstName, lastName, email, password, rePassword] = [firstName.trim(), lastName.trim(), email.trim(), password.trim(), rePassword.trim()];
         if (!firstName) {
-            return setAlert('Enter a first name');
+            return dispatch(setAlertOn('error', 'Enter a first name'));
         } else if (!lastName) {
-            return setAlert('Enter a last name');
+            return dispatch(setAlertOn('error', 'Enter a last name'));
         } else if (!email) {
-            return setAlert('Enter an email');
+            return dispatch(setAlertOn('error', 'Enter an email'));
         } else if (!validateEmail(email)) {
-            return setAlert('Enter a valid email');
+            return dispatch(setAlertOn('error', 'Enter a valid email'));
         } else if (!password) {
-            return setAlert('Enter a password');
+            return dispatch(setAlertOn('error', 'Enter a password'));
         } else if (!rePassword) {
-            return setAlert('Confirm password');
+            return dispatch(setAlertOn('error', 'Confirm password'));
         } else if (password !== rePassword) {
-            return setAlert('Passwords didn\'t match');
+            return dispatch(setAlertOn('error', 'Passwords didn\'t match'));
         }
 
-        setOpen(false);
         auth.createUserWithEmailAndPassword(email, password)
             .then((res) => {
                 let displayName = firstName[0].toUpperCase() + firstName.slice(1).toLowerCase() + ' ' + lastName[0].toUpperCase() + lastName.slice(1).toLowerCase();
@@ -53,12 +53,10 @@ export default function SignUp() {
                 setPassword('');
                 setRePassword('');
                 auth.signOut();
-                history.push('/signin');
+                history.replace('/signin');
+                dispatch(setAlertOn('success', 'Passwords didn\'t match'));
             })
-            .catch(err => {
-                setOpen(true);
-                setAlert(err.message);
-            });
+            .catch(err => dispatch(setAlertOn('error', err.message)));
     };
 
     const onInputChange = (e) => {
@@ -66,70 +64,68 @@ export default function SignUp() {
         const { id, value } = e.currentTarget;
         switch (id) {
             case 'firstName':
+                if (value.length > 15) {
+                    return dispatch(setAlertOn('error', 'First name cannot exceed 15 characters'));
+                }
                 setFirstName(value);
                 break;
             case 'lastName':
+                if (value.length > 15) {
+                    return dispatch(setAlertOn('error', 'Last name cannot exceed 15 characters'));
+                }
                 setLastName(value);
                 break;
             case 'email':
+                if (value.length > 30) {
+                    return dispatch(setAlertOn('error', 'Email cannot exceed 30 characters'));
+                }
                 setEmail(value);
                 break;
             case 'password':
+                if (value.length > 15) {
+                    return dispatch(setAlertOn('error', 'Password cannot exceed 15 characters'));
+                }
                 setPassword(value);
                 break;
             default:
+                if (value.length > 15) {
+                    return dispatch(setAlertOn('error', 'Password cannot exceed 15 characters'));
+                }
                 setRePassword(value);
         }
     };
 
-    const handleClose = (reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-        setOpen(false);
-    };
-
     return (
-        <>
-            <div className={styles.alert}>
-                <Snackbar anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                }} open={open} autoHideDuration={7000} onClose={handleClose}>
-                    <Alert onClose={handleClose} severity="error">{alert}</Alert>
-                </Snackbar>
+        <form className={styles.signUp} >
+            <img src={logoBlack} alt="logo" id={styles.logo} onClick={() => history.push('/')} />
+            <div className={styles.welcomeText}>
+                <h2>Create your Account</h2>
+                <p>to continue to YouTube</p>
             </div>
-            <form className={styles.signUp} >
-                <img src={logoBlack} alt="logo" id={styles.logo} onClick={() => history.push('/')} />
-                <div className={styles.welcomeText}>
-                    <h2>Create your Account</h2>
-                    <p>to continue to YouTube</p>
-                </div>
-                <div className={styles.container}>
-                    <TextField required className={styles.inputs} size="small" label="First name" variant="outlined" value={firstName} onChange={(e) => onInputChange(e)} id="firstName" autoComplete="new-password" />
-                    <TextField required className={styles.inputs} size="small" label="Last name" variant="outlined" value={lastName} id="lastName" onChange={(e) => onInputChange(e)} autoComplete="new-password" />
-                </div>
-                <div className={styles.emailContainer}>
-                    <TextField required type="email" size="small" fullWidth label="Email" variant="outlined" value={email} id="email" onChange={(e) => onInputChange(e)} autoComplete="off" />
-                </div>
-                <div className={styles.container}>
-                    <TextField required type="password" className={styles.inputs} size="small" label="Password" variant="outlined" value={password} id="password" onChange={(e) => onInputChange(e)} />
-                    <TextField required type="password" className={styles.inputs} size="small" label="Confirm" variant="outlined" value={rePassword} id="rePassword" onChange={(e) => onInputChange(e)} />
-                </div>
-                <p id={styles.info}>{password.length < 6 ? 'Use 6 or more characters' : ''}</p>
-                <div className={styles.buttons}>
-                    <Link to="signin" className={styles.link}>Sign in instead</Link>
-                    <div className={styles.button}>
-                        <Button variant="contained" color="primary"
-                            onClick={(e) => {
-                                createUserWithEmailAndPasswordHandler(e, firstName, lastName, email, password, rePassword);
-                            }}>
-                            sign up
+            <div className={styles.container}>
+                <TextField required className={styles.inputs} size="small" label="First name" variant="outlined" value={firstName} onChange={(e) => onInputChange(e)} id="firstName" autoComplete="new-password" />
+                <TextField required className={styles.inputs} size="small" label="Last name" variant="outlined" value={lastName} id="lastName" onChange={(e) => onInputChange(e)} autoComplete="new-password" />
+            </div>
+            <div className={styles.emailContainer}>
+                <TextField required type="email" size="small" fullWidth label="Email" variant="outlined" value={email} id="email" onChange={(e) => onInputChange(e)} autoComplete="off" />
+            </div>
+            <div className={styles.container}>
+                <TextField required type="password" className={styles.inputs} size="small" label="Password" variant="outlined" value={password} id="password" onChange={(e) => onInputChange(e)} />
+                <TextField required type="password" className={styles.inputs} size="small" label="Confirm" variant="outlined" value={rePassword} id="rePassword" onChange={(e) => onInputChange(e)} />
+            </div>
+            <p id={styles.info}>{password.length < 6 ? 'Use 6 or more characters' : ''}</p>
+            <div className={styles.buttons}>
+                <Link to="signin" className={styles.link}>Sign in instead</Link>
+                <div className={styles.button}>
+                    <Button variant="contained" color="primary"
+                        onClick={(e) => {
+                            createUserWithEmailAndPasswordHandler(e, firstName, lastName, email, password, rePassword);
+                        }}>
+                        sign up
                 </Button>
-                    </div>
                 </div>
-                <Link to="reset" className={styles.link} >Password reset</Link>
-            </form>
-        </>
+            </div>
+            <Link to="reset" className={styles.link} >Password reset</Link>
+        </form>
     );
 }

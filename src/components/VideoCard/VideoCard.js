@@ -5,7 +5,7 @@ export default function VideoCard({ url, title, id, views }) {
     const [duration, setDuration] = useState(null);
     const onLoad = (e) => {
         setDuration(timeConvert(e.target.duration));
-    }
+    };
     return (
         <div className={styles.container} id={id}>
             <video

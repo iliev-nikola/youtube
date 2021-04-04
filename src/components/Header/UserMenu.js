@@ -18,7 +18,6 @@ export default function UserMenu() {
     const dispatch = useDispatch();
     const user = useSelector(getUser);
     const videos = useSelector(getVideos);
-
     const [openNotify, setOpenNotify] = useState(false);
     const handleClickNotify = () => {
         setOpenNotify((prev) => !prev);
@@ -33,7 +32,7 @@ export default function UserMenu() {
     const handleClickAwayProfile = () => {
         setOpenProfile(false);
     };
-   
+
     return (
         <div id={styles.userIcons}>
             <Tooltip title="Upload a video" placement="bottom">

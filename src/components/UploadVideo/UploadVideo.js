@@ -4,10 +4,12 @@ import { TextField, Button, Snackbar } from '@material-ui/core';
 import Dropzone from 'react-dropzone';
 import logoBlack from '../../assets/logoBlack.png';
 import { useHistory } from 'react-router';
-import { auth, db, storage } from '../../firebase';
+import { db, storage } from '../../firebase';
 import CircularStatic from '../ProgressBar/CircularProgress';
-import { Alert } from '@material-ui/lab';
 import { generateId, getDate } from '../../utils';
+import { useDispatch, useSelector } from 'react-redux';
+import { setAlertOn } from '../../redux/actions/alertNotifier';
+import { getUser } from '../../redux/selectors/user';
 
 export default function UploadVideo() {
     const history = useHistory();
@@ -16,9 +18,8 @@ export default function UploadVideo() {
     const [file, setFile] = useState(null);
     const [progress, setProgress] = useState(null);
     const [alert, setAlert] = useState(null);
-    const [open, setOpen] = useState(false);
-    const [alertType, setAlertType] = useState('error');
-    const user = auth.currentUser;
+    const dispatch = useDispatch();
+    const user = useSelector(getUser);
     useEffect(() => {
         if (progress >= 100) {
             setTimeout(() => {
@@ -34,26 +35,27 @@ export default function UploadVideo() {
     }, [progress]);
     const changeTitle = (e) => {
         setTitle(e.target.value);
-    }
+    };
     const changeDescription = (e) => {
         setDescription(e.target.value);
-    }
+    };
 
     const onDrop = useCallback(acceptedFiles => {
+        if (!acceptedFiles[0]) {
+            return dispatch(setAlertOn('error', 'File size must not exceed 5 MB'));
+        }
         setFile(acceptedFiles[0]);
     }, []);
 
     const onSubmit = () => {
-        handleClick();
         if (!title.trim()) {
-            return setAlert('Please add a title!');
+            return dispatch(setAlertOn('error', 'Please add a title!'));
         } else if (!description.trim()) {
-            return setAlert('Please add a description!');
+            return dispatch(setAlertOn('error', 'Please add a description!'));
         } else if (description.trim().length < 10) {
-            return setAlert('The description must be at least 10 characters');
+            return dispatch(setAlertOn('error', 'The description must be at least 10 characters'));
         }
 
-        setAlert(null);
         const uploadTask = storage.ref().child(`videos/${title}`).put(file);
         uploadTask.on(
             'state_changed',
@@ -61,7 +63,7 @@ export default function UploadVideo() {
                 const currentProgress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                 setProgress(currentProgress);
             },
-            (error) => { return setAlert(error) },
+            (error) => { return dispatch(setAlertOn('error', error.message)) },
             () => {
                 uploadTask.snapshot.ref.getDownloadURL()
                     .then(downloadUrl => {
@@ -82,74 +84,49 @@ export default function UploadVideo() {
                         })
                     })
                     .then(() => {
-                        setAlertType('success');
-                        setAlert('Video successfully uploaded');
+                        dispatch(setAlertOn('success', 'Video successfully uploaded'));
                     })
-                    .catch(err => setAlert(err.message));
+                    .catch(err => dispatch(setAlertOn('error', err.message)));
             }
         )
     }
-
-    const handleClick = () => {
-        setOpen(true);
-    };
-
-    const handleClose = (reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-        setOpen(false);
-    };
     return (
-        <>
-            {alert ? <div className={styles.alert}>
-                <Snackbar
-                    anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                    }}
-                    open={open}
-                    autoHideDuration={5000}
-                    onClose={handleClose}>
-                    <Alert onClose={handleClose} severity={alertType}>{alert}</Alert>
-                </Snackbar>
-            </div> : null}
-            <div className={styles.mainContainer}>
-                <img src={logoBlack} alt='youtube logo' id={styles.logo} onClick={() => history.push('/')} />
-                <form onSubmit={onSubmit}>
-                    <Dropzone
-                        onDrop={onDrop}
-                        accept="video/*"
-                        multiple={false}
-                        maxFiles={1}
-                    >
-                        {({ getRootProps, getInputProps, isDragActive, isDragReject }) => (
-                            <div {...getRootProps()} className={styles.uploadContainer}>
-                                <input {...getInputProps()} />
-                                {!isDragActive && 'Click here or drop a file to upload!'}
-                                {isDragActive && !isDragReject && "Drop it like it's hot!"}
-                                {isDragReject && "File type not accepted, sorry!"}
-                            </div>
-                        )}
-                    </Dropzone>
-                    {file ?
-                        <ul className={styles.fileInfo}>
-                            <li>file: {file.name}</li>
-                            <li>size: {(+file.size / 1000000).toFixed(2)} MB</li>
-                        </ul>
-                        : null
-                    }
-                    {progress ? <CircularStatic percentage={progress} /> : null}
-                    <div className={styles.inputs}>
-                        <TextField type="text" required fullWidth className={styles.input} size="small" label="Title" variant="outlined" value={title} onChange={changeTitle} />
-                        <TextField type="text" required size="large" fullWidth label="Description" variant="outlined" value={description} onChange={changeDescription} />
-                    </div>
-                    {file ?
-                        <Button variant="contained" color="primary" onClick={onSubmit}>Upload</Button>
-                        : null
-                    }
-                </form>
-            </div >
-        </>
+        <div className={styles.mainContainer}>
+            <img src={logoBlack} alt='youtube logo' id={styles.logo} onClick={() => history.push('/')} />
+            <form onSubmit={onSubmit}>
+                <Dropzone
+                    onDrop={onDrop}
+                    accept="video/*"
+                    multiple={false}
+                    maxFiles={1}
+                    maxSize={5242880}
+                >
+                    {({ getRootProps, getInputProps, isDragActive, isDragReject }) => (
+                        <div {...getRootProps()} className={styles.uploadContainer}>
+                            <input {...getInputProps()} />
+                            {!isDragActive && 'Click here or drop a file to upload!'}
+                            {isDragActive && !isDragReject && "Drop it like it's hot!"}
+                            {isDragReject && "File type not accepted, sorry!"}
+                        </div>
+                    )}
+                </Dropzone>
+                {file ?
+                    <ul className={styles.fileInfo}>
+                        <li>file: {file.name}</li>
+                        <li>size: {(+file.size / 1000000).toFixed(2)} MB</li>
+                    </ul>
+                    : <h2 className={styles.welcomeText}>max file size: 5 mb</h2>
+                }
+                {progress ? <CircularStatic percentage={progress} /> : null}
+                <div className={styles.inputs}>
+                    <TextField type="text" required fullWidth className={styles.input} size="small" label="Title" variant="outlined" value={title} onChange={changeTitle} />
+                    <TextField type="text" required size="medium" fullWidth label="Description" variant="outlined" value={description} onChange={changeDescription} />
+                </div>
+                {file ?
+                    <Button variant="contained" color="primary" onClick={onSubmit}>Upload</Button>
+                    : null
+                }
+            </form>
+        </div >
     )
 }

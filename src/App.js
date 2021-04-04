@@ -26,6 +26,8 @@ import { getUser } from './redux/selectors/user';
 import { getIsLoading } from "./redux/selectors/loading";
 import HomePage from "./Components/HomePage/HomePage";
 import { changeThemeColors } from './utils';
+import { getAlertStatus, getAlertType, getAlertMessage } from "./redux/selectors/alertNotifier";
+import AlertNotifier from "./Components/common/AlertNotifier";
 
 
 export default function App() {
@@ -33,7 +35,6 @@ export default function App() {
   const user = useSelector(getUser);
   const isLoading = useSelector(getIsLoading);
   const theme = useSelector(state => state.theme.theme);
- 
 
   useEffect(() => {
     changeThemeColors(theme);
@@ -55,6 +56,7 @@ export default function App() {
     <Router>
       <VoiceControl />
       <>
+        <AlertNotifier />
         <ProgressBar isOn={isLoading} />
         <Switch>
           <Route exact path="/" component={HomePage} />

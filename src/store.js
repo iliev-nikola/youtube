@@ -6,15 +6,16 @@ import userReducer from './redux/reducers/user';
 import commentsReducer from './redux/reducers/comments';
 import loadingReducer from './redux/reducers/loadingBar';
 import sidebarReducer from "./redux/reducers/sidebar";
+import alertReducer from "./redux/reducers/alertNotifier";
 
-// make store reducer keys singular instead plural
 const rootReducer = combineReducers({
   videos: videoReducer,
   user: userReducer,
   theme: themeReducer,
   comments: commentsReducer,
   loading: loadingReducer,
-  sidebar: sidebarReducer
+  sidebar: sidebarReducer,
+  alert: alertReducer
 });
 
 const store = createStore(

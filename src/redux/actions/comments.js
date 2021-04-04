@@ -1,4 +1,5 @@
 import { db } from "../../firebase";
+import { setAlertOn } from './alertNotifier';
 export const SHOW_COMMENTS = 'SHOW_COMMENTS';
 export const UPDATE_COMMENTS = 'UPDATE_COMMENTS';
 
@@ -10,7 +11,7 @@ export const showComments = (comments) => ({
 export const updateComments = (comments) => ({
     type: UPDATE_COMMENTS,
     payload: comments
-})
+});
 
 export const getComments = (id) => {
     return function (dispatch) {
@@ -42,8 +43,9 @@ export const showUpdatedComments = (id, user, inputValue) => {
                             dbComments.push(doc.data());
                         });
                         dispatch(showComments(dbComments));
-                        console.log(dbComments);
-                    });
+                    })
+                    .catch(err => dispatch(setAlertOn('error', err.message)));
             })
+            .catch(err => dispatch(setAlertOn('error', err.message)));
     }
 }
