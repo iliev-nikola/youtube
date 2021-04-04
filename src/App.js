@@ -32,11 +32,11 @@ export default function App() {
   const dispatch = useDispatch();
   const user = useSelector(getUser);
   const isLoading = useSelector(getIsLoading);
-  const theme = useSelector(state => state.theme.theme);
+  let theme = useSelector(state => state.theme.theme);
 
   useEffect(() => {
     changeThemeColors(theme);
-  }, [theme])
+  }, [theme, user])
 
   useEffect(() => {
     if (user) {

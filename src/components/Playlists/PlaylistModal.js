@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../redux/selectors/user';
-import { Modal, FormControlLabel, Checkbox, TextField, List } from '@material-ui/core';
+import { Modal, FormControlLabel, Checkbox, TextField, List, Button } from '@material-ui/core';
+import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
 import styles from './PlaylistModal.module.scss';
 import { getPlaylists } from '../../redux/actions/playlists';
 import { addVideoToPlaylist, createPlaylist, removeVideoFromPlaylist } from '../../service';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { deletePlaylist } from '../../service';
+import PopUp from '../OpenVideo/PopupState';
+
 export default function PlaylistModal({ video }) {
     const user = useSelector(getUser);
     const [inputValue, setInputValue] = useState('');
     const dispatch = useDispatch();
     const playlists = useSelector(state => state.playlist.playlists);
-    // const handleChange = (event) => {
-    //     setState({[event.target.name]: event.target.checked });
-    // };
     useEffect(() => {
         if (user) {
             console.log(user)
@@ -34,7 +36,7 @@ export default function PlaylistModal({ video }) {
     }
 
     const handleKeyPress = (e) => {
-        if (e.key === 'Enter' && inputValue) {
+        if ((e.key === 'Enter' || e.type === 'click') && inputValue) {
             createPlaylist(user, inputValue);
             setInputValue('');
         }
@@ -47,30 +49,38 @@ export default function PlaylistModal({ video }) {
             removeVideoFromPlaylist(video, playlist.playlistID);
         }
     }
-    const body = (
-        <div className={styles.modalContainer}>
-            <List>
-                {
-                    playlists ? playlists.map((playlist, index) => (
-                        <FormControlLabel key={index} control={<Checkbox onClick={(e) => { addOrRemoveVideo(e, playlist) }} name={playlist.playlistName} value={playlist.playlistName} />} label={playlist.playlistName} />
-                    )) : null}
-                <TextField id="standard-basic" label="Standard" value={inputValue} onKeyPress={handleKeyPress} onChange={(e) => onInputChange(e)} />
-            </List>
-        </div>
+    const text = 'Sign in to add this video to a playlist.';
+    const loggedUserPlaylist = (
+        <div onClick={handleOpen}><PlaylistAddIcon /> <span>SAVE</span></div>
+    );
+    const unloggedUserPlaylist = (
+        <div><PopUp text={text} button={<><PlaylistAddIcon /><span>SAVE</span></>} content={'Want to watch this again later?'} /></div>
     );
 
     return (
         <div>
-            <button type="button" onClick={handleOpen}>
-                Open Modal
-        </button>
+            <div className={styles.playlistContainer}>
+                {user ? <>{loggedUserPlaylist}</> : <>{unloggedUserPlaylist}</>}
+            </div>
             <Modal
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"
             >
-                {body}
+                <div className={styles.modalContainer}>
+                    <List>
+                        {
+                            playlists ? playlists.map((playlist, index) => (
+                                <div className={styles.playlist}>
+                                    <FormControlLabel key={index} control={<Checkbox onClick={(e) => { addOrRemoveVideo(e, playlist) }} name={playlist.playlistName} value={playlist.playlistName} />} label={playlist.playlistName} />
+                                    <DeleteIcon onClick={() => deletePlaylist(playlist.playlistID)} className={styles.trash} />
+                                </div>
+                            )) : null}
+                    </List>
+                    <TextField id="standard-basic" placeholder={'Enter playlist name...'} value={inputValue} onKeyPress={handleKeyPress} onChange={(e) => onInputChange(e)} />
+                    <div><Button variant="contained" color="secondary" onClick={handleKeyPress}>CREATE</Button></div>
+                </div>
             </Modal>
         </div>
     )

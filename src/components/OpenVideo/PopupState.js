@@ -5,7 +5,7 @@ import Popover from '@material-ui/core/Popover';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import styles from './OpenVideo.module.scss';
 
-export default function LikeOrDislikeVideo({ content, button }) {
+export default function Popup({ content, button, text }) {
     return (
         <PopupState variant="popover" popupId="demo-popup-popover">
             {(popupState) => (
@@ -28,7 +28,7 @@ export default function LikeOrDislikeVideo({ content, button }) {
                             <Typography>
                                 <div>
                                     <div>{content}</div>
-                                    <div className={styles.info}>Sign in to make your opinion count.</div>
+                                    <div className={styles.info}>{text}</div>
                                     <a href="/signin" className={styles.signin}>SIGN IN</a>
                                 </div>
                             </Typography>

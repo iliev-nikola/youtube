@@ -112,3 +112,7 @@ export const removeVideoFromPlaylist = (video, id) => {
         videos: firebase.firestore.FieldValue.arrayRemove(video)
     });
 }
+
+export const deletePlaylist = (id) => {
+    db.collection("playlists").doc(id).delete();
+}
