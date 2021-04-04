@@ -4,7 +4,6 @@ import {
   Switch,
   Route,
   Redirect,
-  useRouteMatch,
 } from "react-router-dom";
 import './App.scss';
 import './reset.css';
@@ -17,7 +16,7 @@ import SignOut from "./Components/SignOut/SignOut";
 import UploadVideo from './Components/UploadVideo/UploadVideo';
 import Search from "./Components/Search/Search";
 import UserProfile from "./Components/UserProfile/UserProfile";
-import { auth, db } from "./firebase";
+import { auth } from "./firebase";
 import VoiceControl from './Components/VoiceControl/VoiceControl';
 import ProgressBar from "./Components/ProgressBar/ProgressBar";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,9 +25,9 @@ import { getUser } from './redux/selectors/user';
 import { getIsLoading } from "./redux/selectors/loading";
 import HomePage from "./Components/HomePage/HomePage";
 import { changeThemeColors } from './utils';
-import { getAlertStatus, getAlertType, getAlertMessage } from "./redux/selectors/alertNotifier";
 import AlertNotifier from "./Components/common/AlertNotifier";
 
+import { getNotifications } from './redux/actions/notifications';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -41,6 +40,12 @@ export default function App() {
   }, [theme])
 
   useEffect(() => {
+    if (user) {
+      dispatch(getNotifications(user.uid));
+    }
+  }, [user, dispatch]);
+
+  useEffect(() => {
     auth.onAuthStateChanged(user => {
       if (user) {
         dispatch(setUser(user));
@@ -49,8 +54,6 @@ export default function App() {
       }
     })
   }, [dispatch]);
-
-
 
   return (
     <Router>

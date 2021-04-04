@@ -32,7 +32,7 @@ export default function HomePage() {
                 scrollThreshold="200px"
                 loader={<h4>Loading...</h4>}
             > */}
-            {visibleVideos.map(video => (
+            {videos.map(video => (
                 <Link to={`/video/${video.id}`} className='link' key={video.id + Math.random()}>
                     <div>
                         <VideoCard url={video.url} title={video.title} views={video.views} />

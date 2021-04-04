@@ -1,7 +1,7 @@
 
-import { CHANGE_THEME } from './theme';
+import { CHANGE_THEME } from '../actions/theme';
 
-const whiteTheme = 'white';
+const whiteTheme = 'light';
 const darkTheme = 'dark';
 
 const INITIAL_STATE = {

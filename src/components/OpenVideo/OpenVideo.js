@@ -10,10 +10,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { dislikeIt, likeIt, changeViews, fetchVideo } from '../../redux/actions/videos';
 import { getUser, getVideoComments } from '../../redux/selectors/selectors';
 import { getComments } from '../../redux/actions/comments';
-import { showUpdatedComments } from '../../redux/actions/comments';
 import Layout from '../Layout/Layout';
-import { getVideoURL, getVideoID, getVideoTitle, getVideoViews, getVideoAuthor, getVideoDescription, getVideoLikes, getVideoDislikes, getVideoAuthorID } from '../../redux/selectors/video';
 import { setAlertOn } from '../../redux/actions/alertNotifier';
+import { getVideo, getVideoURL, getVideoID, getVideoTitle, getVideoViews, getVideoAuthor, getVideoDescription, getVideoLikes, getVideoDislikes, getVideoAuthorID } from '../../redux/selectors/video';
+import UserLogo from '../common/UserLogo/UserLogo';
+import { updatedNotifications, createComments } from '../../service';
+import PlaylistModal from '../Playlists/PlaylistModal';
+
 
 export default function OpenVideo({ sidebar }) {
     const history = useHistory();
@@ -24,6 +27,7 @@ export default function OpenVideo({ sidebar }) {
     const [isDisliked, setIsDisliked] = useState(false);
     const comments = useSelector(getVideoComments);
     const user = useSelector(getUser);
+    const video = useSelector(getVideo);
     const videoId = useSelector(getVideoID);
     const videoTitle = useSelector(getVideoTitle);
     const videoViews = useSelector(getVideoViews);
@@ -38,8 +42,7 @@ export default function OpenVideo({ sidebar }) {
             setIsLiked(videoLikes.some(userID => userID === user.uid));
             setIsDisliked(videoDislikes.some(userID => userID === user.uid));
         }
-    }, [videoId, user])
-
+    }, [videoId, user, videoLikes, videoDislikes])
 
     useEffect(() => {
         dispatch(getComments(id));
@@ -55,7 +58,6 @@ export default function OpenVideo({ sidebar }) {
         }
     }, [videoId]);
 
-
     const onInputChange = (e) => {
         const value = e.currentTarget.value;
         if (value.length > 100) {
@@ -67,12 +69,18 @@ export default function OpenVideo({ sidebar }) {
 
     const handleKeyPress = (e) => {
         if (e.key === 'Enter' && inputValue) {
-            dispatch(showUpdatedComments(id, user, inputValue));
+            createComments(id, user, inputValue);
             setInputValue('');
         }
     }
+    const handleClick = () => {
+        dispatch(likeIt(id));
+        updatedNotifications(video, user, 'like')
+    }
     const numberLikes = (
-        <><ThumbUp className={isLiked ? styles.liked : styles.button} onClick={() => { dispatch(likeIt(id)) }} /><span>{videoId ? videoLikes.length : null}</span></>
+        <><ThumbUp className={isLiked ? styles.liked : styles.button} onClick={() => {
+            handleClick();
+        }} /><span>{videoId ? videoLikes.length : null}</span></>
     );
     const loggedNumberLikes = (
         <><LikeOrDislikeVideo button={<ThumbUp className={styles.button} />} content={'Like this video?'} /><span>{videoId ? videoLikes.length : null}</span></>
@@ -83,7 +91,6 @@ export default function OpenVideo({ sidebar }) {
     const loggedNumberDIslikes = (
         <><LikeOrDislikeVideo button={<ThumbDownIcon className={styles.button} />} content={`Don't like this video?`} /><span>{videoId ? videoDislikes.length : null}</span></>
     );
-
 
     return (
         <Layout>
@@ -102,11 +109,13 @@ export default function OpenVideo({ sidebar }) {
                                     <div className={styles.thumbs}>
                                         {user ? <>{numberLikes}</> : <>{loggedNumberLikes}</>}
                                         {user ? <>{numberDislikes}</> : <>{loggedNumberDIslikes}</>}
+                                        {/* {video ? <PlaylistModal /> : null} */}
                                     </div>
                                 </div>
                             </div>
                             <div className={styles.videoInfo}>
                                 <a className={styles.userLogo} href={`/user/${authorID}`}>{videoAuthor[0]}</a>
+                                <PlaylistModal video={video} />
                                 <span className={styles.descr}>{videoDescription}</span>
                             </div>
                             <div>
@@ -118,8 +127,7 @@ export default function OpenVideo({ sidebar }) {
                                         comments.map((currentComment, index) => (
                                             <div key={index} className={styles.mainComm} >
                                                 <div className={styles.userLogo} onClick={() => history.push(`/user/${currentComment.userID}`)}>
-                                                    {currentComment.photoURL && <img className={styles.userPic} src={currentComment.photoURL} alt='user logo' />}
-                                                    {!currentComment.photoURL && <h1 className={styles.userPic}>{currentComment.displayName[0]}</h1>}
+                                                    <UserLogo user={currentComment} />
                                                 </div>
                                                 <div className={styles.commentsContainer}>
                                                     <div className={styles.someComment}>

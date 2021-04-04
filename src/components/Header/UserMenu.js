@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import { Tooltip } from '@material-ui/core';
 import VideoCallIcon from '@material-ui/icons/VideoCall';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { db } from '../../firebase';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import styles from './Header.module.scss';
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleTheme } from '../../theme/theme';
+import { toggleTheme } from '../../redux/actions/theme';
 import { getUser } from '../../redux/selectors/user';
+import { getNotifications } from '../../redux/actions/notifications';
+import { deleteNotification } from '../../service';
+import UserLogo from '../common/UserLogo/UserLogo';
 import { getVideos } from '../../redux/selectors/videos';
 
 export default function UserMenu() {
@@ -18,20 +20,37 @@ export default function UserMenu() {
     const dispatch = useDispatch();
     const user = useSelector(getUser);
     const videos = useSelector(getVideos);
+    const notifications = useSelector(state => state.notification.notifications);
     const [openNotify, setOpenNotify] = useState(false);
+    const [unreadNotifications, setUnreadNotifications] = useState([]);
     const handleClickNotify = () => {
         setOpenNotify((prev) => !prev);
+
     };
     const handleClickAwayNotify = () => {
         setOpenNotify(false);
     };
     const [openProfile, setOpenProfile] = useState(false);
+
     const handleClickProfile = () => {
         setOpenProfile((prev) => !prev);
     };
+
     const handleClickAwayProfile = () => {
         setOpenProfile(false);
     };
+
+    useEffect(() => {
+        dispatch(getNotifications(user.uid));
+    }, []);
+
+    useEffect(() => {
+        if (user) {
+            // dispatch(getNotifications(user.uid));
+            setUnreadNotifications(notifications.filter(notification => !notification.isRead));
+        }
+    }, [user, dispatch, notifications]);
+
 
     return (
         <div id={styles.userIcons}>
@@ -47,12 +66,20 @@ export default function UserMenu() {
                     <Tooltip title="Notifications" placement="bottom">
                         <NotificationsIcon className={styles.icons} onClick={handleClickNotify} />
                     </Tooltip>
+                    <span className={styles.badge}>{unreadNotifications.length}</span>
                     {openNotify ? (
                         <div id={styles.dropdownNotify} className={styles.dropdown}>
                             <h4 className={styles.notifyTitle}>Notifications</h4>
                             <div className={styles.line}></div>
-                            <NotificationsIcon fontSize="large" id={styles.bigNotifyIcon} />
-                            <p className={styles.greyText}>No new notifications.</p>
+                            <div className={styles.greyText}>
+                                {notifications ? notifications.map((notification, index) => (
+                                    <div key={index} className={!notification.isRead ? styles.notReadNot : styles.readNot}>
+                                        <UserLogo user={notification} />
+                                        <span>{`${notification.displayName} ${notification.status} your video `} <Link to={`/video/${notification.videoID}`}>{notification.videoTitle}</Link></span>
+                                        <span onClick={() => deleteNotification(notification.notID)}>XXX</span>
+                                    </div>
+                                )) : null}
+                            </div>
                         </div>
                     ) : null}
                 </div>
@@ -69,6 +96,7 @@ export default function UserMenu() {
                             {user.photoURL ?
                                 <img className={styles.userPhoto} onClick={handleClickProfile} src={user.photoURL} alt='user logo' />
                                 : <h1 onClick={handleClickProfile} className={styles.userIcon}>{user ? user.displayName[0] : null}</h1>}
+                            {/* <UserLogo user={user} className={styles.userIcon} onClick={handleClickProfile} /> */}
                         </Tooltip>
                         : null}
                     {openProfile ? (

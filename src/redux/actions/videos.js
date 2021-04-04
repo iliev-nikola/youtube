@@ -1,8 +1,9 @@
 import { auth, db, storage } from '../../firebase';
 import { setLoading, setNotLoading } from '../actions/loadingBar';
+import { updatedNotifications } from './notifications';
 import { getVideoWatched, getVideoID, getVideoViews, getVideo } from '../selectors/video';
-import { getUser } from '../selectors/user';
 import { setAlertOn } from './alertNotifier';
+import { getUser, getUserID } from '../selectors/user';
 export const FETCH_VIDEOS_SUCCEEDED = 'FETCH_VIDEOS_SUCCEEDED';
 export const FETCH_VIDEOS_REQUESTED = 'FETCH_VIDEOS_REQUESTED';
 export const UPDATE_VIDEO = 'UPDATE_VIDEO';
@@ -76,7 +77,7 @@ export const fetchMyVideos = (uid) => {
 
 export const likeIt = () => {
     return function (dispatch, getState) {
-        const currentUser = auth.currentUser.uid;
+        const currentUser = getUserID(getState());
         const video = getVideo(getState());
         const isLiked = video.isLikedBy.some(user => user === currentUser);
         const isDisliked = video.isDislikedBy.some(user => user === currentUser);
@@ -93,14 +94,14 @@ export const likeIt = () => {
                 .then(() => currentVideo = { ...video, isLikedBy: [...video.isLikedBy, currentUser] })
                 .catch(err => dispatch(setAlertOn('error', err.message)));
         }
-
-        dispatch(updateVideo(currentVideo));
+        dispatch(updateVideo(currentVideo))
     }
 };
 
 export const dislikeIt = () => {
     return function (dispatch, getState) {
-        const currentUser = auth.currentUser.uid;
+        const currentUser = getUserID(getState());
+        console.log(currentUser);
         const video = getVideo(getState());
         const isLiked = video.isLikedBy.some(user => user === currentUser);
         const isDisliked = video.isDislikedBy.some(user => user === currentUser);
@@ -118,7 +119,7 @@ export const dislikeIt = () => {
                 .catch(err => dispatch(setAlertOn('error', err.message)));
         }
 
-        return dispatch(updateVideo(currentVideo))
+        dispatch(updateVideo(currentVideo))
     }
 };
 
