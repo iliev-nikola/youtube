@@ -18,6 +18,7 @@ database.rules.json
 firebase.json
 firestore.indexes.json
 firestore.rules
+firebase-config.js
 
 # misc
 .DS_Store

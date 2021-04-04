@@ -1,5 +1,4 @@
-import { auth, db } from './firebase';
-import { videos } from './service';
+import { db } from './firebase';
 
 export function generateId() {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
@@ -34,7 +33,9 @@ export function filterVideos(params) {
         return result;
       })
   } else {
-    db.collection('videos').get()
+    return db.collection('videos').get()
+      .then(res => res.docs)
+      .then(res => res.map(x => x.data()))
       .then(res => {
         let filtered = res;
         params.forEach(word => {
@@ -43,6 +44,7 @@ export function filterVideos(params) {
           }
         });
 
+        console.log(filtered);
         return filtered;
       });
   }

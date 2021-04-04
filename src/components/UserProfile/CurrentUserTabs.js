@@ -70,7 +70,6 @@ export default function ScrollableTabsButtonAuto({ history, liked, user, current
     const classes = useStyles();
     const dispatch = useDispatch();
     const myVideos = useSelector(getMyVideos);
-    console.log(myVideos);
 
     useEffect(() => {
         dispatch(fetchMyVideos(user.uid));
@@ -115,7 +114,6 @@ export default function ScrollableTabsButtonAuto({ history, liked, user, current
                 >
                     <Tab label="Videos" {...a11yProps(0)} />
                     {history ? <Tab label="History" {...a11yProps(1)} /> : null}
-                    <Tab label="History" {...a11yProps(1)} />
                     <Tab label="Liked" {...a11yProps(2)} />
                 </Tabs>
             </AppBar>

@@ -23,7 +23,7 @@ export default function Search() {
             <div className='mainContainer'>
                 <div className='videoContainer'>
                     {
-                        filtered ? filtered.map(video => (
+                        filtered.length ? filtered.map(video => (
                             <a href={`/video/${video.id}`} className='link' key={video.id}>
                                 <div >
                                     <VideoCard url={video.url} title={video.title} duration={video.duration} />
