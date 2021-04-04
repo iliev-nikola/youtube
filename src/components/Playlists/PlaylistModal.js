@@ -9,6 +9,7 @@ import { addVideoToPlaylist, createPlaylist, removeVideoFromPlaylist } from '../
 import DeleteIcon from '@material-ui/icons/Delete';
 import { deletePlaylist } from '../../service';
 import PopUp from '../OpenVideo/PopupState';
+import { setAlertOn } from '../../redux/actions/alertNotifier';
 
 export default function PlaylistModal({ video }) {
     const user = useSelector(getUser);
@@ -45,8 +46,10 @@ export default function PlaylistModal({ video }) {
     const addOrRemoveVideo = (e, playlist) => {
         if (e.target.checked) {
             addVideoToPlaylist(video, playlist.playlistID);
+            dispatch(setAlertOn('info', `Added to ${playlist.playlistName}`));
         } else {
             removeVideoFromPlaylist(video, playlist.playlistID);
+            dispatch(setAlertOn('info', `Removed from ${playlist.playlistName}`));
         }
     }
     const text = 'Sign in to add this video to a playlist.';

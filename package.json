@@ -26,6 +26,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-speech-recognition": "^3.7.0",
+    "react-time-ago": "^6.2.2",
     "react-uuid": "^1.0.2",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",

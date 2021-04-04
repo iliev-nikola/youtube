@@ -1,31 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import { Tooltip } from '@material-ui/core';
-import VideoCallIcon from '@material-ui/icons/VideoCall';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import { Tooltip, Badge, ClickAwayListener } from '@material-ui/core';
+import { VideoCall as VideoCallIcon, Notifications as NotificationsIcon, ExitToApp as ExitToAppIcon, AccountBox as AccountBoxIcon, Cancel } from '@material-ui/icons';
 import styles from './Header.module.scss';
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleTheme } from '../../redux/actions/theme';
 import { getUser } from '../../redux/selectors/user';
 import { getNotifications } from '../../redux/actions/notifications';
-import { deleteNotification } from '../../service';
+import { deleteNotification, setNotificationsRead } from '../../service';
 import UserLogo from '../common/UserLogo/UserLogo';
-import { getVideos } from '../../redux/selectors/videos';
 
-export default function UserMenu() {
+export default function UserMenu({ date }) {
     const history = useHistory();
     const dispatch = useDispatch();
     const user = useSelector(getUser);
-    const videos = useSelector(getVideos);
     const notifications = useSelector(state => state.notification.notifications);
     const [openNotify, setOpenNotify] = useState(false);
     const [unreadNotifications, setUnreadNotifications] = useState([]);
     const handleClickNotify = () => {
         setOpenNotify((prev) => !prev);
-
+        // setTimeout(setNotificationsRead, 2000);
     };
     const handleClickAwayNotify = () => {
         setOpenNotify(false);
@@ -46,11 +40,14 @@ export default function UserMenu() {
 
     useEffect(() => {
         if (user) {
-            // dispatch(getNotifications(user.uid));
             setUnreadNotifications(notifications.filter(notification => !notification.isRead));
         }
     }, [user, dispatch, notifications]);
 
+    const noNotifications = (
+        <><NotificationsIcon fontSize="large" id={styles.bigNotifyIcon} />
+            <p className={styles.greyText}>No new notifications.</p></>
+    )
 
     return (
         <div id={styles.userIcons}>
@@ -64,21 +61,22 @@ export default function UserMenu() {
             >
                 <div className={styles.dropdownContainer} >
                     <Tooltip title="Notifications" placement="bottom">
-                        <NotificationsIcon className={styles.icons} onClick={handleClickNotify} />
+                        <Badge badgeContent={unreadNotifications.length} color="error">
+                            <NotificationsIcon className={styles.icons} onClick={handleClickNotify} />
+                        </Badge>
                     </Tooltip>
-                    <span className={styles.badge}>{unreadNotifications.length}</span>
                     {openNotify ? (
                         <div id={styles.dropdownNotify} className={styles.dropdown}>
                             <h4 className={styles.notifyTitle}>Notifications</h4>
                             <div className={styles.line}></div>
                             <div className={styles.greyText}>
-                                {notifications ? notifications.map((notification, index) => (
-                                    <div key={index} className={!notification.isRead ? styles.notReadNot : styles.readNot}>
+                                {notifications.length ? notifications.map((notification, index) => (
+                                    <div key={index} className={!notification.isRead ? styles.unRead : styles.read}>
                                         <UserLogo user={notification} />
-                                        <span>{`${notification.displayName} ${notification.status} your video `} <Link to={`/video/${notification.videoID}`}>{notification.videoTitle}</Link></span>
-                                        <span onClick={() => deleteNotification(notification.notID)}>XXX</span>
+                                        <span className={styles.info}>{`${notification.displayName} ${notification.status} your video `} <Link to={`/video/${notification.videoID}`}>{notification.videoTitle}</Link></span>
+                                        <Cancel className={styles.cancel} onClick={() => deleteNotification(notification.notID)} />
                                     </div>
-                                )) : null}
+                                )) : <div>{noNotifications}</div>}
                             </div>
                         </div>
                     ) : null}
