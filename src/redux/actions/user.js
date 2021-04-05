@@ -3,13 +3,19 @@ import { setAlertOn } from './alertNotifier';
 
 export const SET_USER = 'SET_USER';
 export const LOGOUT_USER = 'LOGOUT_USER';
+export const USER_IS_LOADING = 'USER_IS_LOADING';
 
 export const logout = () => ({
     type: LOGOUT_USER
 });
 
+export const userLoading = () => ({
+    type: USER_IS_LOADING
+});
+
 export const setUser = (user) => {
     return function (dispatch, getState) {
+        dispatch(userLoading());
         fetchUser(user)
             .then(newUser => {
                 return dispatch({

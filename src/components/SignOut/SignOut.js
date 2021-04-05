@@ -1,4 +1,3 @@
-import { signOut } from '../../utils';
 import { useHistory } from "react-router-dom";
 import { auth } from '../../firebase';
 import { useDispatch } from 'react-redux';
@@ -10,7 +9,7 @@ export default function SignOut() {
     const history = useHistory();
     auth.signOut();
     dispatch(logout());
-    history.push('/');
+    history.replace('/');
     dispatch(setAlertOn('success', 'Successfully signed out'));
     return null;
 }

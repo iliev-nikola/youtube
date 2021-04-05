@@ -24,7 +24,7 @@ export default function Search() {
                 filtered ? filtered.map(video => (
                     <a href={`/video/${video.id}`} className='link' key={video.id}>
                         <div >
-                            <VideoCard url={video.url} title={video.title} duration={video.duration} />
+                            <VideoCard url={video.url} title={video.title} duration={video.duration} id={video.id} author={video.author} authorPhotoURL={video.authorPhotoURL} />
                         </div>
                     </a>
                 )) : <img src={image} alt='No search results' id='noSearchResImg' />

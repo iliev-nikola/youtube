@@ -1,4 +1,13 @@
 .userPic {
+  box-sizing: border-box;
+  display: flex;
+  width: 35px;
+  margin-right: 20px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.userLetter {
   background-color: cornflowerblue;
   box-sizing: border-box;
   font-size: 22px;
@@ -6,8 +15,7 @@
   align-items: center;
   justify-content: center;
   width: 35px;
-  height: 30px;
-  margin-right: 20px;
+  height: 35px;
   border-radius: 50%;
-  overflow: hidden;
+  margin-right: 20px;
 }

@@ -1,5 +1,3 @@
-import { db } from './firebase';
-
 export function generateId() {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
     const r = (Math.random() * 16) | 0,
@@ -29,8 +27,7 @@ export function getDate() {
 }
 
 export function changeThemeColors(theme) {
-  let bgColor, textColor, bgColor2, headerColor, hovColor, titColor, fontCol, searchCol, searchBord, tColor, bColor;
-  let gColor;
+  let bgColor, textColor, bgColor2, headerColor, hovColor, titColor, fontCol, searchCol, searchBord, tColor, bColor, gColor;
 
   switch (theme) {
     case 'dark':

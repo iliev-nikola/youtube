@@ -1,8 +1,5 @@
 
-import { CHANGE_THEME } from '../actions/theme';
-
-const whiteTheme = 'light';
-const darkTheme = 'dark';
+import { SET_LIGHT_THEME, SET_DARK_THEME } from '../actions/theme';
 
 const INITIAL_STATE = {
     theme: 'dark'
@@ -10,8 +7,16 @@ const INITIAL_STATE = {
 
 const themeReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case CHANGE_THEME:
-            return { theme: state.theme === darkTheme ? whiteTheme : darkTheme }
+        case SET_LIGHT_THEME:
+            return {
+                ...state,
+                theme: 'light'
+            }
+        case SET_DARK_THEME:
+            return {
+                ...state,
+                theme: 'dark'
+            }
         default:
             return state;
     }

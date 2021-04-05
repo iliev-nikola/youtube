@@ -13,15 +13,17 @@ export default function SidebarOpen() {
     const history = useHistory();
     const theme = useSelector(state => state.theme.theme);
     const [state, setState] = useState(false);
+
     const toggleDrawer = (anchor, open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
         }
         setState({ ...state, [anchor]: open });
     };
+
     const mainLogo = (
         <div className={styles.mainLogoContainer}>
-            <MenuIcon onClick={toggleDrawer('left', true)} />
+            <MenuIcon onClick={toggleDrawer('left', true)} className={styles.sandwichButton} />
             <Tooltip title="YouTube Home" placement="bottom-end">
                 <div className={styles.logo} onClick={() => history.push('/')}>
                     <img className={styles.siteLogo} src={theme === 'dark' ? logo : blackLogo} alt="youtube's logo" />
@@ -29,7 +31,7 @@ export default function SidebarOpen() {
                 </div>
             </Tooltip>
         </div>
-    )
+    );
 
     const list = (anchor) => (
         <div

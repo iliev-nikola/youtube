@@ -1,11 +1,11 @@
 import React from 'react';
 import styles from './UserLogo.module.scss';
 
-export default function UserLogo({ user }) {
+export default function UserLogo({ author, authorPhotoURL }) {
     return (
         <div>
-            {user.photoURL && <img className={styles.userPic} src={user.photoURL} alt='user logo' />}
-            {!user.photoURL && <h1 className={styles.userPic}> {user.displayName[0]}</h1>}
+            {authorPhotoURL && <img className={styles.userPic} src={authorPhotoURL} alt='user logo' />}
+            {!authorPhotoURL && <h1 className={styles.userLetter}>{author[0]}</h1>}
         </div>
     )
 }

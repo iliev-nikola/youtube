@@ -17,7 +17,6 @@ export default function UploadVideo() {
     const [description, setDescription] = useState('');
     const [file, setFile] = useState(null);
     const [progress, setProgress] = useState(null);
-    const [alert, setAlert] = useState(null);
     const dispatch = useDispatch();
     const user = useSelector(getUser);
     useEffect(() => {
@@ -34,10 +33,18 @@ export default function UploadVideo() {
         }
     }, [progress]);
     const changeTitle = (e) => {
-        setTitle(e.target.value);
+        const titleValue = e.target.value;
+        if (titleValue.length > 40) {
+            return dispatch(setAlertOn('warning', 'Title cannot exceed 40 characters'));
+        }
+        setTitle(titleValue);
     };
     const changeDescription = (e) => {
-        setDescription(e.target.value);
+        const desciptionValue = e.target.value;
+        if (desciptionValue.length > 100) {
+            return dispatch(setAlertOn('warning', 'Description cannot exceed 100 characters'));
+        }
+        setDescription(desciptionValue);
     };
 
     const onDrop = useCallback(acceptedFiles => {
@@ -120,7 +127,7 @@ export default function UploadVideo() {
                 {progress ? <CircularStatic percentage={progress} /> : null}
                 <div className={styles.inputs}>
                     <TextField type="text" required fullWidth className={styles.input} size="small" label="Title" variant="outlined" value={title} onChange={changeTitle} />
-                    <TextField type="text" required size="medium" fullWidth label="Description" variant="outlined" value={description} onChange={changeDescription} />
+                    <TextField type="text" required size="medium" fullWidth className={styles.input} label="Description" variant="outlined" value={description} onChange={changeDescription} />
                 </div>
                 {file ?
                     <Button variant="contained" color="primary" onClick={onSubmit}>Upload</Button>

@@ -2,12 +2,13 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchVideos } from '../../redux/actions/videos';
-import { getVideos, getVideosLength } from '../../redux/selectors/videos';
+import { getVideos } from '../../redux/selectors/videos';
 import Layout from '../Layout/Layout';
 import VideoCard from '../VideoCard/VideoCard';
 import InfiniteScroll from "react-infinite-scroll-component";
 import { setLoading, setNotLoading } from '../../redux/actions/loadingBar';
 import { setAlertOn } from '../../redux/actions/alertNotifier';
+import styles from './HomePage.module.scss'
 
 export default function HomePage() {
     const dispatch = useDispatch();
@@ -18,10 +19,9 @@ export default function HomePage() {
     const [hasMore, setHasMore] = useState(true);
     const videosLimitOnPage = 25;
     const newVideosOnScroll = videos.length < 4 ? videos.length : 4;
-    useEffect(() => {
-        dispatch(fetchVideos());
-        console.log(111, 'useeffect');
-    }, []);
+    // useEffect(() => {
+    //     dispatch(fetchVideos());
+    // }, []);
 
     useEffect(() => {
         setVisibleVideos(videos.slice(0, 16));
@@ -57,7 +57,7 @@ export default function HomePage() {
     return (
         <Layout>
             <InfiniteScroll
-                className='videoContainer'
+                className={styles.videoContainer}
                 dataLength={visibleVideos.length}
                 next={fetchMoreData}
                 hasMore={hasMore}
@@ -70,11 +70,7 @@ export default function HomePage() {
             >
                 {
                     visibleVideos.map(video => (
-                        <Link to={`/video/${video.id}`} className='link' key={video.id + Math.random()}>
-                            <div>
-                                <VideoCard url={video.url} title={video.title} views={video.views} />
-                            </div>
-                        </Link>
+                        <VideoCard key={video.id + Math.random()} url={video.url} title={video.title} views={video.views} id={video.id} author={video.author} authorPhotoURL={video.authorPhotoURL} />
                     ))
                 }
             </InfiniteScroll>

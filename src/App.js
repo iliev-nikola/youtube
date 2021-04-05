@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -23,26 +23,26 @@ import { setUser, logout } from './redux/actions/user';
 import { getUser } from './redux/selectors/user';
 import { getIsLoading } from "./redux/selectors/loading";
 import HomePage from "./Components/HomePage/HomePage";
-import { changeThemeColors } from './utils';
 import AlertNotifier from "./Components/common/AlertNotifier";
 import ScrollableTabsButtonAuto from './Components/Playlists/UserPlaylists';
-
 import { getNotifications } from './redux/actions/notifications';
+import { fetchTheme } from "./redux/actions/theme";
+import { fetchVideos } from "./redux/actions/videos";
 
 export default function App() {
   const dispatch = useDispatch();
   const user = useSelector(getUser);
   const isLoading = useSelector(getIsLoading);
-  let theme = useSelector(state => state.theme.theme);
 
   useEffect(() => {
-    changeThemeColors(theme);
-  }, [theme, user])
+    dispatch(fetchVideos());
+  }, []);
 
   useEffect(() => {
     if (user) {
       dispatch(getNotifications(user.uid));
     }
+    dispatch(fetchTheme());
   }, [user, dispatch]);
 
   useEffect(() => {
@@ -78,7 +78,8 @@ export default function App() {
               } else {
                 return <Redirect to='/' />
               }
-            }} />
+            }}
+          />
           <Route path="/signup"
             render={() => {
               if (auth.currentUser && user) {

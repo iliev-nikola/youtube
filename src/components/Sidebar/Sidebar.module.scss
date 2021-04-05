@@ -16,13 +16,22 @@ $main-color: var(--tit-color);
   width: 185px;
 }
 
+.sandwichButton {
+  &:hover {
+    cursor: pointer;
+    color: grey;
+  }
+}
+
 .siteLogo {
-  width: 80px;
-  margin-left: 20px;
-  height: 24px;
+  width: 100%;
+  height: fit-content;
+  align-self: center;
 }
 
 .logo {
+  margin-left: 20px;
+  width: 85px;
   display: flex;
   cursor: pointer;
 }

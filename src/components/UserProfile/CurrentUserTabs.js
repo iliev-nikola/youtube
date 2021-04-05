@@ -120,13 +120,11 @@ export default function ScrollableTabsButtonAuto({ history, liked, user, current
             <TabPanel value={value} index={0} className={classes.container}>
                 {myVideos && myVideos.length ? myVideos.map(video => (
                     <div key={video.id}>
-                        <a href={`/video/${video.id}`} className='link'>
-                            <VideoCard url={video.url} title={video.title} author={video.artist} duration={video.duration} />
-                        </a>
+                        <VideoCard url={video.url} title={video.title} author={video.author} authorPhotoURL={video.authorPhotoURL} id={video.id} duration={video.duration} />
                         {user.uid === currentUser.uid ?
                             <div className={styles.optionsContainer}>
-                                <p className='link' onClick={() => onEditOpen(video)}>Edit</p>
-                                <p className='link' onClick={() => onDeleteOpen(video)}>Delete</p>
+                                <p id={styles.editButton} onClick={() => onEditOpen(video)}>Edit</p>
+                                <p id={styles.deleteButton} onClick={() => onDeleteOpen(video)}>Delete</p>
                             </div> : null}
                     </div>
                 )) : <h1 className={styles.emptyContainerTitle}>No videos added yet</h1>}
@@ -134,20 +132,16 @@ export default function ScrollableTabsButtonAuto({ history, liked, user, current
             {history ?
                 <TabPanel value={value} index={1} className={classes.container}>
                     {history.length ? history.map(video => (
-                        <a href={`/video/${video.id}`} className='link' key={video.id}>
-                            <div >
-                                <VideoCard url={video.url} title={video.title} author={video.artist} duration={video.duration} />
-                            </div>
-                        </a>
+                        <div >
+                            <VideoCard url={video.url} title={video.title} author={video.author} authorPhotoURL={video.authorPhotoURL} id={video.id} duration={video.duration} />
+                        </div>
                     )) : <h1 className={styles.emptyContainerTitle}>Your history is empty</h1>}
                 </TabPanel> : null}
             <TabPanel value={value} index={2} className={classes.container}>
                 {liked && liked.length ? liked.map(video => (
-                    <a href={`/video/${video.id}`} className='link' key={video.id}>
-                        <div >
-                            <VideoCard url={video.url} title={video.title} author={video.artist} duration={video.duration} />
-                        </div>
-                    </a>
+                    <div >
+                        <VideoCard url={video.url} title={video.title} author={video.author} authorPhotoURL={video.authorPhotoURL} id={video.id} duration={video.duration} />
+                    </div>
                 )) : <h1 className={styles.emptyContainerTitle}>Like some videos first</h1>}
             </TabPanel>
             <FormDialog handleClose={handleCloseEdit} onEditClick={onEditClick} open={openEdit} video={video} />

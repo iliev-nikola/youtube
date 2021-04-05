@@ -161,3 +161,7 @@ export function getVideosByTitle(title) {
             .then(res => res.map(({ title, id }) => ({ title, id })))
     }
 }
+
+export function updateUserTheme(user, theme) {
+    db.collection('users').doc(user.uid).update({ theme: theme })
+}

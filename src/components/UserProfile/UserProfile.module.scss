@@ -1,5 +1,6 @@
-.profileContainer{
+.profileContainer {
   width: 100%;
+  margin-top: 56px;
 }
 .container {
   display: flex;
@@ -22,14 +23,22 @@
 .optionsContainer {
   display: flex;
   justify-content: space-between;
-  padding: 0 30px 0 30px;
+  padding: 0 15px 0 15px;
   margin-bottom: 20px;
 
-  a {
-    color: yellow;
-
+  #deleteButton {
+    color: rgb(253, 91, 118);
+    cursor: pointer;
     &:hover {
-      color: white;
+      color: red;
+    }
+  }
+
+  #editButton {
+    color: white;
+    cursor: pointer;
+    &:hover {
+      color: rgba(82, 174, 250, 0.911);
     }
   }
 }

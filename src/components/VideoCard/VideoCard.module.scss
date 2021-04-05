@@ -5,25 +5,13 @@
   position: relative;
 }
 
-.title {
-  color: var(--tit-color);
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.description,
-.views {
-  color: var(--font-color);
-}
-
 .video {
-  width: 275px;
-  height: 155px;
+  width: 315px;
 }
 
 .duration {
   position: absolute;
-  bottom: 55px;
+  top: 153px;
   right: 3px;
   background-color: #180f0a;
   color: #c0c0c1;
@@ -31,4 +19,34 @@
   font-size: 12px;
   font-weight: 500;
   border-radius: 2px;
+}
+
+.link {
+  text-decoration: none;
+  color: black;
+}
+
+.videoInfoContainer {
+  display: flex;
+  margin: 5px;
+
+  .videoInfo {
+    display: flex;
+    flex-direction: column;
+    line-height: normal;
+    align-items: baseline;
+    .title {
+      color: var(--tit-color);
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .views {
+      color: var(--font-color);
+    }
+
+    .authorName {
+      color: grey;
+    }
+  }
 }
