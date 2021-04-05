@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import SearchIcon from '@material-ui/icons/Search';
-import logo from '../../assets/logo.png';
 import styles from './Header.module.scss';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { Tooltip } from '@material-ui/core';

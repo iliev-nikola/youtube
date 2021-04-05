@@ -1,28 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Link } from 'react';
 import { useHistory, useParams } from "react-router-dom";
 import styles from './OpenVideo.module.scss';
 import ReactPlayer from 'react-player';
-import ThumbDownIcon from '@material-ui/icons/ThumbDown';
-import ThumbUp from '@material-ui/icons/ThumbUp';
+import { ThumbDown as ThumbDownIcon, ThumbUp } from '@material-ui/icons';
 import PopUp from './PopupState';
 import { Input } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { dislikeIt, likeIt, changeViews, fetchVideo } from '../../redux/actions/videos';
-import { getUser, getVideoComments } from '../../redux/selectors/selectors';
+import { getUser, getVideoComments, getVideos } from '../../redux/selectors/selectors';
 import { getComments } from '../../redux/actions/comments';
-import Layout from '../Layout/Layout';
 import { setAlertOn } from '../../redux/actions/alertNotifier';
 import { getVideo, getVideoURL, getVideoID, getVideoTitle, getVideoViews, getVideoAuthor, getVideoDescription, getVideoLikes, getVideoDislikes, getVideoAuthorID } from '../../redux/selectors/video';
 import UserLogo from '../common/UserLogo/UserLogo';
 import { updatedNotifications, createComments } from '../../service';
 import PlaylistModal from '../Playlists/PlaylistModal';
 import Header from '../Header/Header';
-
+import ReactTimeAgo from 'react-time-ago';
 
 export default function OpenVideo() {
     const history = useHistory();
     const dispatch = useDispatch();
     const { id } = useParams();
+    const videos = useSelector(getVideos);
     const [inputValue, setInputValue] = useState('');
     const [isLiked, setIsLiked] = useState(false);
     const [isDisliked, setIsDisliked] = useState(false);
@@ -105,7 +104,7 @@ export default function OpenVideo() {
                     <div>
                         <ReactPlayer url={videoURL} controls playing={true} className={styles.video} />
                         <div className={styles.hashtags}>
-                            {`#${videoTitle} #video# ${videoViews} #youtube`}
+                            {`#${videoTitle} #video #${videoViews} #youtube`}
                         </div>
                         <div className={styles.infoContainer}>
                             <p className={styles.title}>{videoTitle}</p>
@@ -137,6 +136,7 @@ export default function OpenVideo() {
                                                 <div className={styles.someComment}>
                                                     <p className={styles.userName}>{currentComment.displayName}</p>
                                                     <p className={styles.comment}>{currentComment.comment}</p>
+                                                    {/* <ReactTimeAgo date={currentComment.timestamp.toDate()} locale="en-US"/> */}
                                                 </div>
                                             </div>
                                         </div>
@@ -146,14 +146,14 @@ export default function OpenVideo() {
                         </div>
                     </div> : null}
                 {/* <div className={styles.otherVideos}>
-                {reduxVideos.map(video => (
-                    <Link to={`/video/${video.id}`} className='link' key={video.id}>
-                        <div>
-                            <VideoCard url={video.url} title={video.title} duration={video.duration} views={video.views} />
-                        </div>
-                    </Link>
-                ))}
-            </div> */}
+                    {videos.length ? videos.map(video => (
+                        <Link to={`/video/${video.id}`} className='link' key={video.id}>
+                            <div>
+                                <VideoCard url={video.url} title={video.title} duration={video.duration} views={video.views} />
+                            </div>
+                        </Link>
+                    )) : null}
+                </div> */}
             </div>
         </>
     );

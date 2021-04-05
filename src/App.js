@@ -25,6 +25,7 @@ import { getIsLoading } from "./redux/selectors/loading";
 import HomePage from "./Components/HomePage/HomePage";
 import { changeThemeColors } from './utils';
 import AlertNotifier from "./Components/common/AlertNotifier";
+import ScrollableTabsButtonAuto from './Components/Playlists/UserPlaylists';
 
 import { getNotifications } from './redux/actions/notifications';
 
@@ -69,6 +70,7 @@ export default function App() {
           </Route>
           <Route path="/upload" component={UploadVideo} />
           <Route path="/user/:id" component={UserProfile} />
+          <Route path="/playlists" component={ScrollableTabsButtonAuto} />
           <Route path="/signout"
             render={() => {
               if (auth.currentUser && user) {

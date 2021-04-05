@@ -1,6 +1,5 @@
-import { auth, db, storage } from '../../firebase';
+import { db } from '../../firebase';
 import { setLoading, setNotLoading } from '../actions/loadingBar';
-import { updatedNotifications } from './notifications';
 import { getVideoWatched, getVideoID, getVideoViews, getVideo } from '../selectors/video';
 import { setAlertOn } from './alertNotifier';
 import { getUser, getUserID } from '../selectors/user';
@@ -60,7 +59,7 @@ export const fetchVideos = () => {
 };
 
 export const fetchMyVideos = (uid) => {
-    return function (dispatch, getState) {
+    return function (dispatch) {
         dispatch(setLoading());
         dispatch(fetchVideosRequested());
         const videosRef = db.collection('videos');

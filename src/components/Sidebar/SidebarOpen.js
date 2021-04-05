@@ -4,21 +4,15 @@ import Sidebar from './Sidebar';
 import { Home, Whatshot, VideoLibrary, History } from '@material-ui/icons';
 import MenuIcon from '@material-ui/icons/Menu';
 import logo from '../../assets/logo.png';
+import blackLogo from '../../assets/blackLogo.png';
 import { useHistory } from "react-router-dom";
 import styles from './Sidebar.module.scss';
+import { useSelector } from 'react-redux';
 
 export default function SidebarOpen() {
     const history = useHistory();
+    const theme = useSelector(state => state.theme.theme);
     const [state, setState] = useState(false);
-    const [open, setOpen] = React.useState(false);
-
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
-
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
     const toggleDrawer = (anchor, open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
@@ -30,7 +24,7 @@ export default function SidebarOpen() {
             <MenuIcon onClick={toggleDrawer('left', true)} />
             <Tooltip title="YouTube Home" placement="bottom-end">
                 <div className={styles.logo} onClick={() => history.push('/')}>
-                    <img className={styles.siteLogo} src={logo} alt="youtube's logo" />
+                    <img className={styles.siteLogo} src={theme === 'dark' ? logo : blackLogo} alt="youtube's logo" />
                     <span className={styles.countryCode}>BG</span>
                 </div>
             </Tooltip>

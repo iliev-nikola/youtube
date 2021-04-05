@@ -1,9 +1,11 @@
-.microphone {
+.listening,
+.notListening {
   z-index: 20;
   position: absolute;
   color: white;
   bottom: 20px;
   position: fixed;
+  right: 30px;
   width: 50px;
   height: 50px;
   background: lightcoral;
@@ -14,17 +16,17 @@
   justify-content: center;
 }
 
-.notListening {
-  display: none;
+@keyframes blinker {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
-
 .listening {
-  width: 560px;
-  height: 400px;
-  padding: 0 0 16px 32px;
-  z-index: 2;
-  background-color: #333;
-  position: absolute;
-  top: 20%;
-  left: 30%;
+  text-decoration: blink;
+  animation: blinker 5s infinite;
+  animation-timing-function: ease-in-out;
+  animation-direction: alternate;
 }

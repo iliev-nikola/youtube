@@ -1,6 +1,7 @@
 import styles from './VoiceControl.module.scss';
 import { useState } from 'react';
 import { useHistory } from "react-router";
+import MicIcon from '@material-ui/icons/Mic';
 const SpeechRecognition =
   window.SpeechRecognition || window.webkitSpeechRecognition;
 
@@ -9,7 +10,7 @@ export const recognition = new SpeechRecognition();
 export default function VoiceControl() {
   const history = useHistory();
   const [isListening, setListening] = useState(false);
-  const [transcript,setTranscript] = useState('');
+  const [transcript, setTranscript] = useState('');
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   const recognition = new SpeechRecognition();
   recognition.lang = 'en-US';
@@ -40,8 +41,9 @@ export default function VoiceControl() {
   }
   return (
     <>
-      <div className={styles.microphone} onClick={activeMicr}>Micr</div>
-      <div className={isListening ? styles.listening : styles.notListening}>{transcript}</div>
+      <div onClick={activeMicr} className={isListening ? styles.listening : styles.notListening}>
+        <MicIcon />
+      </div>
     </>
   )
 }

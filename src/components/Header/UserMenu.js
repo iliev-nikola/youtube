@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createRef } from 'react';
 import { Tooltip, Badge, ClickAwayListener } from '@material-ui/core';
 import { VideoCall as VideoCallIcon, Notifications as NotificationsIcon, ExitToApp as ExitToAppIcon, AccountBox as AccountBoxIcon, Cancel } from '@material-ui/icons';
 import styles from './Header.module.scss';
@@ -9,8 +9,10 @@ import { getUser } from '../../redux/selectors/user';
 import { getNotifications } from '../../redux/actions/notifications';
 import { deleteNotification, setNotificationsRead } from '../../service';
 import UserLogo from '../common/UserLogo/UserLogo';
+import ReactTimeAgo from 'react-time-ago';
 
-export default function UserMenu({ date }) {
+export default function UserMenu() {
+    const ref= createRef();
     const history = useHistory();
     const dispatch = useDispatch();
     const user = useSelector(getUser);
@@ -19,7 +21,7 @@ export default function UserMenu({ date }) {
     const [unreadNotifications, setUnreadNotifications] = useState([]);
     const handleClickNotify = () => {
         setOpenNotify((prev) => !prev);
-        // setTimeout(setNotificationsRead, 2000);
+        setTimeout(setNotificationsRead, 2000);
     };
     const handleClickAwayNotify = () => {
         setOpenNotify(false);
@@ -51,7 +53,7 @@ export default function UserMenu({ date }) {
 
     return (
         <div id={styles.userIcons}>
-            <Tooltip title="Upload a video" placement="bottom">
+            <Tooltip ref={ref} title="Upload a video" placement="bottom">
                 <VideoCallIcon fontSize='default' className={styles.icons} onClick={() => history.push('/upload')} />
             </Tooltip>
             <ClickAwayListener
@@ -74,6 +76,7 @@ export default function UserMenu({ date }) {
                                     <div key={index} className={!notification.isRead ? styles.unRead : styles.read}>
                                         <UserLogo user={notification} />
                                         <span className={styles.info}>{`${notification.displayName} ${notification.status} your video `} <Link to={`/video/${notification.videoID}`}>{notification.videoTitle}</Link></span>
+                                        {/* <ReactTimeAgo date={notification.timestamp.toDate()} locale="en-US"/> */}
                                         <Cancel className={styles.cancel} onClick={() => deleteNotification(notification.notID)} />
                                     </div>
                                 )) : <div>{noNotifications}</div>}
