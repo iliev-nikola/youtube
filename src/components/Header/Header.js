@@ -7,9 +7,9 @@ import { useHistory } from "react-router-dom";
 import UserMenu from './UserMenu';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser, getUserLoading } from '../../redux/selectors/user';
-import SidebarOpen from '../Sidebar/SidebarOpen';
 import { getVideosByTitle, updateUserTheme } from '../../service';
 import { fetchTheme, setDarkTheme, setLightTheme } from '../../redux/actions/theme';
+import Sidebar from '../Sidebar/Sidebar';
 
 export default function Header() {
     const user = useSelector(getUser);
@@ -76,7 +76,7 @@ export default function Header() {
     return (
         <div className={styles.headerContainer}>
             <div className={styles.header}>
-                <SidebarOpen />
+                <Sidebar />
                 <div className={styles.searchContainer}>
                     <input onFocus={onFocus} onBlur={onFocusOut} type="text" placeholder="Search" value={inputSearchValue} onChange={onInputChange} onKeyPress={handleKeyPress}></input>
                     <div className={styles.optionsList}>

@@ -1,13 +1,24 @@
 import Header from '../Header/Header';
-import Sidebar from '../Sidebar/Sidebar';
-import { Home, Whatshot, VideoLibrary, History } from '@material-ui/icons';
+import { Home, VideoLibrary, History } from '@material-ui/icons';
+import { Tooltip } from '@material-ui/core';
 import styles from './Layout.module.scss';
 export default function Layout({ children }) {
     const sideBarContainer = (<>
-        <Sidebar Icon={Home} type={'Home'} />
-        <Sidebar Icon={Whatshot} type={'Trending'} />
-        <Sidebar Icon={VideoLibrary} type={'Library'} />
-        <Sidebar Icon={History} type={'History'} />
+        <Tooltip title='Home' placement="right">
+            <div className={styles.sidebars}>
+                <Home />
+            </div>
+        </Tooltip>
+        <Tooltip title='Library' placement="right">
+            <div className={styles.sidebars}>
+                <VideoLibrary />
+            </div>
+        </Tooltip>
+        <Tooltip title='History' placement="right">
+            <div className={styles.sidebars}>
+                <History />
+            </div>
+        </Tooltip>
     </>);
     return (
         <>

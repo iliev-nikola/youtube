@@ -99,6 +99,7 @@ export const createPlaylist = (user, inputValue) => {
 }
 
 export const addVideoToPlaylist = (video, id) => {
+
     db.collection('playlists')
         .doc(id)
         .update({
