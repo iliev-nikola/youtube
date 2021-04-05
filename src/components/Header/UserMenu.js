@@ -76,7 +76,7 @@ export default function UserMenu() {
                                     <div key={index} className={!notification.isRead ? styles.unRead : styles.read}>
                                         <UserLogo user={notification} />
                                         <span className={styles.info}>{`${notification.displayName} ${notification.status} your video `} <Link to={`/video/${notification.videoID}`}>{notification.videoTitle}</Link></span>
-                                        {/* <ReactTimeAgo date={notification.timestamp.toDate()} locale="en-US"/> */}
+                                        <ReactTimeAgo date={notification.timestamp.toDate()} locale="en-US"/>
                                         <Cancel className={styles.cancel} onClick={() => deleteNotification(notification.notID)} />
                                     </div>
                                 )) : <div>{noNotifications}</div>}

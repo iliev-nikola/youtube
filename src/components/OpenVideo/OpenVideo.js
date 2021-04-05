@@ -136,7 +136,7 @@ export default function OpenVideo() {
                                                 <div className={styles.someComment}>
                                                     <p className={styles.userName}>{currentComment.displayName}</p>
                                                     <p className={styles.comment}>{currentComment.comment}</p>
-                                                    {/* <ReactTimeAgo date={currentComment.timestamp.toDate()} locale="en-US"/> */}
+                                                    {currentComment.timestamp ? <ReactTimeAgo date={currentComment.timestamp.toDate()} locale="en-US" /> : null}
                                                 </div>
                                             </div>
                                         </div>

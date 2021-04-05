@@ -104,6 +104,26 @@
   border: 1px solid var(--search-bord);
 }
 
+.optionsList {
+  width: 570px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 53px;
+  height: min-content;
+
+  > a {
+    text-decoration: none;
+    color: grey;
+    padding: 5px;
+    font-size: 18px;
+    &:hover {
+      background-color: rgb(182, 182, 182);
+    }
+  }
+}
+
 .searchIcon {
   margin-top: 6px;
   color: #6f6f6f;

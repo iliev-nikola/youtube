@@ -1,45 +1,83 @@
 import { Link } from 'react-router-dom';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchVideos } from '../../redux/actions/videos';
-import { getVideos } from '../../redux/selectors/videos';
+import { getVideos, getVideosLength } from '../../redux/selectors/videos';
 import Layout from '../Layout/Layout';
 import VideoCard from '../VideoCard/VideoCard';
 import InfiniteScroll from "react-infinite-scroll-component";
+import { setLoading, setNotLoading } from '../../redux/actions/loadingBar';
+import { setAlertOn } from '../../redux/actions/alertNotifier';
 
 export default function HomePage() {
     const dispatch = useDispatch();
-    let videos = useSelector(getVideos);
+    const videos = useSelector(getVideos);
+    const [lastVideoIndex, setLastVideoIndex] = useState(0);
     const [visibleVideos, setVisibleVideos] = useState([]);
-    const [length, setLength] = useState(0);
+    const [scrollTop, setScrollTop] = useState(0);
+    const [hasMore, setHasMore] = useState(true);
+    const videosLimitOnPage = 25;
+    const newVideosOnScroll = videos.length < 4 ? videos.length : 4;
     useEffect(() => {
         dispatch(fetchVideos());
-        // setLength(videos.length);
+        console.log(111, 'useeffect');
     }, []);
 
-    const fetchMoreData = () => {
-        videos = videos.concat(videos.slice(4));
+    useEffect(() => {
+        setVisibleVideos(videos.slice(0, 16));
+        setLastVideoIndex(videos.length < 16 ? 0 : 15);
+    }, [videos.length]);
+
+    const fetchMoreData = (e) => {
+        if (scrollTop > window.scrollY) return;
+        if (visibleVideos.length > videosLimitOnPage) {
+            dispatch(setAlertOn('info', 'No more videos to show. Check again later or upload some.'));
+            return setHasMore(false);
+        }
+
+        dispatch(setLoading());
+        let newVideos;
+        const endIndex = lastVideoIndex + newVideosOnScroll;
+        if (endIndex > videos.length) {
+            const diff = endIndex - videos.length;
+            newVideos = videos.slice(newVideosOnScroll - diff, videos.length);
+            newVideos.concat(videos.slice(0, diff));
+            setLastVideoIndex(diff - 1);
+        } else {
+            newVideos = visibleVideos.slice(lastVideoIndex, endIndex);
+            setLastVideoIndex(endIndex);
+        }
+
+        setTimeout(() => {
+            setVisibleVideos([...visibleVideos, ...newVideos]);
+            dispatch(setNotLoading());
+        }, 1000)
     }
 
     return (
         <Layout>
-            {/* <InfiniteScroll
+            <InfiniteScroll
                 className='videoContainer'
-                dataLength={4}
+                dataLength={visibleVideos.length}
                 next={fetchMoreData}
-                children={visibleVideos}
-                hasMore={true}
-                scrollThreshold="200px"
-                loader={<h4>Loading...</h4>}
-            > */}
-            {videos.map(video => (
-                <Link to={`/video/${video.id}`} className='link' key={video.id + Math.random()}>
-                    <div>
-                        <VideoCard url={video.url} title={video.title} views={video.views} />
-                    </div>
-                </Link>
-            ))}
-            {/* </InfiniteScroll> */}
+                hasMore={hasMore}
+                scrollThreshold='1px'
+                onScroll={() => {
+                    if (scrollTop < window.scrollY) {
+                        setScrollTop(window.scrollY);
+                    }
+                }}
+            >
+                {
+                    visibleVideos.map(video => (
+                        <Link to={`/video/${video.id}`} className='link' key={video.id + Math.random()}>
+                            <div>
+                                <VideoCard url={video.url} title={video.title} views={video.views} />
+                            </div>
+                        </Link>
+                    ))
+                }
+            </InfiniteScroll>
         </Layout >
     )
 }

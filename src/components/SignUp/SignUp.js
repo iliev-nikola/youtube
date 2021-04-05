@@ -54,7 +54,7 @@ export default function SignUp() {
                 setRePassword('');
                 auth.signOut();
                 history.replace('/signin');
-                dispatch(setAlertOn('success', 'Passwords didn\'t match'));
+                dispatch(setAlertOn('success', 'Registration successfull'));
             })
             .catch(err => dispatch(setAlertOn('error', err.message)));
     };

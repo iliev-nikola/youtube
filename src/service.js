@@ -1,34 +1,23 @@
 import { db } from './firebase';
 import firebase from "firebase/app";
 import { generateId } from './utils';
-
-export function getAllVideos() {
-}
-
-export function getVideo(id) {
-}
+import { setAlertOn } from './redux/actions/alertNotifier';
+import { useDispatch } from 'react-redux';
 
 export function getUserById(id) {
     db.collection('users').doc(id).get().then(res => console.log(res.docs))
 }
 
-export function getUserVideos(arr) {
-}
-
-export function pushToWatched(id) {
-    // find current user in firebase and push the id in the history array
-}
-
-export function pushToLiked(id) {
-    // find current user in firebase and push the id in the liked array
-}
-
 export function setNotificationsRead() {
-    db.collection('notifications').get().then(res => res.docs.map(el => el.data())).then(res => {
-        res.forEach(el => {
-            db.collection('notifications').doc(el.notID).update({ isRead: true });
+    db.collection('notifications')
+        .get()
+        .then(res => res.docs.map(el => el.data()))
+        .then(res => {
+            res.forEach(el => {
+                db.collection('notifications').doc(el.notID).update({ isRead: true });
+            })
         })
-    });
+        .catch(err => setAlertOn('error', err.message));
 }
 
 export function createComments(id, user, inputValue) {
@@ -51,8 +40,10 @@ export function createComments(id, user, inputValue) {
                         dbComments.push(doc.data());
                     });
 
-                });
+                })
+                .catch(err => setAlertOn('error', err.message));
         })
+        .catch(err => setAlertOn('error', err.message));
 }
 
 export function updatedNotifications(video, user, status) {
@@ -78,8 +69,10 @@ export function updatedNotifications(video, user, status) {
                     notifications.forEach((doc) => {
                         dbNotifications.push(doc.data());
                     });
-                });
+                })
+                .catch(err => setAlertOn('error', err.message));
         })
+        .catch(err => setAlertOn('error', err.message));
 }
 
 export const deleteNotification = (id) => {
@@ -97,14 +90,21 @@ export const createPlaylist = (user, inputValue) => {
         playlistName: inputValue,
         userID: user.uid,
         videos: []
-    }
-    db.collection('playlists').doc(id).set(data);
+    };
+
+    db.collection('playlists')
+        .doc(id)
+        .set(data)
+        .catch(err => setAlertOn('error', err.message));
 }
 
 export const addVideoToPlaylist = (video, id) => {
-    db.collection('playlists').doc(id).update({
-        videos: firebase.firestore.FieldValue.arrayUnion(video)
-    });
+    db.collection('playlists')
+        .doc(id)
+        .update({
+            videos: firebase.firestore.FieldValue.arrayUnion(video)
+        })
+        .catch(err => setAlertOn('error', err.message));
 }
 
 export const removeVideoFromPlaylist = (video, id) => {
@@ -115,4 +115,49 @@ export const removeVideoFromPlaylist = (video, id) => {
 
 export const deletePlaylist = (id) => {
     db.collection("playlists").doc(id).delete();
+}
+
+
+export function filterVideos(params) {
+    if (!params.length) return null;
+    if (params.length === 1) {
+        return db.collection('videos').get()
+            .then(res => res.docs)
+            .then(res => res.map(x => x.data()))
+            .then(res => {
+                const result = res.filter(el => el.title.toLowerCase().includes(params[0]));
+                return result;
+            })
+            .catch(err => setAlertOn('error', err.message));
+    } else {
+        return db.collection('videos').get()
+            .then(res => res.docs)
+            .then(res => res.map(x => x.data()))
+            .then(res => {
+                let filtered = res;
+                params.forEach(word => {
+                    if (word !== ' ') {
+                        filtered = filtered.filter(el => el.title.toLowerCase().includes(word));
+                    }
+                });
+
+                return filtered;
+            })
+            .catch(err => setAlertOn('error', err.message));
+    }
+}
+
+export function getVideosByTitle(title) {
+    if (title) {
+        return db.collection('videos').get()
+            .then(res => res.docs)
+            .then(res => res.map(doc => doc.data()))
+            .then(res => res.filter(doc => doc.title.match(title)))
+            .then(res => res.map(({ title, id }) => ({ title, id })))
+    } else {
+        return db.collection('videos').get()
+            .then(res => res.docs)
+            .then(res => res.map(doc => doc.data()))
+            .then(res => res.map(({ title, id }) => ({ title, id })))
+    }
 }

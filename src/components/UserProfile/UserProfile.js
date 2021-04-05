@@ -13,13 +13,9 @@ export default function UserProfile() {
     const [history, setHistory] = useState([]);
     const [liked, setLiked] = useState([]);
     const currentUser = useSelector(getUser);
-
-    useEffect(() => {
-        db.collection('users').doc(id).get().then(res => setUser(res.data()));
-    }, [id]);
-
     useEffect(() => {
         const videosRef = db.collection('videos');
+        db.collection('users').doc(id).get().then(res => setUser(res.data()));
         videosRef.where('isWatchedBy', 'array-contains', id).get()
             .then(res => res.docs.map(el => el.data()))
             .then(res => setHistory(res));
@@ -48,7 +44,6 @@ export default function UserProfile() {
                         liked={liked}
                         user={user}
                         currentUser={currentUser} />
-
                     : null}
             </div >
         </Layout>
