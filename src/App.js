@@ -50,12 +50,6 @@ export default function App() {
 
   useEffect(() => {
     if (user) {
-      dispatch(getPlaylists(user));
-    }
-  }, [user])
-
-  useEffect(() => {
-    if (user) {
       dispatch(getNotifications(user.uid));
       changeThemeColors(user.theme);
     }

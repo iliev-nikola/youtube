@@ -1,13 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import VideoCart from '../VideoCard/VideoCard';
 import Layout from '../Layout/Layout';
 import styles from './Playlists.module.scss';
+import { getPlaylists } from '../../redux/actions/playlists';
+import { getUser } from '../../redux/selectors/user';
 
 export default function UserPlaylists() {
+  const dispatch = useDispatch();
+  const user = useSelector(getUser);
+  useEffect(() => {
+    if (user) {
+      dispatch(getPlaylists(user));
+    }
+  }, [user])
   const playlists = useSelector(state => state.playlist.playlists);
+  console.log(playlists);
   return (
     <Layout>
       <div className={styles.playlistsContainer}>
@@ -20,7 +30,7 @@ export default function UserPlaylists() {
               scrollButtons="auto"
               key={playlists.playlistID}
             >
-              
+
               {playlist.videos.length ? playlist.videos.map(video => (
                 <VideoCart url={video.url} title={video.title} key={video.id} views={video.views} />
               )) : null}

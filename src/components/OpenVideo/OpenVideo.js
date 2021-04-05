@@ -6,13 +6,13 @@ import { ThumbDown as ThumbDownIcon, ThumbUp } from '@material-ui/icons';
 import PopUp from './PopupState';
 import { Input } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { dislikeIt, likeIt, changeViews, fetchVideo } from '../../redux/actions/videos';
+import { dislikeIt, changeViews, fetchVideo } from '../../redux/actions/videos';
 import { getUser, getVideoComments, getVideos } from '../../redux/selectors/selectors';
 import { getComments } from '../../redux/actions/comments';
 import { setAlertOn } from '../../redux/actions/alertNotifier';
 import { getVideo, getVideoURL, getVideoID, getVideoTitle, getVideoViews, getVideoAuthor, getVideoDescription, getVideoLikes, getVideoDislikes, getVideoAuthorID } from '../../redux/selectors/video';
 import UserLogo from '../common/UserLogo/UserLogo';
-import { updatedNotifications, createComments } from '../../service';
+import { updatedNotifications, createComments, dislikeVideo, likeVideo } from '../../service';
 import PlaylistModal from '../Playlists/PlaylistModal';
 import Header from '../Header/Header';
 import ReactTimeAgo from 'react-time-ago';
@@ -42,7 +42,7 @@ export default function OpenVideo() {
             setIsLiked(videoLikes.some(userID => userID === user.uid));
             setIsDisliked(videoDislikes.some(userID => userID === user.uid));
         }
-    }, [videoId, user, videoLikes, videoDislikes])
+    }, [videoDislikes, videoLikes, user, videoId])
 
     useEffect(() => {
         dispatch(getComments(id));
@@ -50,7 +50,7 @@ export default function OpenVideo() {
 
     useEffect(() => {
         dispatch(fetchVideo(id));
-    }, [videoDislikes, videoLikes]);
+    }, []);
 
     useEffect(() => {
         if (videoId) {
@@ -74,23 +74,27 @@ export default function OpenVideo() {
             setInputValue('');
         }
     }
-    const likeVideo = () => {
-        dispatch(likeIt(id));
-        updatedNotifications(video, user, 'like')
+    const likeIt = () => {
+        likeVideo(user, video);
+        updatedNotifications(video, user, 'like');
+        setIsLiked(videoLikes.some(userID => userID === user.uid));
+        setIsDisliked(videoDislikes.some(userID => userID === user.uid));
     }
-    const dislikeVideo = () => {
-        dispatch(dislikeIt(id));
+    const dislikeIt = () => {
+        dislikeVideo(user, video);
         updatedNotifications(video, user, 'dislike');
+        setIsLiked(videoLikes.some(userID => userID === user.uid));
+        setIsDisliked(videoDislikes.some(userID => userID === user.uid));
     }
     const text = 'Sign in to make your opinion count.';
     const numberLikes = (
-        <><ThumbUp className={isLiked ? styles.liked : styles.button} onClick={() => { likeVideo() }} /><span>{videoId ? videoLikes.length : null}</span></>
+        <><ThumbUp className={isLiked ? styles.liked : styles.button} onClick={() => { likeIt() }} /><span>{videoId ? videoLikes.length : null}</span></>
     );
     const loggedNumberLikes = (
         <><PopUp text={text} button={<ThumbUp className={styles.button} />} content={'Like this video?'} /><span>{videoId ? videoLikes.length : null}</span></>
     );
     const numberDislikes = (
-        <><ThumbDownIcon className={isDisliked ? styles.disliked : styles.button} onClick={() => { dislikeVideo() }} /><span>{videoId ? videoDislikes.length : null}</span></>
+        <><ThumbDownIcon className={isDisliked ? styles.disliked : styles.button} onClick={() => { dislikeIt() }} /><span>{videoId ? videoDislikes.length : null}</span></>
     );
     const loggedNumberDIslikes = (
         <><PopUp text={text} button={<ThumbDownIcon className={styles.button} />} content={`Don't like this video?`} /><span>{videoId ? videoDislikes.length : null}</span></>
@@ -101,7 +105,7 @@ export default function OpenVideo() {
             <Header />
             <div className={styles.videoContainer}>
                 {videoId ?
-                    <div>
+                    <div className={styles.container}>
                         <ReactPlayer url={videoURL} controls playing={true} className={styles.video} />
                         <div className={styles.hashtags}>
                             {`#${videoTitle} #video #${videoViews} #youtube`}
@@ -130,13 +134,15 @@ export default function OpenVideo() {
                                     comments.map((currentComment, index) => (
                                         <div key={index} className={styles.mainComm} >
                                             <div className={styles.userLogo} onClick={() => history.push(`/user/${currentComment.userID}`)}>
-                                                <UserLogo user={currentComment} />
+                                                <UserLogo author={currentComment.displayName} authorPhotoURL={currentComment.photoURL} />
                                             </div>
                                             <div className={styles.commentsContainer}>
                                                 <div className={styles.someComment}>
-                                                    <p className={styles.userName}>{currentComment.displayName}</p>
+                                                    <div className={styles.timeContainer}>
+                                                        <p className={styles.userName}>{currentComment.displayName}</p>
+                                                        {currentComment.timestamp ? <ReactTimeAgo className={styles.time} date={currentComment.timestamp.toDate()} locale="en-US" /> : null}
+                                                    </div>
                                                     <p className={styles.comment}>{currentComment.comment}</p>
-                                                    {currentComment.timestamp ? <ReactTimeAgo date={currentComment.timestamp.toDate()} locale="en-US" /> : null}
                                                 </div>
                                             </div>
                                         </div>
