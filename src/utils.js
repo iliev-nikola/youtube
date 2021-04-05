@@ -1,4 +1,5 @@
 import { db } from './firebase';
+import { updateUserTheme } from './service';
 
 export function generateId() {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
@@ -31,9 +32,10 @@ export function getDate() {
 export function changeThemeColors(theme) {
   let bgColor, textColor, bgColor2, headerColor, hovColor, titColor, fontCol, searchCol, searchBord, tColor, bColor;
   let gColor;
-
+  
   switch (theme) {
     case 'dark':
+      // updateUserTheme(user,theme);
       bgColor = '#181818';
       bgColor2 = '#202020';
       textColor = '#000';
@@ -48,6 +50,7 @@ export function changeThemeColors(theme) {
       gColor = '#717171';
       break;
     case 'light':
+      // updateUserTheme(user,theme);
       bgColor = '#f9f9f9';
       bgColor2 = '#ffffff';
       headerColor = '#606060';

@@ -99,6 +99,7 @@ export const createPlaylist = (user, inputValue) => {
 }
 
 export const addVideoToPlaylist = (video, id) => {
+
     db.collection('playlists')
         .doc(id)
         .update({
@@ -160,4 +161,8 @@ export function getVideosByTitle(title) {
             .then(res => res.map(doc => doc.data()))
             .then(res => res.map(({ title, id }) => ({ title, id })))
     }
+}
+
+export function updateUserTheme(user, theme) {
+    db.collection('users').doc(user.uid).update({ theme: theme })
 }

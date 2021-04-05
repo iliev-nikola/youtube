@@ -26,11 +26,11 @@ export default function Popup({ content, button, text }) {
                     >
                         <Box p={2} className={styles.messageContainer}>
                             <Typography>
-                                <div>
-                                    <div>{content}</div>
-                                    <div className={styles.info}>{text}</div>
+                                <p>
+                                    <p>{content}</p>
+                                    <p className={styles.info}>{text}</p>
                                     <a href="/signin" className={styles.signin}>SIGN IN</a>
-                                </div>
+                                </p>
                             </Typography>
                         </Box>
                     </Popover>

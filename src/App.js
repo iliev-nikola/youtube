@@ -25,23 +25,33 @@ import { getIsLoading } from "./redux/selectors/loading";
 import HomePage from "./Components/HomePage/HomePage";
 import { changeThemeColors } from './utils';
 import AlertNotifier from "./Components/common/AlertNotifier";
-import ScrollableTabsButtonAuto from './Components/Playlists/UserPlaylists';
+import UserPlaylists from './Components/Playlists/UserPlaylists';
 
 import { getNotifications } from './redux/actions/notifications';
+import { getPlaylists } from "./redux/actions/playlists";
 
 export default function App() {
   const dispatch = useDispatch();
   const user = useSelector(getUser);
   const isLoading = useSelector(getIsLoading);
-  let theme = useSelector(state => state.theme.theme);
+  const theme = useSelector(state => state.theme.theme);
+  console.log(theme);
+  useEffect(() => {
+    if (theme) {
+      changeThemeColors(theme);
+    }
+  }, [theme])
 
   useEffect(() => {
-    changeThemeColors(theme);
-  }, [theme, user])
+    if (user) {
+      dispatch(getPlaylists(user));
+    }
+  }, [user])
 
   useEffect(() => {
     if (user) {
       dispatch(getNotifications(user.uid));
+      changeThemeColors(user.theme);
     }
   }, [user, dispatch]);
 
@@ -70,7 +80,7 @@ export default function App() {
           </Route>
           <Route path="/upload" component={UploadVideo} />
           <Route path="/user/:id" component={UserProfile} />
-          <Route path="/playlists" component={ScrollableTabsButtonAuto} />
+          <Route path="/playlists" component={UserPlaylists} />
           <Route path="/signout"
             render={() => {
               if (auth.currentUser && user) {

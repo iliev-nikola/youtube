@@ -7,18 +7,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleTheme } from '../../redux/actions/theme';
 import { getUser } from '../../redux/selectors/user';
 import { getNotifications } from '../../redux/actions/notifications';
-import { deleteNotification, setNotificationsRead } from '../../service';
+import { deleteNotification, setNotificationsRead, updateUserTheme } from '../../service';
 import UserLogo from '../common/UserLogo/UserLogo';
 import ReactTimeAgo from 'react-time-ago';
+import { changeThemeColors } from '../../utils';
 
 export default function UserMenu() {
-    const ref= createRef();
+    const ref = createRef();
+    const theme = useSelector(state => state.theme.theme);
     const history = useHistory();
     const dispatch = useDispatch();
     const user = useSelector(getUser);
     const notifications = useSelector(state => state.notification.notifications);
     const [openNotify, setOpenNotify] = useState(false);
     const [unreadNotifications, setUnreadNotifications] = useState([]);
+    
     const handleClickNotify = () => {
         setOpenNotify((prev) => !prev);
         setTimeout(setNotificationsRead, 2000);
@@ -50,6 +53,10 @@ export default function UserMenu() {
         <><NotificationsIcon fontSize="large" id={styles.bigNotifyIcon} />
             <p className={styles.greyText}>No new notifications.</p></>
     )
+    const changeTheme = () => {
+        dispatch(toggleTheme());
+        updateUserTheme(user, theme);
+    }
 
     return (
         <div id={styles.userIcons}>
@@ -76,7 +83,7 @@ export default function UserMenu() {
                                     <div key={index} className={!notification.isRead ? styles.unRead : styles.read}>
                                         <UserLogo user={notification} />
                                         <span className={styles.info}>{`${notification.displayName} ${notification.status} your video `} <Link to={`/video/${notification.videoID}`}>{notification.videoTitle}</Link></span>
-                                        <ReactTimeAgo date={notification.timestamp.toDate()} locale="en-US"/>
+                                        <ReactTimeAgo date={notification.timestamp.toDate()} locale="en-US" />
                                         <Cancel className={styles.cancel} onClick={() => deleteNotification(notification.notID)} />
                                     </div>
                                 )) : <div>{noNotifications}</div>}
@@ -122,7 +129,7 @@ export default function UserMenu() {
                                 </li>
                             </Link>
                             <div className={styles.line}></div>
-                            <button onClick={() => dispatch(toggleTheme())} >Toggle theme</button>
+                            <button onClick={() => changeTheme()} >Toggle theme</button>
                             <div className={styles.line}></div>
                             <Link to='/signout' className={styles.links}>
                                 <li className={styles.listItem}>

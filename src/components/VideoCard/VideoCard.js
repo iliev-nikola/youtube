@@ -7,7 +7,7 @@ export default function VideoCard({ url, title, id, views }) {
         setDuration(timeConvert(e.target.duration));
     };
     return (
-        <div className={styles.container} id={id}>
+        <div className={styles.container} key={id}>
             <video
                 title={title}
                 onMouseOver={(e) => e.target.play()}

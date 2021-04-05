@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../redux/selectors/user';
 import { Modal, FormControlLabel, Checkbox, TextField, List, Button } from '@material-ui/core';
 import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
-import styles from './PlaylistModal.module.scss';
-import { getPlaylists } from '../../redux/actions/playlists';
+import styles from './Playlists.module.scss';
 import { addVideoToPlaylist, createPlaylist, removeVideoFromPlaylist } from '../../service';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { deletePlaylist } from '../../service';
@@ -16,12 +15,6 @@ export default function PlaylistModal({ video }) {
     const [inputValue, setInputValue] = useState('');
     const dispatch = useDispatch();
     const playlists = useSelector(state => state.playlist.playlists);
-    useEffect(() => {
-        if (user) {
-            console.log(user)
-            dispatch(getPlaylists(user));
-        }
-    }, [user])
     const [open, setOpen] = useState(false);
 
     const handleOpen = () => {
@@ -44,9 +37,13 @@ export default function PlaylistModal({ video }) {
     }
 
     const addOrRemoveVideo = (e, playlist) => {
-        if (e.target.checked) {
+        const isAdded = playlist.videos.some(el => el.id === video.id);
+        if (isAdded && e.target.checked) {
+            dispatch(setAlertOn('info', `Already added to ${playlist.playlistName}`));
+        } else if (e.target.checked) {
             addVideoToPlaylist(video, playlist.playlistID);
             dispatch(setAlertOn('info', `Added to ${playlist.playlistName}`));
+            e.target.checked = false;
         } else {
             removeVideoFromPlaylist(video, playlist.playlistID);
             dispatch(setAlertOn('info', `Removed from ${playlist.playlistName}`));
@@ -75,7 +72,7 @@ export default function PlaylistModal({ video }) {
                     <List>
                         {
                             playlists ? playlists.map((playlist, index) => (
-                                <div className={styles.playlist}>
+                                <div className={styles.playlist} key={index}>
                                     <FormControlLabel key={index} control={<Checkbox onClick={(e) => { addOrRemoveVideo(e, playlist) }} name={playlist.playlistName} value={playlist.playlistName} />} label={playlist.playlistName} />
                                     <DeleteIcon onClick={() => deletePlaylist(playlist.playlistID)} className={styles.trash} />
                                 </div>
