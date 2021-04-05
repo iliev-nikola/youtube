@@ -86,9 +86,9 @@ export const deleteComment = (id) => {
 export const createPlaylist = (user, inputValue) => {
     const id = generateId();
     const data = {
-        playlistID: id,
-        playlistName: inputValue,
-        userID: user.uid,
+        id: id,
+        name: inputValue,
+        authorID: user.uid,
         videos: []
     };
 
@@ -99,7 +99,6 @@ export const createPlaylist = (user, inputValue) => {
 }
 
 export const addVideoToPlaylist = (video, id) => {
-
     db.collection('playlists')
         .doc(id)
         .update({

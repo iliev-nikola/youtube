@@ -37,6 +37,7 @@ export default function OpenVideo() {
     const videoDislikes = useSelector(getVideoDislikes);
     const videoLikes = useSelector(getVideoLikes);
     const authorID = useSelector(getVideoAuthorID);
+    console.log('asd')
     useEffect(() => {
         if (user && videoId) {
             setIsLiked(videoLikes.some(userID => userID === user.uid));

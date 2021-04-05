@@ -21,7 +21,7 @@
   background: var(--bg-color-32);
   z-index: 1;
   justify-content: space-between;
-  opacity: 100%;
+  opacity: 1;
   color: var(--header-color);
   align-items: center;
 }
@@ -107,14 +107,14 @@
 }
 
 .optionsList {
-  width: 530px;
+  width: 529px;
   background-color: white;
   display: flex;
   flex-direction: column;
   position: fixed;
   top: 50px;
   height: min-content;
-  left: 479px;
+  left: 488px;
 
   > a {
     text-decoration: none;

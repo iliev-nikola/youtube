@@ -6,13 +6,9 @@ import styles from './UserProfile.module.scss';
 import AlertDialog from './DialogBoxes/AlertDialog';
 import FormDialog from './DialogBoxes/FormDialog';
 import { AppBar, Tabs, Tab, Box } from '@material-ui/core';
-import { db } from '../../firebase';
-
-import { setLoading, setNotLoading } from '../../redux/actions/loadingBar';
 import { editIt, deleteIt, fetchMyVideos } from '../../redux/actions/videos';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMyVideos } from '../../redux/selectors/videos';
-
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;

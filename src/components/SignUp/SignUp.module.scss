@@ -37,10 +37,14 @@ $flex: flex;
 
   .container {
     justify-content: space-between;
-    width: 90%;
-    margin: 20px;
+    width: 100%;
+    // margin: 5px;
     margin-bottom: 0;
     color: white;
+    .inputs {
+      width: 50%;
+      margin: 5px;
+    }
   }
 
   .link {
@@ -66,15 +70,18 @@ $flex: flex;
   }
 
   .emailContainer {
-    width: 90%;
-    margin: 20px;
+    width: 100%;
+    .emailInput {
+      margin: 5px;
+      width: 98%;
+    }
   }
 
   #info {
-    margin: 0 0 10px 25px;
+    margin: 0 0 10px 15px;
     font-size: 12px;
     text-align: start;
-    color: #141313;
+    color: red;
   }
 
   @media only screen and (max-width: 600px) {
@@ -82,12 +89,4 @@ $flex: flex;
       width: auto;
     }
   }
-}
-.alert {
-  position: absolute;
-  top: 0;
-}
-.alert div {
-  height: 40px;
-  transition: 0.5s;
 }

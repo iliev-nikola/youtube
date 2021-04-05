@@ -9,10 +9,9 @@ const showPlaylists = (playlists) => ({
 
 export const getPlaylists = (user) => {
     return function (dispatch) {
-        db.collection('playlists').where("userID", "==", user.uid).onSnapshot(snapshot => {
-            let dbComments = [];
-            snapshot.docs.map(doc => (dbComments.push({ ...doc.data() })))
-            dispatch(showPlaylists(dbComments));
+        db.collection('playlists').where("authorID", "==", user.uid).onSnapshot(snapshot => {
+            const playlists = snapshot.docs.map(doc => ({ ...doc.data() }));
+            dispatch(showPlaylists(playlists));
         });
     }
 }
