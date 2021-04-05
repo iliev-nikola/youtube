@@ -20,9 +20,11 @@ export function setNotificationsRead() {
         .catch(err => setAlertOn('error', err.message));
 }
 
-export function createComments(id, user, inputValue) {
+export function createComments(videoID, user, inputValue) {
+    const id = generateId();
     const commentData = {
-        videoID: id,
+        commentID: id,
+        videoID: videoID,
         comment: inputValue,
         userID: user.uid,
         displayName: user.displayName,
@@ -108,15 +110,17 @@ export const addVideoToPlaylist = (video, id) => {
 }
 
 export const removeVideoFromPlaylist = (video, id) => {
-    db.collection('playlists').doc(id).update({
-        videos: firebase.firestore.FieldValue.arrayRemove(video)
-    });
+    db.collection('playlists')
+        .doc(id)
+        .update({
+            videos: firebase.firestore.FieldValue.arrayRemove(video)
+        })
+        .catch(err => setAlertOn('error', err.message));
 }
 
 export const deletePlaylist = (id) => {
     db.collection("playlists").doc(id).delete();
 }
-
 
 export function filterVideos(params) {
     if (!params.length) return null;
@@ -165,3 +169,31 @@ export function getVideosByTitle(title) {
 export function updateUserTheme(user, theme) {
     db.collection('users').doc(user.uid).update({ theme: theme })
 }
+
+export function likeVideo(user, video) {
+    const isLiked = video.isLikedBy.some(id => id === user.uid);
+    const isDisliked = video.isDislikedBy.some(id => id === user.uid);
+    if (isLiked) {
+        return;
+    } else if (!isLiked && isDisliked) {
+        const filterLikes = video.isLikedBy.filter(id => id !== user.uid);
+        db.collection('videos').doc(video.id).update({ isDislikedBy: filterLikes, isLikedBy: [...video.isLikedBy, user.uid] })
+    } else if (!isLiked) {
+        db.collection('videos').doc(video.id).update({ isLikedBy: [...video.isLikedBy, user.uid] })
+
+    }
+};
+
+export function dislikeVideo(user, video) {
+    const isLiked = video.isLikedBy.some(id => id === user.uid);
+    const isDisliked = video.isDislikedBy.some(id => id === user.uid);
+    if (isDisliked) {
+        return;
+    } else if (!isDisliked && isLiked) {
+        const filterLikes = video.isLikedBy.filter(id => id !== user.uid);
+        db.collection('videos').doc(video.id).update({ isLikedBy: filterLikes, isDislikedBy: [...video.isDislikedBy, user.uid] })
+
+    } else if (!isDisliked) {
+        db.collection('videos').doc(video.id).update({ isDislikedBy: [...video.isDislikedBy, user.uid] })
+    }
+};

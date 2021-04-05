@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { timeConvert } from '../../utils';
-import { getUser } from '../../redux/selectors/user';
 import styles from './VideoCard.module.scss';
 import UserLogo from '../common/UserLogo/UserLogo';
 export default function VideoCard({ url, title, id, views, author, authorPhotoURL }) {

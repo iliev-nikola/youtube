@@ -92,7 +92,7 @@ export default function UserMenu() {
                             <div className={styles.line}></div>
                             <div className={styles.greyText}>
                                 {notifications.length ? notifications.map((notification, index) => (
-                                    <div key={index} className={!notification.isRead ? styles.unRead : styles.read}>
+                                    <div key={index} className={!notification.isRead ? styles.unread : styles.read}>
                                         <UserLogo author={notification.displayName} authorPhotoURL={notification.photoURL} />
                                         <span className={styles.info}>{`${notification.displayName} ${notification.status} your video `} <Link to={`/video/${notification.videoID}`}>{notification.videoTitle}</Link></span>
                                         <ReactTimeAgo date={notification.timestamp.toDate()} locale="en-US" />

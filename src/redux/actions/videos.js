@@ -73,55 +73,6 @@ export const fetchMyVideos = (uid) => {
     }
 }
 
-
-export const likeIt = () => {
-    return function (dispatch, getState) {
-        const currentUser = getUserID(getState());
-        const video = getVideo(getState());
-        const isLiked = video.isLikedBy.some(user => user === currentUser);
-        const isDisliked = video.isDislikedBy.some(user => user === currentUser);
-        let currentVideo = video;
-        if (isLiked) {
-            return;
-        } else if (!isLiked && isDisliked) {
-            const filterLikes = video.isLikedBy.filter(user => user !== currentUser);
-            db.collection('videos').doc(video.id).update({ isDislikedBy: filterLikes, isLikedBy: [...video.isLikedBy, currentUser] })
-                .then(() => currentVideo = { ...video, isLikedBy: [...video.isLikedBy, currentUser], filterLikes })
-                .catch(err => dispatch(setAlertOn('error', err.message)));
-        } else if (!isLiked) {
-            db.collection('videos').doc(video.id).update({ isLikedBy: [...video.isLikedBy, currentUser] })
-                .then(() => currentVideo = { ...video, isLikedBy: [...video.isLikedBy, currentUser] })
-                .catch(err => dispatch(setAlertOn('error', err.message)));
-        }
-        dispatch(updateVideo(currentVideo))
-    }
-};
-
-export const dislikeIt = () => {
-    return function (dispatch, getState) {
-        const currentUser = getUserID(getState());
-        console.log(currentUser);
-        const video = getVideo(getState());
-        const isLiked = video.isLikedBy.some(user => user === currentUser);
-        const isDisliked = video.isDislikedBy.some(user => user === currentUser);
-        let currentVideo = video;
-        if (isDisliked) {
-            return;
-        } else if (!isDisliked && isLiked) {
-            const filterLikes = video.isLikedBy.filter(user => user !== currentUser);
-            db.collection('videos').doc(video.id).update({ isLikedBy: filterLikes, isDislikedBy: [...video.isDislikedBy, currentUser] })
-                .then(() => currentVideo = { ...video, filterLikes, isDislikedBy: [...video.isDislikedBy, currentUser] })
-                .catch(err => dispatch(setAlertOn('error', err.message)));
-        } else if (!isDisliked) {
-            db.collection('videos').doc(video.id).update({ isDislikedBy: [...video.isDislikedBy, currentUser] })
-                .then(() => currentVideo = { ...video, isDislikedBy: [...video.isDislikedBy, currentUser] })
-                .catch(err => dispatch(setAlertOn('error', err.message)));
-        }
-
-        dispatch(updateVideo(currentVideo))
-    }
-};
-
 export const editIt = (video, title, description) => {
     return function (dispatch) {
         dispatch(setLoading());
@@ -157,6 +108,7 @@ export const deleteIt = (video, uid) => {
             .catch(err => dispatch(setAlertOn('error', err.message)));
     }
 };
+
 export const changeViews = () => {
     return function (dispatch, getState) {
         const user = getUser(getState());
@@ -180,10 +132,9 @@ export const changeViews = () => {
 
 export const fetchVideo = (id) => {
     return function (dispatch) {
-        db.collection("videos")
-            .doc(id)
-            .get()
-            .then(res => dispatch(fetchVideoSucceded(res.data())))
-            .catch(err => dispatch(setAlertOn('error', err.message)));
+        db.collection("videos").doc(id)
+            .onSnapshot((video) => {
+                dispatch(fetchVideoSucceded(video.data()));
+            });
     }
 }

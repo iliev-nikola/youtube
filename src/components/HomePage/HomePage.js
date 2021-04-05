@@ -19,6 +19,7 @@ export default function HomePage() {
     const [hasMore, setHasMore] = useState(true);
     const videosLimitOnPage = 25;
     const newVideosOnScroll = videos.length < 4 ? videos.length : 4;
+    console.log(videos);
     // useEffect(() => {
     //     dispatch(fetchVideos());
     // }, []);
