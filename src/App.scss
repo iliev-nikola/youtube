@@ -10,6 +10,15 @@
   }
 }
 
+.scrollText {
+  position: absolute;
+  bottom: 0;
+  left: 45%;
+  color: white;
+  font-size: 22px;
+  font-weight: 400;
+}
+
 .videoContainer {
   z-index: 0;
   position: relative;

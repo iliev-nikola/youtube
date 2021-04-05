@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { filterVideos } from "../../utils";
+import { filterVideos } from "../../service";
 import VideoCard from "../VideoCard/VideoCard";
 import image from './no-search-result.png';
 import Layout from '../Layout/Layout';
@@ -17,7 +17,7 @@ export default function Search() {
         filterVideos(params)
             .then(res => setFiltered(res))
             .catch(err => dispatch(setAlertOn('error', err.message)));
-    }, [id])
+    }, [id]);
     return (
         <Layout>
             <div className='mainContainer'>

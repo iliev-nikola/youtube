@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchVideos } from '../../redux/actions/videos';
 import { getVideos, getVideosLength } from '../../redux/selectors/videos';
@@ -7,27 +7,31 @@ import Layout from '../Layout/Layout';
 import VideoCard from '../VideoCard/VideoCard';
 import InfiniteScroll from "react-infinite-scroll-component";
 import { setLoading, setNotLoading } from '../../redux/actions/loadingBar';
+import { setAlertOn } from '../../redux/actions/alertNotifier';
 
 export default function HomePage() {
     const dispatch = useDispatch();
     const videos = useSelector(getVideos);
-    const length = useSelector(getVideosLength);
     const [lastVideoIndex, setLastVideoIndex] = useState(0);
-    const [visibleVideos, setVisibleVideos] = useState([])
+    const [visibleVideos, setVisibleVideos] = useState([]);
+    const [scrollTop, setScrollTop] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const videosLimitOnPage = 25;
-    const newVideosOnScroll = 4;
+    const newVideosOnScroll = videos.length < 4 ? videos.length : 4;
     useEffect(() => {
         dispatch(fetchVideos());
+        console.log(111, 'useeffect');
     }, []);
 
     useEffect(() => {
         setVisibleVideos(videos.slice(0, 16));
         setLastVideoIndex(videos.length < 16 ? 0 : 15);
-    }, [length]);
+    }, [videos.length]);
 
-    const fetchMoreData = () => {
+    const fetchMoreData = (e) => {
+        if (scrollTop > window.scrollY) return;
         if (visibleVideos.length > videosLimitOnPage) {
+            dispatch(setAlertOn('info', 'No more videos to show. Check again later or upload some.'));
             return setHasMore(false);
         }
 
@@ -58,12 +62,11 @@ export default function HomePage() {
                 next={fetchMoreData}
                 hasMore={hasMore}
                 scrollThreshold='1px'
-                loader={<h4>Loading...</h4>}
-                endMessage={
-                    <div style={{ textAlign: 'center' }}>
-                        <b>Yay! You have seen it all</b>
-                    </div>
-                }
+                onScroll={() => {
+                    if (scrollTop < window.scrollY) {
+                        setScrollTop(window.scrollY);
+                    }
+                }}
             >
                 {
                     visibleVideos.map(video => (
