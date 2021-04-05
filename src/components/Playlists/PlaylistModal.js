@@ -37,13 +37,9 @@ export default function PlaylistModal({ video }) {
     }
 
     const addOrRemoveVideo = (e, playlist) => {
-        const isAdded = playlist.videos.some(el => el.id === video.id);
-        if (isAdded && e.target.checked) {
-            dispatch(setAlertOn('info', `Already added to ${playlist.playlistName}`));
-        } else if (e.target.checked) {
+        if (e.target.checked) {
             addVideoToPlaylist(video, playlist.playlistID);
             dispatch(setAlertOn('info', `Added to ${playlist.playlistName}`));
-            e.target.checked = false;
         } else {
             removeVideoFromPlaylist(video, playlist.playlistID);
             dispatch(setAlertOn('info', `Removed from ${playlist.playlistName}`));

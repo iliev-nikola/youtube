@@ -26,7 +26,6 @@ import HomePage from "./Components/HomePage/HomePage";
 import { changeThemeColors } from './utils';
 import AlertNotifier from "./Components/common/AlertNotifier";
 import UserPlaylists from './Components/Playlists/UserPlaylists';
-
 import { getNotifications } from './redux/actions/notifications';
 import { getPlaylists } from "./redux/actions/playlists";
 
@@ -80,7 +79,7 @@ export default function App() {
           </Route>
           <Route path="/upload" component={UploadVideo} />
           <Route path="/user/:id" component={UserProfile} />
-          <Route path="/playlists" component={UserPlaylists} />
+          <Route path="/library" component={UserPlaylists} />
           <Route path="/signout"
             render={() => {
               if (auth.currentUser && user) {
