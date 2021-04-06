@@ -17,7 +17,7 @@ const rootReducer = combineReducers({
   loading: loadingReducer,
   alert: alertReducer,
   notification: notificationReducer,
-  playlist: playlistReducer
+  playlist: playlistReducer,
 });
 
 const store = createStore(

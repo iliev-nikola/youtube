@@ -12,7 +12,10 @@ import { getComments } from '../../redux/actions/comments';
 import { setAlertOn } from '../../redux/actions/alertNotifier';
 import { getVideo, getVideoURL, getVideoID, getVideoTitle, getVideoViews, getVideoDescription, getVideoLikes, getVideoDislikes } from '../../redux/selectors/video';
 import UserLogo from '../common/UserLogo/UserLogo';
-import { updatedNotifications, createComments, dislikeVideo, likeVideo, deleteComment, updateComment, editableComment, uneditableComment } from '../../service';
+import {
+    updatedNotifications, createComments, dislikeVideo, likeVideo,
+    deleteComment, updateComment, editableComment, uneditableComment
+} from '../../service';
 import PlaylistModal from '../Playlists/PlaylistModal';
 import Header from '../Header/Header';
 import ReactTimeAgo from 'react-time-ago';
@@ -144,7 +147,6 @@ export default function OpenVideo() {
                         <div className={styles.videoInfo}>
                             <div><UserLogo author={video.author} authorPhotoURL={video.authorPhotoURL} />
                                 <span className={styles.descr}>{videoDescription}</span></div>
-                            <div>SUBSCRIBE</div>
                         </div>
                         <div>
                             <div className={styles.commentsContainer}>

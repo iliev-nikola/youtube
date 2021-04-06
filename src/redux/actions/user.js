@@ -42,7 +42,7 @@ export const fetchUser = (user) => {
                     email: user.email,
                     photoURL: user.photoURL,
                     uid: user.uid,
-                    theme: 'dark'
+                    theme: 'dark',
                 };
                 return db.collection('users')
                     .doc(user.uid)

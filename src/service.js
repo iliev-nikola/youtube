@@ -29,7 +29,7 @@ export function createComments(videoID, user, inputValue) {
         displayName: user.displayName,
         photoURL: user.photoURL,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        isEdit : false
+        isEdit: false
     }
     db.collection('comments').doc(id).set(commentData)
         .then(() => {
@@ -209,3 +209,4 @@ export function dislikeVideo(user, video) {
         db.collection('videos').doc(video.id).update({ isDislikedBy: [...video.isDislikedBy, user.uid] })
     }
 };
+
