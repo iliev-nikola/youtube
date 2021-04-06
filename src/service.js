@@ -31,7 +31,7 @@ export function createComments(videoID, user, inputValue) {
         photoURL: user.photoURL,
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
     }
-    db.collection('comments').doc().set(commentData)
+    db.collection('comments').doc(id).set(commentData)
         .then(() => {
             db.collection("comments")
                 .where("videoID", "==", id)

@@ -12,7 +12,7 @@ import { getComments } from '../../redux/actions/comments';
 import { setAlertOn } from '../../redux/actions/alertNotifier';
 import { getVideo, getVideoURL, getVideoID, getVideoTitle, getVideoViews, getVideoAuthor, getVideoDescription, getVideoLikes, getVideoDislikes, getVideoAuthorID } from '../../redux/selectors/video';
 import UserLogo from '../common/UserLogo/UserLogo';
-import { updatedNotifications, createComments, dislikeVideo, likeVideo } from '../../service';
+import { updatedNotifications, createComments, dislikeVideo, likeVideo, deleteComment } from '../../service';
 import PlaylistModal from '../Playlists/PlaylistModal';
 import Header from '../Header/Header';
 import ReactTimeAgo from 'react-time-ago';
@@ -131,8 +131,8 @@ export default function OpenVideo() {
                                     < Input placeholder='Add a public comment...' className={styles.input} onChange={onInputChange} onKeyPress={handleKeyPress} value={inputValue} />
                                 </div>
                                 {comments ?
-                                    comments.map((currentComment, index) => (
-                                        <div key={index} className={styles.mainComm} >
+                                    comments.map((currentComment) => (
+                                        <div key={currentComment.commentID} className={styles.mainComm} >
                                             <div className={styles.userLogo} onClick={() => history.push(`/user/${currentComment.userID}`)}>
                                                 <UserLogo author={currentComment.displayName} authorPhotoURL={currentComment.photoURL} />
                                             </div>
@@ -143,6 +143,7 @@ export default function OpenVideo() {
                                                         {currentComment.timestamp ? <ReactTimeAgo className={styles.time} date={currentComment.timestamp.toDate()} locale="en-US" /> : null}
                                                     </div>
                                                     <p className={styles.comment}>{currentComment.comment}</p>
+                                                    <div onClick={()=>deleteComment(currentComment.commentID)}>DELETE</div>
                                                 </div>
                                             </div>
                                         </div>
