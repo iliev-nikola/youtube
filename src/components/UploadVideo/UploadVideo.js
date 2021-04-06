@@ -83,7 +83,6 @@ export default function UploadVideo() {
                             author: user.displayName,
                             authorID: user.uid,
                             authorPhotoURL: user.photoURL,
-                            date: getDate(),
                             views: 0,
                             isLikedBy: [],
                             isDislikedBy: [],

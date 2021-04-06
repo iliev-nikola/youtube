@@ -116,7 +116,8 @@ export default function ScrollableTabsButtonAuto({ history, liked, user, current
             <TabPanel value={value} index={0} className={classes.container}>
                 {myVideos && myVideos.length ? myVideos.map(video => (
                     <div key={video.id}>
-                        <VideoCard url={video.url} title={video.title} author={video.author} authorPhotoURL={video.authorPhotoURL} id={video.id} duration={video.duration} />
+                        <VideoCard url={video.url} title={video.title} author={video.author} 
+                        authorPhotoURL={video.authorPhotoURL} id={video.id} duration={video.duration} />
                         {user.uid === currentUser.uid ?
                             <div className={styles.optionsContainer}>
                                 <p id={styles.editButton} onClick={() => onEditOpen(video)}>Edit</p>
@@ -129,14 +130,16 @@ export default function ScrollableTabsButtonAuto({ history, liked, user, current
                 <TabPanel value={value} index={1} className={classes.container}>
                     {history.length ? history.map(video => (
                         <div >
-                            <VideoCard url={video.url} title={video.title} author={video.author} authorPhotoURL={video.authorPhotoURL} id={video.id} duration={video.duration} />
+                            <VideoCard url={video.url} title={video.title} 
+                            author={video.author} authorPhotoURL={video.authorPhotoURL} id={video.id} duration={video.duration} />
                         </div>
                     )) : <h1 className={styles.emptyContainerTitle}>Your history is empty</h1>}
                 </TabPanel> : null}
             <TabPanel value={value} index={2} className={classes.container}>
                 {liked && liked.length ? liked.map(video => (
                     <div >
-                        <VideoCard url={video.url} title={video.title} author={video.author} authorPhotoURL={video.authorPhotoURL} id={video.id} duration={video.duration} />
+                        <VideoCard url={video.url} title={video.title}
+                         author={video.author} authorPhotoURL={video.authorPhotoURL} id={video.id} duration={video.duration} />
                     </div>
                 )) : <h1 className={styles.emptyContainerTitle}>Like some videos first</h1>}
             </TabPanel>

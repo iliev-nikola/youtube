@@ -49,6 +49,7 @@ $main-size: 18px;
 
   .videoInfo {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     color: var(--t-color);
     margin-top: 6px;
@@ -72,7 +73,12 @@ $main-size: 18px;
   }
 
   .someComment {
+    position: relative;
     margin: 20px 0;
+  }
+  :global(.MuiInputBase-root.MuiInput-root.MuiInput-underline) {
+    width: 400px;
+    margin-right: 19px;
   }
 
   .userLetter {
@@ -201,6 +207,34 @@ $main-size: 18px;
   font-size: 13px;
   font-weight: 500;
   margin-top: 2px;
+}
+
+.numberComments {
+  color: var(--t-color);
+  font-size: 18px;
+  font-weight: 700;
+  padding: 10px 0 0 5px;
+  border-top: 1px solid #e6e6e6;
+  margin-top: 20px;
+}
+
+.editCommentContainer {
+  display: flex;
+  > button {
+    background: rgb(62, 166, 255);
+    width: 24px;
+    font-size: 12px;
+  }
+}
+
+.editContainer {
+  color: #909090;
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 600px) {

@@ -2,7 +2,6 @@ import { db } from './firebase';
 import firebase from "firebase/app";
 import { generateId } from './utils';
 import { setAlertOn } from './redux/actions/alertNotifier';
-import { useDispatch } from 'react-redux';
 
 export function getUserById(id) {
     db.collection('users').doc(id).get().then(res => console.log(res.docs))
@@ -29,7 +28,8 @@ export function createComments(videoID, user, inputValue) {
         userID: user.uid,
         displayName: user.displayName,
         photoURL: user.photoURL,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        isEdit : false
     }
     db.collection('comments').doc(id).set(commentData)
         .then(() => {
@@ -46,6 +46,22 @@ export function createComments(videoID, user, inputValue) {
                 .catch(err => setAlertOn('error', err.message));
         })
         .catch(err => setAlertOn('error', err.message));
+}
+
+export const deleteComment = (id) => {
+    db.collection("comments").doc(id).delete();
+}
+
+export function updateComment(id, value) {
+    db.collection('comments').doc(id).update({ comment: value, isEdit: false });
+}
+
+export function editableComment(id) {
+    db.collection('comments').doc(id).update({ isEdit: true });
+}
+
+export function uneditableComment(id) {
+    db.collection('comments').doc(id).update({ isEdit: false });
 }
 
 export function updatedNotifications(video, user, status) {
@@ -79,10 +95,6 @@ export function updatedNotifications(video, user, status) {
 
 export const deleteNotification = (id) => {
     db.collection("notifications").doc(id).delete();
-}
-
-export const deleteComment = (id) => {
-    db.collection("comments").doc(id).delete();
 }
 
 export const createPlaylist = (user, inputValue) => {
