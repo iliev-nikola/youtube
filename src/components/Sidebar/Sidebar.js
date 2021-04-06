@@ -24,7 +24,7 @@ export default function Sidebar() {
     };
     const mainLogo = (
         <div className={styles.mainLogoContainer}>
-            <MenuIcon onClick={toggleDrawer('left', true)} />
+            <MenuIcon className={styles.sandwichButton} onClick={toggleDrawer('left', true)} />
             <Tooltip title="YouTube Home" placement="bottom-end">
                 <div className={styles.logo} onClick={() => history.push('/')}>
                     <img className={styles.siteLogo} src={theme === 'dark' ? logo : blackLogo} alt="youtube's logo" />
@@ -58,7 +58,7 @@ export default function Sidebar() {
                 <Tooltip title='History' placement="right">
                     <a href="/history" className={styles.sidebars}>
                         <History />
-                        <p>Library</p>
+                        <p>History</p>
                     </a>
                 </Tooltip>
                 <Tooltip title='Trending' placement="right">

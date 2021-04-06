@@ -13,7 +13,7 @@ import { setAlertOn } from '../../redux/actions/alertNotifier';
 import { getVideo, getVideoURL, getVideoID, getVideoTitle, getVideoViews, getVideoAuthor, getVideoDescription, getVideoLikes, getVideoDislikes, getVideoAuthorID } from '../../redux/selectors/video';
 import UserLogo from '../common/UserLogo/UserLogo';
 import { updatedNotifications, createComments, dislikeVideo, likeVideo, deleteComment } from '../../service';
-import PlaylistModal from '../Playlists/PlaylistModal';
+import PlaylistModal from '../LibraryPage/PlaylistModal';
 import Header from '../Header/Header';
 import ReactTimeAgo from 'react-time-ago';
 import VideoCard from '../VideoCard/VideoCard';
@@ -110,7 +110,7 @@ export default function OpenVideo() {
                     <div className={styles.container}>
                         <ReactPlayer url={videoURL} controls playing={true} className={styles.video} />
                         <div className={styles.hashtags}>
-                            {`#${videoTitle} #video #${videoViews} #youtube`}
+                            {`#${videoTitle} #video #${videoViews}views #youtube`}
                         </div>
                         <div className={styles.infoContainer}>
                             <p className={styles.title}>{videoTitle}</p>
@@ -135,7 +135,7 @@ export default function OpenVideo() {
                                 {comments ?
                                     comments.map((currentComment) => (
                                         <div key={currentComment.commentID} className={styles.mainComm} >
-                                            <div className={styles.userLogo} onClick={() => history.push(`/user/${currentComment.userID}`)}>
+                                            <div onClick={() => history.push(`/user/${currentComment.userID}`)}>
                                                 <UserLogo author={currentComment.displayName} authorPhotoURL={currentComment.photoURL} />
                                             </div>
                                             <div className={styles.commentsContainer}>
@@ -145,7 +145,7 @@ export default function OpenVideo() {
                                                         {currentComment.timestamp ? <ReactTimeAgo className={styles.time} date={currentComment.timestamp.toDate()} locale="en-US" /> : null}
                                                     </div>
                                                     <p className={styles.comment}>{currentComment.comment}</p>
-                                                    <div onClick={()=>deleteComment(currentComment.commentID)}>DELETE</div>
+                                                    <div onClick={() => deleteComment(currentComment.commentID)}>DELETE</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -155,7 +155,7 @@ export default function OpenVideo() {
                         </div>
                     </div> : null}
                 <div className={styles.otherVideos}>
-                    <h2>Play next</h2>
+                    <h2>Play next?</h2>
                     {videos.length ? videos.map(video => (
                         <VideoCard key={video.id + Math.random()} url={video.url} title={video.title} views={video.views} id={video.id} author={video.author} authorPhotoURL={video.authorPhotoURL} />
                     )) : <h2>No videos to play next...</h2>}

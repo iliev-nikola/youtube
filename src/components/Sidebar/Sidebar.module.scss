@@ -27,7 +27,7 @@ $main-color: var(--tit-color);
 }
 
 .openLogo {
-  margin: 16px;
+  padding: 16px;
 }
 
 .countryCode {
@@ -39,30 +39,37 @@ $main-color: var(--tit-color);
 
 .sidebars:hover,
 .open:hover {
-  background-color: var(--hov-color);
+  color: grey;
 }
 
 .sidebars {
   display: flex;
   color: var(--header-color);
   font-weight: 600;
+  align-items: center;
   height: 40px;
   cursor: pointer;
   font-size: 10px;
   font-weight: 400;
-  padding: 16px 0;
+  padding: 5px;
+  margin-left: 10px;
   justify-content: start;
-  margin-left: 16px;
   text-decoration: none;
+  &:hover {
+    color: grey;
+  }
   > svg {
     width: 24px;
     height: 24px;
     margin-right: 5px;
   }
   > p {
-    margin-top: 5px;
     font-size: 18px;
   }
+}
+
+.MuiSvgIcon-root {
+  color: grey;
 }
 
 .sideOpen {

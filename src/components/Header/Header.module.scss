@@ -108,7 +108,7 @@
   animation-direction: alternate;
 }
 
-.badge span{
+.badge span {
   top: 6px;
   right: 7px;
 }
@@ -166,6 +166,7 @@
   box-sizing: border-box;
   font-size: 22px;
   background-color: rgb(255, 166, 0);
+  align-items: center;
   justify-content: center;
   width: 32px;
   height: 32px;

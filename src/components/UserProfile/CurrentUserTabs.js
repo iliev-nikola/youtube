@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
         paddingLeft: '150px'
     },
     container: {
-        paddingLeft: '100px',
+        paddingLeft: '50px',
     }
 }));
 

@@ -6,6 +6,8 @@ import image from './no-search-result.png';
 import Layout from '../Layout/Layout';
 import { setAlertOn } from '../../redux/actions/alertNotifier';
 import { useDispatch } from "react-redux";
+import styles from '../TrendingVideos/TrendingVideos.module.scss';
+
 
 export default function Search() {
     let { id } = useParams();
@@ -20,15 +22,13 @@ export default function Search() {
     }, [id]);
     return (
         <Layout>
-            {
-                filtered ? filtered.map(video => (
-                    <a href={`/video/${video.id}`} className='link' key={video.id}>
-                        <div >
-                            <VideoCard url={video.url} title={video.title} duration={video.duration} id={video.id} author={video.author} authorPhotoURL={video.authorPhotoURL} />
-                        </div>
-                    </a>
-                )) : <img src={image} alt='No search results' id='noSearchResImg' />
-            }
-        </Layout>
+            <div className={styles.videoContainer}>
+                {
+                    filtered.length ? filtered.map(video => (
+                        <VideoCard key={video.id} views={video.views} url={video.url} title={video.title} duration={video.duration} id={video.id} author={video.author} authorPhotoURL={video.authorPhotoURL} />
+                    )) : <img src={image} alt='No search results' id='noSearchResImg' />
+                }
+            </div>
+        </Layout >
     )
 }

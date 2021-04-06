@@ -50,6 +50,7 @@ export function createComments(videoID, user, inputValue) {
 
 export function updatedNotifications(video, user, status) {
     const id = generateId();
+    const now = Date.now();
     const notificationsData = {
         notID: id,
         videoID: video.id,
@@ -59,6 +60,7 @@ export function updatedNotifications(video, user, status) {
         displayName: user.displayName,
         photoURL: user.photoURL,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        time: now,
         isRead: false
     }
     db.collection('notifications').doc(id).set(notificationsData)
@@ -197,3 +199,15 @@ export function dislikeVideo(user, video) {
         db.collection('videos').doc(video.id).update({ isDislikedBy: [...video.isDislikedBy, user.uid] })
     }
 };
+
+export function deleteNotificationsOlderThanTwoHours() {
+    const ref = db.collection('notifications');
+    const now = Date.now();
+    const cutoff = now - 2 * 60 * 60 * 1000;
+    ref.orderBy('time').endAt(cutoff).limitToLast(1).get()
+        .then(res => res.docs.map(el => el.data()))
+        .then(res => res.forEach(doc => {
+            ref.doc(doc.notID).delete();
+        }))
+        .catch(err => console.log(err));
+}
