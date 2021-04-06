@@ -32,16 +32,18 @@ import Library from './Components/LibraryPage/UserPlaylists';
 import { getNotifications } from './redux/actions/notifications';
 import { changeThemeColors } from './utils';
 import { deleteNotificationsOlderThanTwoHours } from './service';
+import { getVideosLength } from './redux/selectors/videos';
 
 export default function App() {
   const dispatch = useDispatch();
   const user = useSelector(getUser);
   const isLoading = useSelector(getIsLoading);
   const theme = useSelector(state => state.theme.theme);
+  const videosLength = useSelector(getVideosLength);
 
   useEffect(() => {
     dispatch(fetchVideos());
-  }, [user]);
+  }, []);
 
   useEffect(() => {
     if (theme) {
@@ -51,11 +53,10 @@ export default function App() {
 
   useEffect(() => {
     if (user) {
-      dispatch(getNotifications(user.uid));
       changeThemeColors(user.theme);
     }
     dispatch(fetchTheme());
-  }, [user, dispatch]);
+  }, [dispatch]);
 
   useEffect(() => {
     auth.onAuthStateChanged(user => {
@@ -67,6 +68,9 @@ export default function App() {
     })
   }, [dispatch]);
 
+  if (!videosLength) {
+    return null;
+  }
   return (
     <Router>
       <VoiceControl />

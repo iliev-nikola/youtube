@@ -1,4 +1,4 @@
-export const getVideo = state => state.videos.video || {};
+export const getVideo = state => state.video.video || {};
 export const getVideoID = state => getVideo(state).id;
 export const getVideoAuthorID = state => getVideo(state).authorID;
 export const getVideoTitle = state => getVideo(state).title;

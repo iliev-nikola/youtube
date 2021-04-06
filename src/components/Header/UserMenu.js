@@ -94,7 +94,8 @@ export default function UserMenu() {
                                 {notifications.length ? notifications.map((notification, index) => (
                                     <div key={index} className={!notification.isRead ? styles.unread : styles.read}>
                                         <UserLogo author={notification.displayName} authorPhotoURL={notification.photoURL} />
-                                        <span className={styles.info}>{`${notification.displayName} ${notification.status} your video `} <Link to={`/video/${notification.videoID}`}>{notification.videoTitle}</Link></span>
+                                        <span className={styles.info}>{`${notification.displayName} ${notification.status} your video `}
+                                         <Link to={`/video/${notification.videoID}`}>{notification.videoTitle}</Link></span>
                                         <ReactTimeAgo date={notification.timestamp.toDate()} locale="en-US" />
                                         <Cancel className={styles.cancel} onClick={() => deleteNotification(notification.notID)} />
                                     </div>

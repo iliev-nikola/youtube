@@ -6,7 +6,8 @@ import styles from './UserProfile.module.scss';
 import AlertDialog from './DialogBoxes/AlertDialog';
 import FormDialog from './DialogBoxes/FormDialog';
 import { AppBar, Tabs, Tab, Box } from '@material-ui/core';
-import { editIt, deleteIt, fetchMyVideos } from '../../redux/actions/videos';
+import {  fetchMyVideos } from '../../redux/actions/videos';
+import { editIt, deleteIt } from '../../redux/actions/video';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMyVideos } from '../../redux/selectors/videos';
 
