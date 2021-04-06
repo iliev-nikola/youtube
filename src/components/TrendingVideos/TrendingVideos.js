@@ -7,12 +7,13 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { setLoading, setNotLoading } from '../../redux/actions/loadingBar';
 import { setAlertOn } from '../../redux/actions/alertNotifier';
 import styles from './TrendingVideos.module.scss';
-import { getUser } from '../../redux/selectors/user';
+import { getUser, getUserLoading } from '../../redux/selectors/user';
 
 export default function TrendingVideos() {
     const dispatch = useDispatch();
     const videos = useSelector(getVideos);
     const user = useSelector(getUser);
+    const isUserLoading = useSelector(getUserLoading);
     const [lastVideoIndex, setLastVideoIndex] = useState(0);
     const [visibleVideos, setVisibleVideos] = useState([]);
     const [scrollTop, setScrollTop] = useState(0);
@@ -51,15 +52,16 @@ export default function TrendingVideos() {
         }
 
         setTimeout(() => {
-            setVisibleVideos([...visibleVideos, ...newVideos]);
+            setVisibleVideos([...visibleVideos, ...newVideos].sort((a, b) => b.views - a.views));
             dispatch(setNotLoading());
         }, 1000)
     }
 
     return (
         <Layout>
-            {user ? <>
-                <h1 className={styles.welcomeText}>Trending videos those days...</h1>
+            {isUserLoading && <p className={styles.welcomeText}>Loading...</p>}
+            {!isUserLoading && <>
+                <h1 className={styles.welcomeText}>Trending videos those days</h1>
                 <InfiniteScroll
                     className={styles.videoContainer}
                     dataLength={visibleVideos.length}
@@ -79,7 +81,7 @@ export default function TrendingVideos() {
                         ))
                     }
                 </InfiniteScroll>
-            </> : <h1 className={styles.welcomeText}>Sign in first</h1>}
+            </>}
         </Layout >
     )
 }

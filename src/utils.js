@@ -36,10 +36,10 @@ export function changeThemeColors(theme) {
     case 'dark':
       bgColor = '#181818';
       bgColor2 = '#202020';
-      textColor = '#000';
-      headerColor = '#e3e3e3';
+      textColor = '#000'; // white
+      headerColor = '#e3e3e3'; // sidebar text color
       hovColor = '#383838';
-      titColor = '#dfdfdf';
+      titColor = '#dfdfdf'; // titles
       fontCol = '#9d9d9d';
       searchCol = '#323232';
       searchBord = '#2c2c2c';

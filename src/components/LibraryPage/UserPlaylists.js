@@ -6,23 +6,33 @@ import { useDispatch, useSelector } from 'react-redux';
 import Layout from '../Layout/Layout';
 import styles from './Playlists.module.scss';
 import { getPlaylists } from '../../redux/actions/playlists';
-import { getUser } from '../../redux/selectors/user';
+import { getUser, getUserLoading } from '../../redux/selectors/user';
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 import GuestHeader from '../common/GuestHeader/GuestHeader';
 
 export default function UserPlaylists() {
   const dispatch = useDispatch();
   const user = useSelector(getUser);
+  const isUserLoading = useSelector(getUserLoading);
 
   useEffect(() => {
     if (user) {
       dispatch(getPlaylists(user));
     }
-  }, [user])
+  }, [user]);
 
   const playlists = useSelector(state => state.playlist.playlists);
 
   const emptyPlaylistPage = (
+    <div className={styles.emptyPage}>
+      <VideoLibraryIcon />
+      <h2>Your library is empty for now</h2>
+      <h2>Enjoy your favorite videos</h2>
+      <h5>Go and find whatever you like</h5>
+    </div>
+  );
+
+  const noLoggedInUserPage = (
     <div className={styles.emptyPage}>
       <VideoLibraryIcon />
       <h2>Enjoy your favorite videos</h2>
@@ -32,8 +42,10 @@ export default function UserPlaylists() {
   );
   return (
     <Layout>
-      <div className={styles.playlistsContainer}>
-        {playlists.length ? playlists.map(playlist => (
+      {isUserLoading && <h1 className={styles.welcomeText}>Loading...</h1>}
+      {!isUserLoading && !user && noLoggedInUserPage}
+      {user && (<div className={styles.playlistsContainer}>
+        {playlists && playlists.length ? playlists.map(playlist => (
           <AppBar position="static" color="default" key={playlist.id} >
             <div className={styles.playlistName}>{playlist.name.toUpperCase()}</div>
             <Tabs
@@ -42,14 +54,13 @@ export default function UserPlaylists() {
               scrollButtons="auto"
               key={playlists.id}
             >
-
               {playlist.videos.length ? playlist.videos.map(video => (
                 <VideoCard url={video.url} title={video.title} key={video.id} views={video.views} />
-              )) : null}
+              )) : <p className={styles.welcomeText}>The playlist is empty...</p>}
             </Tabs>
           </AppBar>
-        )) : <>{emptyPlaylistPage}</>};
-      </div>
+        )) : emptyPlaylistPage}
+      </div>)}
     </Layout >
   );
 }

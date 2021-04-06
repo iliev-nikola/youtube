@@ -2,7 +2,7 @@ import { db } from '../../firebase';
 import { setLoading, setNotLoading } from '../actions/loadingBar';
 import { getVideoWatched, getVideoID, getVideoViews, getVideo } from '../selectors/video';
 import { setAlertOn } from './alertNotifier';
-import { getUser, getUserID } from '../selectors/user';
+import { getUser } from '../selectors/user';
 export const FETCH_VIDEOS_SUCCEEDED = 'FETCH_VIDEOS_SUCCEEDED';
 export const FETCH_VIDEOS_REQUESTED = 'FETCH_VIDEOS_REQUESTED';
 export const UPDATE_VIDEO = 'UPDATE_VIDEO';
@@ -111,21 +111,25 @@ export const deleteIt = (video, uid) => {
 
 export const changeViews = () => {
     return function (dispatch, getState) {
-        const user = getUser(getState());
         const isWatchedBy = getVideoWatched(getState());
         const videoID = getVideoID(getState());
         const videoViews = getVideoViews(getState());
+
         db.collection("videos")
             .doc(videoID)
             .update({ views: videoViews + 1 })
             .catch(err => dispatch(setAlertOn('error', err.message)));
 
-        if (user && !isWatchedBy.includes(user.uid)) {
-            db.collection("videos")
-                .doc(videoID)
-                .update({ isWatchedBy: [...isWatchedBy, user.uid] })
-                .catch(err => dispatch(setAlertOn('error', err.message)));
-        }
+        setTimeout(() => {
+            const user = getUser(getState());
+            if (user && !isWatchedBy.includes(user.uid)) {
+                db.collection("videos")
+                    .doc(videoID)
+                    .update({ isWatchedBy: [...isWatchedBy, user.uid] })
+                    .catch(err => dispatch(setAlertOn('error', err.message)));
+            }
+        }, 1000);
+
         return dispatch(increaseViews());
     }
 }

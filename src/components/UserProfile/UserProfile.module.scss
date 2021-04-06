@@ -1,6 +1,5 @@
 .profileContainer {
-  width: 1400px;
-  margin-top: 56px;
+  width: 100%;
 }
 .container {
   display: flex;
@@ -11,7 +10,7 @@
     text-align: center;
     font-weight: 400;
     font-size: 30px;
-    margin: 50px 0 0 35%;
+    margin: 0 auto;
   }
 }
 
@@ -23,7 +22,7 @@
 .optionsContainer {
   display: flex;
   justify-content: space-between;
-  padding: 0 15px 0 15px;
+  padding: 0 35px 0 35px;
   margin-bottom: 20px;
 
   #deleteButton {

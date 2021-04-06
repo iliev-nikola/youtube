@@ -19,7 +19,7 @@ export default function Layout({ children }) {
         <Tooltip title='History' placement="right">
             <a href="/history" className={styles.sidebars}>
                 <History />
-                <p>Library</p>
+                <p>History</p>
             </a>
         </Tooltip>
         <Tooltip title='Trending' placement="right">

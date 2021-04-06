@@ -3,10 +3,6 @@ import firebase from "firebase/app";
 import { generateId } from './utils';
 import { setAlertOn } from './redux/actions/alertNotifier';
 
-export function getUserById(id) {
-    db.collection('users').doc(id).get().then(res => console.log(res.docs))
-}
-
 export function setNotificationsRead() {
     db.collection('notifications')
         .get()
@@ -66,6 +62,7 @@ export function uneditableComment(id) {
 
 export function updatedNotifications(video, user, status) {
     const id = generateId();
+    const now = Date.now();
     const notificationsData = {
         notID: id,
         videoID: video.id,
@@ -75,6 +72,7 @@ export function updatedNotifications(video, user, status) {
         displayName: user.displayName,
         photoURL: user.photoURL,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        time: now,
         isRead: false
     }
     db.collection('notifications').doc(id).set(notificationsData)
@@ -210,3 +208,28 @@ export function dislikeVideo(user, video) {
     }
 };
 
+export function deleteNotificationsOlderThanTwoHours() {
+    const ref = db.collection('notifications');
+    const now = Date.now();
+    const cutoff = now - 2 * 60 * 60 * 1000;
+    ref.orderBy('time').endAt(cutoff).limitToLast(1).get()
+        .then(res => res.docs.map(el => el.data()))
+        .then(res => res.forEach(doc => {
+            ref.doc(doc.notID).delete();
+        }))
+        .catch(err => console.log(err));
+}
+
+export function getCurrentUserInfo(id) {
+    return db.collection('users').doc(id).get().then(res => res);
+}
+
+export function getCurrentUserHistory(id) {
+    const videosRef = db.collection('videos');
+    return videosRef.where('isWatchedBy', 'array-contains', id).get().then(res => res.docs.map(el => el.data()));
+}
+
+export function getCurrentUserLiked(id) {
+    const videosRef = db.collection('videos');
+    return videosRef.where('isLikedBy', 'array-contains', id).get().then(res => res.docs.map(el => el.data()));
+}

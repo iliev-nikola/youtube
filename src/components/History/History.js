@@ -7,8 +7,11 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { setLoading, setNotLoading } from '../../redux/actions/loadingBar';
 import { setAlertOn } from '../../redux/actions/alertNotifier';
 import styles from '../TrendingVideos/TrendingVideos.module.scss';
-import { getUser } from '../../redux/selectors/user';
+import { getUser, getUserLoading } from '../../redux/selectors/user';
 import { db } from '../../firebase';
+import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
+import GuestHeader from '../common/GuestHeader/GuestHeader';
+
 
 export default function History() {
     const dispatch = useDispatch();
@@ -19,6 +22,7 @@ export default function History() {
     const [scrollTop, setScrollTop] = useState(0);
     const [history, setHistory] = useState([]);
     const [hasMore, setHasMore] = useState(true);
+    const isUserLoading = useSelector(getUserLoading);
     const videosLimitOnPage = 25;
     const newVideosOnScroll = videos.length < 4 ? videos.length : 4;
 
@@ -62,10 +66,20 @@ export default function History() {
         }, 1000)
     }
 
+    const noLoggedInUserPage = (
+        <div className={styles.emptyPage}>
+            <VideoLibraryIcon />
+            <h2>Enjoy your watched videos</h2>
+            <h5>Sign in to access videos that you’ve watched</h5>
+            <div className={styles.signIn} > <GuestHeader /></div>
+        </div>
+    );
+
     return (
         <Layout>
-            {user ? <>
-                <h1 className={styles.welcomeText}>Your watched videos history...</h1>
+            {isUserLoading && <p className={styles.welcomeText}>Loading...</p>}
+            {!isUserLoading && user && <>
+                <h1 className={styles.welcomeText}>Your watched videos history</h1>
                 <InfiniteScroll
                     className={styles.videoContainer}
                     dataLength={visibleVideos.length}
@@ -84,7 +98,8 @@ export default function History() {
                         ))
                     }
                 </InfiniteScroll>
-            </> : <h1 className={styles.welcomeText}>Sign in first</h1>}
+            </>}
+            {!isUserLoading && !user && noLoggedInUserPage}
         </Layout >
     )
 }

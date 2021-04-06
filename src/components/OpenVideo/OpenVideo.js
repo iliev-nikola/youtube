@@ -16,9 +16,11 @@ import {
     updatedNotifications, createComments, dislikeVideo, likeVideo,
     deleteComment, updateComment, editableComment, uneditableComment
 } from '../../service';
-import PlaylistModal from '../Playlists/PlaylistModal';
+import PlaylistModal from '../LibraryPage/PlaylistModal';
 import Header from '../Header/Header';
 import ReactTimeAgo from 'react-time-ago';
+import VideoCard from '../VideoCard/VideoCard';
+import { getVideosLength } from '../../redux/selectors/videos';
 
 export default function OpenVideo() {
     const history = useHistory();
@@ -39,12 +41,22 @@ export default function OpenVideo() {
     const videoDislikes = useSelector(getVideoDislikes);
     const videoLikes = useSelector(getVideoLikes);
     const [editedComment, setEditedComment] = useState('');
+
     useEffect(() => {
         if (user && videoId) {
             setIsLiked(videoLikes.some(userID => userID === user.uid));
             setIsDisliked(videoDislikes.some(userID => userID === user.uid));
         }
-    }, [videoDislikes, videoLikes, user, videoId])
+    }, [videoDislikes, videoLikes, user, videoId]);
+
+    const [visibleVideos, setVisibleVideos] = useState([]);
+    const videosLength = useSelector(getVideosLength);
+
+    useEffect(() => {
+        if (videos) {
+            setVisibleVideos(videos);
+        }
+    }, [videosLength])
 
     useEffect(() => {
         dispatch(getComments(id));
@@ -66,7 +78,7 @@ export default function OpenVideo() {
             return dispatch(setAlertOn('error', 'Comment should not exceed 100 characters!'));
         }
         setInputValue(value);
-    }
+    };
 
     const handleKeyPress = (e) => {
         if (e.key === 'Enter' && inputValue) {
@@ -100,15 +112,13 @@ export default function OpenVideo() {
         updatedNotifications(video, user, 'like');
         setIsLiked(videoLikes.some(userID => userID === user.uid));
         setIsDisliked(videoDislikes.some(userID => userID === user.uid));
-    }
-
+    };
     const dislikeIt = () => {
         dislikeVideo(user, video);
         updatedNotifications(video, user, 'dislike');
         setIsLiked(videoLikes.some(userID => userID === user.uid));
         setIsDisliked(videoDislikes.some(userID => userID === user.uid));
-    }
-
+    };
     const text = 'Sign in to make your opinion count.';
     const numberLikes = (
         <><ThumbUp className={isLiked ? styles.liked : styles.button} onClick={() => { likeIt() }} /><span>{videoId ? videoLikes.length : null}</span></>
@@ -131,7 +141,7 @@ export default function OpenVideo() {
                     <div className={styles.container}>
                         <ReactPlayer url={videoURL} controls playing={true} className={styles.video} />
                         <div className={styles.hashtags}>
-                            {`#${videoTitle} #video #${videoViews} #youtube`}
+                            {`#${videoTitle} #video #${videoViews}views #youtube`}
                         </div>
                         <div className={styles.infoContainer}>
                             <p className={styles.title}>{videoTitle}</p>
@@ -145,23 +155,24 @@ export default function OpenVideo() {
                             </div>
                         </div>
                         <div className={styles.videoInfo}>
-                            <div><UserLogo author={video.author} authorPhotoURL={video.authorPhotoURL} />
-                                <span className={styles.descr}>{videoDescription}</span></div>
+                            <UserLogo author={video.author} authorPhotoURL={video.authorPhotoURL} />
+                            <span className={styles.descr}>{videoDescription}</span>
                         </div>
                         <div>
                             <div className={styles.commentsContainer}>
                                 <div className={styles.numberComments}>{comments.length} Comments</div>
-                                <div onClick={() => !user ? history.push('/signin') : null}>
+                                <div onClick={() => !user ? history.push('/signin') : null} className={styles.addCommentContainer}>
+                                    <UserLogo author={user ? user.displayName : null} authorPhotoURL={user ? user.photoURL : null} />
                                     < Input placeholder='Add a public comment...' className={styles.input}
                                         onChange={onInputChange} onKeyPress={handleKeyPress} value={inputValue} />
                                 </div>
-                                {comments ?
+                                {comments.length ?
                                     comments.map((comment) => (
-                                        <div key={comment.commentID} className={styles.mainComm} >
-
-                                            <div className={styles.userLogo} onClick={() => history.push(`/user/${comment.userID}`)}>
+                                        // add current comment id + Math.random for key
+                                        <div key={Math.random()} className={styles.mainComm} >
+                                            <a href={`/user/${comment.userID}`} className={styles.link}>
                                                 <UserLogo author={comment.displayName} authorPhotoURL={comment.photoURL} />
-                                            </div>
+                                            </a>
                                             <div className={styles.commentsContainer}>
                                                 <div className={styles.someComment}>
                                                     <div className={styles.timeContainer}>
@@ -189,12 +200,12 @@ export default function OpenVideo() {
                             </div>
                         </div>
                     </div> : null}
-                {/* <div className={styles.otherVideos}>
-                    <h2>Play next</h2>
-                    {videos.length ? videos.map(video => (
+                <div className={styles.otherVideos}>
+                    <h2>Play next?</h2>
+                    {visibleVideos.length ? visibleVideos.map(video => (
                         <VideoCard key={video.id + Math.random()} url={video.url} title={video.title} views={video.views} id={video.id} author={video.author} authorPhotoURL={video.authorPhotoURL} />
                     )) : <h2>No videos to play next...</h2>}
-                </div> */}
+                </div>
             </div>
         </>
     );

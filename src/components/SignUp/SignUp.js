@@ -82,12 +82,14 @@ export default function SignUp() {
                 setEmail(value);
                 break;
             case 'password':
+                if (value.includes(' ')) return;
                 if (value.length > 15) {
                     return dispatch(setAlertOn('error', 'Password cannot exceed 15 characters'));
                 }
                 setPassword(value);
                 break;
             default:
+                if (value.includes(' ')) return;
                 if (value.length > 15) {
                     return dispatch(setAlertOn('error', 'Password cannot exceed 15 characters'));
                 }
@@ -103,15 +105,15 @@ export default function SignUp() {
                 <p>to continue to YouTube</p>
             </div>
             <div className={styles.container}>
-                <TextField required className={styles.inputs} fullWidth size="small" label="First name" variant="outlined" value={firstName} onChange={(e) => onInputChange(e)} id="firstName" autoComplete="new-password" />
-                <TextField required className={styles.inputs} size="small" label="Last name" variant="outlined" value={lastName} id="lastName" onChange={(e) => onInputChange(e)} autoComplete="new-password" />
+                <TextField required className={styles.inputs} fullWidth size="small" label="First name" variant="outlined" value={firstName} onChange={onInputChange} id="firstName" autoComplete="new-password" />
+                <TextField required className={styles.inputs} size="small" label="Last name" variant="outlined" value={lastName} id="lastName" onChange={onInputChange} autoComplete="new-password" />
             </div>
             <div className={styles.emailContainer}>
-                <TextField required type="email" className={styles.emailInput} size="small" fullWidth label="Email" variant="outlined" value={email} id="email" onChange={(e) => onInputChange(e)} autoComplete="off" />
+                <TextField required type="email" className={styles.emailInput} size="small" fullWidth label="Email" variant="outlined" value={email} id="email" onChange={onInputChange} autoComplete="off" />
             </div>
             <div className={styles.container}>
-                <TextField required type="password" className={styles.inputs} size="small" label="Password" variant="outlined" value={password} id="password" onChange={(e) => onInputChange(e)} />
-                <TextField required type="password" className={styles.inputs} size="small" label="Confirm" variant="outlined" value={rePassword} id="rePassword" onChange={(e) => onInputChange(e)} />
+                <TextField required type="password" className={styles.inputs} size="small" label="Password" variant="outlined" value={password} id="password" onChange={onInputChange} />
+                <TextField required type="password" className={styles.inputs} size="small" label="Confirm" variant="outlined" value={rePassword} id="rePassword" onChange={onInputChange} />
             </div>
             <p id={styles.info}>{password.length < 6 ? 'Use 6 or more characters' : ''}</p>
             <div className={styles.buttons}>

@@ -28,9 +28,10 @@ import HomePage from './Components/HomePage/HomePage';
 import AlertNotifier from './Components/common/AlertNotifier';
 import { fetchTheme } from './redux/actions/theme';
 import { fetchVideos } from './redux/actions/videos';
-import UserPlaylists from './Components/Playlists/UserPlaylists';
+import Library from './Components/LibraryPage/UserPlaylists';
 import { getNotifications } from './redux/actions/notifications';
 import { changeThemeColors } from './utils';
+import { deleteNotificationsOlderThanTwoHours } from './service';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -81,7 +82,7 @@ export default function App() {
           </Route>
           <Route path='/upload' component={UploadVideo} />
           <Route path='/user/:id' component={UserProfile} />
-          <Route path='/library' component={UserPlaylists} />
+          <Route path='/library' component={Library} />
           <Route path='/trending' component={TrendingVideos} />
           <Route path='/history' component={History} />
           <Route path='/signout'
@@ -118,6 +119,9 @@ export default function App() {
                 return <ResetPassword />
               }
             }} />
+          <Route path='/auto-delete-notifications'>
+            {deleteNotificationsOlderThanTwoHours()}
+          </Route>
           <Route path='*'>
             <ErrorPage />
           </Route>

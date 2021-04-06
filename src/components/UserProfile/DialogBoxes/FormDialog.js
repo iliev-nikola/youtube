@@ -57,7 +57,7 @@ export default function FormDialog({ handleClose, onEditClick, open, video }) {
                 </DialogContent>
                 <div className={styles.inputs}>
                     <TextField required fullWidth type="text" size="small" label="New title" variant="outlined" value={title} onChange={(e) => onTitleChange(e)} className={styles.input} />
-                    <TextField required fullWidth type="text" size="medium" label="New description" variant="outlined" value={description} onChange={(e) => onDescriptionChange(e)} />
+                    <TextField required className={styles.input} fullWidth type="text" size="medium" label="New description" variant="outlined" value={description} onChange={(e) => onDescriptionChange(e)} />
                 </div>
                 <DialogActions>
                     <Button autoFocus onClick={() => {
