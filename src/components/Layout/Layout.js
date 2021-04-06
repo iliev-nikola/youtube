@@ -1,23 +1,32 @@
 import Header from '../Header/Header';
-import { Home, VideoLibrary, History } from '@material-ui/icons';
+import { Home, VideoLibrary, History, Whatshot } from '@material-ui/icons';
 import { Tooltip } from '@material-ui/core';
 import styles from './Layout.module.scss';
 export default function Layout({ children }) {
     const sideBarContainer = (<>
         <Tooltip title='Home' placement="right">
-            <div className={styles.sidebars}>
+            <a href="/" className={styles.sidebars}>
                 <Home />
-            </div>
+                <p>Home</p>
+            </a>
         </Tooltip>
         <Tooltip title='Library' placement="right">
-            <div className={styles.sidebars}>
+            <a href="/library" className={styles.sidebars}>
                 <VideoLibrary />
-            </div>
+                <p>Library</p>
+            </a>
         </Tooltip>
         <Tooltip title='History' placement="right">
-            <div className={styles.sidebars}>
+            <a href="/history" className={styles.sidebars}>
                 <History />
-            </div>
+                <p>Library</p>
+            </a>
+        </Tooltip>
+        <Tooltip title='Trending' placement="right">
+            <a href="/trending" className={styles.sidebars}>
+                <Whatshot />
+                <p>Trending</p>
+            </a>
         </Tooltip>
     </>);
     return (
@@ -27,7 +36,7 @@ export default function Layout({ children }) {
                 <div className={styles.sideBarContainer}>
                     {sideBarContainer}
                 </div>
-                <div className={styles.videosContainer}>
+                <div className={styles.homeContainer}>
                     {children}
                 </div>
             </div>

@@ -3,6 +3,7 @@ $main-color: var(--tit-color);
 .mainLogoContainer {
   display: flex;
   width: 185px;
+  cursor: pointer;
 }
 
 .sandwichButton {
@@ -41,9 +42,37 @@ $main-color: var(--tit-color);
   background-color: var(--hov-color);
 }
 
+.sidebars {
+  display: flex;
+  color: var(--header-color);
+  font-weight: 600;
+  height: 40px;
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 400;
+  padding: 16px 0;
+  justify-content: start;
+  margin-left: 16px;
+  text-decoration: none;
+  > svg {
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+  }
+  > p {
+    margin-top: 5px;
+    font-size: 18px;
+  }
+}
+
 .sideOpen {
   width: 240px;
+  display: flex;
+  justify-content: center;
+  color: var(--header-color);
+  cursor: pointer;
 }
+
 :global(.MuiPaper-root.MuiDrawer-paper) {
   background: var(--bg-color-32);
 }

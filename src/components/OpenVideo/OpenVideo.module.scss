@@ -51,6 +51,7 @@ $main-size: 18px;
     display: flex;
     align-items: center;
     color: var(--t-color);
+    margin-top: 6px;
   }
 
   .commentsContainer {
@@ -74,8 +75,13 @@ $main-size: 18px;
     margin: 20px 0;
   }
 
+  .userLetter {
+    justify-content: flex-end;
+  }
+
   .input {
     width: 584px;
+    margin: 20px;
   }
 
   .input input,
@@ -121,7 +127,6 @@ $main-size: 18px;
     .thumbs {
       display: flex;
       align-items: center;
-
       .button,
       .liked,
       .disliked {

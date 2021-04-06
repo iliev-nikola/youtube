@@ -75,4 +75,5 @@ export function changeThemeColors(theme) {
   body.style.setProperty('--t-color', tColor);
   body.style.setProperty('--b-color', bColor);
   body.style.setProperty('--g-color', gColor);
+
 }

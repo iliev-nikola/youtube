@@ -7,17 +7,29 @@ import Layout from '../Layout/Layout';
 import styles from './Playlists.module.scss';
 import { getPlaylists } from '../../redux/actions/playlists';
 import { getUser } from '../../redux/selectors/user';
+import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
+import GuestHeader from '../common/GuestHeader/GuestHeader';
 
 export default function UserPlaylists() {
   const dispatch = useDispatch();
   const user = useSelector(getUser);
+
   useEffect(() => {
     if (user) {
       dispatch(getPlaylists(user));
     }
   }, [user])
+
   const playlists = useSelector(state => state.playlist.playlists);
-  console.log(playlists);
+
+  const emptyPlaylistPage = (
+    <div className={styles.emptyPage}>
+      <VideoLibraryIcon />
+      <h2>Enjoy your favorite videos</h2>
+      <h5>Sign in to access videos that you’ve liked or saved</h5>
+      <div className={styles.signIn} > <GuestHeader /></div>
+    </div>
+  );
   return (
     <Layout>
       <div className={styles.playlistsContainer}>
@@ -37,7 +49,7 @@ export default function UserPlaylists() {
             </Tabs>
 
           </AppBar>
-        )) : null};
+        )) : <>{emptyPlaylistPage}</>};
       </div>
     </Layout >
   );

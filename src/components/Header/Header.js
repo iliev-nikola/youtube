@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import SearchIcon from '@material-ui/icons/Search';
 import styles from './Header.module.scss';
-import { AccountCircle as AccountCircleIcon, InvertColors as InvertColorsIcon } from '@material-ui/icons';
+import { InvertColors as InvertColorsIcon, Search as SearchIcon  } from '@material-ui/icons';
 import { Tooltip } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import UserMenu from './UserMenu';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser, getUserLoading } from '../../redux/selectors/user';
 import { getVideosByTitle, updateUserTheme } from '../../service';
-import { fetchTheme, setDarkTheme, setLightTheme } from '../../redux/actions/theme';
+import { setDarkTheme, setLightTheme } from '../../redux/actions/theme';
 import Sidebar from '../Sidebar/Sidebar';
+import GuestHeader from '../common/GuestHeader/GuestHeader';
 
 export default function Header() {
     const user = useSelector(getUser);
@@ -61,13 +61,6 @@ export default function Header() {
         }
     };
 
-    const guestHeader = (
-        <a href='/signin' className={styles.links} title='Sign in'>
-            <div className={styles.signIn}>
-                <AccountCircleIcon />
-                <span>SIGN IN</span>
-            </div>
-        </a>);
     const userHeader = (
         <div id={styles.userIcons}>
             <UserMenu />
@@ -89,7 +82,7 @@ export default function Header() {
                 </div>
                 {!isUserLoading ?
                     <div className={styles.userContainer}>
-                        {user ? userHeader : guestHeader}
+                        {user ? userHeader : <GuestHeader/>}
                     </div> : <p>Loading</p>}
             </div>
         </div>

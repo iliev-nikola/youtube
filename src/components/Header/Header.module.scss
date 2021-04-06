@@ -1,5 +1,4 @@
 .otherContainer,
-.signIn,
 #userIcons,
 .displayFlex,
 .userIcon,
@@ -88,6 +87,11 @@
   animation-direction: alternate;
 }
 
+.badge span{
+  top: 6px;
+  right: 7px;
+}
+
 .info a {
   margin-top: 5px;
   text-decoration: none;
@@ -134,17 +138,6 @@
 
 .searchIcon:hover {
   color: var(--hov-color);
-}
-
-.signIn {
-  align-items: center;
-  border: 1px solid #3ea6ff;
-  color: #3ea6ff;
-  border-radius: 2px;
-  width: 85px;
-  padding: 5px 8px;
-  cursor: pointer;
-  justify-content: space-between;
 }
 
 .dropdownContainer {

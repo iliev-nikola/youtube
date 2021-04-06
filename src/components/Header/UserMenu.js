@@ -82,7 +82,7 @@ export default function UserMenu() {
             >
                 <div className={styles.dropdownContainer} >
                     <Tooltip title="Notifications" placement="bottom">
-                        <Badge badgeContent={unreadNotifications.length} color="error">
+                        <Badge className={styles.badge} badgeContent={unreadNotifications.length} color="error">
                             <NotificationsIcon className={styles.icons} onClick={handleClickNotify} />
                         </Badge>
                     </Tooltip>

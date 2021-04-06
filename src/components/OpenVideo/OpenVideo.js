@@ -6,7 +6,7 @@ import { ThumbDown as ThumbDownIcon, ThumbUp } from '@material-ui/icons';
 import PopUp from './PopupState';
 import { Input } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { dislikeIt, changeViews, fetchVideo } from '../../redux/actions/videos';
+import { changeViews, fetchVideo } from '../../redux/actions/videos';
 import { getUser, getVideoComments, getVideos } from '../../redux/selectors/selectors';
 import { getComments } from '../../redux/actions/comments';
 import { setAlertOn } from '../../redux/actions/alertNotifier';

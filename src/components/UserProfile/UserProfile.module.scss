@@ -1,5 +1,5 @@
 .profileContainer {
-  width: 100%;
+  width: 1400px;
   margin-top: 56px;
 }
 .container {
@@ -44,7 +44,7 @@
 }
 
 .profileInfo {
-  background-color: #202020;
+  background-color: var(--bg-color-32);
   padding: 20px 0 20px 150px;
   display: flex;
   align-items: center;

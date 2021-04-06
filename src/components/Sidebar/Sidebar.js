@@ -6,10 +6,15 @@ import blackLogo from '../../assets/blackLogo.png';
 import { useHistory } from "react-router-dom";
 import styles from './Sidebar.module.scss';
 import { useSelector } from 'react-redux';
-import { Home, VideoLibrary, History } from '@material-ui/icons';
+import { Home, VideoLibrary, History, Whatshot } from '@material-ui/icons';
+import { getUser } from '../../redux/selectors/user';
+import GuestHeader from '../common/GuestHeader/GuestHeader';
+
 export default function Sidebar() {
     const history = useHistory();
     const theme = useSelector(state => state.theme.theme);
+    const user = useSelector(getUser);
+
     const [state, setState] = useState(false);
     const toggleDrawer = (anchor, open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -38,23 +43,30 @@ export default function Sidebar() {
         >
             <List>
                 <div onClick={toggleDrawer(anchor, false)} className={styles.openLogo}>{mainLogo}</div>
-                <div className={styles.slidebars}>
-                    <Tooltip title='Home' placement="right">
-                        <div className={styles.sidebars}>
-                            <Home />
-                        </div>
-                    </Tooltip>
-                    <Tooltip title='Library' placement="right">
-                        <div className={styles.sidebars}>
-                            <VideoLibrary /> <span>Library</span>
-                        </div>
-                    </Tooltip>
-                    <Tooltip title='History' placement="right">
-                        <div className={styles.sidebars}>
-                            <History />
-                        </div>
-                    </Tooltip>
-                </div>
+                <Tooltip title='Home' placement="right">
+                    <a href="/" className={styles.sidebars}>
+                        <Home />
+                        <p>Home</p>
+                    </a>
+                </Tooltip>
+                <Tooltip title='Library' placement="right">
+                    <a href="/library" className={styles.sidebars}>
+                        <VideoLibrary />
+                        <p>Library</p>
+                    </a>
+                </Tooltip>
+                <Tooltip title='History' placement="right">
+                    <a href="/history" className={styles.sidebars}>
+                        <History />
+                        <p>Library</p>
+                    </a>
+                </Tooltip>
+                <Tooltip title='Trending' placement="right">
+                    <a href="/trending" className={styles.sidebars}>
+                        <Whatshot />
+                        <p>Trending</p>
+                    </a>
+                </Tooltip>
             </List>
         </div>
     );

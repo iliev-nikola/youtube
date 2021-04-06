@@ -11,6 +11,7 @@
 }
 
 .sidebars {
+  display: block;
   color: var(--header-color);
   font-size: 16px;
   font-weight: 600;
@@ -18,5 +19,15 @@
   cursor: pointer;
   font-size: 10px;
   font-weight: 400;
-  padding: 0 16px;
+  padding: 16px 16px 16px 12px;
+  text-align: center;
+  text-decoration: none;
+  > p {
+    margin-top: 5px;
+  }
+}
+
+.homeContainer {
+  margin: 0 auto;
+  margin-top: 60px;
 }
