@@ -7,9 +7,9 @@ const showPlaylists = (playlists) => ({
     payload: playlists
 })
 
-export const getPlaylists = (user) => {
+export const getPlaylists = (userID) => {
     return function (dispatch) {
-        db.collection('playlists').where("authorID", "==", user.uid).onSnapshot(snapshot => {
+        db.collection('playlists').where("authorID", "==", userID).onSnapshot(snapshot => {
             const playlists = snapshot.docs.map(doc => ({ ...doc.data() }));
             dispatch(showPlaylists(playlists));
         });

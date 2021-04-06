@@ -4,11 +4,11 @@
   position: relative;
   width: 300px;
   max-width: 300px;
-}
-
-.video {
-  max-height: 170px;
-  max-width: 300px;
+  text-align: center;
+  .video {
+    max-height: 170px;
+    max-width: 300px;
+  }
 }
 
 .duration {

@@ -22,7 +22,7 @@ import VoiceControl from './Components/VoiceControl/VoiceControl';
 import ProgressBar from './Components/ProgressBar/ProgressBar';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser, logout } from './redux/actions/user';
-import { getUser } from './redux/selectors/user';
+import { getUser, getUserID } from './redux/selectors/user';
 import { getIsLoading } from './redux/selectors/loading';
 import HomePage from './Components/HomePage/HomePage';
 import AlertNotifier from './Components/common/AlertNotifier';
@@ -36,12 +36,13 @@ import { deleteNotificationsOlderThanTwoHours } from './service';
 export default function App() {
   const dispatch = useDispatch();
   const user = useSelector(getUser);
+  const userID = useSelector(getUserID);
   const isLoading = useSelector(getIsLoading);
   const theme = useSelector(state => state.theme.theme);
 
   useEffect(() => {
     dispatch(fetchVideos());
-  }, [user]);
+  }, []);
 
   useEffect(() => {
     if (theme) {
@@ -50,12 +51,12 @@ export default function App() {
   }, [theme]);
 
   useEffect(() => {
-    if (user) {
-      dispatch(getNotifications(user.uid));
+    if (userID) {
+      dispatch(getNotifications(userID));
       changeThemeColors(user.theme);
     }
     dispatch(fetchTheme());
-  }, [user, dispatch]);
+  }, [userID]);
 
   useEffect(() => {
     auth.onAuthStateChanged(user => {
@@ -65,7 +66,7 @@ export default function App() {
         dispatch(logout());
       }
     })
-  }, [dispatch]);
+  }, []);
 
   return (
     <Router>
@@ -102,14 +103,7 @@ export default function App() {
                 return <SignUp />
               }
             }} />
-          <Route path='/signin'
-            render={() => {
-              if (auth.currentUser && user) {
-                return <Redirect to='/' />
-              } else {
-                return <SignIn />
-              }
-            }}
+          <Route path='/signin' component={SignIn}
           />
           <Route path='/reset'
             render={() => {

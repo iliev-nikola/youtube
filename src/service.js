@@ -215,7 +215,9 @@ export function deleteNotificationsOlderThanTwoHours() {
     ref.orderBy('time').endAt(cutoff).limitToLast(1).get()
         .then(res => res.docs.map(el => el.data()))
         .then(res => res.forEach(doc => {
-            ref.doc(doc.notID).delete();
+            if (doc.isRead) {
+                ref.doc(doc.notID).delete();
+            }
         }))
         .catch(err => console.log(err));
 }

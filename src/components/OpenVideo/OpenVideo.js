@@ -21,17 +21,22 @@ import Header from '../Header/Header';
 import ReactTimeAgo from 'react-time-ago';
 import VideoCard from '../VideoCard/VideoCard';
 import { getVideosLength } from '../../redux/selectors/videos';
+import { getUserID } from '../../redux/selectors/user';
 
 export default function OpenVideo() {
     const history = useHistory();
     const dispatch = useDispatch();
     const { id } = useParams();
-    const videos = useSelector(getVideos);
     const [inputValue, setInputValue] = useState('');
     const [isLiked, setIsLiked] = useState(false);
     const [isDisliked, setIsDisliked] = useState(false);
+    const [editedComment, setEditedComment] = useState('');
+    const [visibleVideos, setVisibleVideos] = useState('');
+    const videos = useSelector(getVideos);
+    const videosLength = useSelector(getVideosLength);
     const comments = useSelector(getVideoComments);
     const user = useSelector(getUser);
+    const userID = useSelector(getUserID);
     const video = useSelector(getVideo);
     const videoId = useSelector(getVideoID);
     const videoTitle = useSelector(getVideoTitle);
@@ -40,27 +45,23 @@ export default function OpenVideo() {
     const videoURL = useSelector(getVideoURL);
     const videoDislikes = useSelector(getVideoDislikes);
     const videoLikes = useSelector(getVideoLikes);
-    const [editedComment, setEditedComment] = useState('');
 
     useEffect(() => {
-        if (user && videoId) {
+        if (userID && videoId) {
             setIsLiked(videoLikes.some(userID => userID === user.uid));
             setIsDisliked(videoDislikes.some(userID => userID === user.uid));
         }
-    }, [videoDislikes, videoLikes, user, videoId]);
-
-    const [visibleVideos, setVisibleVideos] = useState([]);
-    const videosLength = useSelector(getVideosLength);
+    }, [videoDislikes, videoLikes, videoId]);
 
     useEffect(() => {
-        if (videos) {
+        if (videosLength) {
             setVisibleVideos(videos);
         }
-    }, [videosLength])
+    }, []);
 
     useEffect(() => {
         dispatch(getComments(id));
-    }, [id, dispatch]);
+    }, [id]);
 
     useEffect(() => {
         dispatch(fetchVideo(id));
@@ -97,10 +98,10 @@ export default function OpenVideo() {
     }
 
     const updateIt = (e, id) => {
-        if (!editedComment) {
-            return dispatch(setAlertOn('warning', 'Make some changes first.'));
-        }
         if (e.key === 'Enter' && editedComment) {
+            if (!editedComment) {
+                return dispatch(setAlertOn('warning', 'Make some changes first.'));
+            }
             updateComment(id, editedComment);
             setEditedComment('');
             dispatch(setAlertOn('success', 'Successfully edited comment.'));
@@ -167,9 +168,8 @@ export default function OpenVideo() {
                                         onChange={onInputChange} onKeyPress={handleKeyPress} value={inputValue} />
                                 </div>
                                 {comments.length ?
-                                    comments.map((comment) => (
-                                        // add current comment id + Math.random for key
-                                        <div key={Math.random()} className={styles.mainComm} >
+                                    comments.map(comment => (
+                                        <div key={comment.commentID + Math.random()} className={styles.mainComm} >
                                             <a href={`/user/${comment.userID}`} className={styles.link}>
                                                 <UserLogo author={comment.displayName} authorPhotoURL={comment.photoURL} />
                                             </a>
@@ -181,8 +181,11 @@ export default function OpenVideo() {
                                                             date={comment.timestamp.toDate()} locale="en-US" /> : null}
                                                     </div>
                                                     {comment.isEdit ? <div className={styles.editCommentContainer}>
-                                                        <Input defaultValue={comment.comment}
-                                                            onChange={(e) => onEditChange(e, comment.commentID)} onKeyPress={(e) => updateIt(e, comment.commentID)} />
+                                                        <Input
+                                                            defaultValue={comment.comment}
+                                                            onChange={onEditChange}
+                                                            onKeyPress={(e) => updateIt(e, comment.commentID)}
+                                                        />
                                                         <Button onClick={() => uneditableComment(comment.commentID)} variant="contained" color="primary">Cancel</Button>
                                                     </div>
                                                         : <p className={styles.comment}>{comment.comment}</p>}

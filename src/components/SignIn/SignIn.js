@@ -75,10 +75,10 @@ export default function SignIn() {
                 <p>to continue to YouTube</p>
             </div>
             <div className={styles.container}>
-                <TextField type="email" required className={styles.inputs} size="medium" label="Email" variant="outlined" value={email} id="email" onChange={(e) => onInputChange(e)} autoComplete="off" />
+                <TextField type="email" required className={styles.inputs} size="medium" label="Email" variant="outlined" value={email} id="email" onChange={onInputChange} autoComplete="off" />
             </div>
             <div className={styles.container}>
-                <TextField type="password" required className={styles.inputs} size="medium" label="Password" variant="outlined" value={password} id="password" onChange={(e) => onInputChange(e)} autoComplete="off" />
+                <TextField type="password" required className={styles.inputs} size="medium" label="Password" variant="outlined" value={password} id="password" onChange={onInputChange} autoComplete="off" />
             </div>
             <p className={styles.loginWithText}>Login with:</p>
             <div className={styles.buttons}>

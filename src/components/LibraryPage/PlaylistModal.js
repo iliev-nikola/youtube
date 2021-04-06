@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser } from '../../redux/selectors/user';
+import { getUser, getUserID } from '../../redux/selectors/user';
 import { Modal, FormControlLabel, Checkbox, TextField, List, Button } from '@material-ui/core';
 import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
 import styles from './Playlists.module.scss';
@@ -13,16 +13,17 @@ import { getPlaylists } from '../../redux/actions/playlists';
 
 export default function PlaylistModal({ video }) {
     const user = useSelector(getUser);
+    const userID = useSelector(getUserID);
     const [inputValue, setInputValue] = useState('');
     const dispatch = useDispatch();
     const playlists = useSelector(state => state.playlist.playlists);
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        if (user) {
-            dispatch(getPlaylists(user));
+        if (userID) {
+            dispatch(getPlaylists(userID));
         }
-    }, [user]);
+    }, [userID]);
 
     const handleOpen = () => {
         setOpen(true);
@@ -84,14 +85,14 @@ export default function PlaylistModal({ video }) {
                                         control={<Checkbox
                                             onClick={(e) => { addOrRemoveVideo(e, playlist) }}
                                             name={playlist.name} value={playlist.name}
-                                            checked={playlist.videos.some(el => el.authorID === user.uid)} />}
+                                            checked={userID ? playlist.videos.some(el => el.authorID === userID) : null} />}
                                         label={playlist.name} />
                                     <DeleteIcon onClick={() => deletePlaylist(playlist.id)} className={styles.trash} />
                                 </div>
                             )) : null}
                     </List>
                     <TextField id="standard-basic" placeholder={'Enter playlist name...'} value={inputValue}
-                     onKeyPress={handleKeyPress} onChange={(e) => onInputChange(e)} />
+                        onKeyPress={handleKeyPress} onChange={(e) => onInputChange(e)} />
                     <div><Button variant="contained" color="secondary" onClick={handleKeyPress}>CREATE</Button></div>
                 </div>
             </Modal>

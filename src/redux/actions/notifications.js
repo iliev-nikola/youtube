@@ -9,7 +9,7 @@ export const showNotifications = (notifications) => ({
 
 export const getNotifications = (userID) => {
     return function (dispatch) {
-        db.collection("notifications")
+        db.collection('notifications')
             .where("userID", "==", userID)
             .orderBy("timestamp", "desc")
             .onSnapshot((notifications) => {
@@ -18,6 +18,6 @@ export const getNotifications = (userID) => {
                     dbNot.push(noti.data());
                 });
                 dispatch(showNotifications(dbNot));
-            })
+            });
     }
 }

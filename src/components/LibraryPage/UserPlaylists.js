@@ -6,20 +6,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import Layout from '../Layout/Layout';
 import styles from './Playlists.module.scss';
 import { getPlaylists } from '../../redux/actions/playlists';
-import { getUser, getUserLoading } from '../../redux/selectors/user';
+import { getUser, getUserID, getUserLoading } from '../../redux/selectors/user';
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 import GuestHeader from '../common/GuestHeader/GuestHeader';
 
 export default function UserPlaylists() {
   const dispatch = useDispatch();
   const user = useSelector(getUser);
+  const userID = useSelector(getUserID);
   const isUserLoading = useSelector(getUserLoading);
 
   useEffect(() => {
-    if (user) {
-      dispatch(getPlaylists(user));
+    if (userID) {
+      dispatch(getPlaylists(userID));
     }
-  }, [user]);
+  }, [userID]);
 
   const playlists = useSelector(state => state.playlist.playlists);
 

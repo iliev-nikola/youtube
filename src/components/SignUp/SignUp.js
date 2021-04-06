@@ -40,21 +40,21 @@ export default function SignUp() {
 
         auth.createUserWithEmailAndPassword(email, password)
             .then((res) => {
-                let displayName = firstName[0].toUpperCase() + firstName.slice(1).toLowerCase() + ' ' + lastName[0].toUpperCase() + lastName.slice(1).toLowerCase();
+                const displayName = firstName[0].toUpperCase() + firstName.slice(1).toLowerCase() + ' ' + lastName[0].toUpperCase() + lastName.slice(1).toLowerCase();
                 const user = res.user;
+                console.log(user, displayName)
                 return user.updateProfile({
                     displayName: displayName
                 });
             })
             .then(() => {
+                dispatch(setAlertOn('success', 'Registration successfull'));
                 setFirstName('');
                 setLastName('');
                 setEmail('');
                 setPassword('');
                 setRePassword('');
-                auth.signOut();
                 history.replace('/signin');
-                dispatch(setAlertOn('success', 'Registration successfull'));
             })
             .catch(err => dispatch(setAlertOn('error', err.message)));
     };
@@ -115,7 +115,6 @@ export default function SignUp() {
                 <TextField required type="password" className={styles.inputs} size="small" label="Password" variant="outlined" value={password} id="password" onChange={onInputChange} />
                 <TextField required type="password" className={styles.inputs} size="small" label="Confirm" variant="outlined" value={rePassword} id="rePassword" onChange={onInputChange} />
             </div>
-            <p id={styles.info}>{password.length < 6 ? 'Use 6 or more characters' : ''}</p>
             <div className={styles.buttons}>
                 <Link to="signin" className={styles.link}>Sign in instead</Link>
                 <div className={styles.button}>
