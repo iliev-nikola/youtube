@@ -32,19 +32,17 @@ export default function OpenVideo() {
     const videoId = useSelector(getVideoID);
     const videoTitle = useSelector(getVideoTitle);
     const videoViews = useSelector(getVideoViews);
-    const videoAuthor = useSelector(getVideoAuthor);
     const videoDescription = useSelector(getVideoDescription);
     const videoURL = useSelector(getVideoURL);
     const videoDislikes = useSelector(getVideoDislikes);
     const videoLikes = useSelector(getVideoLikes);
-    const authorID = useSelector(getVideoAuthorID);
 
     useEffect(() => {
         if (user && videoId) {
             setIsLiked(videoLikes.some(userID => userID === user.uid));
             setIsDisliked(videoDislikes.some(userID => userID === user.uid));
         }
-    }, [videoDislikes, videoLikes, user, videoId])
+    }, [videoDislikes, videoLikes, user, videoId]);
 
     useEffect(() => {
         dispatch(getComments(id));
@@ -67,7 +65,7 @@ export default function OpenVideo() {
         }
 
         setInputValue(value);
-    }
+    };
 
     const handleKeyPress = (e) => {
         if (e.key === 'Enter' && inputValue) {
@@ -75,19 +73,19 @@ export default function OpenVideo() {
             updatedNotifications(video, user, 'comment');
             setInputValue('');
         }
-    }
+    };
     const likeIt = () => {
         likeVideo(user, video);
         updatedNotifications(video, user, 'like');
         setIsLiked(videoLikes.some(userID => userID === user.uid));
         setIsDisliked(videoDislikes.some(userID => userID === user.uid));
-    }
+    };
     const dislikeIt = () => {
         dislikeVideo(user, video);
         updatedNotifications(video, user, 'dislike');
         setIsLiked(videoLikes.some(userID => userID === user.uid));
         setIsDisliked(videoDislikes.some(userID => userID === user.uid));
-    }
+    };
     const text = 'Sign in to make your opinion count.';
     const numberLikes = (
         <><ThumbUp className={isLiked ? styles.liked : styles.button} onClick={() => { likeIt() }} /><span>{videoId ? videoLikes.length : null}</span></>
@@ -132,12 +130,13 @@ export default function OpenVideo() {
                                 <div onClick={() => !user ? history.push('/signin') : null}>
                                     < Input placeholder='Add a public comment...' className={styles.input} onChange={onInputChange} onKeyPress={handleKeyPress} value={inputValue} />
                                 </div>
-                                {comments ?
+                                {comments.length ?
                                     comments.map((currentComment) => (
-                                        <div key={currentComment.commentID} className={styles.mainComm} >
-                                            <div onClick={() => history.push(`/user/${currentComment.userID}`)}>
+                                        // add current comment id + Math.random for key
+                                        <div key={Math.random()} className={styles.mainComm} >
+                                            <a href={`/user/${currentComment.userID}`} className={styles.link}>
                                                 <UserLogo author={currentComment.displayName} authorPhotoURL={currentComment.photoURL} />
-                                            </div>
+                                            </a>
                                             <div className={styles.commentsContainer}>
                                                 <div className={styles.someComment}>
                                                     <div className={styles.timeContainer}>

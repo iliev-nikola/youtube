@@ -61,7 +61,7 @@ export default function TrendingVideos() {
         <Layout>
             {isUserLoading && <p className={styles.welcomeText}>Loading...</p>}
             {!isUserLoading && <>
-                <h1 className={styles.welcomeText}>Trending videos those days...</h1>
+                <h1 className={styles.welcomeText}>Trending videos those days</h1>
                 <InfiniteScroll
                     className={styles.videoContainer}
                     dataLength={visibleVideos.length}

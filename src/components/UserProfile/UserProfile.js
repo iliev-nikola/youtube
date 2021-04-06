@@ -6,6 +6,7 @@ import styles from './UserProfile.module.scss';
 import { useSelector } from "react-redux";
 import { getUser } from '../../redux/selectors/user';
 import Layout from '../Layout/Layout';
+import { getCurrentUserHistory, getCurrentUserInfo, getCurrentUserLiked } from '../../service';
 
 export default function UserProfile() {
     const { id } = useParams();
@@ -14,14 +15,9 @@ export default function UserProfile() {
     const [liked, setLiked] = useState([]);
     const currentUser = useSelector(getUser);
     useEffect(() => {
-        const videosRef = db.collection('videos');
-        db.collection('users').doc(id).get().then(res => setUser(res.data()));
-        videosRef.where('isWatchedBy', 'array-contains', id).get()
-            .then(res => res.docs.map(el => el.data()))
-            .then(res => setHistory(res));
-        videosRef.where('isLikedBy', 'array-contains', id).get()
-            .then(res => res.docs.map(el => el.data()))
-            .then(res => setLiked(res));
+        getCurrentUserInfo(id).then(res => setUser(res.data()));
+        getCurrentUserHistory(id).then(res => setHistory(res));
+        getCurrentUserLiked(id).then(res => setLiked(res));
     }, [id]);
 
     return (

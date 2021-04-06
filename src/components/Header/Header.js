@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styles from './Header.module.scss';
-import { InvertColors as InvertColorsIcon, Search as SearchIcon  } from '@material-ui/icons';
-import { AccountCircle as AccountCircleIcon } from '@material-ui/icons';
+import { Search as SearchIcon } from '@material-ui/icons';
 import { Tooltip } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import UserMenu from './UserMenu';
@@ -33,13 +32,17 @@ export default function Header() {
     };
 
     const onFocusOut = () => {
-        setOptions([]);
+        setTimeout(() => {
+            setOptions([]);
+        }, 100)
     };
 
     const handleKeyPress = (e) => {
         if (e.key === 'Enter' || e.type === 'click') {
             let value = inputSearchValue.trim().split(' ').map(el => el.toLowerCase().trim()).join('+');
-            history.push('/search/' + value);
+            if (value.length) {
+                history.push('/search/' + value);
+            }
         }
     };
 
@@ -63,7 +66,7 @@ export default function Header() {
                 </div>
                 {!isUserLoading ?
                     <div className={styles.userContainer}>
-                        {user ? userHeader : <GuestHeader/>}
+                        {user ? userHeader : <GuestHeader />}
                     </div> : <p>Loading</p>}
             </div>
         </div>

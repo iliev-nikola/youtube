@@ -2,11 +2,6 @@ import { db } from './firebase';
 import firebase from "firebase/app";
 import { generateId } from './utils';
 import { setAlertOn } from './redux/actions/alertNotifier';
-import { useDispatch } from 'react-redux';
-
-export function getUserById(id) {
-    db.collection('users').doc(id).get().then(res => console.log(res.docs))
-}
 
 export function setNotificationsRead() {
     db.collection('notifications')
@@ -210,4 +205,18 @@ export function deleteNotificationsOlderThanTwoHours() {
             ref.doc(doc.notID).delete();
         }))
         .catch(err => console.log(err));
+}
+
+export function getCurrentUserInfo(id) {
+    return db.collection('users').doc(id).get().then(res => res);
+}
+
+export function getCurrentUserHistory(id) {
+    const videosRef = db.collection('videos');
+    return videosRef.where('isWatchedBy', 'array-contains', id).get().then(res => res.docs.map(el => el.data()));
+}
+
+export function getCurrentUserLiked(id) {
+    const videosRef = db.collection('videos');
+    return videosRef.where('isLikedBy', 'array-contains', id).get().then(res => res.docs.map(el => el.data()));
 }

@@ -31,6 +31,7 @@ import { fetchVideos } from './redux/actions/videos';
 import Library from './Components/LibraryPage/UserPlaylists';
 import { getNotifications } from './redux/actions/notifications';
 import { changeThemeColors } from './utils';
+import { deleteNotificationsOlderThanTwoHours } from './service';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -118,6 +119,9 @@ export default function App() {
                 return <ResetPassword />
               }
             }} />
+          <Route path='/auto-delete-notifications'>
+            {deleteNotificationsOlderThanTwoHours()}
+          </Route>
           <Route path='*'>
             <ErrorPage />
           </Route>

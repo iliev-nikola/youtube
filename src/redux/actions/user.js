@@ -14,7 +14,7 @@ export const userLoading = () => ({
 });
 
 export const setUser = (user) => {
-    return function (dispatch, getState) {
+    return function (dispatch) {
         dispatch(userLoading());
         fetchUser(user)
             .then(newUser => {

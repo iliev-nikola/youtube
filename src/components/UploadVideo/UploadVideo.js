@@ -57,10 +57,12 @@ export default function UploadVideo() {
     const onSubmit = () => {
         if (!title.trim()) {
             return dispatch(setAlertOn('error', 'Please add a title!'));
+        } else if (title.trim().length < 10) {
+            return dispatch(setAlertOn('error', 'Title must be atleast 10 characters!'));
         } else if (!description.trim()) {
             return dispatch(setAlertOn('error', 'Please add a description!'));
         } else if (description.trim().length < 10) {
-            return dispatch(setAlertOn('error', 'The description must be at least 10 characters'));
+            return dispatch(setAlertOn('error', 'The description must be at least 10 characters!'));
         }
 
         const uploadTask = storage.ref().child(`videos/${title}`).put(file);

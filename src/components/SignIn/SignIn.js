@@ -59,6 +59,10 @@ export default function SignIn() {
                 setEmail(value);
                 break;
             default:
+                if (value.includes(' ')) return;
+                if (value.length > 30) {
+                    return dispatch(setAlertOn('error', 'Email cannot exceed 30 characters'));
+                }
                 setPassword(value);
         }
     };

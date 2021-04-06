@@ -18,15 +18,16 @@ export default function HomePage() {
     const [visibleVideos, setVisibleVideos] = useState([]);
     const [scrollTop, setScrollTop] = useState(0);
     const [hasMore, setHasMore] = useState(true);
-    const videosLimitOnPage = 25;
+    const [videosLimitOnPage, setVideosLimitOnPage] = useState(0);
     const newVideosOnScroll = videos.length < 4 ? videos.length : 4;
 
     useEffect(() => {
         setVisibleVideos(videos.slice(0, 16));
         setLastVideoIndex(videos.length < 16 ? 0 : 15);
+        setVideosLimitOnPage(videos.length * 2);
     }, [videos.length]);
 
-    const fetchMoreData = (e) => {
+    const fetchMoreData = () => {
         if (scrollTop > window.scrollY) return;
         if (visibleVideos.length > videosLimitOnPage) {
             dispatch(setAlertOn('info', 'No more videos to show. Check again later or upload some.'));
@@ -50,7 +51,7 @@ export default function HomePage() {
             setVisibleVideos([...visibleVideos, ...newVideos]);
             dispatch(setNotLoading());
         }, 1000)
-    }
+    };
 
     return (
         <Layout>
@@ -59,7 +60,6 @@ export default function HomePage() {
                 dataLength={visibleVideos.length}
                 next={fetchMoreData}
                 hasMore={hasMore}
-                scrollThreshold='1px'
                 onScroll={() => {
                     if (scrollTop < window.scrollY) {
                         setScrollTop(window.scrollY);
