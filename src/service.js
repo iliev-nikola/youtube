@@ -88,9 +88,9 @@ export const deleteComment = (id) => {
 export const createPlaylist = (user, inputValue) => {
     const id = generateId();
     const data = {
-        playlistID: id,
-        playlistName: inputValue,
-        userID: user.uid,
+        id: id,
+        name: inputValue,
+        authorID: user.uid,
         videos: []
     };
 
@@ -101,7 +101,6 @@ export const createPlaylist = (user, inputValue) => {
 }
 
 export const addVideoToPlaylist = (video, id) => {
-
     db.collection('playlists')
         .doc(id)
         .update({
@@ -111,15 +110,17 @@ export const addVideoToPlaylist = (video, id) => {
 }
 
 export const removeVideoFromPlaylist = (video, id) => {
-    db.collection('playlists').doc(id).update({
-        videos: firebase.firestore.FieldValue.arrayRemove(video)
-    });
+    db.collection('playlists')
+        .doc(id)
+        .update({
+            videos: firebase.firestore.FieldValue.arrayRemove(video)
+        })
+        .catch(err => setAlertOn('error', err.message));
 }
 
 export const deletePlaylist = (id) => {
     db.collection("playlists").doc(id).delete();
 }
-
 
 export function filterVideos(params) {
     if (!params.length) return null;

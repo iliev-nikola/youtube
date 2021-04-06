@@ -16,6 +16,7 @@ import { updatedNotifications, createComments, dislikeVideo, likeVideo, deleteCo
 import PlaylistModal from '../Playlists/PlaylistModal';
 import Header from '../Header/Header';
 import ReactTimeAgo from 'react-time-ago';
+import VideoCard from '../VideoCard/VideoCard';
 
 export default function OpenVideo() {
     const history = useHistory();
@@ -37,6 +38,7 @@ export default function OpenVideo() {
     const videoDislikes = useSelector(getVideoDislikes);
     const videoLikes = useSelector(getVideoLikes);
     const authorID = useSelector(getVideoAuthorID);
+
     useEffect(() => {
         if (user && videoId) {
             setIsLiked(videoLikes.some(userID => userID === user.uid));
@@ -122,7 +124,7 @@ export default function OpenVideo() {
                             </div>
                         </div>
                         <div className={styles.videoInfo}>
-                            <a className={styles.userLogo} href={`/user/${authorID}`}>{videoAuthor[0]}</a>
+                            <UserLogo author={video.author} authorPhotoURL={video.authorPhotoURL} />
                             <span className={styles.descr}>{videoDescription}</span>
                         </div>
                         <div>
@@ -152,15 +154,12 @@ export default function OpenVideo() {
                             </div>
                         </div>
                     </div> : null}
-                {/* <div className={styles.otherVideos}>
+                <div className={styles.otherVideos}>
+                    <h2>Play next</h2>
                     {videos.length ? videos.map(video => (
-                        <Link to={`/video/${video.id}`} className='link' key={video.id}>
-                            <div>
-                                <VideoCard url={video.url} title={video.title} duration={video.duration} views={video.views} />
-                            </div>
-                        </Link>
-                    )) : null}
-                </div> */}
+                        <VideoCard key={video.id + Math.random()} url={video.url} title={video.title} views={video.views} id={video.id} author={video.author} authorPhotoURL={video.authorPhotoURL} />
+                    )) : <h2>No videos to play next...</h2>}
+                </div>
             </div>
         </>
     );

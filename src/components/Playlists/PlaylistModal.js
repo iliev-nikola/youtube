@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../redux/selectors/user';
 import { Modal, FormControlLabel, Checkbox, TextField, List, Button } from '@material-ui/core';
@@ -9,6 +9,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { deletePlaylist } from '../../service';
 import PopUp from '../OpenVideo/PopupState';
 import { setAlertOn } from '../../redux/actions/alertNotifier';
+import { getPlaylists } from '../../redux/actions/playlists';
 
 export default function PlaylistModal({ video }) {
     const user = useSelector(getUser);
@@ -16,6 +17,12 @@ export default function PlaylistModal({ video }) {
     const dispatch = useDispatch();
     const playlists = useSelector(state => state.playlist.playlists);
     const [open, setOpen] = useState(false);
+
+    useEffect(() => {
+        if (user) {
+            dispatch(getPlaylists(user));
+        }
+    }, [user]);
 
     const handleOpen = () => {
         setOpen(true);
@@ -38,11 +45,14 @@ export default function PlaylistModal({ video }) {
 
     const addOrRemoveVideo = (e, playlist) => {
         if (e.target.checked) {
-            addVideoToPlaylist(video, playlist.playlistID);
-            dispatch(setAlertOn('info', `Added to ${playlist.playlistName}`));
+            if (playlist.videos.some(el => el.authorID === user.uid)) {
+                return;
+            }
+            addVideoToPlaylist(video, playlist.id);
+            dispatch(setAlertOn('info', `Added to ${playlist.name}`));
         } else {
-            removeVideoFromPlaylist(video, playlist.playlistID);
-            dispatch(setAlertOn('info', `Removed from ${playlist.playlistName}`));
+            removeVideoFromPlaylist(video, playlist.id);
+            dispatch(setAlertOn('info', `Removed from ${playlist.name}`));
         }
     }
     const text = 'Sign in to add this video to a playlist.';
@@ -56,7 +66,7 @@ export default function PlaylistModal({ video }) {
     return (
         <div>
             <div className={styles.playlistContainer}>
-                {user ? <>{loggedUserPlaylist}</> : <>{unloggedUserPlaylist}</>}
+                {user ? loggedUserPlaylist : unloggedUserPlaylist}
             </div>
             <Modal
                 open={open}
@@ -68,9 +78,15 @@ export default function PlaylistModal({ video }) {
                     <List>
                         {
                             playlists ? playlists.map((playlist, index) => (
-                                <div className={styles.playlist} key={index}>
-                                    <FormControlLabel key={index} control={<Checkbox onClick={(e) => { addOrRemoveVideo(e, playlist) }} name={playlist.playlistName} value={playlist.playlistName} />} label={playlist.playlistName} />
-                                    <DeleteIcon onClick={() => deletePlaylist(playlist.playlistID)} className={styles.trash} />
+                                <div className={styles.playlist} key={playlist.id}>
+                                    <FormControlLabel
+                                        key={index}
+                                        control={<Checkbox
+                                            onClick={(e) => { addOrRemoveVideo(e, playlist) }}
+                                            name={playlist.name} value={playlist.name}
+                                            checked={playlist.videos.some(el => el.authorID === user.uid)} />}
+                                        label={playlist.name} />
+                                    <DeleteIcon onClick={() => deletePlaylist(playlist.id)} className={styles.trash} />
                                 </div>
                             )) : null}
                     </List>

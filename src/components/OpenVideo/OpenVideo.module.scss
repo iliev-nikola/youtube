@@ -97,7 +97,7 @@ $main-size: 18px;
 
   .mainComm {
     display: flex;
-    align-items: baseline;
+    align-items: center;
   }
 
   .userLogo {
@@ -170,7 +170,14 @@ $main-size: 18px;
 }
 
 .otherVideos {
-  height: 20px;
+  margin-top: 50px;
+  > h2 {
+    color: white;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 400;
+    margin: 15px;
+  }
 }
 
 .opened {
@@ -182,7 +189,7 @@ $main-size: 18px;
 }
 
 .container {
-  margin-top: 100px;
+  margin-top: 70px;
   color: var(--font-color);
 }
 

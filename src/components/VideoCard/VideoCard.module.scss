@@ -1,5 +1,6 @@
 .container {
   margin: 10px;
+  margin-bottom: 30px;
   text-align: center;
   cursor: pointer;
   position: relative;
@@ -7,6 +8,7 @@
 
 .video {
   width: 315px;
+  max-height: 200px;
 }
 
 .duration {
