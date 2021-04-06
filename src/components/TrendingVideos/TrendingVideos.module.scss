@@ -1,0 +1,17 @@
+.videoContainer {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 20px 10px 10px 100px;
+  justify-content: center;
+  // align-items: center;
+  width: 100%;
+}
+
+.welcomeText {
+  padding-left: 100px;
+  margin-top: 70px;
+  color: white;
+  font-size: 26px;
+  font-weight: 400;
+  text-align: center;
+}

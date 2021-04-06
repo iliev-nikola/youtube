@@ -1,36 +1,36 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
-} from "react-router-dom";
+} from 'react-router-dom';
 import './reset.css';
 import SignUp from './Components/SignUp/SignUp';
 import ErrorPage from './Components/ErrorPage/ErrorPage';
 import OpenVideo from './Components/OpenVideo/OpenVideo';
-import SignIn from "./Components/SignIn/SignIn";
+import SignIn from './Components/SignIn/SignIn';
 import ResetPassword from './Components/ResetPassword/ResetPassword';
-import SignOut from "./Components/SignOut/SignOut";
+import SignOut from './Components/SignOut/SignOut';
 import UploadVideo from './Components/UploadVideo/UploadVideo';
-import Search from "./Components/Search/Search";
-import UserProfile from "./Components/UserProfile/UserProfile";
-import { auth } from "./firebase";
+import Search from './Components/Search/Search';
+import UserProfile from './Components/UserProfile/UserProfile';
+import TrendingVideos from './Components/TrendingVideos/TrendingVideos';
+import History from './Components/History/History';
+import { auth } from './firebase';
 import VoiceControl from './Components/VoiceControl/VoiceControl';
-import ProgressBar from "./Components/ProgressBar/ProgressBar";
-import { useDispatch, useSelector } from "react-redux";
+import ProgressBar from './Components/ProgressBar/ProgressBar';
+import { useDispatch, useSelector } from 'react-redux';
 import { setUser, logout } from './redux/actions/user';
 import { getUser } from './redux/selectors/user';
-import { getIsLoading } from "./redux/selectors/loading";
-import HomePage from "./Components/HomePage/HomePage";
-import AlertNotifier from "./Components/common/AlertNotifier";
-import ScrollableTabsButtonAuto from './Components/Playlists/UserPlaylists';
-import { fetchTheme } from "./redux/actions/theme";
-import { fetchVideos } from "./redux/actions/videos";
+import { getIsLoading } from './redux/selectors/loading';
+import HomePage from './Components/HomePage/HomePage';
+import AlertNotifier from './Components/common/AlertNotifier';
+import { fetchTheme } from './redux/actions/theme';
+import { fetchVideos } from './redux/actions/videos';
 import UserPlaylists from './Components/Playlists/UserPlaylists';
 import { getNotifications } from './redux/actions/notifications';
-import { getPlaylists } from "./redux/actions/playlists";
-import { changeThemeColors } from "./utils";
+import { changeThemeColors } from './utils';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -40,7 +40,7 @@ export default function App() {
 
   useEffect(() => {
     dispatch(fetchVideos());
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     if (theme) {
@@ -73,16 +73,18 @@ export default function App() {
         <AlertNotifier />
         <ProgressBar isOn={isLoading} />
         <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route path="/video/:id" component={OpenVideo} />
-          <Route path="/search/:id" component={Search} />
-          <Route exact path="/search">
-            <Redirect to="/" />
+          <Route exact path='/' component={HomePage} />
+          <Route path='/video/:id' component={OpenVideo} />
+          <Route path='/search/:id' component={Search} />
+          <Route exact path='/search'>
+            <Redirect to='/' />
           </Route>
-          <Route path="/upload" component={UploadVideo} />
-          <Route path="/user/:id" component={UserProfile} />
-          <Route path="/library" component={UserPlaylists} />
-          <Route path="/signout"
+          <Route path='/upload' component={UploadVideo} />
+          <Route path='/user/:id' component={UserProfile} />
+          <Route path='/library' component={UserPlaylists} />
+          <Route path='/trending' component={TrendingVideos} />
+          <Route path='/history' component={History} />
+          <Route path='/signout'
             render={() => {
               if (auth.currentUser && user) {
                 return <SignOut />
@@ -91,7 +93,7 @@ export default function App() {
               }
             }}
           />
-          <Route path="/signup"
+          <Route path='/signup'
             render={() => {
               if (auth.currentUser && user) {
                 return <Redirect to='/' />
@@ -99,7 +101,7 @@ export default function App() {
                 return <SignUp />
               }
             }} />
-          <Route path="/signin"
+          <Route path='/signin'
             render={() => {
               if (auth.currentUser && user) {
                 return <Redirect to='/' />
@@ -108,7 +110,7 @@ export default function App() {
               }
             }}
           />
-          <Route path="/reset"
+          <Route path='/reset'
             render={() => {
               if (auth.currentUser && user) {
                 return <Redirect to='/' />
@@ -116,7 +118,7 @@ export default function App() {
                 return <ResetPassword />
               }
             }} />
-          <Route path="*">
+          <Route path='*'>
             <ErrorPage />
           </Route>
         </Switch>

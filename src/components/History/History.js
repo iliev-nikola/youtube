@@ -1,30 +1,40 @@
-import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchVideos } from '../../redux/actions/videos';
 import { getVideos } from '../../redux/selectors/videos';
 import Layout from '../Layout/Layout';
 import VideoCard from '../VideoCard/VideoCard';
 import InfiniteScroll from "react-infinite-scroll-component";
 import { setLoading, setNotLoading } from '../../redux/actions/loadingBar';
 import { setAlertOn } from '../../redux/actions/alertNotifier';
-import styles from './HomePage.module.scss'
+import styles from '../TrendingVideos/TrendingVideos.module.scss';
 import { getUser } from '../../redux/selectors/user';
+import { db } from '../../firebase';
 
-export default function HomePage() {
+export default function History() {
     const dispatch = useDispatch();
     const videos = useSelector(getVideos);
+    const user = useSelector(getUser);
     const [lastVideoIndex, setLastVideoIndex] = useState(0);
     const [visibleVideos, setVisibleVideos] = useState([]);
     const [scrollTop, setScrollTop] = useState(0);
+    const [history, setHistory] = useState([]);
     const [hasMore, setHasMore] = useState(true);
     const videosLimitOnPage = 25;
     const newVideosOnScroll = videos.length < 4 ? videos.length : 4;
 
     useEffect(() => {
-        setVisibleVideos(videos.slice(0, 16));
-        setLastVideoIndex(videos.length < 16 ? 0 : 15);
-    }, [videos.length]);
+        if (user) {
+            const videosRef = db.collection('videos');
+            videosRef.where('isWatchedBy', 'array-contains', user.uid).get()
+                .then(res => res.docs.map(el => el.data()))
+                .then(res => setHistory(res));
+        }
+    }, [user]);
+
+    useEffect(() => {
+        setVisibleVideos(history.slice(0, 16));
+        setLastVideoIndex(history.length < 16 ? 0 : 15);
+    }, [history.length]);
 
     const fetchMoreData = (e) => {
         if (scrollTop > window.scrollY) return;
@@ -54,24 +64,27 @@ export default function HomePage() {
 
     return (
         <Layout>
-            <InfiniteScroll
-                className={styles.videoContainer}
-                dataLength={visibleVideos.length}
-                next={fetchMoreData}
-                hasMore={hasMore}
-                scrollThreshold='1px'
-                onScroll={() => {
-                    if (scrollTop < window.scrollY) {
-                        setScrollTop(window.scrollY);
+            {user ? <>
+                <h1 className={styles.welcomeText}>Your watched videos history...</h1>
+                <InfiniteScroll
+                    className={styles.videoContainer}
+                    dataLength={visibleVideos.length}
+                    next={fetchMoreData}
+                    hasMore={hasMore}
+                    scrollThreshold='1px'
+                    onScroll={() => {
+                        if (scrollTop < window.scrollY) {
+                            setScrollTop(window.scrollY);
+                        }
+                    }}
+                >
+                    {
+                        visibleVideos.map(video => (
+                            <VideoCard key={video.id + Math.random()} url={video.url} title={video.title} views={video.views} id={video.id} author={video.author} authorPhotoURL={video.authorPhotoURL} />
+                        ))
                     }
-                }}
-            >
-                {
-                    visibleVideos.map(video => (
-                        <VideoCard key={video.id + Math.random()} url={video.url} title={video.title} views={video.views} id={video.id} author={video.author} authorPhotoURL={video.authorPhotoURL} />
-                    ))
-                }
-            </InfiniteScroll>
+                </InfiniteScroll>
+            </> : <h1 className={styles.welcomeText}>Sign in first</h1>}
         </Layout >
     )
 }
