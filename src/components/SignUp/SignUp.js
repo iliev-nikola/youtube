@@ -48,6 +48,7 @@ export default function SignUp() {
                 });
             })
             .then(() => {
+                auth.signOut();
                 dispatch(setAlertOn('success', 'Registration successfull'));
                 setFirstName('');
                 setLastName('');

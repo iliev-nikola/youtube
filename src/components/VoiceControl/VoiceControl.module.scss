@@ -8,12 +8,17 @@
   right: 30px;
   width: 50px;
   height: 50px;
-  background: lightcoral;
+  background: rgb(212, 105, 105);
   border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  &:hover {
+    background-color: brown;
+    color: grey;
+  }
 }
 
 @keyframes blinker {

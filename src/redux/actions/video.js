@@ -69,6 +69,7 @@ export const changeViews = () => {
         const videoID = getVideoID(getState());
         const videoViews = getVideoViews(getState());
 
+        // API Request 
         db.collection("videos")
             .doc(videoID)
             .update({ views: videoViews + 1 })
@@ -77,10 +78,12 @@ export const changeViews = () => {
         setTimeout(() => {
             const user = getUser(getState());
             if (user.uid && isWatchedBy && !isWatchedBy.includes(user.uid)) {
+                // API Request
                 db.collection("videos")
                     .doc(videoID)
                     .update({ isWatchedBy: [...isWatchedBy, user.uid] })
                     .then(() => {
+                        // API Request to get ALL
                         dispatch(fetchMyVideos(user.uid));
                     })
                     .catch(err => dispatch(setAlertOn('error', err.message)));

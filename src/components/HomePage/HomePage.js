@@ -17,20 +17,15 @@ export default function HomePage() {
     const [scrollTop, setScrollTop] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const [videosLimitOnPage, setVideosLimitOnPage] = useState(0);
-
-
     const videos = useSelector(getVideos);
     const newVideosOnScroll = videos.length < 4 ? videos.length : 4;
-
-
-
     const dispatch = useDispatch();
 
     // TODO
     useEffect(() => {
         setVisibleVideos(videos.slice(0, 16));
         setLastVideoIndex(videos.length < 16 ? 0 : 15);
-        setVideosLimitOnPage(videos.length * 2);
+        setVideosLimitOnPage(videos.length);
     }, [videos.length]);
 
     const fetchMoreData = () => {
@@ -56,7 +51,7 @@ export default function HomePage() {
         setTimeout(() => {
             setVisibleVideos([...visibleVideos, ...newVideos]);
             dispatch(setNotLoading());
-        }, 1000)
+        }, 1000);
     };
 
     return (

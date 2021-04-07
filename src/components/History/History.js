@@ -11,6 +11,7 @@ import { getUser, getUserLoading } from '../../redux/selectors/user';
 import { db } from '../../firebase';
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 import GuestHeader from '../common/GuestHeader/GuestHeader';
+import { getCurrentUserHistory } from '../../service';
 
 
 export default function History() {
@@ -28,10 +29,7 @@ export default function History() {
 
     useEffect(() => {
         if (user.uid) {
-            const videosRef = db.collection('videos');
-            videosRef.where('isWatchedBy', 'array-contains', user.uid).get()
-                .then(res => res.docs.map(el => el.data()))
-                .then(res => setHistory(res));
+            getCurrentUserHistory.then(res => setHistory(res));
         }
     }, [user.uid]);
 
