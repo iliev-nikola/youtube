@@ -13,17 +13,16 @@ import { getPlaylists } from '../../redux/actions/playlists';
 
 export default function PlaylistModal({ video }) {
     const user = useSelector(getUser);
-    const userID = useSelector(getUserID);
     const [inputValue, setInputValue] = useState('');
     const dispatch = useDispatch();
     const playlists = useSelector(state => state.playlist.playlists);
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        if (userID) {
-            dispatch(getPlaylists(userID));
+        if (user.uid) {
+            dispatch(getPlaylists(user.uid));
         }
-    }, [userID]);
+    }, [user.uid]);
 
     const handleOpen = () => {
         setOpen(true);
@@ -38,7 +37,7 @@ export default function PlaylistModal({ video }) {
     }
 
     const handleKeyPress = (e) => {
-        if ((e.key === 'Enter' || e.type === 'click') && inputValue) {
+        if ((e.key === 'Enter' || e.type === 'click') && inputValue && user.uid) {
             createPlaylist(user, inputValue);
             setInputValue('');
         }
@@ -67,7 +66,7 @@ export default function PlaylistModal({ video }) {
     return (
         <div>
             <div className={styles.playlistContainer}>
-                {user ? loggedUserPlaylist : unloggedUserPlaylist}
+                {user.uid ? loggedUserPlaylist : unloggedUserPlaylist}
             </div>
             <Modal
                 open={open}

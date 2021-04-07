@@ -13,14 +13,13 @@ import GuestHeader from '../common/GuestHeader/GuestHeader';
 export default function UserPlaylists() {
   const dispatch = useDispatch();
   const user = useSelector(getUser);
-  const userID = useSelector(getUserID);
   const isUserLoading = useSelector(getUserLoading);
 
   useEffect(() => {
-    if (userID) {
-      dispatch(getPlaylists(userID));
+    if (user.uid) {
+      dispatch(getPlaylists(user.uid));
     }
-  }, [userID]);
+  }, [user.uid]);
 
   const playlists = useSelector(state => state.playlist.playlists);
 
@@ -44,8 +43,8 @@ export default function UserPlaylists() {
   return (
     <Layout>
       {isUserLoading && <h1 className={styles.welcomeText}>Loading...</h1>}
-      {!isUserLoading && !user && noLoggedInUserPage}
-      {user && (<div className={styles.playlistsContainer}>
+      {!isUserLoading && !user.uid && noLoggedInUserPage}
+      {user.uid && (<div className={styles.playlistsContainer}>
         {playlists && playlists.length ? playlists.map(playlist => (
           <AppBar position="static" color="default" key={playlist.id} >
             <div className={styles.playlistName}>{playlist.name.toUpperCase()}</div>

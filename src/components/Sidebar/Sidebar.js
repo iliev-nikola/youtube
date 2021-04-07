@@ -6,6 +6,7 @@ import blackLogo from '../../assets/blackLogo.png';
 import { useHistory } from "react-router-dom";
 import styles from './Sidebar.module.scss';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Home, VideoLibrary, History, Whatshot } from '@material-ui/icons';
 import { getUser } from '../../redux/selectors/user';
 import GuestHeader from '../common/GuestHeader/GuestHeader';
@@ -44,28 +45,28 @@ export default function Sidebar() {
             <List>
                 <div onClick={toggleDrawer(anchor, false)} className={styles.openLogo}>{mainLogo}</div>
                 <Tooltip title='Home' placement="right">
-                    <a href="/" className={styles.sidebars}>
+                    <Link to="/" className={styles.sidebars}>
                         <Home />
                         <p>Home</p>
-                    </a>
+                    </Link>
                 </Tooltip>
                 <Tooltip title='Library' placement="right">
-                    <a href="/library" className={styles.sidebars}>
+                    <Link to="/library" className={styles.sidebars}>
                         <VideoLibrary />
                         <p>Library</p>
-                    </a>
+                    </Link>
                 </Tooltip>
                 <Tooltip title='History' placement="right">
-                    <a href="/history" className={styles.sidebars}>
+                    <Link to="/history" className={styles.sidebars}>
                         <History />
                         <p>History</p>
-                    </a>
+                    </Link>
                 </Tooltip>
                 <Tooltip title='Trending' placement="right">
-                    <a href="/trending" className={styles.sidebars}>
+                    <Link to="/trending" className={styles.sidebars}>
                         <Whatshot />
                         <p>Trending</p>
-                    </a>
+                    </Link>
                 </Tooltip>
             </List>
         </div>

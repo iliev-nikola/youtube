@@ -3,12 +3,12 @@ import {
 } from '../actions/video';
 
 const INITIAL_STATE = {
-    video: null
+    video: {}
 };
 
 const videoReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
- 
+
         case FETCH_VIDEO:
             return {
                 ...state,

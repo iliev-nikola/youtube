@@ -76,10 +76,13 @@ export const changeViews = () => {
 
         setTimeout(() => {
             const user = getUser(getState());
-            if (user && !isWatchedBy.includes(user.uid)) {
+            if (user.uid && isWatchedBy && !isWatchedBy.includes(user.uid)) {
                 db.collection("videos")
                     .doc(videoID)
                     .update({ isWatchedBy: [...isWatchedBy, user.uid] })
+                    .then(() => {
+                        dispatch(fetchMyVideos(user.uid));
+                    })
                     .catch(err => dispatch(setAlertOn('error', err.message)));
             }
         }, 1000);

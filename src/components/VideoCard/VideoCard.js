@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { timeConvert } from '../../utils';
 import styles from './VideoCard.module.scss';
 import UserLogo from '../common/UserLogo/UserLogo';
+import { Link } from 'react-router-dom';
+
 export default function VideoCard({ url, title, id, views, author, authorPhotoURL }) {
     const [duration, setDuration] = useState(null);
 
@@ -9,7 +11,7 @@ export default function VideoCard({ url, title, id, views, author, authorPhotoUR
         setDuration(timeConvert(e.target.duration));
     };
     return (
-        <a href={`/video/${id}`} className={styles.link}>
+        <Link to={`/video/${id}`} className={styles.link}>
             <div className={styles.container} key={id}>
                 <video
                     title={title}
@@ -31,6 +33,6 @@ export default function VideoCard({ url, title, id, views, author, authorPhotoUR
                     </div>
                 </div>
             </div>
-        </a>
+        </Link>
     );
 }

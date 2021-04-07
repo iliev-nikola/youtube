@@ -1,6 +1,9 @@
 import {
     FETCH_VIDEOS_SUCCEEDED, FETCH_VIDEOS_REQUESTED, FETCH_MY_VIDEOS_SUCCEEDED,
 } from '../actions/videos';
+import {
+    FETCH_VIDEO, INCREASE_VIEWS
+} from '../actions/video';
 
 const INITIAL_STATE = {
     videos: [],
@@ -13,7 +16,9 @@ const reducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
             };
-    
+
+
+
         case FETCH_VIDEOS_SUCCEEDED:
             return {
                 ...state,
@@ -24,7 +29,7 @@ const reducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 myVideos: action.payload,
             };
-       
+
         default:
             return state;
     }

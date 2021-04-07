@@ -9,6 +9,7 @@ import { getUser, getUserLoading } from '../../redux/selectors/user';
 import { getVideosByTitle } from '../../service';
 import Sidebar from '../Sidebar/Sidebar';
 import GuestHeader from '../common/GuestHeader/GuestHeader';
+import { Link } from 'react-router-dom';
 
 export default function Header() {
     const user = useSelector(getUser);
@@ -58,7 +59,7 @@ export default function Header() {
                 <div className={styles.searchContainer}>
                     <input onFocus={onFocus} onBlur={onFocusOut} type="text" placeholder="Search" value={inputSearchValue} onChange={onInputChange} onKeyPress={handleKeyPress}></input>
                     <div className={styles.optionsList}>
-                        {options.length ? options.map(opt => <a key={opt.id} href={`/video/${opt.id}`}>{opt.title}</a>) : null}
+                        {options.length ? options.map(opt => <Link key={opt.id} to={`/video/${opt.id}`}>{opt.title}</Link>) : null}
                     </div>
                     <Tooltip title="Search">
                         <span onClick={handleKeyPress} className={styles.searchCont}><SearchIcon className={styles.searchIcon} fontSize="small" /></span>

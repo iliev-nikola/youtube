@@ -27,13 +27,13 @@ export default function History() {
     const newVideosOnScroll = videos.length < 4 ? videos.length : 4;
 
     useEffect(() => {
-        if (user) {
+        if (user.uid) {
             const videosRef = db.collection('videos');
             videosRef.where('isWatchedBy', 'array-contains', user.uid).get()
                 .then(res => res.docs.map(el => el.data()))
                 .then(res => setHistory(res));
         }
-    }, [user]);
+    }, [user.uid]);
 
     useEffect(() => {
         setVisibleVideos(history.slice(0, 16));
@@ -78,7 +78,7 @@ export default function History() {
     return (
         <Layout>
             {isUserLoading && <p className={styles.welcomeText}>Loading...</p>}
-            {!isUserLoading && user && <>
+            {!isUserLoading && user.uid && <>
                 <h1 className={styles.welcomeText}>Your watched videos history</h1>
                 <InfiniteScroll
                     className={styles.videoContainer}
@@ -99,7 +99,7 @@ export default function History() {
                     }
                 </InfiniteScroll>
             </>}
-            {!isUserLoading && !user && noLoggedInUserPage}
+            {!isUserLoading && !user.uid && noLoggedInUserPage}
         </Layout >
     )
 }

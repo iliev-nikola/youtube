@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, version } from 'react';
 import { Tooltip, Badge, ClickAwayListener } from '@material-ui/core';
 import { VideoCall as VideoCallIcon, Notifications as NotificationsIcon, ExitToApp as ExitToAppIcon, AccountBox as AccountBoxIcon, Cancel, InvertColors as InvertColorsIcon, SettingsInputAntenna } from '@material-ui/icons';
 import styles from './Header.module.scss';
@@ -43,13 +43,13 @@ export default function UserMenu() {
     }, [user.uid]);
 
     useEffect(() => {
-        if (user) {
+        if (user.uid) {
             setUnreadNotifications(notifications.filter(notification => !notification.isRead));
         }
-    }, [user, dispatch, notifications]);
-
+    }, [user.uid, dispatch, notifications]);
+    // version
     const changeTheme = () => {
-        if (user) {
+        if (user.uid) {
             if (theme === 'dark') {
                 updateUserTheme(user, 'light');
             } else {
