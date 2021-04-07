@@ -45,18 +45,13 @@ export default function App() {
     dispatch(fetchVideos());
   }, []);
 
-  useEffect(() => {
-    if (theme) {
-      changeThemeColors(theme);
-    }
-  }, [theme]);
 
   useEffect(() => {
     if (user) {
       changeThemeColors(user.theme);
     }
     dispatch(fetchTheme());
-  }, [dispatch]);
+  }, [user,dispatch]);
 
   useEffect(() => {
     auth.onAuthStateChanged(user => {

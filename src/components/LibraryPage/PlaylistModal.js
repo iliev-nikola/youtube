@@ -45,9 +45,9 @@ export default function PlaylistModal({ video }) {
 
     const addOrRemoveVideo = (e, playlist) => {
         if (e.target.checked) {
-            if (playlist.videos.some(el => el.authorID === user.uid)) {
-                return;
-            }
+            // if (playlist.videos.some(el => el.authorID === user.uid)) {
+            //     return;
+            // }
             addVideoToPlaylist(video, playlist.id);
             dispatch(setAlertOn('info', `Added to ${playlist.name}`));
         } else {
@@ -84,7 +84,7 @@ export default function PlaylistModal({ video }) {
                                         control={<Checkbox
                                             onClick={(e) => { addOrRemoveVideo(e, playlist) }}
                                             name={playlist.name} value={playlist.name}
-                                            checked={playlist.videos.some(el => el.authorID === user.uid)} />}
+                                            checked={playlist.videos.some(el => el.id === video.id)} />}
                                         label={playlist.name} />
                                     <DeleteIcon onClick={() => deletePlaylist(playlist.id)} className={styles.trash} />
                                 </div>
