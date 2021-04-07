@@ -91,8 +91,7 @@ export default function PlaylistModal({ video }) {
                                 </div>
                             )) : null}
                     </List>
-                    <TextField id="standard-basic" placeholder={'Enter playlist name...'} value={inputValue}
-                        onKeyPress={handleKeyPress} onChange={(e) => onInputChange(e)} />
+                    <TextField id="standard-basic" placeholder={'Enter playlist name...'} value={inputValue} onKeyPress={handleKeyPress} onChange={(e) => onInputChange(e)} />
                     <div><Button variant="contained" color="secondary" onClick={handleKeyPress}>CREATE</Button></div>
                 </div>
             </Modal>
