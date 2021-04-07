@@ -6,13 +6,17 @@
   flex-wrap: wrap;
 
   .emptyContainerTitle {
-    color: white;
-    text-align: center;
+    background-color: var(--bg-color-32);    text-align: center;
     font-weight: 400;
     font-size: 30px;
     margin: 0 auto;
   }
 }
+
+:globar(.makeStyles-root-9 > header > div){
+  background-color: var(--bg-color-32);
+}
+
 
 .editContainer {
   display: flex;
@@ -34,7 +38,7 @@
   }
 
   #editButton {
-    color: white;
+    color: var(--header-color);
     cursor: pointer;
     &:hover {
       color: rgba(82, 174, 250, 0.911);
@@ -64,7 +68,7 @@
   }
 
   .infoBox {
-    color: white;
+    color: var(--tit-color);
     margin-left: 20px;
     .names {
       font-size: 30px;
