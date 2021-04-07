@@ -37,24 +37,13 @@ import { getVideosLength } from './redux/selectors/videos';
 export default function App() {
   const dispatch = useDispatch();
   const user = useSelector(getUser);
-  const userID = useSelector(getUserID);
   const isLoading = useSelector(getIsLoading);
-  const theme = useSelector(state => state.theme.theme);
   const videosLength = useSelector(getVideosLength);
 
+  // Initial load of the current user and all videos
   useEffect(() => {
     dispatch(fetchVideos());
-  }, []);
 
-
-  useEffect(() => {
-    if (user) {
-      changeThemeColors(user.theme);
-    }
-    dispatch(fetchTheme());
-  }, [user,dispatch]);
-
-  useEffect(() => {
     auth.onAuthStateChanged(user => {
       if (user) {
         dispatch(setUser(user));
@@ -64,9 +53,19 @@ export default function App() {
     })
   }, []);
 
+
+  useEffect(() => {
+    if (user.theme) {
+      changeThemeColors(user.theme);
+    }
+    dispatch(fetchTheme());
+  }, [user.theme, dispatch]);
+
+
   if (!videosLength) {
     return null;
   }
+
   return (
     <Router>
       <VoiceControl />

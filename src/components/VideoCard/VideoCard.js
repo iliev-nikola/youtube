@@ -4,6 +4,7 @@ import styles from './VideoCard.module.scss';
 import UserLogo from '../common/UserLogo/UserLogo';
 export default function VideoCard({ url, title, id, views, author, authorPhotoURL }) {
     const [duration, setDuration] = useState(null);
+
     const onLoad = (e) => {
         setDuration(timeConvert(e.target.duration));
     };

@@ -66,7 +66,7 @@ export default function Header() {
                 </div>
                 {!isUserLoading ?
                     <div className={styles.userContainer}>
-                        {user ? userHeader : <GuestHeader />}
+                        {user.uid ? userHeader : <GuestHeader />}
                     </div> : <p>Loading</p>}
             </div>
         </div>

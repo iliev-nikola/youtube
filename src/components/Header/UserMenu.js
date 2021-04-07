@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Tooltip, Badge, ClickAwayListener } from '@material-ui/core';
-import { VideoCall as VideoCallIcon, Notifications as NotificationsIcon, ExitToApp as ExitToAppIcon, AccountBox as AccountBoxIcon, Cancel, InvertColors as InvertColorsIcon } from '@material-ui/icons';
+import { VideoCall as VideoCallIcon, Notifications as NotificationsIcon, ExitToApp as ExitToAppIcon, AccountBox as AccountBoxIcon, Cancel, InvertColors as InvertColorsIcon, SettingsInputAntenna } from '@material-ui/icons';
 import styles from './Header.module.scss';
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -37,8 +37,10 @@ export default function UserMenu() {
     };
 
     useEffect(() => {
-        dispatch(getNotifications(user.uid));
-    }, []);
+        if (user.uid) {
+            dispatch(getNotifications(user.uid));
+        }
+    }, [user.uid]);
 
     useEffect(() => {
         if (user) {
@@ -95,7 +97,7 @@ export default function UserMenu() {
                                     <div key={index} className={!notification.isRead ? styles.unread : styles.read}>
                                         <UserLogo author={notification.displayName} authorPhotoURL={notification.photoURL} />
                                         <span className={styles.info}>{`${notification.displayName} ${notification.status} your video `}
-                                         <Link to={`/video/${notification.videoID}`}>{notification.videoTitle}</Link></span>
+                                            <Link to={`/video/${notification.videoID}`}>{notification.videoTitle}</Link></span>
                                         <ReactTimeAgo date={notification.timestamp.toDate()} locale="en-US" />
                                         <Cancel className={styles.cancel} onClick={() => deleteNotification(notification.notID)} />
                                     </div>
@@ -116,7 +118,7 @@ export default function UserMenu() {
                         <Tooltip title="My profile" placement="bottom">
                             {user.photoURL ?
                                 <img className={styles.userPhoto} onClick={handleClickProfile} src={user.photoURL} alt='user logo' />
-                                : <h1 onClick={handleClickProfile} className={styles.userIcon}>{user ? user.displayName[0] : null}</h1>}
+                                : <h1 onClick={handleClickProfile} className={styles.userIcon}>{user.displayName ? user.displayName[0] : null}</h1>}
                         </Tooltip>
                         : null}
                     {openProfile ? (

@@ -12,15 +12,21 @@ import styles from './HomePage.module.scss'
 import { getUser } from '../../redux/selectors/user';
 
 export default function HomePage() {
-    const dispatch = useDispatch();
-    const videos = useSelector(getVideos);
     const [lastVideoIndex, setLastVideoIndex] = useState(0);
     const [visibleVideos, setVisibleVideos] = useState([]);
     const [scrollTop, setScrollTop] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const [videosLimitOnPage, setVideosLimitOnPage] = useState(0);
+
+
+    const videos = useSelector(getVideos);
     const newVideosOnScroll = videos.length < 4 ? videos.length : 4;
 
+
+
+    const dispatch = useDispatch();
+
+    // TODO
     useEffect(() => {
         setVisibleVideos(videos.slice(0, 16));
         setLastVideoIndex(videos.length < 16 ? 0 : 15);
@@ -68,7 +74,7 @@ export default function HomePage() {
             >
                 {
                     visibleVideos.map(video => (
-                        <VideoCard key={video.id + Math.random()} url={video.url} title={video.title} views={video.views} id={video.id} author={video.author} authorPhotoURL={video.authorPhotoURL} />
+                        <VideoCard key={video.id} {...video} />
                     ))
                 }
             </InfiniteScroll>
