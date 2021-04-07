@@ -21,4 +21,4 @@
 
 - Firebase
 
-### Link to hosted project: [YouTube](https://fir-5612c.web.app/)
+<!-- ### Link to hosted project: [YouTube](https://fir-5612c.web.app/) -->

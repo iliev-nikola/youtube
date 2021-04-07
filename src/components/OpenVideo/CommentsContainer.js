@@ -6,16 +6,13 @@ import { Input, Button } from '@material-ui/core';
 import { Edit, Delete } from '@material-ui/icons';
 import styles from './OpenVideo.module.scss';
 import { getUser } from '../../redux/selectors/selectors';
-import { getVideo, getVideoURL, getVideoID, getVideoTitle, getVideoViews, getVideoDescription, getVideoLikes, getVideoDislikes } from '../../redux/selectors/video';
-
-import { updatedNotifications, createComments, dislikeVideo, likeVideo, deleteComment, updateComment, editableComment, uneditableComment } from '../../service';
+import { updatedNotifications, createComments, deleteComment, updateComment, editableComment, uneditableComment } from '../../service';
 import { setAlertOn } from '../../redux/actions/alertNotifier';
 import ReactTimeAgo from 'react-time-ago';
 
 
 
 export default function CommentsContainer({ currentVideo, comments, id }) {
-
     const [inputValue, setInputValue] = useState('');
     const [editedComment, setEditedComment] = useState('');
 
@@ -58,6 +55,7 @@ export default function CommentsContainer({ currentVideo, comments, id }) {
             dispatch(setAlertOn('success', 'Successfully edited comment.'));
         }
     }
+
     return (
         <div>
             <div className={styles.commentsContainer}>

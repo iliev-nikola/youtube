@@ -45,9 +45,6 @@ export default function PlaylistModal({ video }) {
 
     const addOrRemoveVideo = (e, playlist) => {
         if (e.target.checked) {
-            // if (playlist.videos.some(el => el.authorID === user.uid)) {
-            //     return;
-            // }
             addVideoToPlaylist(video, playlist.id);
             dispatch(setAlertOn('info', `Added to ${playlist.name}`));
         } else {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -22,14 +22,13 @@ import VoiceControl from './Components/VoiceControl/VoiceControl';
 import ProgressBar from './Components/ProgressBar/ProgressBar';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser, logout } from './redux/actions/user';
-import { getUser, getUserID } from './redux/selectors/user';
+import { getUser } from './redux/selectors/user';
 import { getIsLoading } from './redux/selectors/loading';
 import HomePage from './Components/HomePage/HomePage';
 import AlertNotifier from './Components/common/AlertNotifier';
 import { fetchTheme } from './redux/actions/theme';
 import { fetchVideos } from './redux/actions/videos';
 import Library from './Components/LibraryPage/UserPlaylists';
-import { getNotifications } from './redux/actions/notifications';
 import { changeThemeColors } from './utils';
 import { deleteNotificationsOlderThanTwoHours } from './service';
 import { getVideosLength } from './redux/selectors/videos';
@@ -50,13 +49,15 @@ export default function App() {
       } else {
         dispatch(logout());
       }
-    })
+    });
   }, []);
 
 
   useEffect(() => {
     if (user.theme) {
       changeThemeColors(user.theme);
+    } else {
+      changeThemeColors('dark');
     }
     dispatch(fetchTheme());
   }, [user.theme, dispatch]);
@@ -101,8 +102,14 @@ export default function App() {
                 return <SignUp />
               }
             }} />
-          <Route path='/signin' component={SignIn}
-          />
+          <Route path='/signin'
+            render={() => {
+              if (auth.currentUser && user) {
+                return <Redirect to='/' />
+              } else {
+                return <SignIn />
+              }
+            }} />
           <Route path='/reset'
             render={() => {
               if (auth.currentUser && user) {

@@ -9,12 +9,10 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Home, VideoLibrary, History, Whatshot } from '@material-ui/icons';
 import { getUser } from '../../redux/selectors/user';
-import GuestHeader from '../common/GuestHeader/GuestHeader';
 
 export default function Sidebar() {
     const history = useHistory();
     const theme = useSelector(state => state.theme.theme);
-    const user = useSelector(getUser);
 
     const [state, setState] = useState(false);
     const toggleDrawer = (anchor, open) => (event) => {

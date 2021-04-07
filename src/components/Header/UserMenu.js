@@ -47,7 +47,7 @@ export default function UserMenu() {
             setUnreadNotifications(notifications.filter(notification => !notification.isRead));
         }
     }, [user.uid, dispatch, notifications]);
-    // version
+
     const changeTheme = () => {
         if (user.uid) {
             if (theme === 'dark') {

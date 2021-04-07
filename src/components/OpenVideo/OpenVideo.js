@@ -18,43 +18,16 @@ import VideoCard from '../VideoCard/VideoCard';
 import CommentsContainer from './CommentsContainer';
 
 export default function OpenVideo() {
-    const history = useHistory();
     const dispatch = useDispatch();
-
     const { id } = useParams();
 
     const [isLiked, setIsLiked] = useState(false);
     const [isDisliked, setIsDisliked] = useState(false);
 
-    const [visibleVideos, setVisibleVideos] = useState('');
-
     const videos = useSelector(getVideos);
-
     const video = useSelector(state => videos.find(video => video.id === id));
-
-
-    // const videosLength = useSelector(getVideosLength);
-
     const comments = useSelector(getVideoComments);
     const user = useSelector(getUser);
-
-    // const userID = useSelector(getUserID);
-
-    // const video = useSelector(getVideo);
-
-    // const videoId = useSelector(getVideoID);
-    // const videoTitle = useSelector(getVideoTitle);
-    // const videoViews = useSelector(getVideoViews);
-    // const videoDescription = useSelector(getVideoDescription);
-    // const videoURL = useSelector(getVideoURL);
-    // const videoDislikes = useSelector(getVideoDislikes);
-    // const videoLikes = useSelector(getVideoLikes);
-
-    // const [editedComment, setEditedComment] = useState('');
-
-    // console.log(111, videos);
-
-
 
     useEffect(() => {
         if (user.uid && video.id) {
@@ -63,8 +36,6 @@ export default function OpenVideo() {
         }
     }, [video.isLikedBy, video.isDislikedBy, video.id, user.uid])
 
-
-
     useEffect(() => {
         dispatch(getComments(id));
     }, [id]);
@@ -72,11 +43,6 @@ export default function OpenVideo() {
     useEffect(() => {
         dispatch(changeViews());
     }, []);
-
-
-
-
-
 
     const likeIt = () => {
         likeVideo(user, video);
