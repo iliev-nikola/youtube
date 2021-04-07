@@ -225,12 +225,12 @@ export default function OpenVideo() {
                             </div>
                         </div>
                     </div> : null}
-                <div className={styles.otherVideos}>
+                {/* <div className={styles.otherVideos}>
                     <h2>Play next</h2>
                     {videos.length ? videos.map(video => (
                         <VideoCard key={video.id + Math.random()} url={video.url} title={video.title} views={video.views} id={video.id} author={video.author} authorPhotoURL={video.authorPhotoURL} />
                     )) : <h2>No videos to play next...</h2>}
-                </div>
+                </div> */}
             </div>
         </>
     );
