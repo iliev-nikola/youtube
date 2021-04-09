@@ -13,9 +13,31 @@
 ### Technologies and libraries:
 
 - React
-- React redux
+- Redux
+- Redux-thunk
 - Material-UI
-- Sass
+- SASS
+- React-dragable
+- React-dropzone
+- React-hover-video-player
+- React-infinite-scroll
+- React-speech-recognition
+- React-time-ago
+- Cron-job.org
+
+### Main functionalities
+
+- Login/Register/Logout/Reset password
+- Login with Facebook, Google and GitHub
+- Upload/Edit/Remove video
+- Add/Edit/Remove comment
+- Like/Dislike video
+- Create playlists
+- Add to playlist
+- Light/Dark screen mode
+- Voice assistant
+- Receive/View/Delete notifications
+- Auto delete notifications
 
 ### Backend service:
 
