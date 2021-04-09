@@ -4,6 +4,8 @@
 
 ### Contributors: [Marina Damyanova](https://github.com/mtdamyanova "Marina Damyanova") & [Nikola Iliev](https://github.com/iliev-nikola "Nikola Iliev")
 
+### Link to hosted project: [here](https://fir-5612c.web.app/)
+
 ### Languages:
 
 - JavaScript
@@ -42,5 +44,3 @@
 ### Backend service:
 
 - Firebase
-
-### Link to hosted project: [YouTube](https://fir-5612c.web.app/)
