@@ -12,7 +12,6 @@ import { getUser, getUserLoading } from '../../redux/selectors/user';
 export default function TrendingVideos() {
     const dispatch = useDispatch();
     const videos = useSelector(getVideos);
-    const user = useSelector(getUser);
     const isUserLoading = useSelector(getUserLoading);
     const [lastVideoIndex, setLastVideoIndex] = useState(0);
     const [visibleVideos, setVisibleVideos] = useState([]);

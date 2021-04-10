@@ -1,7 +1,7 @@
 import Header from '../Header/Header';
 import { Link } from 'react-router-dom';
 
-import { Home, VideoLibrary, History, Whatshot } from '@material-ui/icons';
+import { Home, VideoLibrary, History, Whatshot, Subscriptions } from '@material-ui/icons';
 import { Tooltip } from '@material-ui/core';
 import styles from './Layout.module.scss';
 export default function Layout({ children }) {
@@ -28,6 +28,12 @@ export default function Layout({ children }) {
             <Link to="/trending" className={styles.sidebars}>
                 <Whatshot />
                 <p>Trending</p>
+            </Link>
+        </Tooltip>
+        <Tooltip title='Subscriptions' placement="right">
+            <Link to="/subscriptions" className={styles.sidebars}>
+                <Subscriptions />
+                <p>Subscriptions</p>
             </Link>
         </Tooltip>
     </>);

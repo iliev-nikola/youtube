@@ -68,8 +68,8 @@ export default function HomePage() {
                 }}
             >
                 {
-                    visibleVideos.map(video => (
-                        <VideoCard key={video.id} {...video} />
+                    visibleVideos.map((video, index) => (
+                        <VideoCard key={video.id + index} {...video} />
                     ))
                 }
             </InfiniteScroll>

@@ -1,34 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useParams } from "react-router-dom";
+import firebase from "firebase/app";
+import { useParams, Link } from "react-router-dom";
 import styles from './OpenVideo.module.scss';
 import ReactPlayer from 'react-player';
-import { ThumbDown as ThumbDownIcon, ThumbUp, Edit, Delete } from '@material-ui/icons';
+import { ThumbDown as ThumbDownIcon, ThumbUp } from '@material-ui/icons';
 import PopUp from './PopupState';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeViews, fetchVideo } from '../../redux/actions/video';
+import { changeViews } from '../../redux/actions/video';
 import { getUser, getVideoComments, getVideos } from '../../redux/selectors/selectors';
 import { getComments } from '../../redux/actions/comments';
-import { setAlertOn } from '../../redux/actions/alertNotifier';
-import { getVideo, getVideoURL, getVideoID, getVideoTitle, getVideoViews, getVideoDescription, getVideoLikes, getVideoDislikes } from '../../redux/selectors/video';
 import UserLogo from '../common/UserLogo/UserLogo';
-import { updatedNotifications, createComments, dislikeVideo, likeVideo, deleteComment, updateComment, editableComment, uneditableComment } from '../../service';
+import { updatedNotifications, dislikeVideo, likeVideo, subscribe, removeSubscribe } from '../../service';
 import PlaylistModal from '../LibraryPage/PlaylistModal';
 import Header from '../Header/Header';
 import VideoCard from '../VideoCard/VideoCard';
 import CommentsContainer from './CommentsContainer';
+import { db } from '../../firebase';
 
 export default function OpenVideo() {
     const dispatch = useDispatch();
     const { id } = useParams();
-
     const [isLiked, setIsLiked] = useState(false);
     const [isDisliked, setIsDisliked] = useState(false);
-
+    const [isSubscribed, setIsSubscribed] = useState(false);
     const videos = useSelector(getVideos);
     const video = useSelector(state => videos.find(video => video.id === id));
     const comments = useSelector(getVideoComments);
     const user = useSelector(getUser);
-
     useEffect(() => {
         if (user.uid && video.id) {
             setIsLiked(video.isLikedBy.some(userID => userID === user.uid));
@@ -36,26 +34,44 @@ export default function OpenVideo() {
         }
     }, [video.isLikedBy, video.isDislikedBy, video.id, user.uid])
 
+
+    useEffect(() => {
+        if (user.uid && video.id) {
+            setIsSubscribed(user.subscribes.some(id => id === video.authorID));
+            console.log(user.subscribes);
+        }
+    }, [video.id, user.uid, user.subscribes, video.authorID])
+
     useEffect(() => {
         dispatch(getComments(id));
     }, [id]);
 
     useEffect(() => {
-        dispatch(changeViews());
+        dispatch(changeViews(video));
     }, []);
 
     const likeIt = () => {
         likeVideo(user, video);
         updatedNotifications(video, user, 'like');
-        setIsLiked(video.isLikedBy.some(userID => userID === user.uid));
-        setIsDisliked(video.isDislikedBy.some(userID => userID === user.uid));
+        setIsLiked(true);
+        setIsDisliked(false);
     }
 
     const dislikeIt = () => {
         dislikeVideo(user, video);
         updatedNotifications(video, user, 'dislike');
-        setIsLiked(video.isLikedBy.some(userID => userID === user.uid));
-        setIsDisliked(video.isDislikedBy.some(userID => userID === user.uid));
+        setIsLiked(false);
+        setIsDisliked(true);
+    }
+
+    const subscribeIt = () => {
+        subscribe(user, video);
+        setIsSubscribed(true);
+    }
+
+    const unsubscribeIt = () => {
+        removeSubscribe(user, video);
+        setIsSubscribed(false);
     }
 
     const text = 'Sign in to make your opinion count.';
@@ -86,15 +102,19 @@ export default function OpenVideo() {
                         <div className={styles.likesContainer}>
                             <div className={styles.views}>{video.views} views</div>
                             <div className={styles.thumbs}>
-                                {user ? <>{numberLikes}</> : <>{loggedNumberLikes}</>}
-                                {user ? <>{numberDislikes}</> : <>{loggedNumberDIslikes}</>}
+                                {user.uid ? <>{numberLikes}</> : <>{loggedNumberLikes}</>}
+                                {user.uid ? <>{numberDislikes}</> : <>{loggedNumberDIslikes}</>}
                                 {video ? <PlaylistModal video={video} /> : null}
                             </div>
                         </div>
                     </div>
                     <div className={styles.videoInfo}>
-                        <UserLogo author={video.author} authorPhotoURL={video.authorPhotoURL} className />
-                        <span className={styles.descr}>{video.description}</span>
+                        <div>
+                            <Link to={`/user/${video.authorID}`}><UserLogo author={video.author} authorPhotoURL={video.authorPhotoURL} /></Link>
+                            <span className={styles.descr}>{video.description}</span>
+                        </div>
+                        {isSubscribed ? <div className={styles.unsubscribe} onClick={() => unsubscribeIt()}>SUBSCRIBED</div> : <div className={styles.subscribe}
+                            onClick={() => subscribeIt()}>SUBSCRIBE</div>}
                     </div>
                     <CommentsContainer currentVideo={video} comments={comments} id={id} />
                 </div>
@@ -102,7 +122,7 @@ export default function OpenVideo() {
                 {/* TODO: Separate in new component */}
                 <div className={styles.otherVideos}>
                     <h2>Play next</h2>
-                    {videos.length ? videos.map(video => (
+                    {videos.length ? videos.slice(0, 10).map(video => (
                         <VideoCard key={video.id + Math.random()} url={video.url} title={video.title} views={video.views} id={video.id} author={video.author} authorPhotoURL={video.authorPhotoURL} />
                     )) : <h2>No videos to play next...</h2>}
                 </div>

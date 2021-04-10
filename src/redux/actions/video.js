@@ -63,27 +63,20 @@ export const deleteIt = (video, uid) => {
     }
 };
 
-export const changeViews = () => {
+export const changeViews = (video) => {
     return function (dispatch, getState) {
-        const isWatchedBy = getVideoWatched(getState());
-        const videoID = getVideoID(getState());
-        const videoViews = getVideoViews(getState());
-
-        // API Request 
         db.collection("videos")
-            .doc(videoID)
-            .update({ views: videoViews + 1 })
+            .doc(video.id)
+            .update({ views: video.views + 1 })
             .catch(err => dispatch(setAlertOn('error', err.message)));
 
         setTimeout(() => {
             const user = getUser(getState());
-            if (user.uid && isWatchedBy && !isWatchedBy.includes(user.uid)) {
-                // API Request
+            if (user.uid && video.isWatchedBy && !video.isWatchedBy.includes(user.uid)) {
                 db.collection("videos")
-                    .doc(videoID)
-                    .update({ isWatchedBy: [...isWatchedBy, user.uid] })
+                    .doc(video.id)
+                    .update({ isWatchedBy: [...video.isWatchedBy, user.uid] })
                     .then(() => {
-                        // API Request to get ALL
                         dispatch(fetchMyVideos(user.uid));
                     })
                     .catch(err => dispatch(setAlertOn('error', err.message)));

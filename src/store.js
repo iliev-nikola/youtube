@@ -9,6 +9,7 @@ import alertReducer from "./redux/reducers/alertNotifier";
 import notificationReducer from './redux/reducers/notifications';
 import playlistReducer from './redux/reducers/playlists';
 import videoReducer from './redux/reducers/video';
+import subscribesReducer from './redux/reducers/subscribes';
 // make store reducer keys singular instead plural
 const rootReducer = combineReducers({
   videos: videosReducer,
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
   alert: alertReducer,
   notification: notificationReducer,
   playlist: playlistReducer,
-  video: videoReducer
+  video: videoReducer,
+  subscribes: subscribesReducer
 });
 
 const store = createStore(

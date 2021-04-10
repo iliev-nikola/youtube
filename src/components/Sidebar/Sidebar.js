@@ -7,7 +7,7 @@ import { useHistory } from "react-router-dom";
 import styles from './Sidebar.module.scss';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Home, VideoLibrary, History, Whatshot } from '@material-ui/icons';
+import { Home, VideoLibrary, History, Whatshot, Subscriptions } from '@material-ui/icons';
 import { getUser } from '../../redux/selectors/user';
 
 export default function Sidebar() {
@@ -66,6 +66,13 @@ export default function Sidebar() {
                         <p>Trending</p>
                     </Link>
                 </Tooltip>
+                <Tooltip title='Subscriptions' placement="right">
+                    <Link to="/subscriptions" className={styles.sidebars}>
+                        <Subscriptions />
+                        <p>Subscriptions</p>
+                    </Link>
+                </Tooltip>
+
             </List>
         </div>
     );

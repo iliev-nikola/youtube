@@ -29,7 +29,10 @@ export default function History() {
 
     useEffect(() => {
         if (user.uid) {
-            getCurrentUserHistory.then(res => setHistory(res));
+            const videosRef = db.collection('videos');
+            videosRef.where('isWatchedBy', 'array-contains', user.uid).get()
+                .then(res => res.docs.map(el => el.data()))
+                .then(res => setHistory(res));
         }
     }, [user.uid]);
 

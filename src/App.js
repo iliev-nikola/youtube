@@ -32,6 +32,9 @@ import Library from './Components/LibraryPage/UserPlaylists';
 import { changeThemeColors } from './utils';
 import { deleteNotificationsOlderThanTwoHours } from './service';
 import { getVideosLength } from './redux/selectors/videos';
+import { showSubscribes } from './redux/actions/subscribes';
+import Subscriptions from './Components/Subscriptions/Subscriptions';
+
 
 export default function App() {
   const dispatch = useDispatch();
@@ -51,7 +54,6 @@ export default function App() {
       }
     });
   }, []);
-
 
   useEffect(() => {
     if (user.theme) {
@@ -85,6 +87,7 @@ export default function App() {
           <Route path='/library' component={Library} />
           <Route path='/trending' component={TrendingVideos} />
           <Route path='/history' component={History} />
+          <Route path='/subscriptions' component={Subscriptions}/>
           <Route path='/signout'
             render={() => {
               if (auth.currentUser && user) {
