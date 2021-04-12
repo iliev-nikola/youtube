@@ -41,16 +41,21 @@ export default function FormDialog({ handleClose, onEditClick, open, video }) {
         <Dialog
             open={open}
             onClose={handleClose}
-            aria-labelledby="dialog-title"
+            aria-labelledby="dialogTitle"
             fullWidth
         >
             <div className={styles.formDialog}>
-                <DialogTitle id="dialog-title">
-                    Update
-                    </DialogTitle>
+                <DialogTitle id="dialogTitle">
+                    Update this video?
+                </DialogTitle>
                 <DialogContent>
+                    Old title:
                     <DialogContentText>
                         {video ? video.title : null}
+                    </DialogContentText>
+                        Old description:
+                    <DialogContentText>
+                        {video ? video.description : null}
                     </DialogContentText>
                 </DialogContent>
                 <div className={styles.inputs}>

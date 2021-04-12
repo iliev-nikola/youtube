@@ -12,16 +12,15 @@ import Layout from '../Layout/Layout';
 import VideoCard from '../VideoCard/VideoCard';
 
 export default function HomePage() {
+    const dispatch = useDispatch();
+    const videos = useSelector(getVideos);
     const [lastVideoIndex, setLastVideoIndex] = useState(0);
     const [visibleVideos, setVisibleVideos] = useState([]);
     const [scrollTop, setScrollTop] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const [videosLimitOnPage, setVideosLimitOnPage] = useState(0);
-    const videos = useSelector(getVideos);
     const newVideosOnScroll = videos.length < 4 ? videos.length : 4;
-    const dispatch = useDispatch();
 
-    // TODO
     useEffect(() => {
         setVisibleVideos(videos.slice(0, 16));
         setLastVideoIndex(videos.length < 16 ? 0 : 15);

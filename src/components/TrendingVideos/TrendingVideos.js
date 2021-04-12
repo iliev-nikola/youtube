@@ -21,7 +21,7 @@ export default function TrendingVideos() {
     const [scrollTop, setScrollTop] = useState(0);
     const [sorted, setSorted] = useState([]);
     const [hasMore, setHasMore] = useState(true);
-    const videosLimitOnPage = 25;
+    const [videosLimitOnPage, setVideosLimitOnPage] = useState(0);
     const newVideosOnScroll = videos.length < 4 ? videos.length : 4;
 
     useEffect(() => {
@@ -31,9 +31,10 @@ export default function TrendingVideos() {
     useEffect(() => {
         setVisibleVideos(sorted.slice(0, 16));
         setLastVideoIndex(sorted.length < 16 ? 0 : 15);
+        setVideosLimitOnPage(videos.length);
     }, [sorted.length]);
 
-    const fetchMoreData = (e) => {
+    const fetchMoreData = () => {
         if (scrollTop > window.scrollY) return;
         if (visibleVideos.length > videosLimitOnPage) {
             dispatch(setAlertOn('info', 'No more videos to show. Check again later or upload some.'));

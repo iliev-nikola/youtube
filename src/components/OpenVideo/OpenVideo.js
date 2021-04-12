@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import styles from './OpenVideo.module.scss';
 // service
-import { updatedNotifications, dislikeVideo, likeVideo, subscribe, removeSubscribe } from '../../service/service';
+import { updateNotifications, dislikeVideo, likeVideo, subscribe, unsubscribe } from '../../service/service';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import { changeViews } from '../../redux/actions/video';
@@ -17,9 +17,9 @@ import ReactPlayer from 'react-player';
 import PopUp from './PopupState';
 import PlaylistModal from '../LibraryPage/PlaylistModal';
 import Header from '../Header/Header';
-import VideoCard from '../VideoCard/VideoCard';
 import CommentsContainer from './CommentsContainer';
 import UserLogo from '../common/UserLogo/UserLogo';
+import PlayNextVideos from './PlayNextVideos';
 
 export default function OpenVideo() {
     const dispatch = useDispatch();
@@ -38,26 +38,22 @@ export default function OpenVideo() {
         }
     }, [video.isLikedBy, video.isDislikedBy, video.id, user.uid]);
 
-
-    // useEffect(() => {
-    //     if (user.uid && video.id) {
-    //         setIsSubscribed(user.subscribes.some(id => id === video.authorID));
-    //         console.log(user.subscribes);
-    //     }
-    // }, [video.id, user.uid, user.subscribes, video.authorID]);
+    useEffect(() => {
+        if (user.uid && video.id) {
+            setIsSubscribed(user.subscribes.some(id => id === video.authorID));
+            console.log(user.subscribes);
+        }
+    }, [video.id, user.uid, user.subscribes, video.authorID]);
 
     useEffect(() => {
         dispatch(getComments(id));
-    }, [id]);
-
-    useEffect(() => {
         dispatch(changeViews(video));
     }, []);
 
     const likeIt = () => {
         if (isLiked) return;
         likeVideo(user, video);
-        updatedNotifications(video, user, 'like');
+        updateNotifications(video, user, 'like');
         setIsLiked(true);
         setIsDisliked(false);
     }
@@ -65,7 +61,7 @@ export default function OpenVideo() {
     const dislikeIt = () => {
         if (isDisliked) return;
         dislikeVideo(user, video);
-        updatedNotifications(video, user, 'dislike');
+        updateNotifications(video, user, 'dislike');
         setIsDisliked(true);
         setIsLiked(false);
     }
@@ -76,7 +72,7 @@ export default function OpenVideo() {
     }
 
     const unsubscribeIt = () => {
-        removeSubscribe(user, video);
+        unsubscribe(user, video);
         setIsSubscribed(false);
     }
 
@@ -119,19 +115,13 @@ export default function OpenVideo() {
                             <Link to={`/user/${video.authorID}`}><UserLogo author={video.author} authorPhotoURL={video.authorPhotoURL} /></Link>
                             <span className={styles.descr}>{video.description}</span>
                         </div>
-                        {isSubscribed ? <div className={styles.unsubscribe} onClick={() => unsubscribeIt()}>SUBSCRIBED</div> : <div className={styles.subscribe}
-                            onClick={() => subscribeIt()}>SUBSCRIBE</div>}
+                        {isSubscribed ? <div className={styles.unsubscribe} onClick={unsubscribeIt} title='Click for unsubscribe'>SUBSCRIBED</div> : <div className={styles.subscribe}
+                            onClick={subscribeIt} title='Click for subscribe'>SUBSCRIBE</div>}
                     </div>
                     <CommentsContainer currentVideo={video} comments={comments} id={id} />
                 </div>
 
-                {/* TODO: Separate in new component */}
-                <div className={styles.otherVideos}>
-                    <h2>Play next</h2>
-                    {videos.length ? videos.slice(0, 10).map(video => (
-                        <VideoCard key={video.id + Math.random()} url={video.url} title={video.title} views={video.views} id={video.id} author={video.author} authorPhotoURL={video.authorPhotoURL} />
-                    )) : <h2>No videos to play next...</h2>}
-                </div>
+                <PlayNextVideos />
             </div>
         </>
     );

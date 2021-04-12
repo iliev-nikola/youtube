@@ -70,6 +70,9 @@ $main-size: 18px;
     padding: 10px;
     margin-right: 10px;
     cursor: pointer;
+    &:hover {
+      background: rgb(250, 32, 32);
+    }
   }
 
   .unsubscribe {

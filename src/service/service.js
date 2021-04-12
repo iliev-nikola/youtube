@@ -10,12 +10,12 @@ export function setNotificationsRead() {
         .then(res => {
             res.forEach(el => {
                 db.collection('notifications').doc(el.notID).update({ isRead: true });
-            })
+            });
         })
         .catch(err => console.log('error', err.message));
 }
 
-export function updatedNotifications(video, user, status) {
+export function updateNotifications(video, user, status) {
     const id = generateId();
     const now = Date.now();
     const notificationsData = {
@@ -32,16 +32,16 @@ export function updatedNotifications(video, user, status) {
     }
     db.collection('notifications').doc(id).set(notificationsData)
         .then(() => {
-            db.collection('notifications')
-                .where('authorID', '==', user.uid)
-                .get()
-                .then((notifications) => {
-                    let dbNotifications = [];
-                    notifications.forEach((doc) => {
-                        dbNotifications.push(doc.data());
-                    });
-                })
-                .catch(err => console.log('error', err.message));
+            // db.collection('notifications')
+            //     .where('authorID', '==', user.uid)
+            //     .get()
+            //     .then((notifications) => {
+            //         let dbNotifications = [];
+            //         notifications.forEach((doc) => {
+            //             dbNotifications.push(doc.data());
+            //         });
+            //     })
+            //     .catch(err => console.log('error', err.message));
         })
         .catch(err => console.log('error', err.message));
 }
@@ -79,17 +79,17 @@ export function createComments(videoID, user, inputValue) {
     }
     db.collection('comments').doc(id).set(commentData)
         .then(() => {
-            db.collection('comments')
-                .where('videoID', '==', id)
-                .get()
-                .then((comments) => {
-                    let dbComments = [];
-                    comments.forEach((doc) => {
-                        dbComments.push(doc.data());
-                    });
+            // db.collection('comments')
+            //     .where('videoID', '==', id)
+            //     .get()
+            //     .then((comments) => {
+            //         let dbComments = [];
+            //         comments.forEach((doc) => {
+            //             dbComments.push(doc.data());
+            //         });
 
-                })
-                .catch(err => console.log('error', err.message));
+            //     })
+            //     .catch(err => console.log('error', err.message));
         })
         .catch(err => console.log('error', err.message));
 }
@@ -245,6 +245,15 @@ export function getCurrentUserLiked(id) {
     return videosRef.where('isLikedBy', 'array-contains', id).get().then(res => res.docs.map(el => el.data()));
 }
 
+// finish that function to return an array with fresh video objects
+// must get the playlist name and user names and photoURL also
+export function getCurrentUserLibrary(id) {
+    const videosRef = db.collection('videos');
+    const libraryRef = db.collection('playlists');
+    return libraryRef.where('authorID', '==', id).get()
+        .then(res => res.docs.map(el => el.data())) // here we return an array with author ID strings
+}
+
 // SUBSCRIBES
 export function subscribe(user, video) {
     db.collection('users')
@@ -254,7 +263,7 @@ export function subscribe(user, video) {
         })
 }
 
-export function removeSubscribe(user, video) {
+export function unsubscribe(user, video) {
     db.collection('users')
         .doc(user.uid)
         .update({

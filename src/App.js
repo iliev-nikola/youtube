@@ -124,7 +124,7 @@ export default function App() {
                 return <ResetPassword />
               }
             }} />
-          <Route path='/auto-delete-notifications'>
+          <Route exact path='/auto-delete-notifications'>
             {deleteNotificationsOlderThanTwoHours()}
           </Route>
           <Route path='*'>

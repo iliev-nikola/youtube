@@ -29,7 +29,7 @@ export const fetchVideos = () => {
             snapshot.docs.map(doc => (dbVideos.push({ ...doc.data() })))
             dispatch(fetchVideosSucceeded(dbVideos));
             dispatch(setNotLoading());
-        })
+        });
     }
 };
 
