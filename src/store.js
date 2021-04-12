@@ -1,15 +1,16 @@
-import { createStore, combineReducers, applyMiddleware, compose } from "redux";
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import themeReducer from './redux/reducers/theme';
 import videosReducer from './redux/reducers/videos';
 import userReducer from './redux/reducers/user';
 import commentsReducer from './redux/reducers/comments';
 import loadingReducer from './redux/reducers/loadingBar';
-import alertReducer from "./redux/reducers/alertNotifier";
+import alertReducer from './redux/reducers/alertNotifier';
 import notificationReducer from './redux/reducers/notifications';
 import playlistReducer from './redux/reducers/playlists';
 import videoReducer from './redux/reducers/video';
-// make store reducer keys singular instead plural
+import subscribesReducer from './redux/reducers/subscribes';
+
 const rootReducer = combineReducers({
   videos: videosReducer,
   user: userReducer,
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
   alert: alertReducer,
   notification: notificationReducer,
   playlist: playlistReducer,
-  video: videoReducer
+  video: videoReducer,
+  subscribes: subscribesReducer
 });
 
 const store = createStore(

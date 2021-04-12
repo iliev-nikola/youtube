@@ -1,15 +1,15 @@
-import { Link } from 'react-router-dom';
+// react
 import { useEffect, useState } from 'react';
+import styles from './HomePage.module.scss'
+// redux
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchVideos } from '../../redux/actions/videos';
 import { getVideos } from '../../redux/selectors/videos';
-import Layout from '../Layout/Layout';
-import VideoCard from '../VideoCard/VideoCard';
-import InfiniteScroll from "react-infinite-scroll-component";
 import { setLoading, setNotLoading } from '../../redux/actions/loadingBar';
 import { setAlertOn } from '../../redux/actions/alertNotifier';
-import styles from './HomePage.module.scss'
-import { getUser } from '../../redux/selectors/user';
+// components
+import InfiniteScroll from 'react-infinite-scroll-component';
+import Layout from '../Layout/Layout';
+import VideoCard from '../VideoCard/VideoCard';
 
 export default function HomePage() {
     const [lastVideoIndex, setLastVideoIndex] = useState(0);
@@ -68,8 +68,8 @@ export default function HomePage() {
                 }}
             >
                 {
-                    visibleVideos.map(video => (
-                        <VideoCard key={video.id} {...video} />
+                    visibleVideos.map((video, index) => (
+                        <VideoCard key={video.id + index} {...video} />
                     ))
                 }
             </InfiniteScroll>

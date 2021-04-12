@@ -1,13 +1,15 @@
+// react
 import React, { useEffect } from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import VideoCard from '../VideoCard/VideoCard';
-import { useDispatch, useSelector } from 'react-redux';
-import Layout from '../Layout/Layout';
 import styles from './Playlists.module.scss';
+// redux
+import { useDispatch, useSelector } from 'react-redux';
 import { getPlaylists } from '../../redux/actions/playlists';
-import { getUser, getUserID, getUserLoading } from '../../redux/selectors/user';
+import { getUser, getUserLoading } from '../../redux/selectors/user';
+// components
+import { AppBar, Tabs } from '@material-ui/core';
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
+import VideoCard from '../VideoCard/VideoCard';
+import Layout from '../Layout/Layout';
 import GuestHeader from '../common/GuestHeader/GuestHeader';
 
 export default function UserPlaylists() {

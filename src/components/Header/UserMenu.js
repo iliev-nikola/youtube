@@ -1,15 +1,19 @@
-import React, { useState, useEffect, version } from 'react';
-import { Tooltip, Badge, ClickAwayListener } from '@material-ui/core';
-import { VideoCall as VideoCallIcon, Notifications as NotificationsIcon, ExitToApp as ExitToAppIcon, AccountBox as AccountBoxIcon, Cancel, InvertColors as InvertColorsIcon, SettingsInputAntenna } from '@material-ui/icons';
+// react
+import React, { useState, useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import styles from './Header.module.scss';
-import { Link, useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import ReactTimeAgo from 'react-time-ago';
+// service
+import { deleteNotification, setNotificationsRead, updateUserTheme } from '../../service';
+// redux
+import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../redux/selectors/user';
 import { getNotifications } from '../../redux/actions/notifications';
-import { deleteNotification, setNotificationsRead, updateUserTheme } from '../../service';
-import UserLogo from '../common/UserLogo/UserLogo';
-import ReactTimeAgo from 'react-time-ago';
 import { setDarkTheme, setLightTheme } from '../../redux/actions/theme';
+// components
+import { Tooltip, Badge, ClickAwayListener } from '@material-ui/core';
+import { VideoCall as VideoCallIcon, Notifications as NotificationsIcon, ExitToApp as ExitToAppIcon, AccountBox as AccountBoxIcon, Cancel, InvertColors as InvertColorsIcon } from '@material-ui/icons';
+import UserLogo from '../common/UserLogo/UserLogo';
 
 export default function UserMenu() {
     const history = useHistory();

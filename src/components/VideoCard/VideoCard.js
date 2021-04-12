@@ -1,8 +1,11 @@
+// react
 import React, { useState } from 'react';
-import { timeConvert } from '../../utils';
-import styles from './VideoCard.module.scss';
-import UserLogo from '../common/UserLogo/UserLogo';
 import { Link } from 'react-router-dom';
+import styles from './VideoCard.module.scss';
+// utils
+import { timeConvert } from '../../utils';
+// components
+import UserLogo from '../common/UserLogo/UserLogo';
 
 export default function VideoCard({ url, title, id, views, author, authorPhotoURL }) {
     const [duration, setDuration] = useState(null);

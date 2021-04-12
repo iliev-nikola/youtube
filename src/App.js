@@ -1,3 +1,4 @@
+// react
 import React, { useEffect } from 'react';
 import {
   BrowserRouter as Router,
@@ -6,32 +7,38 @@ import {
   Redirect,
 } from 'react-router-dom';
 import './reset.css';
-import SignUp from './Components/SignUp/SignUp';
-import ErrorPage from './Components/ErrorPage/ErrorPage';
-import OpenVideo from './Components/OpenVideo/OpenVideo';
-import SignIn from './Components/SignIn/SignIn';
-import ResetPassword from './Components/ResetPassword/ResetPassword';
-import SignOut from './Components/SignOut/SignOut';
-import UploadVideo from './Components/UploadVideo/UploadVideo';
-import Search from './Components/Search/Search';
-import UserProfile from './Components/UserProfile/UserProfile';
-import TrendingVideos from './Components/TrendingVideos/TrendingVideos';
-import History from './Components/History/History';
+// service
+import { deleteNotificationsOlderThanTwoHours } from './service';
 import { auth } from './firebase';
-import VoiceControl from './Components/VoiceControl/VoiceControl';
-import ProgressBar from './Components/ProgressBar/ProgressBar';
+// utils
+import { changeThemeColors } from './utils';
+// redux
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser, logout } from './redux/actions/user';
 import { getUser } from './redux/selectors/user';
 import { getIsLoading } from './redux/selectors/loading';
-import HomePage from './Components/HomePage/HomePage';
-import AlertNotifier from './Components/common/AlertNotifier';
 import { fetchTheme } from './redux/actions/theme';
 import { fetchVideos } from './redux/actions/videos';
-import Library from './Components/LibraryPage/UserPlaylists';
-import { changeThemeColors } from './utils';
-import { deleteNotificationsOlderThanTwoHours } from './service';
 import { getVideosLength } from './redux/selectors/videos';
+import { showSubscribes } from './redux/actions/subscribes';
+// components
+import SignUp from './components/SignUp/SignUp';
+import ErrorPage from './components/ErrorPage/ErrorPage';
+import OpenVideo from './components/OpenVideo/OpenVideo';
+import SignIn from './components/SignIn/SignIn';
+import ResetPassword from './components/ResetPassword/ResetPassword';
+import SignOut from './components/SignOut/SignOut';
+import UploadVideo from './components/UploadVideo/UploadVideo';
+import Search from './components/Search/Search';
+import UserProfile from './components/UserProfile/UserProfile';
+import TrendingVideos from './components/TrendingVideos/TrendingVideos';
+import History from './components/History/History';
+import VoiceControl from './components/VoiceControl/VoiceControl';
+import ProgressBar from './components/ProgressBar/ProgressBar';
+import HomePage from './components/HomePage/HomePage';
+import AlertNotifier from './components/common/AlertNotifier';
+import Library from './components/LibraryPage/UserPlaylists';
+import Subscriptions from './components/Subscriptions/Subscriptions';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -52,7 +59,7 @@ export default function App() {
     });
   }, []);
 
-
+  // Initial load of the theme
   useEffect(() => {
     if (user.theme) {
       changeThemeColors(user.theme);
@@ -61,7 +68,6 @@ export default function App() {
     }
     dispatch(fetchTheme());
   }, [user.theme, dispatch]);
-
 
   if (!videosLength) {
     return null;
@@ -85,6 +91,7 @@ export default function App() {
           <Route path='/library' component={Library} />
           <Route path='/trending' component={TrendingVideos} />
           <Route path='/history' component={History} />
+          <Route path='/subscriptions' component={Subscriptions} />
           <Route path='/signout'
             render={() => {
               if (auth.currentUser && user) {

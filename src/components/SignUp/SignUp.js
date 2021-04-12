@@ -1,14 +1,17 @@
+// react
 import React, { useState } from 'react';
-import { TextField, Button, Snackbar } from '@material-ui/core';
+import { Link, useHistory } from 'react-router-dom';
 import styles from './SignUp.module.scss';
+// service
 import { auth } from '../../firebase';
-import { Link, useHistory } from "react-router-dom";
+// utils
 import { validateEmail } from '../../utils';
-import logoBlack from '../../assets/logoBlack.png';
-import { Alert } from '@material-ui/lab';
+// redux
 import { useDispatch } from 'react-redux';
 import { setAlertOn } from '../../redux/actions/alertNotifier';
-
+// components
+import logoBlack from '../../assets/logoBlack.png';
+import { TextField, Button } from '@material-ui/core';
 
 export default function SignUp() {
     const history = useHistory();
@@ -42,7 +45,6 @@ export default function SignUp() {
             .then((res) => {
                 const displayName = firstName[0].toUpperCase() + firstName.slice(1).toLowerCase() + ' ' + lastName[0].toUpperCase() + lastName.slice(1).toLowerCase();
                 const user = res.user;
-                console.log(user, displayName)
                 return user.updateProfile({
                     displayName: displayName
                 });

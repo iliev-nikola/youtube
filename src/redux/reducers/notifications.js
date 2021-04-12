@@ -1,10 +1,7 @@
-import {
-    SHOW_NOTIFICATIONS
-} from '../actions/notifications';
+import { SHOW_NOTIFICATIONS } from '../actions/notifications';
 
 const INITIAL_STATE = {
     notifications: []
-    
 };
 
 const notificationReducer = (state = INITIAL_STATE, action) => {

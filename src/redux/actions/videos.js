@@ -1,12 +1,10 @@
 import { db } from '../../firebase';
 import { setLoading, setNotLoading } from '../actions/loadingBar';
 import { setAlertOn } from './alertNotifier';
+
 export const FETCH_VIDEOS_SUCCEEDED = 'FETCH_VIDEOS_SUCCEEDED';
 export const FETCH_VIDEOS_REQUESTED = 'FETCH_VIDEOS_REQUESTED';
-
 export const FETCH_MY_VIDEOS_SUCCEEDED = 'FETCH_MY_VIDEOS_SUCCEEDED';
-
-
 
 export const fetchVideosRequested = () => ({
     type: FETCH_VIDEOS_REQUESTED,
@@ -48,6 +46,4 @@ export const fetchMyVideos = (uid) => {
             })
             .catch(err => dispatch(setAlertOn('error', err.message)));
     }
-}
-
-
+};

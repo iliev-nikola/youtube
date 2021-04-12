@@ -1,7 +1,8 @@
-import styles from './VoiceControl.module.scss';
 import { useState } from 'react';
-import { useHistory } from "react-router";
+import { useHistory } from 'react-router';
+import styles from './VoiceControl.module.scss';
 import MicIcon from '@material-ui/icons/Mic';
+
 const SpeechRecognition =
   window.SpeechRecognition || window.webkitSpeechRecognition;
 
@@ -24,8 +25,6 @@ export default function VoiceControl() {
 
   recognition.onresult = (ev) => {
     const command = ev.results[0][0].transcript;
-    const params = command.split(' ').join('+');
-    //  history.push('/search/' + params);
     if (command.includes("home") || command.includes("go to home") || command.includes("back to home") || command.includes("home page")) {
       history.push('/');
     }
@@ -38,7 +37,7 @@ export default function VoiceControl() {
     if (command.includes("upload") || command.includes("go to upload") || command.includes("back to upload") || command.includes("upload page")) {
       history.push('/upload');
     }
-   
+
   }
   return (
     <>

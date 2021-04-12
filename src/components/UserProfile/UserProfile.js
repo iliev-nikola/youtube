@@ -1,12 +1,15 @@
+// react
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { db } from '../../firebase';
-import ScrollableTabsButtonAuto from './CurrentUserTabs';
 import styles from './UserProfile.module.scss';
-import { useSelector } from "react-redux";
-import { getUser } from '../../redux/selectors/user';
-import Layout from '../Layout/Layout';
+// service
 import { getCurrentUserHistory, getCurrentUserInfo, getCurrentUserLiked } from '../../service';
+// redux
+import { useSelector } from 'react-redux';
+import { getUser } from '../../redux/selectors/user';
+// components
+import ScrollableTabsButtonAuto from './CurrentUserTabs';
+import Layout from '../Layout/Layout';
 
 export default function UserProfile() {
     const { id } = useParams();

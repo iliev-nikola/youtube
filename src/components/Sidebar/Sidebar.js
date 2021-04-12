@@ -1,14 +1,14 @@
+// react
 import React, { useState } from 'react';
-import { Drawer, List, Tooltip } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
+import { useHistory, Link } from 'react-router-dom';
+import styles from './Sidebar.module.scss';
+// redux
+import { useSelector } from 'react-redux';
+// components
 import logo from '../../assets/logo.png';
 import blackLogo from '../../assets/blackLogo.png';
-import { useHistory } from "react-router-dom";
-import styles from './Sidebar.module.scss';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { Home, VideoLibrary, History, Whatshot } from '@material-ui/icons';
-import { getUser } from '../../redux/selectors/user';
+import { Drawer, List, Tooltip } from '@material-ui/core';
+import { Home, VideoLibrary, History, Whatshot, Subscriptions, Menu as MenuIcon } from '@material-ui/icons';
 
 export default function Sidebar() {
     const history = useHistory();
@@ -66,6 +66,13 @@ export default function Sidebar() {
                         <p>Trending</p>
                     </Link>
                 </Tooltip>
+                <Tooltip title='Subscriptions' placement="right">
+                    <Link to="/subscriptions" className={styles.sidebars}>
+                        <Subscriptions />
+                        <p>Subscriptions</p>
+                    </Link>
+                </Tooltip>
+
             </List>
         </div>
     );

@@ -54,9 +54,29 @@ $main-size: 18px;
 
   .videoInfo {
     display: flex;
-    align-items: baseline;
+    justify-content: space-between;
+    align-items: center;
     color: var(--t-color);
     margin-top: 10px;
+  }
+
+  .videoInfo div {
+    display: flex;
+    align-items: center;
+  }
+
+  .subscribe {
+    background: #cc0000;
+    padding: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+
+  .unsubscribe {
+    background: var(--bg-color-32);
+    padding: 10px;
+    margin-right: 10px;
+    cursor: pointer;
   }
 
   .addCommentContainer {

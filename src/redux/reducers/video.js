@@ -1,6 +1,4 @@
-import {
-    FETCH_VIDEO, INCREASE_VIEWS
-} from '../actions/video';
+import { FETCH_VIDEO, INCREASE_VIEWS } from '../actions/video';
 
 const INITIAL_STATE = {
     video: {}

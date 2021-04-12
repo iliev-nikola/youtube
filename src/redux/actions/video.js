@@ -1,10 +1,10 @@
 
-import { getVideoWatched, getVideoID, getVideoViews, getVideo } from '../selectors/video';
 import { setLoading, setNotLoading } from '../actions/loadingBar';
 import { db } from '../../firebase';
 import { fetchMyVideos } from '../actions/videos';
 import { getUser } from '../selectors/user';
 import { setAlertOn } from './alertNotifier';
+
 export const UPDATE_VIDEO = 'UPDATE_VIDEO';
 export const VIEWS_VIDEO = 'VIEWS_VIDEO';
 export const FETCH_VIDEO = 'FETCH_VIDEO';
@@ -25,7 +25,7 @@ export const fetchVideoSucceded = (video) => ({
 
 export const increaseViews = () => ({
     type: INCREASE_VIEWS
-})
+});
 
 export const editIt = (video, title, description) => {
     return function (dispatch) {
@@ -48,7 +48,7 @@ export const editIt = (video, title, description) => {
 };
 
 export const deleteIt = (video, uid) => {
-    return function (dispatch, setState) {
+    return function (dispatch) {
         console.log(video);
         dispatch(setLoading());
         db.collection('videos')
@@ -65,21 +65,18 @@ export const deleteIt = (video, uid) => {
 
 export const changeViews = (video) => {
     return function (dispatch, getState) {
-        // API Request 
-        db.collection("videos")
+        db.collection('videos')
             .doc(video.id)
             .update({ views: video.views + 1 })
-            .catch(err => console.log(err.message));
+            .catch(err => dispatch(setAlertOn('error', err.message)));
 
         setTimeout(() => {
             const user = getUser(getState());
             if (user.uid && video.isWatchedBy && !video.isWatchedBy.includes(user.uid)) {
-                // API Request
-                db.collection("videos")
+                db.collection('videos')
                     .doc(video.id)
                     .update({ isWatchedBy: [...video.isWatchedBy, user.uid] })
                     .then(() => {
-                        // API Request to get ALL
                         dispatch(fetchMyVideos(user.uid));
                     })
                     .catch(err => dispatch(setAlertOn('error', err.message)));
@@ -88,13 +85,13 @@ export const changeViews = (video) => {
 
         return dispatch(increaseViews());
     }
-}
+};
 
 export const fetchVideo = (id) => {
     return function (dispatch) {
-        db.collection("videos").doc(id)
+        db.collection('videos').doc(id)
             .onSnapshot((video) => {
                 dispatch(fetchVideoSucceded(video.data()));
             });
     }
-}
+};

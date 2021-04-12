@@ -1,6 +1,3 @@
-import { db } from './firebase';
-import { updateUserTheme } from './service';
-
 export function generateId() {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
     const r = (Math.random() * 16) | 0,
@@ -36,10 +33,10 @@ export function changeThemeColors(theme) {
     case 'dark':
       bgColor = '#181818';
       bgColor2 = '#202020';
-      textColor = '#000'; // white
-      headerColor = '#e3e3e3'; // sidebar text color
+      textColor = '#000';
+      headerColor = '#e3e3e3';
       hovColor = '#383838';
-      titColor = '#dfdfdf'; // titles
+      titColor = '#dfdfdf';
       fontCol = '#9d9d9d';
       searchCol = '#323232';
       searchBord = '#2c2c2c';
@@ -74,7 +71,8 @@ export function changeThemeColors(theme) {
       bColor = '#3c9ff4';
       gColor = '#717171';
   }
-  const body = document.querySelector('body');
+
+  const body = document.body;
   body.style.setProperty('--bg-color', bgColor);
   body.style.setProperty('--text-color', textColor);
   body.style.setProperty('--bg-color-32', bgColor2);
@@ -87,5 +85,4 @@ export function changeThemeColors(theme) {
   body.style.setProperty('--t-color', tColor);
   body.style.setProperty('--b-color', bColor);
   body.style.setProperty('--g-color', gColor);
-
 }

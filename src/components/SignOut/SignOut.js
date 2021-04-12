@@ -1,8 +1,8 @@
-import { useHistory } from "react-router-dom";
-import { auth } from '../../firebase';
+import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../redux/actions/user';
 import { setAlertOn } from '../../redux/actions/alertNotifier';
+import { auth } from '../../firebase';
 
 export default function SignOut() {
     const dispatch = useDispatch();

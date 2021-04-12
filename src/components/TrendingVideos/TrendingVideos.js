@@ -1,18 +1,20 @@
+// react
 import { useEffect, useState } from 'react';
+import styles from './TrendingVideos.module.scss';
+// redux
 import { useDispatch, useSelector } from 'react-redux';
 import { getVideos } from '../../redux/selectors/videos';
-import Layout from '../Layout/Layout';
-import VideoCard from '../VideoCard/VideoCard';
-import InfiniteScroll from "react-infinite-scroll-component";
+import { getUserLoading } from '../../redux/selectors/user';
 import { setLoading, setNotLoading } from '../../redux/actions/loadingBar';
 import { setAlertOn } from '../../redux/actions/alertNotifier';
-import styles from './TrendingVideos.module.scss';
-import { getUser, getUserLoading } from '../../redux/selectors/user';
+// components
+import InfiniteScroll from 'react-infinite-scroll-component';
+import Layout from '../Layout/Layout';
+import VideoCard from '../VideoCard/VideoCard';
 
 export default function TrendingVideos() {
     const dispatch = useDispatch();
     const videos = useSelector(getVideos);
-    const user = useSelector(getUser);
     const isUserLoading = useSelector(getUserLoading);
     const [lastVideoIndex, setLastVideoIndex] = useState(0);
     const [visibleVideos, setVisibleVideos] = useState([]);

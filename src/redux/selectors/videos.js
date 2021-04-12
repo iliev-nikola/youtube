@@ -1,4 +1,4 @@
-export const getVideoStore = store => store.videos;
-export const getVideos = store => getVideoStore(store).videos;
-export const getVideosLength = store => getVideos(store).length;
-export const getMyVideos = store => getVideoStore(store).myVideos;
+export const getVideoStore = state => state.videos;
+export const getVideos = state => getVideoStore(state).videos;
+export const getVideosLength = state => getVideos(state).length;
+export const getMyVideos = state => getVideoStore(state).myVideos;

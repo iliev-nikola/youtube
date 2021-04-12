@@ -1,4 +1,4 @@
-import { db } from "../../firebase";
+import { db } from '../../firebase';
 export const SHOW_COMMENTS = 'SHOW_COMMENTS';
 
 export const showComments = (comments) => ({
@@ -8,10 +8,10 @@ export const showComments = (comments) => ({
 
 export const getComments = (id) => {
     return function (dispatch) {
-        db.collection('comments').where("videoID", "==", id).orderBy("timestamp", "desc").onSnapshot(snapshot => {
+        db.collection('comments').where('videoID', '==', id).orderBy('timestamp', 'desc').onSnapshot(snapshot => {
             let dbComments = [];
             snapshot.docs.map(doc => (dbComments.push({ ...doc.data() })))
             dispatch(showComments(dbComments));
         });
     }
-}
+};

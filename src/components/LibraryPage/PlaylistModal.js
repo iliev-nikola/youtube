@@ -1,15 +1,17 @@
+// react
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getUser, getUserID } from '../../redux/selectors/user';
-import { Modal, FormControlLabel, Checkbox, TextField, List, Button } from '@material-ui/core';
-import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
 import styles from './Playlists.module.scss';
-import { addVideoToPlaylist, createPlaylist, removeVideoFromPlaylist } from '../../service';
-import DeleteIcon from '@material-ui/icons/Delete';
-import { deletePlaylist } from '../../service';
-import PopUp from '../OpenVideo/PopupState';
+// service
+import { addVideoToPlaylist, createPlaylist, removeVideoFromPlaylist, deletePlaylist } from '../../service';
+// redux
+import { useDispatch, useSelector } from 'react-redux';
+import { getUser } from '../../redux/selectors/user';
 import { setAlertOn } from '../../redux/actions/alertNotifier';
 import { getPlaylists } from '../../redux/actions/playlists';
+// components
+import { Modal, FormControlLabel, Checkbox, TextField, List, Button } from '@material-ui/core';
+import { PlaylistAdd as PlaylistAddIcon, Delete as DeleteIcon } from '@material-ui/icons';
+import PopUp from '../OpenVideo/PopupState';
 
 export default function PlaylistModal({ video }) {
     const user = useSelector(getUser);
