@@ -1,4 +1,4 @@
-import { db } from '../../firebase';
+import { db } from '../../service/firebase';
 export const SHOW_COMMENTS = 'SHOW_COMMENTS';
 
 export const showComments = (comments) => ({

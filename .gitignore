@@ -4,15 +4,12 @@
 /node_modules
 /.pnp
 .pnp.js
-
-# testing
-/coverage
-
 # production
 /build
 
-# firebase deploy
+# firebase
 /.github
+/.firebase
 .firebaserc
 database.rules.json
 firebase.json

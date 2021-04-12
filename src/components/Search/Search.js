@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 // service
-import { filterVideos } from '../../service';
+import { filterVideos } from '../../service/service';
 // redux
 import { useDispatch } from 'react-redux';
 import { setAlertOn } from '../../redux/actions/alertNotifier';

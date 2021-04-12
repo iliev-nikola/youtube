@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import styles from './OpenVideo.module.scss';
 // service
-import { updatedNotifications, dislikeVideo, likeVideo, subscribe, removeSubscribe } from '../../service';
+import { updatedNotifications, dislikeVideo, likeVideo, subscribe, removeSubscribe } from '../../service/service';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import { changeViews } from '../../redux/actions/video';

@@ -4,7 +4,7 @@ import { useHistory } from 'react-router';
 import ReactTimeAgo from 'react-time-ago';
 import styles from './OpenVideo.module.scss';
 // service
-import { updatedNotifications, createComments, deleteComment, updateComment, editableComment, uneditableComment } from '../../service';
+import { updatedNotifications, createComments, deleteComment, updateComment, editableComment, uneditableComment } from '../../service/service';
 // redux
 import { useSelector, useDispatch } from 'react-redux';
 import { getUser } from '../../redux/selectors/user';

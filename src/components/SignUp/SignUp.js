@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styles from './SignUp.module.scss';
 // service
-import { auth } from '../../firebase';
+import { auth } from '../../service/firebase';
 // utils
 import { validateEmail } from '../../utils';
 // redux

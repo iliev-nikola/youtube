@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import styles from './UploadVideo.module.scss';
 // service
-import { db, storage } from '../../firebase';
+import { db, storage } from '../../service/firebase';
 // utils
 import { generateId } from '../../utils';
 // redux

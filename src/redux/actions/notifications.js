@@ -1,4 +1,4 @@
-import { db } from '../../firebase';
+import { db } from '../../service/firebase';
 export const SHOW_NOTIFICATIONS = 'SHOW_NOTIFICATIONS';
 export const UPDATE_NOTIFICATIONS = 'UPDATE_NOTIFICATIONS';
 

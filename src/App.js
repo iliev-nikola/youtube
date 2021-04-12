@@ -6,10 +6,9 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
-import './reset.css';
 // service
-import { deleteNotificationsOlderThanTwoHours } from './service';
-import { auth } from './firebase';
+import { deleteNotificationsOlderThanTwoHours } from './service/service';
+import { auth } from './service/firebase';
 // utils
 import { changeThemeColors } from './utils';
 // redux

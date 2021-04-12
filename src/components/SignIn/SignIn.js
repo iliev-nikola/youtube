@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styles from './SignIn.module.scss';
 // service
-import { auth, googleProvider, facebookProvider, gitHubProvider } from '../../firebase';
+import { auth, googleProvider, facebookProvider, gitHubProvider } from '../../service/firebase';
 // utils
 import { validateEmail } from '../../utils';
 // redux

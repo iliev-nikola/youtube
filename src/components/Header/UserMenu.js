@@ -4,7 +4,7 @@ import { Link, useHistory } from 'react-router-dom';
 import styles from './Header.module.scss';
 import ReactTimeAgo from 'react-time-ago';
 // service
-import { deleteNotification, setNotificationsRead, updateUserTheme } from '../../service';
+import { deleteNotification, setNotificationsRead, updateUserTheme } from '../../service/service';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../redux/selectors/user';

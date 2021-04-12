@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import styles from '../TrendingVideos/TrendingVideos.module.scss';
 // service
-import { db } from '../../firebase';
+import { db } from '../../service/firebase';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import { getVideos } from '../../redux/selectors/videos';

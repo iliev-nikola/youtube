@@ -1,4 +1,4 @@
-import { db } from '../../firebase';
+import { db } from '../../service/firebase';
 import { setAlertOn } from './alertNotifier';
 
 export const SET_USER = 'SET_USER';

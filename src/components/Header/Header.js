@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styles from './Header.module.scss';
 // service
-import { getVideosByTitle } from '../../service';
+import { getVideosByTitle } from '../../service/service';
 // redux
 import { useSelector } from 'react-redux';
 import { getUser, getUserLoading } from '../../redux/selectors/user';

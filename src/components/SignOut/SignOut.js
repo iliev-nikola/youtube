@@ -2,7 +2,7 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../redux/actions/user';
 import { setAlertOn } from '../../redux/actions/alertNotifier';
-import { auth } from '../../firebase';
+import { auth } from '../../service/firebase';
 
 export default function SignOut() {
     const dispatch = useDispatch();

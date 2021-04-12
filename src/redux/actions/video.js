@@ -1,6 +1,6 @@
 
 import { setLoading, setNotLoading } from '../actions/loadingBar';
-import { db } from '../../firebase';
+import { db } from '../../service/firebase';
 import { fetchMyVideos } from '../actions/videos';
 import { getUser } from '../selectors/user';
 import { setAlertOn } from './alertNotifier';

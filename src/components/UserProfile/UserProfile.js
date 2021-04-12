@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import styles from './UserProfile.module.scss';
 // service
-import { getCurrentUserHistory, getCurrentUserInfo, getCurrentUserLiked } from '../../service';
+import { getCurrentUserHistory, getCurrentUserInfo, getCurrentUserLiked } from '../../service/service';
 // redux
 import { useSelector } from 'react-redux';
 import { getUser } from '../../redux/selectors/user';

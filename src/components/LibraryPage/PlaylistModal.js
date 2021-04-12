@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Playlists.module.scss';
 // service
-import { addVideoToPlaylist, createPlaylist, removeVideoFromPlaylist, deletePlaylist } from '../../service';
+import { addVideoToPlaylist, createPlaylist, removeVideoFromPlaylist, deletePlaylist } from '../../service/service';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../redux/selectors/user';

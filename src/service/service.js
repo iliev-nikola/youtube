@@ -1,6 +1,6 @@
 import { db } from './firebase';
 import firebase from 'firebase/app';
-import { generateId } from './utils';
+import { generateId } from '../utils';
 
 // NOTIFICATIONS
 export function setNotificationsRead() {

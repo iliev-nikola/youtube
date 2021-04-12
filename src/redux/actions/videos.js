@@ -1,4 +1,4 @@
-import { db } from '../../firebase';
+import { db } from '../../service/firebase';
 import { setLoading, setNotLoading } from '../actions/loadingBar';
 import { setAlertOn } from './alertNotifier';
 

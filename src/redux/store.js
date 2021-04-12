@@ -1,15 +1,16 @@
+// redux
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import themeReducer from './redux/reducers/theme';
-import videosReducer from './redux/reducers/videos';
-import userReducer from './redux/reducers/user';
-import commentsReducer from './redux/reducers/comments';
-import loadingReducer from './redux/reducers/loadingBar';
-import alertReducer from './redux/reducers/alertNotifier';
-import notificationReducer from './redux/reducers/notifications';
-import playlistReducer from './redux/reducers/playlists';
-import videoReducer from './redux/reducers/video';
-import subscribesReducer from './redux/reducers/subscribes';
+import themeReducer from './reducers/theme';
+import videosReducer from './reducers/videos';
+import userReducer from './reducers/user';
+import commentsReducer from './reducers/comments';
+import loadingReducer from './reducers/loadingBar';
+import alertReducer from './reducers/alertNotifier';
+import notificationReducer from './reducers/notifications';
+import playlistReducer from './reducers/playlists';
+import videoReducer from './reducers/video';
+import subscribesReducer from './reducers/subscribes';
 
 const rootReducer = combineReducers({
   videos: videosReducer,
