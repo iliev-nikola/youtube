@@ -1,7 +1,6 @@
 import { db } from './firebase';
 import firebase from "firebase/app";
 import { generateId } from './utils';
-import { setAlertOn } from './redux/actions/alertNotifier';
 
 export function setNotificationsRead() {
     db.collection('notifications')
@@ -12,7 +11,7 @@ export function setNotificationsRead() {
                 db.collection('notifications').doc(el.notID).update({ isRead: true });
             })
         })
-        .catch(err => setAlertOn('error', err.message));
+        .catch(err => console.log(err.message));
 }
 
 export function createComments(videoID, user, inputValue) {
@@ -39,9 +38,9 @@ export function createComments(videoID, user, inputValue) {
                     });
 
                 })
-                .catch(err => setAlertOn('error', err.message));
+                .catch(err => console.log(err.message));
         })
-        .catch(err => setAlertOn('error', err.message));
+        .catch(err => console.log(err.message));
 }
 
 export const deleteComment = (id) => {
@@ -86,9 +85,9 @@ export function updatedNotifications(video, user, status) {
                         dbNotifications.push(doc.data());
                     });
                 })
-                .catch(err => setAlertOn('error', err.message));
+                .catch(err => console.log(err.message));
         })
-        .catch(err => setAlertOn('error', err.message));
+        .catch(err => console.log(err.message));
 }
 
 export const deleteNotification = (id) => {
@@ -107,7 +106,7 @@ export const createPlaylist = (user, inputValue) => {
     db.collection('playlists')
         .doc(id)
         .set(data)
-        .catch(err => setAlertOn('error', err.message));
+        .catch(err => console.log(err.message));
 }
 
 export const addVideoToPlaylist = (video, id) => {
@@ -116,7 +115,7 @@ export const addVideoToPlaylist = (video, id) => {
         .update({
             videos: firebase.firestore.FieldValue.arrayUnion(video)
         })
-        .catch(err => setAlertOn('error', err.message));
+        .catch(err => console.log(err.message));
 }
 
 export const removeVideoFromPlaylist = (video, id) => {
@@ -125,7 +124,7 @@ export const removeVideoFromPlaylist = (video, id) => {
         .update({
             videos: firebase.firestore.FieldValue.arrayRemove(video)
         })
-        .catch(err => setAlertOn('error', err.message));
+        .catch(err => console.log(err.message));
 }
 
 export const deletePlaylist = (id) => {
@@ -142,7 +141,7 @@ export function filterVideos(params) {
                 const result = res.filter(el => el.title.toLowerCase().includes(params[0]));
                 return result;
             })
-            .catch(err => setAlertOn('error', err.message));
+            .catch(err => console.log(err.message));
     } else {
         return db.collection('videos').get()
             .then(res => res.docs)
@@ -157,7 +156,7 @@ export function filterVideos(params) {
 
                 return filtered;
             })
-            .catch(err => setAlertOn('error', err.message));
+            .catch(err => console.log(err.message));
     }
 }
 
@@ -181,6 +180,9 @@ export function updateUserTheme(user, theme) {
 }
 
 export function likeVideo(user, video) {
+    if (!user) {
+        return
+    }
     const isLiked = video.isLikedBy.some(id => id === user.uid);
     const isDisliked = video.isDislikedBy.some(id => id === user.uid);
     if (isLiked) {
@@ -190,11 +192,13 @@ export function likeVideo(user, video) {
         db.collection('videos').doc(video.id).update({ isDislikedBy: filterLikes, isLikedBy: [...video.isLikedBy, user.uid] })
     } else if (!isLiked) {
         db.collection('videos').doc(video.id).update({ isLikedBy: [...video.isLikedBy, user.uid] })
-
     }
 };
 
 export function dislikeVideo(user, video) {
+    if (!user) {
+        return
+    }
     const isLiked = video.isLikedBy.some(id => id === user.uid);
     const isDisliked = video.isDislikedBy.some(id => id === user.uid);
     if (isDisliked) {
@@ -202,7 +206,6 @@ export function dislikeVideo(user, video) {
     } else if (!isDisliked && isLiked) {
         const filterLikes = video.isLikedBy.filter(id => id !== user.uid);
         db.collection('videos').doc(video.id).update({ isLikedBy: filterLikes, isDislikedBy: [...video.isDislikedBy, user.uid] })
-
     } else if (!isDisliked) {
         db.collection('videos').doc(video.id).update({ isDislikedBy: [...video.isDislikedBy, user.uid] })
     }

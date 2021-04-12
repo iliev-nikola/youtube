@@ -36,7 +36,7 @@ export const editIt = (video, title, description) => {
             .update(obj,
                 (error) => {
                     if (error) {
-                        dispatch(setAlertOn('error', error.message));
+                        console.log(error.message)
                     }
                 }).then(() => {
                     dispatch(updateVideo(obj));
@@ -63,25 +63,21 @@ export const deleteIt = (video, uid) => {
     }
 };
 
-export const changeViews = () => {
+export const changeViews = (video) => {
     return function (dispatch, getState) {
-        const isWatchedBy = getVideoWatched(getState());
-        const videoID = getVideoID(getState());
-        const videoViews = getVideoViews(getState());
-
         // API Request 
         db.collection("videos")
-            .doc(videoID)
-            .update({ views: videoViews + 1 })
-            .catch(err => dispatch(setAlertOn('error', err.message)));
+            .doc(video.id)
+            .update({ views: video.views + 1 })
+            .catch(err => console.log(err.message));
 
         setTimeout(() => {
             const user = getUser(getState());
-            if (user.uid && isWatchedBy && !isWatchedBy.includes(user.uid)) {
+            if (user.uid && video.isWatchedBy && !video.isWatchedBy.includes(user.uid)) {
                 // API Request
                 db.collection("videos")
-                    .doc(videoID)
-                    .update({ isWatchedBy: [...isWatchedBy, user.uid] })
+                    .doc(video.id)
+                    .update({ isWatchedBy: [...video.isWatchedBy, user.uid] })
                     .then(() => {
                         // API Request to get ALL
                         dispatch(fetchMyVideos(user.uid));

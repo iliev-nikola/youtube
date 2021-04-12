@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useParams } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import styles from './OpenVideo.module.scss';
 import ReactPlayer from 'react-player';
 import { ThumbDown as ThumbDownIcon, ThumbUp, Edit, Delete } from '@material-ui/icons';
@@ -41,21 +41,27 @@ export default function OpenVideo() {
     }, [id]);
 
     useEffect(() => {
-        dispatch(changeViews());
+        dispatch(changeViews(video));
     }, []);
 
     const likeIt = () => {
         likeVideo(user, video);
-        updatedNotifications(video, user, 'like');
-        setIsLiked(video.isLikedBy.some(userID => userID === user.uid));
-        setIsDisliked(video.isDislikedBy.some(userID => userID === user.uid));
+        const isLiked = video.isLikedBy.some(id => id === user.uid);
+        if (!isLiked) {
+            updatedNotifications(video, user, 'like');
+            setIsLiked(video.isLikedBy.some(userID => userID === user.uid));
+            setIsDisliked(video.isDislikedBy.some(userID => userID === user.uid));
+        }
     }
 
     const dislikeIt = () => {
         dislikeVideo(user, video);
-        updatedNotifications(video, user, 'dislike');
-        setIsLiked(video.isLikedBy.some(userID => userID === user.uid));
-        setIsDisliked(video.isDislikedBy.some(userID => userID === user.uid));
+        const isDisliked = video.isDislikedBy.some(id => id === user.uid);
+        if (!isDisliked) {
+            updatedNotifications(video, user, 'dislike');
+            setIsLiked(video.isLikedBy.some(userID => userID === user.uid));
+            setIsDisliked(video.isDislikedBy.some(userID => userID === user.uid));
+        }
     }
 
     const text = 'Sign in to make your opinion count.';
@@ -86,14 +92,14 @@ export default function OpenVideo() {
                         <div className={styles.likesContainer}>
                             <div className={styles.views}>{video.views} views</div>
                             <div className={styles.thumbs}>
-                                {user ? <>{numberLikes}</> : <>{loggedNumberLikes}</>}
-                                {user ? <>{numberDislikes}</> : <>{loggedNumberDIslikes}</>}
+                                {user.uid ? <>{numberLikes}</> : <>{loggedNumberLikes}</>}
+                                {user.uid ? <>{numberDislikes}</> : <>{loggedNumberDIslikes}</>}
                                 {video ? <PlaylistModal video={video} /> : null}
                             </div>
                         </div>
                     </div>
                     <div className={styles.videoInfo}>
-                        <UserLogo author={video.author} authorPhotoURL={video.authorPhotoURL} className />
+                        <Link to={`/user/${video.authorID}`}><UserLogo author={video.author} authorPhotoURL={video.authorPhotoURL} /></Link>
                         <span className={styles.descr}>{video.description}</span>
                     </div>
                     <CommentsContainer currentVideo={video} comments={comments} id={id} />
@@ -102,7 +108,7 @@ export default function OpenVideo() {
                 {/* TODO: Separate in new component */}
                 <div className={styles.otherVideos}>
                     <h2>Play next</h2>
-                    {videos.length ? videos.map(video => (
+                    {videos.length ? videos.slice(0, 10).map(video => (
                         <VideoCard key={video.id + Math.random()} url={video.url} title={video.title} views={video.views} id={video.id} author={video.author} authorPhotoURL={video.authorPhotoURL} />
                     )) : <h2>No videos to play next...</h2>}
                 </div>
