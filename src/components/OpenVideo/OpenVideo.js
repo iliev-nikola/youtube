@@ -36,12 +36,11 @@ export default function OpenVideo() {
             setIsLiked(video.isLikedBy.some(userID => userID === user.uid));
             setIsDisliked(video.isDislikedBy.some(userID => userID === user.uid));
         }
-    }, [video.isLikedBy, video.isDislikedBy, video.id, user.uid]);
+    }, [video.isLikedBy.length, video.isDislikedBy.length, video.id, user.uid]);
 
     useEffect(() => {
         if (user.uid && video.id) {
             setIsSubscribed(user.subscribes.some(id => id === video.authorID));
-            console.log(user.subscribes);
         }
     }, [video.id, user.uid, user.subscribes, video.authorID]);
 
@@ -56,7 +55,7 @@ export default function OpenVideo() {
         updateNotifications(video, user, 'like');
         setIsLiked(true);
         setIsDisliked(false);
-    }
+    };
 
     const dislikeIt = () => {
         if (isDisliked) return;
@@ -64,17 +63,17 @@ export default function OpenVideo() {
         updateNotifications(video, user, 'dislike');
         setIsDisliked(true);
         setIsLiked(false);
-    }
+    };
 
     const subscribeIt = () => {
         subscribe(user, video);
         setIsSubscribed(true);
-    }
+    };
 
     const unsubscribeIt = () => {
         unsubscribe(user, video);
         setIsSubscribed(false);
-    }
+    };
 
     const text = 'Sign in to make your opinion count.';
     const numberLikes = (

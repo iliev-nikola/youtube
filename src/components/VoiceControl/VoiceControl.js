@@ -3,8 +3,9 @@ import { useState } from 'react';
 import { useHistory } from 'react-router';
 import styles from './VoiceControl.module.scss';
 // redux
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../redux/selectors/user';
+import { setLoading, setNotLoading } from '../../redux/actions/loadingBar';
 // components
 import MicIcon from '@material-ui/icons/Mic';
 
@@ -12,6 +13,7 @@ const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecogni
 export const recognition = new SpeechRecognition();
 
 export default function VoiceControl() {
+  const dispatch = useDispatch();
   const user = useSelector(getUser);
   const history = useHistory();
   const [isListening, setListening] = useState(false);
@@ -19,11 +21,13 @@ export default function VoiceControl() {
   const recognition = new SpeechRecognition();
   recognition.lang = 'en-US';
   const activeMicr = () => {
+    dispatch(setLoading());
     recognition.start();
     setListening(true);
   };
 
   recognition.onend = () => {
+    dispatch(setNotLoading());
     setListening(false);
   };
 
