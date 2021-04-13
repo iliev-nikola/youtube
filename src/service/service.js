@@ -31,18 +31,6 @@ export function updateNotifications(video, user, status) {
         isRead: false
     }
     db.collection('notifications').doc(id).set(notificationsData)
-        .then(() => {
-            // db.collection('notifications')
-            //     .where('authorID', '==', user.uid)
-            //     .get()
-            //     .then((notifications) => {
-            //         let dbNotifications = [];
-            //         notifications.forEach((doc) => {
-            //             dbNotifications.push(doc.data());
-            //         });
-            //     })
-            //     .catch(err => console.log('error', err.message));
-        })
         .catch(err => console.log('error', err.message));
 }
 
@@ -78,19 +66,6 @@ export function createComments(videoID, user, inputValue) {
         isEdit: false
     }
     db.collection('comments').doc(id).set(commentData)
-        .then(() => {
-            // db.collection('comments')
-            //     .where('videoID', '==', id)
-            //     .get()
-            //     .then((comments) => {
-            //         let dbComments = [];
-            //         comments.forEach((doc) => {
-            //             dbComments.push(doc.data());
-            //         });
-
-            //     })
-            //     .catch(err => console.log('error', err.message));
-        })
         .catch(err => console.log('error', err.message));
 }
 

@@ -13,5 +13,6 @@ export const getPlaylists = (userID) => {
             const playlists = snapshot.docs.map(doc => ({ ...doc.data() }));
             dispatch(showPlaylists(playlists));
         });
+
     }
 };
