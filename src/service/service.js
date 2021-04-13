@@ -168,40 +168,21 @@ export function getVideosByTitle(title) {
     }
 }
 
-export function likeVideo(user, video) {
+export function likeOrDislikeVideo(user, video) {
     if (!user) {
         return;
     }
     const isLiked = video.isLikedBy.some(id => id === user.uid);
-    const isDisliked = video.isDislikedBy.some(id => id === user.uid);
     if (isLiked) {
-        return;
-    } else if (!isLiked && isDisliked) {
-        const filterDislikes = video.isDislikedBy.filter(id => id !== user.uid);
-        db.collection('videos').doc(video.id).update({ isDislikedBy: filterDislikes, isLikedBy: [...video.isLikedBy, user.uid] })
-    } else if (!isLiked) {
-        db.collection('videos').doc(video.id).update({ isLikedBy: [...video.isLikedBy, user.uid] })
-
-    }
-    updateNotifications(video, user, 'like');
-};
-
-export function dislikeVideo(user, video) {
-    if (!user) {
-        return
-    }
-    const isLiked = video.isLikedBy.some(id => id === user.uid);
-    const isDisliked = video.isDislikedBy.some(id => id === user.uid);
-    if (isDisliked) {
-        return;
-    } else if (!isDisliked && isLiked) {
         const filterLikes = video.isLikedBy.filter(id => id !== user.uid);
         db.collection('videos').doc(video.id).update({ isLikedBy: filterLikes, isDislikedBy: [...video.isDislikedBy, user.uid] })
-    } else if (!isDisliked) {
-        db.collection('videos').doc(video.id).update({ isDislikedBy: [...video.isDislikedBy, user.uid] })
+        updateNotifications(video, user, 'like');
+    } else {
+        const filterDislikes = video.isDislikedBy.filter(id => id !== user.uid);
+        db.collection('videos').doc(video.id).update({ isDislikedBy: filterDislikes, isLikedBy: [...video.isLikedBy, user.uid] })
+        updateNotifications(video, user, 'dislike');
     }
-    updateNotifications(video, user, 'dislike');
-};
+}
 
 // THEME
 export function updateUserTheme(user, theme) {

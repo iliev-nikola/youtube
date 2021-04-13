@@ -6,7 +6,7 @@ import PopUp from './PopupState';
 import PlaylistModal from '../LibraryPage/PlaylistModal';
 import UserLogo from '../common/UserLogo/UserLogo';
 // service
-import { dislikeVideo, likeVideo, subscribe, unsubscribe } from '../../service/service';
+import { subscribe, unsubscribe, likeOrDislikeVideo } from '../../service/service';
 
 export default function VideoInfo({ video, user }) {
     const [isSubscribed, setIsSubscribed] = useState(false);
@@ -24,13 +24,13 @@ export default function VideoInfo({ video, user }) {
     const thumbsText = 'Sign in to make your opinion count.';
     const subscribeText = 'Sign in to subscribe to this channel.';
     const numberLikes = (
-        <><ThumbUp className={isVideoLiked ? styles.liked : styles.button} onClick={()=>likeVideo(user, video)} /><span>{video.id ? video.isLikedBy.length : null}</span></>
+        <><ThumbUp className={isVideoLiked ? styles.liked : styles.button} onClick={()=>likeOrDislikeVideo(user, video)} /><span>{video.id ? video.isLikedBy.length : null}</span></>
     );
     const loggedNumberLikes = (
         <><PopUp text={thumbsText} button={<ThumbUp className={styles.button} />} content={'Like this video?'} /><span>{video.id ? video.isLikedBy.length : null}</span></>
     );
     const numberDislikes = (
-        <><ThumbDownIcon className={isVideoDisliked ? styles.disliked : styles.button} onClick={() => dislikeVideo(user, video)} /><span>{video.id ? video.isDislikedBy.length : null}</span></>
+        <><ThumbDownIcon className={isVideoDisliked ? styles.disliked : styles.button} onClick={() => likeOrDislikeVideo(user, video)} /><span>{video.id ? video.isDislikedBy.length : null}</span></>
     );
     const loggedNumberDislikes = (
         <><PopUp text={thumbsText} button={<ThumbDownIcon className={styles.button} />} content={`Don't like this video?`} /><span>{video.id ? video.isDislikedBy.length : null}</span></>
