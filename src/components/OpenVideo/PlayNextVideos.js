@@ -2,11 +2,9 @@ import styles from './OpenVideo.module.scss';
 import VideoCard from '../VideoCard/VideoCard';
 import { useSelector } from 'react-redux';
 import { getVideos } from '../../redux/selectors/videos';
-import { useEffect, useState } from 'react';
 
 export default function PlayNextVideos() {
     const videos = useSelector(getVideos);
-    console.log(videos)
     return (
         <div className={styles.otherVideos}>
             <h2>Play next</h2>
