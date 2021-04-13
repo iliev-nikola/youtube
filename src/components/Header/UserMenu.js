@@ -14,22 +14,13 @@ import { setDarkTheme, setLightTheme } from '../../redux/actions/theme';
 import { Tooltip, Badge, ClickAwayListener } from '@material-ui/core';
 import { VideoCall as VideoCallIcon, Notifications as NotificationsIcon, ExitToApp as ExitToAppIcon, AccountBox as AccountBoxIcon, Cancel, InvertColors as InvertColorsIcon } from '@material-ui/icons';
 import UserLogo from '../common/UserLogo/UserLogo';
+import NotificationsMenu from './NotificationsMenu';
 
 export default function UserMenu() {
     const history = useHistory();
     const dispatch = useDispatch();
     const user = useSelector(getUser);
-    const notifications = useSelector(state => state.notification.notifications);
-    const [openNotify, setOpenNotify] = useState(false);
-    const [unreadNotifications, setUnreadNotifications] = useState([]);
     const theme = useSelector(state => state.theme.theme);
-    const handleClickNotify = () => {
-        setOpenNotify((prev) => !prev);
-        setTimeout(setNotificationsRead, 2000);
-    };
-    const handleClickAwayNotify = () => {
-        setOpenNotify(false);
-    };
     const [openProfile, setOpenProfile] = useState(false);
 
     const handleClickProfile = () => {
@@ -39,18 +30,6 @@ export default function UserMenu() {
     const handleClickAwayProfile = () => {
         setOpenProfile(false);
     };
-
-    useEffect(() => {
-        if (user.uid) {
-            dispatch(getNotifications(user.uid));
-        }
-    }, [user.uid]);
-
-    useEffect(() => {
-        if (user.uid) {
-            setUnreadNotifications(notifications.filter(notification => !notification.isRead));
-        }
-    }, [user.uid, dispatch, notifications]);
 
     const changeTheme = () => {
         if (user.uid) {
@@ -68,11 +47,6 @@ export default function UserMenu() {
         }
     }
 
-    const noNotifications = (
-        <><NotificationsIcon fontSize="large" id={styles.bigNotifyIcon} />
-            <p className={styles.greyText}>No new notifications.</p></>
-    );
-
     return (
         <div id={styles.userIcons}>
             <Tooltip title="Upload a video" placement="bottom">
@@ -81,37 +55,7 @@ export default function UserMenu() {
             <Tooltip title="Change site colors" placement="bottom">
                 <InvertColorsIcon className={styles.icons} onClick={changeTheme} />
             </Tooltip>
-            <ClickAwayListener
-                mouseEvent="onMouseDown"
-                touchEvent="onTouchStart"
-                onClickAway={handleClickAwayNotify}
-            >
-                <div className={styles.dropdownContainer} >
-                    <Tooltip title="Notifications" placement="bottom">
-                        <Badge className={styles.badge} badgeContent={unreadNotifications.length} color="error">
-                            <NotificationsIcon className={styles.icons} onClick={handleClickNotify} />
-                        </Badge>
-                    </Tooltip>
-                    {openNotify ? (
-                        <div id={styles.dropdownNotify} className={styles.dropdown}>
-                            <h4 className={styles.notifyTitle}>Notifications</h4>
-                            <div className={styles.line}></div>
-                            <div className={styles.greyText}>
-                                {notifications.length ? notifications.map((notification, index) => (
-                                    <div key={index} className={!notification.isRead ? styles.unread : styles.read}>
-                                        <UserLogo author={notification.displayName} authorPhotoURL={notification.photoURL} />
-                                        <span className={styles.info}>{`${notification.displayName} ${notification.status} your video `}
-                                            <Link to={`/video/${notification.videoID}`}>{notification.videoTitle}</Link></span>
-                                        <ReactTimeAgo date={notification.timestamp.toDate()} locale="en-US" />
-                                        <Cancel className={styles.cancel} onClick={() => deleteNotification(notification.notID)} />
-                                    </div>
-                                )) : <div>{noNotifications}</div>}
-                            </div>
-                        </div>
-                    ) : null}
-                </div>
-            </ClickAwayListener>
-
+            <NotificationsMenu />
             <ClickAwayListener
                 mouseEvent="onMouseDown"
                 touchEvent="onTouchStart"
