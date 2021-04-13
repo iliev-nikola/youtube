@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './VideoPage.module.scss';
 import { ThumbDown as ThumbDownIcon, ThumbUp } from '@material-ui/icons';
@@ -7,11 +7,13 @@ import PlaylistModal from '../LibraryPage/PlaylistModal';
 import UserLogo from '../common/UserLogo/UserLogo';
 // service
 import { subscribe, unsubscribe, likeOrDislikeVideo } from '../../service/service';
+import { db } from '../../service/firebase';
 
 export default function VideoInfo({ video, user }) {
     const [isSubscribed, setIsSubscribed] = useState(false);
     const isVideoLiked = video.isLikedBy.includes(user.uid);
     const isVideoDisliked = video.isDislikedBy.includes(user.uid);
+
     const subscribeIt = () => {
         subscribe(user, video);
         setIsSubscribed(true);
@@ -24,7 +26,7 @@ export default function VideoInfo({ video, user }) {
     const thumbsText = 'Sign in to make your opinion count.';
     const subscribeText = 'Sign in to subscribe to this channel.';
     const numberLikes = (
-        <><ThumbUp className={isVideoLiked ? styles.liked : styles.button} onClick={()=>likeOrDislikeVideo(user, video)} /><span>{video.id ? video.isLikedBy.length : null}</span></>
+        <><ThumbUp className={isVideoLiked ? styles.liked : styles.button} onClick={() => likeOrDislikeVideo(user, video)} /><span>{video.id ? video.isLikedBy.length : null}</span></>
     );
     const loggedNumberLikes = (
         <><PopUp text={thumbsText} button={<ThumbUp className={styles.button} />} content={'Like this video?'} /><span>{video.id ? video.isLikedBy.length : null}</span></>

@@ -37,6 +37,7 @@ import HomePage from './components/HomePage/HomePage';
 import AlertNotifier from './components/common/AlertNotifier';
 import Library from './components/LibraryPage/UserPlaylists';
 import Subscriptions from './components/Subscriptions/Subscriptions';
+import Header from './components/Header/Header';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -47,7 +48,7 @@ export default function App() {
   // Initial load of the current user and all videos
   useEffect(() => {
     dispatch(fetchVideos());
-  
+
     auth.onAuthStateChanged(user => {
       if (user) {
         dispatch(setUser(user));
@@ -79,20 +80,36 @@ export default function App() {
         <ProgressBar isOn={isLoading} />
         <Switch>
           <Route exact path='/' >
-            {/* <Header /> */}
+            <Header />
             <HomePage />
-            </Route>
-          <Route path='/video/:id' component={VideoPage} />
-          <Route path='/search/:id' component={Search} />
+          </Route>
+          <Route path='/video/:id'>
+            <VideoPage />
+          </Route>
+          <Route path='/search/:id'>
+            <Search />
+          </Route>
           <Route exact path='/search'>
             <Redirect to='/' />
           </Route>
-          <Route path='/upload' component={UploadVideo} />
-          <Route path='/user/:id' component={UserProfile} />
-          <Route path='/library' component={Library} />
-          <Route path='/trending' component={TrendingVideos} />
-          <Route path='/history' component={History} />
-          <Route path='/subscriptions' component={Subscriptions} />
+          <Route path='/upload'>
+            <UploadVideo />
+          </Route>
+          <Route path='/user/:id'>
+            <UserProfile />
+          </Route>
+          <Route path='/library'>
+            <Library />
+          </Route>
+          <Route path='/trending'>
+            <TrendingVideos />
+          </Route>
+          <Route path='/history'>
+            <History />
+          </Route>
+          <Route path='/subscriptions'>
+            <Subscriptions />
+          </Route>
           <Route path='/signout'
             render={() => {
               if (auth.currentUser && user) {
