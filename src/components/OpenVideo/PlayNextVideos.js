@@ -5,7 +5,6 @@ import { getVideos } from '../../redux/selectors/videos';
 
 export default function PlayNextVideos() {
     const videos = useSelector(getVideos);
-    console.log(videos)
     return (
         <div className={styles.otherVideos}>
             <h2>Play next</h2>

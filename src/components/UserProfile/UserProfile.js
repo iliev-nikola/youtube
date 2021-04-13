@@ -17,7 +17,9 @@ export default function UserProfile() {
     const [history, setHistory] = useState([]);
     const [liked, setLiked] = useState([]);
     const currentUser = useSelector(getUser);
+    //const myVideos = useSelector(state => state.videos.videos.filter(video => video.authorId === currentUserId))
     useEffect(() => {
+        // if(id !== currentUser.id)
         getCurrentUserInfo(id).then(res => setUser(res.data()));
         getCurrentUserHistory(id).then(res => setHistory(res));
         getCurrentUserLiked(id).then(res => setLiked(res));

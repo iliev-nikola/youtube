@@ -181,7 +181,13 @@ export function likeVideo(user, video) {
         db.collection('videos').doc(video.id).update({ isDislikedBy: filterDislikes, isLikedBy: [...video.isLikedBy, user.uid] })
     } else if (!isLiked) {
         db.collection('videos').doc(video.id).update({ isLikedBy: [...video.isLikedBy, user.uid] })
+           // .then(res => {
+           //     console.log('Response: ', res);
+                // Update Redux store
+           // })
     }
+
+    // updateNotifications()
 };
 
 export function dislikeVideo(user, video) {
@@ -220,22 +226,13 @@ export function getCurrentUserLiked(id) {
     return videosRef.where('isLikedBy', 'array-contains', id).get().then(res => res.docs.map(el => el.data()));
 }
 
-// finish that function to return an array with fresh video objects
-// must get the playlist name and user names and photoURL also
-export function getCurrentUserLibrary(id) {
-    const videosRef = db.collection('videos');
-    const libraryRef = db.collection('playlists');
-    return libraryRef.where('authorID', '==', id).get()
-        .then(res => res.docs.map(el => el.data())) // here we return an array with author ID strings
-}
-
 // SUBSCRIBES
 export function subscribe(user, video) {
     db.collection('users')
         .doc(user.uid)
         .update({
             subscribes: firebase.firestore.FieldValue.arrayUnion(video.authorID)
-        })
+        });
 }
 
 export function unsubscribe(user, video) {

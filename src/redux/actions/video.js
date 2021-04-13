@@ -77,6 +77,7 @@ export const changeViews = (video) => {
                     .doc(video.id)
                     .update({ isWatchedBy: [...video.isWatchedBy, user.uid] })
                     .then(() => {
+                        // 
                         dispatch(fetchMyVideos(user.uid));
                     })
                     .catch(err => dispatch(setAlertOn('error', err.message)));

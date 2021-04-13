@@ -57,7 +57,7 @@ export default function UserPlaylists() {
               key={playlists.id}
             >
               {playlist.videos.length ? playlist.videos.map(video => (
-                <VideoCard url={video.url} title={video.title} key={video.id} views={video.views} />
+                <VideoCard url={video.url} title={video.title} key={video.id} views={video.views} author={video.author} authorPhotoURL={video.authorPhotoURL} id={video.id} />
               )) : <p className={styles.welcomeText}>The playlist is empty...</p>}
             </Tabs>
           </AppBar>
