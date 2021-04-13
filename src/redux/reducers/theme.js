@@ -1,4 +1,3 @@
-
 import { SET_LIGHT_THEME, SET_DARK_THEME } from '../actions/theme';
 
 const INITIAL_STATE = {

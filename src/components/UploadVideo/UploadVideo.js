@@ -1,15 +1,20 @@
+// react
 import React, { useCallback, useEffect, useState } from 'react';
-import styles from './UploadVideo.module.scss';
-import { TextField, Button, Snackbar } from '@material-ui/core';
-import Dropzone from 'react-dropzone';
-import logoBlack from '../../assets/logoBlack.png';
 import { useHistory } from 'react-router';
-import { db, storage } from '../../firebase';
-import CircularStatic from '../ProgressBar/CircularProgress';
-import { generateId, getDate } from '../../utils';
+import styles from './UploadVideo.module.scss';
+// service
+import { db, storage } from '../../service/firebase';
+// utils
+import { generateId } from '../../utils';
+// redux
 import { useDispatch, useSelector } from 'react-redux';
 import { setAlertOn } from '../../redux/actions/alertNotifier';
 import { getUser } from '../../redux/selectors/user';
+// components
+import logoBlack from '../../assets/logoBlack.png';
+import Dropzone from 'react-dropzone';
+import { TextField, Button } from '@material-ui/core';
+import CircularStatic from '../ProgressBar/CircularProgress';
 
 export default function UploadVideo() {
     const history = useHistory();

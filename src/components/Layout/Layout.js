@@ -1,9 +1,9 @@
-import Header from '../Header/Header';
 import { Link } from 'react-router-dom';
-
+import styles from './Layout.module.scss';
 import { Home, VideoLibrary, History, Whatshot, Subscriptions } from '@material-ui/icons';
 import { Tooltip } from '@material-ui/core';
-import styles from './Layout.module.scss';
+import Header from '../Header/Header';
+
 export default function Layout({ children }) {
     const sideBarContainer = (<>
         <Tooltip title='Home' placement="right">

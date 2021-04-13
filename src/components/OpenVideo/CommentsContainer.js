@@ -1,16 +1,18 @@
+// react
 import { useState } from 'react';
 import { useHistory } from 'react-router';
+import ReactTimeAgo from 'react-time-ago';
+import styles from './OpenVideo.module.scss';
+// service
+import { updateNotifications, createComments, deleteComment, updateComment, editableComment, uneditableComment } from '../../service/service';
+// redux
 import { useSelector, useDispatch } from 'react-redux';
+import { getUser } from '../../redux/selectors/user';
+import { setAlertOn } from '../../redux/actions/alertNotifier';
+// components
 import UserLogo from '../common/UserLogo/UserLogo';
 import { Input, Button } from '@material-ui/core';
 import { Edit, Delete } from '@material-ui/icons';
-import styles from './OpenVideo.module.scss';
-import { getUser } from '../../redux/selectors/selectors';
-import { updatedNotifications, createComments, deleteComment, updateComment, editableComment, uneditableComment } from '../../service';
-import { setAlertOn } from '../../redux/actions/alertNotifier';
-import ReactTimeAgo from 'react-time-ago';
-
-
 
 export default function CommentsContainer({ currentVideo, comments, id }) {
     const [inputValue, setInputValue] = useState('');
@@ -32,7 +34,7 @@ export default function CommentsContainer({ currentVideo, comments, id }) {
     const handleKeyPress = (e) => {
         if (e.key === 'Enter' && inputValue) {
             createComments(id, user, inputValue);
-            updatedNotifications(currentVideo, user, 'comment');
+            updateNotifications(currentVideo, user, 'comment');
             setInputValue('');
         }
     }

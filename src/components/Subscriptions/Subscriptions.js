@@ -1,10 +1,11 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+// react
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUser } from '../../redux/selectors/user';
+import { showSubscribes } from '../../redux/actions/subscribes';
 import VideoCard from '../VideoCard/VideoCard';
 import Layout from '../Layout/Layout';
 import styles from './Subscriptions.module.scss';
-import { getUser } from "../../redux/selectors/user";
-import { showSubscribes } from "../../redux/actions/subscribes";
 
 export default function Subscriptions() {
     const dispatch = useDispatch();
@@ -12,9 +13,9 @@ export default function Subscriptions() {
     const subscribes = useSelector(state => state.subscribes.subscribes);
     useEffect(() => {
         if (user.uid) {
-          dispatch(showSubscribes(user));
+            dispatch(showSubscribes(user));
         }
-      }, [user, dispatch])
+    }, [user, dispatch])
     return (
         <Layout>
             <div className={styles.videoContainer}>

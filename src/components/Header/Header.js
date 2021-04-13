@@ -1,15 +1,18 @@
+// react
 import React, { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import styles from './Header.module.scss';
-import { Search as SearchIcon } from '@material-ui/icons';
-import { Tooltip } from '@material-ui/core';
-import { useHistory } from "react-router-dom";
-import UserMenu from './UserMenu';
+// service
+import { getVideosByTitle } from '../../service/service';
+// redux
 import { useSelector } from 'react-redux';
 import { getUser, getUserLoading } from '../../redux/selectors/user';
-import { getVideosByTitle } from '../../service';
+// components
+import { Search as SearchIcon } from '@material-ui/icons';
+import { Tooltip } from '@material-ui/core';
+import UserMenu from './UserMenu';
 import Sidebar from '../Sidebar/Sidebar';
 import GuestHeader from '../common/GuestHeader/GuestHeader';
-import { Link } from 'react-router-dom';
 
 export default function Header() {
     const user = useSelector(getUser);

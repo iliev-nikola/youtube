@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './ErrorPage.module.scss';
-import image from './monkey.png';
+import image from '../../assets/monkey.png';
 import { useHistory } from 'react-router';
 export default function ErrorPage() {
     const history = useHistory();

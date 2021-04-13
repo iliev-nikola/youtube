@@ -1,12 +1,17 @@
+// react
 import React, { useState } from 'react';
-import { TextField, Button } from '@material-ui/core';
+import { Link, useHistory } from 'react-router-dom';
 import styles from '../SignIn/SignIn.module.scss';
-import { auth } from '../../firebase';
-import { Link, useHistory } from "react-router-dom"
-import logoBlack from '../../assets/logoBlack.png';
+// service
+import { auth } from '../../service/firebase';
+// utils
 import { validateEmail } from '../../utils';
-import { setAlertOn } from '../../redux/actions/alertNotifier';
+// redux
 import { useDispatch } from 'react-redux';
+import { setAlertOn } from '../../redux/actions/alertNotifier';
+// components
+import { TextField, Button } from '@material-ui/core';
+import logoBlack from '../../assets/logoBlack.png';
 
 export default function ResetPassword() {
     const history = useHistory();

@@ -1,14 +1,12 @@
+// react
 import React, { useState } from 'react';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import { TextField } from '@material-ui/core';
 import styles from './Dialogs.module.scss';
-import { setAlertOn } from '../../../redux/actions/alertNotifier';
+// redux
 import { useDispatch } from 'react-redux';
+import { setAlertOn } from '../../../redux/actions/alertNotifier';
+// components
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
 
 export default function FormDialog({ handleClose, onEditClick, open, video }) {
     const [title, setTitle] = useState('');
@@ -43,16 +41,21 @@ export default function FormDialog({ handleClose, onEditClick, open, video }) {
         <Dialog
             open={open}
             onClose={handleClose}
-            aria-labelledby="dialog-title"
+            aria-labelledby="dialogTitle"
             fullWidth
         >
             <div className={styles.formDialog}>
-                <DialogTitle id="dialog-title">
-                    Update
-                    </DialogTitle>
+                <DialogTitle id="dialogTitle">
+                    Update this video?
+                </DialogTitle>
                 <DialogContent>
+                    Old title:
                     <DialogContentText>
                         {video ? video.title : null}
+                    </DialogContentText>
+                        Old description:
+                    <DialogContentText>
+                        {video ? video.description : null}
                     </DialogContentText>
                 </DialogContent>
                 <div className={styles.inputs}>

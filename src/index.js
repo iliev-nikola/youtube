@@ -1,20 +1,23 @@
+// react
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import './reset.css';
+// redux
+import store from './redux/store';
 import { Provider } from 'react-redux';
-import store from './store';
+// components
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
 import ru from 'javascript-time-ago/locale/ru';
+import App from './App';
+
 TimeAgo.addDefaultLocale(en);
 TimeAgo.addLocale(ru);
 
 ReactDOM.render(
   <Provider store={store}>
-    {/* <React.StrictMode> */}
     <App />
-    {/* </React.StrictMode> */}
   </Provider>,
   document.getElementById('root')
 );

@@ -1,13 +1,16 @@
+// react
 import { useEffect, useState } from 'react';
+import styles from './TrendingVideos.module.scss';
+// redux
 import { useDispatch, useSelector } from 'react-redux';
 import { getVideos } from '../../redux/selectors/videos';
-import Layout from '../Layout/Layout';
-import VideoCard from '../VideoCard/VideoCard';
-import InfiniteScroll from "react-infinite-scroll-component";
+import { getUserLoading } from '../../redux/selectors/user';
 import { setLoading, setNotLoading } from '../../redux/actions/loadingBar';
 import { setAlertOn } from '../../redux/actions/alertNotifier';
-import styles from './TrendingVideos.module.scss';
-import { getUser, getUserLoading } from '../../redux/selectors/user';
+// components
+import InfiniteScroll from 'react-infinite-scroll-component';
+import Layout from '../Layout/Layout';
+import VideoCard from '../VideoCard/VideoCard';
 
 export default function TrendingVideos() {
     const dispatch = useDispatch();
@@ -18,7 +21,7 @@ export default function TrendingVideos() {
     const [scrollTop, setScrollTop] = useState(0);
     const [sorted, setSorted] = useState([]);
     const [hasMore, setHasMore] = useState(true);
-    const videosLimitOnPage = 25;
+    const [videosLimitOnPage, setVideosLimitOnPage] = useState(0);
     const newVideosOnScroll = videos.length < 4 ? videos.length : 4;
 
     useEffect(() => {
@@ -28,9 +31,10 @@ export default function TrendingVideos() {
     useEffect(() => {
         setVisibleVideos(sorted.slice(0, 16));
         setLastVideoIndex(sorted.length < 16 ? 0 : 15);
+        setVideosLimitOnPage(videos.length);
     }, [sorted.length]);
 
-    const fetchMoreData = (e) => {
+    const fetchMoreData = () => {
         if (scrollTop > window.scrollY) return;
         if (visibleVideos.length > videosLimitOnPage) {
             dispatch(setAlertOn('info', 'No more videos to show. Check again later or upload some.'));

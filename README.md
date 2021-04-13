@@ -18,7 +18,7 @@
 - Redux
 - Redux-thunk
 - Material-UI
-- SASS
+- Sass
 - React-dragable
 - React-dropzone
 - React-hover-video-player
@@ -40,7 +40,11 @@
 - Voice assistant
 - Receive/View/Delete notifications
 - Auto delete notifications
+- "Infinite" scroll
+- Subscriptions (in progress)
 
 ### Backend service:
 
 - Firebase
+
+### Screenshots:

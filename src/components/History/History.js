@@ -1,18 +1,20 @@
+// react
 import { useEffect, useState } from 'react';
+import styles from '../TrendingVideos/TrendingVideos.module.scss';
+// service
+import { db } from '../../service/firebase';
+// redux
 import { useDispatch, useSelector } from 'react-redux';
 import { getVideos } from '../../redux/selectors/videos';
-import Layout from '../Layout/Layout';
-import VideoCard from '../VideoCard/VideoCard';
-import InfiniteScroll from "react-infinite-scroll-component";
 import { setLoading, setNotLoading } from '../../redux/actions/loadingBar';
 import { setAlertOn } from '../../redux/actions/alertNotifier';
-import styles from '../TrendingVideos/TrendingVideos.module.scss';
 import { getUser, getUserLoading } from '../../redux/selectors/user';
-import { db } from '../../firebase';
+// components
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import Layout from '../Layout/Layout';
+import VideoCard from '../VideoCard/VideoCard';
 import GuestHeader from '../common/GuestHeader/GuestHeader';
-import { getCurrentUserHistory } from '../../service';
-
 
 export default function History() {
     const dispatch = useDispatch();

@@ -1,13 +1,16 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router";
-import { filterVideos } from "../../service";
-import VideoCard from "../VideoCard/VideoCard";
-import image from './no-search-result.png';
-import Layout from '../Layout/Layout';
+// react
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
+// service
+import { filterVideos } from '../../service/service';
+// redux
+import { useDispatch } from 'react-redux';
 import { setAlertOn } from '../../redux/actions/alertNotifier';
-import { useDispatch } from "react-redux";
+// components
+import VideoCard from '../VideoCard/VideoCard';
+import image from '../../assets/no-search-result.png';
+import Layout from '../Layout/Layout';
 import styles from '../TrendingVideos/TrendingVideos.module.scss';
-
 
 export default function Search() {
     let { id } = useParams();

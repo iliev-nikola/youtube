@@ -9,3 +9,4 @@ export const getVideoURL = state => getVideo(state).url;
 export const getVideoWatched = state => getVideo(state).isWatchedBy;
 export const getVideoLikes = state => getVideo(state).isLikedBy;
 export const getVideoDislikes = state => getVideo(state).isDislikedBy;
+export const getVideoComments = state => state.comments.comments;

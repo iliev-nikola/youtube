@@ -1,7 +1,8 @@
 import { db } from './firebase';
-import firebase from "firebase/app";
-import { generateId } from './utils';
+import firebase from 'firebase/app';
+import { generateId } from '../utils';
 
+// NOTIFICATIONS
 export function setNotificationsRead() {
     db.collection('notifications')
         .get()
@@ -9,57 +10,12 @@ export function setNotificationsRead() {
         .then(res => {
             res.forEach(el => {
                 db.collection('notifications').doc(el.notID).update({ isRead: true });
-            })
+            });
         })
         .catch(err => console.log('error', err.message));
 }
 
-export function createComments(videoID, user, inputValue) {
-    const id = generateId();
-    const commentData = {
-        commentID: id,
-        videoID: videoID,
-        comment: inputValue,
-        userID: user.uid,
-        displayName: user.displayName,
-        photoURL: user.photoURL,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        isEdit: false
-    }
-    db.collection('comments').doc(id).set(commentData)
-        .then(() => {
-            db.collection("comments")
-                .where("videoID", "==", id)
-                .get()
-                .then((comments) => {
-                    let dbComments = [];
-                    comments.forEach((doc) => {
-                        dbComments.push(doc.data());
-                    });
-
-                })
-                .catch(err => console.log('error', err.message));
-        })
-        .catch(err => console.log('error', err.message));
-}
-
-export const deleteComment = (id) => {
-    db.collection("comments").doc(id).delete();
-}
-
-export function updateComment(id, value) {
-    db.collection('comments').doc(id).update({ comment: value, isEdit: false });
-}
-
-export function editableComment(id) {
-    db.collection('comments').doc(id).update({ isEdit: true });
-}
-
-export function uneditableComment(id) {
-    db.collection('comments').doc(id).update({ isEdit: false });
-}
-
-export function updatedNotifications(video, user, status) {
+export function updateNotifications(video, user, status) {
     const id = generateId();
     const now = Date.now();
     const notificationsData = {
@@ -76,24 +32,85 @@ export function updatedNotifications(video, user, status) {
     }
     db.collection('notifications').doc(id).set(notificationsData)
         .then(() => {
-            db.collection("notifications")
-                .where("authorID", "==", user.uid)
-                .get()
-                .then((notifications) => {
-                    let dbNotifications = [];
-                    notifications.forEach((doc) => {
-                        dbNotifications.push(doc.data());
-                    });
-                })
-                .catch(err => console.log('error', err.message));
+            // db.collection('notifications')
+            //     .where('authorID', '==', user.uid)
+            //     .get()
+            //     .then((notifications) => {
+            //         let dbNotifications = [];
+            //         notifications.forEach((doc) => {
+            //             dbNotifications.push(doc.data());
+            //         });
+            //     })
+            //     .catch(err => console.log('error', err.message));
         })
         .catch(err => console.log('error', err.message));
 }
 
 export const deleteNotification = (id) => {
-    db.collection("notifications").doc(id).delete();
+    db.collection('notifications').doc(id).delete();
+};
+
+export function deleteNotificationsOlderThanTwoHours() {
+    const ref = db.collection('notifications');
+    const now = Date.now();
+    const cutoff = now - 2 * 60 * 60 * 1000;
+    ref.orderBy('time').endAt(cutoff).limitToLast(1).get()
+        .then(res => res.docs.map(el => el.data()))
+        .then(res => res.forEach(doc => {
+            if (doc.isRead) {
+                ref.doc(doc.notID).delete();
+            }
+        }))
+        .catch(err => console.log(err));
 }
 
+// COMMENTS
+export function createComments(videoID, user, inputValue) {
+    const id = generateId();
+    const commentData = {
+        commentID: id,
+        videoID: videoID,
+        comment: inputValue,
+        userID: user.uid,
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        isEdit: false
+    }
+    db.collection('comments').doc(id).set(commentData)
+        .then(() => {
+            // db.collection('comments')
+            //     .where('videoID', '==', id)
+            //     .get()
+            //     .then((comments) => {
+            //         let dbComments = [];
+            //         comments.forEach((doc) => {
+            //             dbComments.push(doc.data());
+            //         });
+
+            //     })
+            //     .catch(err => console.log('error', err.message));
+        })
+        .catch(err => console.log('error', err.message));
+}
+
+export function deleteComment(id) {
+    db.collection('comments').doc(id).delete();
+}
+
+export function updateComment(id, value) {
+    db.collection('comments').doc(id).update({ comment: value, isEdit: false });
+}
+
+export function editableComment(id) {
+    db.collection('comments').doc(id).update({ isEdit: true });
+}
+
+export function uneditableComment(id) {
+    db.collection('comments').doc(id).update({ isEdit: false });
+}
+
+// PLAYLISTS
 export const createPlaylist = (user, inputValue) => {
     const id = generateId();
     const data = {
@@ -107,7 +124,7 @@ export const createPlaylist = (user, inputValue) => {
         .doc(id)
         .set(data)
         .catch(err => console.log('error', err.message));
-}
+};
 
 export const addVideoToPlaylist = (video, id) => {
     db.collection('playlists')
@@ -116,7 +133,7 @@ export const addVideoToPlaylist = (video, id) => {
             videos: firebase.firestore.FieldValue.arrayUnion(video)
         })
         .catch(err => console.log('error', err.message));
-}
+};
 
 export const removeVideoFromPlaylist = (video, id) => {
     db.collection('playlists')
@@ -125,12 +142,13 @@ export const removeVideoFromPlaylist = (video, id) => {
             videos: firebase.firestore.FieldValue.arrayRemove(video)
         })
         .catch(err => console.log('error', err.message));
-}
+};
 
 export const deletePlaylist = (id) => {
-    db.collection("playlists").doc(id).delete();
-}
+    db.collection('playlists').doc(id).delete();
+};
 
+// VIDEOS
 export function filterVideos(params) {
     if (!params.length) return null;
     if (params.length === 1) {
@@ -175,10 +193,6 @@ export function getVideosByTitle(title) {
     }
 }
 
-export function updateUserTheme(user, theme) {
-    db.collection('users').doc(user.uid).update({ theme: theme })
-}
-
 export function likeVideo(user, video) {
     if (!user) {
         return;
@@ -188,15 +202,17 @@ export function likeVideo(user, video) {
     if (isLiked) {
         return;
     } else if (!isLiked && isDisliked) {
-        const filterLikes = video.isLikedBy.filter(id => id !== user.uid);
-        db.collection('videos').doc(video.id).update({ isDislikedBy: filterLikes, isLikedBy: [...video.isLikedBy, user.uid] })
+        const filterDislikes = video.isDislikedBy.filter(id => id !== user.uid);
+        db.collection('videos').doc(video.id).update({ isDislikedBy: filterDislikes, isLikedBy: [...video.isLikedBy, user.uid] })
     } else if (!isLiked) {
         db.collection('videos').doc(video.id).update({ isLikedBy: [...video.isLikedBy, user.uid] })
-
     }
 };
 
 export function dislikeVideo(user, video) {
+    if (!user) {
+        return
+    }
     const isLiked = video.isLikedBy.some(id => id === user.uid);
     const isDisliked = video.isDislikedBy.some(id => id === user.uid);
     if (isDisliked) {
@@ -204,26 +220,17 @@ export function dislikeVideo(user, video) {
     } else if (!isDisliked && isLiked) {
         const filterLikes = video.isLikedBy.filter(id => id !== user.uid);
         db.collection('videos').doc(video.id).update({ isLikedBy: filterLikes, isDislikedBy: [...video.isDislikedBy, user.uid] })
-
     } else if (!isDisliked) {
         db.collection('videos').doc(video.id).update({ isDislikedBy: [...video.isDislikedBy, user.uid] })
     }
 };
 
-export function deleteNotificationsOlderThanTwoHours() {
-    const ref = db.collection('notifications');
-    const now = Date.now();
-    const cutoff = now - 2 * 60 * 60 * 1000;
-    ref.orderBy('time').endAt(cutoff).limitToLast(1).get()
-        .then(res => res.docs.map(el => el.data()))
-        .then(res => res.forEach(doc => {
-            if (doc.isRead) {
-                ref.doc(doc.notID).delete();
-            }
-        }))
-        .catch(err => console.log(err));
+// THEME
+export function updateUserTheme(user, theme) {
+    db.collection('users').doc(user.uid).update({ theme: theme })
 }
 
+// USER
 export function getCurrentUserInfo(id) {
     return db.collection('users').doc(id).get().then(res => res);
 }
@@ -238,6 +245,16 @@ export function getCurrentUserLiked(id) {
     return videosRef.where('isLikedBy', 'array-contains', id).get().then(res => res.docs.map(el => el.data()));
 }
 
+// finish that function to return an array with fresh video objects
+// must get the playlist name and user names and photoURL also
+export function getCurrentUserLibrary(id) {
+    const videosRef = db.collection('videos');
+    const libraryRef = db.collection('playlists');
+    return libraryRef.where('authorID', '==', id).get()
+        .then(res => res.docs.map(el => el.data())) // here we return an array with author ID strings
+}
+
+// SUBSCRIBES
 export function subscribe(user, video) {
     db.collection('users')
         .doc(user.uid)
@@ -246,10 +263,10 @@ export function subscribe(user, video) {
         })
 }
 
-export function removeSubscribe(user, video) {
+export function unsubscribe(user, video) {
     db.collection('users')
         .doc(user.uid)
         .update({
             subscribes: firebase.firestore.FieldValue.arrayRemove(video.authorID)
-        })
+        });
 }

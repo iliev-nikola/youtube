@@ -1,6 +1,6 @@
 import React from 'react';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import styles from './ProgressBar.module.scss'
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 export default function ProgressBar({ isOn }) {
     return (

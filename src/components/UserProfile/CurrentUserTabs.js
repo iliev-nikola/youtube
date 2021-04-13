@@ -1,15 +1,18 @@
+// react
 import React, { useState, useEffect } from 'react';
+import styles from './UserProfile.module.scss';
+// redux
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchMyVideos } from '../../redux/actions/videos';
+import { editIt, deleteIt } from '../../redux/actions/video';
+import { getMyVideos } from '../../redux/selectors/videos';
+// components
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
+import { AppBar, Tabs, Tab, Box } from '@material-ui/core';
 import VideoCard from '../VideoCard/VideoCard';
-import styles from './UserProfile.module.scss';
 import AlertDialog from './DialogBoxes/AlertDialog';
 import FormDialog from './DialogBoxes/FormDialog';
-import { AppBar, Tabs, Tab, Box } from '@material-ui/core';
-import {  fetchMyVideos } from '../../redux/actions/videos';
-import { editIt, deleteIt } from '../../redux/actions/video';
-import { useDispatch, useSelector } from 'react-redux';
-import { getMyVideos } from '../../redux/selectors/videos';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;

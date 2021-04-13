@@ -1,15 +1,20 @@
+// react
 import React, { useState } from 'react';
-import { TextField, Button } from '@material-ui/core';
+import { Link, useHistory } from 'react-router-dom';
 import styles from './SignIn.module.scss';
-import { auth, googleProvider, facebookProvider, gitHubProvider } from '../../firebase';
-import { Link, useHistory } from "react-router-dom";
+// service
+import { auth, googleProvider, facebookProvider, gitHubProvider } from '../../service/firebase';
+// utils
 import { validateEmail } from '../../utils';
+// redux
+import { useDispatch } from 'react-redux';
+import { setAlertOn } from '../../redux/actions/alertNotifier';
+// components
 import logoBlack from '../../assets/logoBlack.png';
 import gitHubLogo from '../../assets/gitHubLogo.png';
 import facebookLogo from '../../assets/facebookLogo.png';
 import googleLogo from '../../assets/googleLogo.png';
-import { setAlertOn } from '../../redux/actions/alertNotifier';
-import { useDispatch } from 'react-redux';
+import { TextField, Button } from '@material-ui/core';
 
 export default function SignIn() {
     const history = useHistory();

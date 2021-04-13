@@ -1,27 +1,26 @@
-import { Link } from 'react-router-dom';
+// react
 import { useEffect, useState } from 'react';
+import styles from './HomePage.module.scss'
+// redux
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchVideos } from '../../redux/actions/videos';
 import { getVideos } from '../../redux/selectors/videos';
-import Layout from '../Layout/Layout';
-import VideoCard from '../VideoCard/VideoCard';
-import InfiniteScroll from "react-infinite-scroll-component";
 import { setLoading, setNotLoading } from '../../redux/actions/loadingBar';
 import { setAlertOn } from '../../redux/actions/alertNotifier';
-import styles from './HomePage.module.scss'
-import { getUser } from '../../redux/selectors/user';
+// components
+import InfiniteScroll from 'react-infinite-scroll-component';
+import Layout from '../Layout/Layout';
+import VideoCard from '../VideoCard/VideoCard';
 
 export default function HomePage() {
+    const dispatch = useDispatch();
+    const videos = useSelector(getVideos);
     const [lastVideoIndex, setLastVideoIndex] = useState(0);
     const [visibleVideos, setVisibleVideos] = useState([]);
     const [scrollTop, setScrollTop] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const [videosLimitOnPage, setVideosLimitOnPage] = useState(0);
-    const videos = useSelector(getVideos);
     const newVideosOnScroll = videos.length < 4 ? videos.length : 4;
-    const dispatch = useDispatch();
 
-    // TODO
     useEffect(() => {
         setVisibleVideos(videos.slice(0, 16));
         setLastVideoIndex(videos.length < 16 ? 0 : 15);

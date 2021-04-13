@@ -1,6 +1,4 @@
-import {
-    FETCH_SUBSCRIBES
-} from '../actions/subscribes';
+import { FETCH_SUBSCRIBES } from '../actions/subscribes';
 
 const INITIAL_STATE = {
     subscribes: []
