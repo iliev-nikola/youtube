@@ -48,6 +48,7 @@ export default function App() {
   // Initial load of the current user and all videos
   useEffect(() => {
     dispatch(fetchVideos());
+    
 
     auth.onAuthStateChanged(user => {
       if (user) {
@@ -79,7 +80,10 @@ export default function App() {
         <AlertNotifier />
         <ProgressBar isOn={isLoading} />
         <Switch>
-          <Route exact path='/' component={HomePage} />
+          <Route exact path='/' >
+            {/* <Header /> */}
+            <HomePage />
+            </Route>
           <Route path='/video/:id' component={OpenVideo} />
           <Route path='/search/:id' component={Search} />
           <Route exact path='/search'>

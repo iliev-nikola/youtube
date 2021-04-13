@@ -206,7 +206,13 @@ export function likeVideo(user, video) {
         db.collection('videos').doc(video.id).update({ isDislikedBy: filterDislikes, isLikedBy: [...video.isLikedBy, user.uid] })
     } else if (!isLiked) {
         db.collection('videos').doc(video.id).update({ isLikedBy: [...video.isLikedBy, user.uid] })
+           // .then(res => {
+           //     console.log('Response: ', res);
+                // Update Redux store
+           // })
     }
+
+    // updateNotifications()
 };
 
 export function dislikeVideo(user, video) {

@@ -20,6 +20,7 @@ export const fetchMyVideosSucceeded = (myVideos) => ({
     payload: myVideos,
 });
 
+// tova ne e fetch ami e real time update na videa
 export const fetchVideos = () => {
     return function (dispatch) {
         dispatch(setLoading());

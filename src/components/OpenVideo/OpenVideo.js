@@ -1,5 +1,5 @@
 // react
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import styles from './OpenVideo.module.scss';
 // service
@@ -28,9 +28,15 @@ export default function OpenVideo() {
     const [isDisliked, setIsDisliked] = useState(false);
     const [isSubscribed, setIsSubscribed] = useState(false);
     const videos = useSelector(getVideos);
-    const video = useSelector(state => videos.find(video => video.id === id));
+    const video = useSelector(state => state.videos.videos.find(video => video.id === id));
     const comments = useSelector(getVideoComments);
     const user = useSelector(getUser);
+
+
+    
+    //const isVideoLiked = videos.isLikedBy.includes(user.uid)
+
+
     useEffect(() => {
         if (user.uid && video.id) {
             setIsLiked(video.isLikedBy.some(userID => userID === user.uid));
@@ -51,8 +57,8 @@ export default function OpenVideo() {
 
     const likeIt = () => {
         if (isLiked) return;
-        likeVideo(user, video);
-        updateNotifications(video, user, 'like');
+        likeVideo(user, video); // db update
+        updateNotifications(video, user, 'like'); // 
         setIsLiked(true);
         setIsDisliked(false);
     };

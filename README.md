@@ -1,6 +1,6 @@
 # YouTube - final project for IT Talents
 
-## SPA - copy of YouTube website with some functionality
+## SPA - copy of YouTube website with some main functionality
 
 ### Contributors: [Marina Damyanova](https://github.com/mtdamyanova "Marina Damyanova") & [Nikola Iliev](https://github.com/iliev-nikola "Nikola Iliev")
 
@@ -25,6 +25,10 @@
 - React-infinite-scroll
 - React-time-ago
 - Cron-job.org
+
+### Work organizator
+
+- Trello
 
 ### Main functionalities
 
