@@ -14,7 +14,6 @@ export const showSubscribes = (user) => {
             .onSnapshot((doc) => {
                 let subscribes = [];
                 doc.data().subscribes.forEach(el => {
-                    
                     db.collection('videos').where('authorID', '==', el).get()
                         .then(res => res.docs.map(el => el.data()))
                         .then(res => subscribes.push(...res));
