@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styles from './OpenVideo.module.scss';
+import styles from './VideoPage.module.scss';
 import { Typography, Box, Popover } from '@material-ui/core';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 

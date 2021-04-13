@@ -11,7 +11,7 @@ import { getPlaylists } from '../../redux/actions/playlists';
 // components
 import { Modal, FormControlLabel, Checkbox, TextField, List, Button } from '@material-ui/core';
 import { PlaylistAdd as PlaylistAddIcon, Delete as DeleteIcon } from '@material-ui/icons';
-import PopUp from '../OpenVideo/PopupState';
+import PopUp from '../VideoPage/PopupState';
 
 export default function PlaylistModal({ video }) {
     const user = useSelector(getUser);

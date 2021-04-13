@@ -181,13 +181,9 @@ export function likeVideo(user, video) {
         db.collection('videos').doc(video.id).update({ isDislikedBy: filterDislikes, isLikedBy: [...video.isLikedBy, user.uid] })
     } else if (!isLiked) {
         db.collection('videos').doc(video.id).update({ isLikedBy: [...video.isLikedBy, user.uid] })
-           // .then(res => {
-           //     console.log('Response: ', res);
-                // Update Redux store
-           // })
-    }
 
-    // updateNotifications()
+    }
+    updateNotifications(video, user, 'like');
 };
 
 export function dislikeVideo(user, video) {
@@ -204,6 +200,7 @@ export function dislikeVideo(user, video) {
     } else if (!isDisliked) {
         db.collection('videos').doc(video.id).update({ isDislikedBy: [...video.isDislikedBy, user.uid] })
     }
+    updateNotifications(video, user, 'dislike');
 };
 
 // THEME

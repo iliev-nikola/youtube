@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router';
 import ReactTimeAgo from 'react-time-ago';
-import styles from './OpenVideo.module.scss';
+import styles from './VideoPage.module.scss';
 // service
 import { updateNotifications, createComments, deleteComment, updateComment, editableComment, uneditableComment } from '../../service/service';
 // redux

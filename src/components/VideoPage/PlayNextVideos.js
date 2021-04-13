@@ -1,4 +1,4 @@
-import styles from './OpenVideo.module.scss';
+import styles from './VideoPage.module.scss';
 import VideoCard from '../VideoCard/VideoCard';
 import { useSelector } from 'react-redux';
 import { getVideos } from '../../redux/selectors/videos';

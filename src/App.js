@@ -22,7 +22,7 @@ import { getVideosLength } from './redux/selectors/videos';
 // components
 import SignUp from './components/SignUp/SignUp';
 import ErrorPage from './components/ErrorPage/ErrorPage';
-import OpenVideo from './components/OpenVideo/OpenVideo';
+import VideoPage from './components/VideoPage/VideoPage';
 import SignIn from './components/SignIn/SignIn';
 import ResetPassword from './components/ResetPassword/ResetPassword';
 import SignOut from './components/SignOut/SignOut';
@@ -47,8 +47,7 @@ export default function App() {
   // Initial load of the current user and all videos
   useEffect(() => {
     dispatch(fetchVideos());
-    
-
+  
     auth.onAuthStateChanged(user => {
       if (user) {
         dispatch(setUser(user));
@@ -83,7 +82,7 @@ export default function App() {
             {/* <Header /> */}
             <HomePage />
             </Route>
-          <Route path='/video/:id' component={OpenVideo} />
+          <Route path='/video/:id' component={VideoPage} />
           <Route path='/search/:id' component={Search} />
           <Route exact path='/search'>
             <Redirect to='/' />
