@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './VideoPage.module.scss';
 import { ThumbDown as ThumbDownIcon, ThumbUp } from '@material-ui/icons';
@@ -7,7 +7,6 @@ import PlaylistModal from '../LibraryPage/PlaylistModal';
 import UserLogo from '../common/UserLogo/UserLogo';
 // service
 import { subscribe, unsubscribe, likeOrDislikeVideo } from '../../service/service';
-import { db } from '../../service/firebase';
 
 export default function VideoInfo({ video, user }) {
     const [isSubscribed, setIsSubscribed] = useState(false);

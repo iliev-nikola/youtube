@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import styles from './Layout.module.scss';
 import { Home, VideoLibrary, History, Whatshot, Subscriptions } from '@material-ui/icons';
 import { Tooltip } from '@material-ui/core';
-import Header from '../Header/Header';
 
 export default function Layout({ children }) {
     const sideBarContainer = (<>
@@ -38,16 +37,13 @@ export default function Layout({ children }) {
         </Tooltip>
     </>);
     return (
-        <>
-            <Header />
-            <div className={styles.mainContainer}>
-                <div className={styles.sideBarContainer}>
-                    {sideBarContainer}
-                </div>
-                <div className={styles.homeContainer}>
-                    {children}
-                </div>
+        <div className={styles.mainContainer}>
+            <div className={styles.sideBarContainer}>
+                {sideBarContainer}
             </div>
-        </>
+            <div className={styles.homeContainer}>
+                {children}
+            </div>
+        </div>
     )
 }

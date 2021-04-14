@@ -11,19 +11,21 @@ import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 import VideoCard from '../VideoCard/VideoCard';
 import Layout from '../Layout/Layout';
 import GuestHeader from '../common/GuestHeader/GuestHeader';
+import { getPlaylistsAsd } from '../../service/service';
 
 export default function UserPlaylists() {
   const dispatch = useDispatch();
   const user = useSelector(getUser);
   const isUserLoading = useSelector(getUserLoading);
+  const playlists = useSelector(state => state.playlists.playlists);
 
   useEffect(() => {
-    if (user.uid) {
+    if (user) {
+      getPlaylistsAsd(user.uid);
       dispatch(getPlaylists(user.uid));
     }
-  }, [user.uid]);
+  }, [user]);
 
-  const playlists = useSelector(state => state.playlist.playlists);
 
   const emptyPlaylistPage = (
     <div className={styles.emptyPage}>
@@ -37,16 +39,16 @@ export default function UserPlaylists() {
   const noLoggedInUserPage = (
     <div className={styles.emptyPage}>
       <VideoLibraryIcon />
-      <h2>Enjoy your favorite videos</h2>
-      <h5>Sign in to access videos that you’ve liked or saved</h5>
+      <h2>Enjoy your favorite videos!</h2>
+      <h5>Sign in to access videos that you've liked or saved</h5>
       <div className={styles.signIn} > <GuestHeader /></div>
     </div>
   );
   return (
     <Layout>
       {isUserLoading && <h1 className={styles.welcomeText}>Loading...</h1>}
-      {!isUserLoading && !user.uid && noLoggedInUserPage}
-      {user.uid && (<div className={styles.playlistsContainer}>
+      {!isUserLoading && !user && noLoggedInUserPage}
+      {user && (<div className={styles.playlistsContainer}>
         {playlists && playlists.length ? playlists.map(playlist => (
           <AppBar position="static" color="default" key={playlist.id} >
             <div className={styles.playlistName}>{playlist.name.toUpperCase()}</div>

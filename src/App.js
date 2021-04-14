@@ -20,7 +20,7 @@ import { fetchTheme } from './redux/actions/theme';
 import { fetchVideos } from './redux/actions/videos';
 // components
 import SignUp from './components/SignUp/SignUp';
-import ErrorPage from './components/ErrorPage/ErrorPage';
+import ErrorPage from './components/ErrorPages/ErrorPages';
 import VideoPage from './components/VideoPage/VideoPage';
 import SignIn from './components/SignIn/SignIn';
 import ResetPassword from './components/ResetPassword/ResetPassword';
@@ -46,7 +46,6 @@ export default function App() {
   // Initial load of the current user and all videos
   useEffect(() => {
     dispatch(fetchVideos());
-
     auth.onAuthStateChanged(user => {
       if (user) {
         dispatch(setUser(user));
@@ -69,82 +68,66 @@ export default function App() {
   return (
     <Router>
       <VoiceControl />
-      <>
-        <AlertNotifier />
-        <ProgressBar isOn={isLoading} />
-        <Switch>
-          <Route exact path='/' >
-            <Header />
-            <HomePage />
-          </Route>
-          <Route path='/video/:id'>
-            <VideoPage />
-          </Route>
-          <Route path='/search/:id'>
-            <Search />
-          </Route>
-          <Route exact path='/search'>
-            <Redirect to='/' />
-          </Route>
-          <Route path='/upload'>
-            <UploadVideo />
-          </Route>
-          <Route path='/user/:id'>
-            <UserProfile />
-          </Route>
-          <Route path='/library'>
-            <Library />
-          </Route>
-          <Route path='/trending'>
-            <TrendingVideos />
-          </Route>
-          <Route path='/history'>
-            <History />
-          </Route>
-          <Route path='/subscriptions'>
-            <Subscriptions />
-          </Route>
-          <Route path='/signout'
-            render={() => {
-              if (auth.currentUser && user) {
-                return <SignOut />
-              } else {
-                return <Redirect to='/' />
-              }
-            }}
-          />
-          <Route path='/signup'
-            render={() => {
-              if (auth.currentUser && user) {
-                return <Redirect to='/' />
-              } else {
-                return <SignUp />
-              }
-            }} />
-          <Route path='/signin'
-            render={() => {
-              if (auth.currentUser && user) {
-                return <Redirect to='/' />
-              } else {
-                return <SignIn />
-              }
-            }} />
-          <Route path='/reset'
-            render={() => {
-              if (auth.currentUser && user) {
-                return <Redirect to='/' />
-              } else {
-                return <ResetPassword />
-              }
-            }} />
-          <Route exact path='/auto-delete-notifications'>
-            {deleteNotificationsOlderThanTwoHours()}
-          </Route>
-          <Route path='*'>
-            <ErrorPage />
-          </Route>
-        </Switch>
-      </>
+      <AlertNotifier />
+      <ProgressBar isOn={isLoading} />
+      <Switch>
+        <Route exact path='/' >
+          <Header />
+          <HomePage />
+        </Route>
+        <Route path='/video/:id'>
+          <Header />
+          <VideoPage />
+        </Route>
+        <Route path='/search/:id'>
+          <Header />
+          <Search />
+        </Route>
+        <Route exact path='/search'>
+          <Redirect to='/' />
+        </Route>
+        <Route path='/upload'>
+          <UploadVideo />
+        </Route>
+        <Route path='/user/:id'>
+          <Header />
+          <UserProfile />
+        </Route>
+        <Route path='/library'>
+          <Header />
+          <Library />
+        </Route>
+        <Route path='/trending'>
+          <Header />
+          <TrendingVideos />
+        </Route>
+        <Route path='/history'>
+          <Header />
+          <History />
+        </Route>
+        <Route path='/subscriptions'>
+          <Header />
+          <Subscriptions />
+        </Route>
+        <Route path='/signout' >
+          {auth.currentUser && user ? <SignOut /> : <Redirect to='/' />}
+        </Route>
+        <Route path='/signup'>
+          {auth.currentUser && user ? <Redirect to='/' /> : <SignUp />}
+        </Route>
+        <Route path='/signin' >
+          {auth.currentUser && user ? <Redirect to='/' /> : <SignIn />}
+        </Route>
+        <Route path='/reset' >
+          {auth.currentUser && user ? <Redirect to='/' /> : <ResetPassword />}
+        </Route>
+        <Route exact path='/auto-delete-notifications'>
+          {deleteNotificationsOlderThanTwoHours()}
+        </Route>
+        <Route path='*'>
+          <ErrorPage />
+        </Route>
+      </Switch>
     </Router >
   );
 }

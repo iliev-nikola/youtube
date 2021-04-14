@@ -8,7 +8,7 @@ import commentsReducer from './reducers/comments';
 import loadingReducer from './reducers/loadingBar';
 import alertReducer from './reducers/alertNotifier';
 import notificationReducer from './reducers/notifications';
-import playlistReducer from './reducers/playlists';
+import playlistsReducer from './reducers/playlists';
 import subscribesReducer from './reducers/subscribes';
 
 const rootReducer = combineReducers({
@@ -19,7 +19,7 @@ const rootReducer = combineReducers({
   loading: loadingReducer,
   alert: alertReducer,
   notification: notificationReducer,
-  playlist: playlistReducer,
+  playlists: playlistsReducer,
   subscribes: subscribesReducer
 });
 

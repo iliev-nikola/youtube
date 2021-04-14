@@ -12,7 +12,6 @@ export const getPlaylists = (userID) => {
         db.collection('playlists').where('authorID', '==', userID).onSnapshot(snapshot => {
             const playlists = snapshot.docs.map(doc => ({ ...doc.data() }));
             dispatch(showPlaylists(playlists));
-        });
-
+        })
     }
 };

@@ -2,8 +2,6 @@ import { db } from './firebase';
 import firebase from 'firebase/app';
 import { generateId } from '../utils';
 import { setAlertOn } from '../redux/actions/alertNotifier';
-import AlertNotifier from '../components/common/AlertNotifier';
-import { useDispatch } from 'react-redux';
 import { setLoading, setNotLoading } from '../redux/actions/loadingBar';
 
 // NOTIFICATIONS
@@ -57,7 +55,7 @@ export function deleteNotificationsOlderThanTwoHours() {
 }
 
 // COMMENTS
-export function createComments(videoID, user, inputValue) {
+export function createComment(videoID, user, inputValue) {
     const id = generateId();
     const commentData = {
         commentID: id,
@@ -91,43 +89,64 @@ export function uneditableComment(id) {
 
 // PLAYLISTS
 export const createPlaylist = (user, inputValue) => {
-    const id = generateId();
-    const data = {
-        id: id,
-        name: inputValue,
-        authorID: user.uid,
-        videos: []
-    };
+    return function (dispatch) {
+        const id = generateId();
+        const data = {
+            id: id,
+            name: inputValue,
+            authorID: user.uid,
+            videos: []
+        };
 
-    db.collection('playlists')
-        .doc(id)
-        .set(data)
-        .catch(err => console.log('error', err.message));
+        db.collection('playlists')
+            .doc(id)
+            .set(data)
+            .catch(err => dispatch(setAlertOn('error', err.message)));
+    }
 };
 
 export const addVideoToPlaylist = (video, id) => {
-    db.collection('playlists')
-        .doc(id)
-        .update({
-            videos: firebase.firestore.FieldValue.arrayUnion(video)
-        })
-        .catch(err => console.log('error', err.message));
+    return function (dispatch) {
+        db.collection('playlists')
+            .doc(id)
+            .update({
+                videos: firebase.firestore.FieldValue.arrayUnion(video.id)
+            })
+            .catch(err => dispatch(setAlertOn('error', err.message)));
+    }
 };
 
 export const removeVideoFromPlaylist = (video, id) => {
-    db.collection('playlists')
-        .doc(id)
-        .update({
-            videos: firebase.firestore.FieldValue.arrayRemove(video)
-        })
-        .catch(err => console.log('error', err.message));
+    return function (dispatch) {
+        db.collection('playlists')
+            .doc(id)
+            .update({
+                videos: firebase.firestore.FieldValue.arrayRemove(video.id)
+            })
+            .catch(err => dispatch(setAlertOn('error', err.message)));
+    }
 };
 
 export const deletePlaylist = (id) => {
     db.collection('playlists').doc(id).delete();
 };
 
+export const getPlaylistsAsd = (userId) => {
+    db.collection('playlists').where('authorID', '==', userId).get()
+        .then(res => res.docs.map(doc => ({ ...doc.data() })))
+        .then(playlists => {
+            playlists.forEach(playlist => {
+                playlist.videos.map(el => getVideo(el))
+            });
+        })
+}
+
+
 // VIDEOS
+export const getVideo = (id) => {
+    db.collection('videos').doc(id).get().then(res => res.data());
+}
+
 export function filterVideos(params) {
     if (!params.length) return null;
     if (params.length === 1) {
@@ -158,18 +177,17 @@ export function filterVideos(params) {
 }
 
 export function getVideosByTitle(title) {
-    if (title) {
-        return db.collection('videos').get()
-            .then(res => res.docs)
-            .then(res => res.map(doc => doc.data()))
-            .then(res => res.filter(doc => doc.title.match(title)))
-            .then(res => res.map(({ title, id }) => ({ title, id })))
-    } else {
-        return db.collection('videos').get()
-            .then(res => res.docs)
-            .then(res => res.map(doc => doc.data()))
-            .then(res => res.map(({ title, id }) => ({ title, id })))
-    }
+    return db.collection('videos').get()
+        .then(res => res.docs)
+        .then(res => res.map(doc => doc.data()))
+        .then(res => {
+            if (title) {
+                return res.filter(doc => doc.title.match(title));
+            } else {
+                return res;
+            }
+        })
+        .then(res => res.map(({ title, id }) => ({ title, id })))
 }
 
 export function likeOrDislikeVideo(user, video) {
@@ -244,29 +262,27 @@ export function getUserInfo(id) {
     return db.collection('users').doc(id).get().then(res => res);
 }
 
-export function getUserHistory(id) {
-    const videosRef = db.collection('videos');
-    return videosRef.where('isWatchedBy', 'array-contains', id).get().then(res => res.docs.map(el => el.data()));
-}
-
-export function getUserLiked(id) {
-    const videosRef = db.collection('videos');
-    return videosRef.where('isLikedBy', 'array-contains', id).get().then(res => res.docs.map(el => el.data()));
-}
-
 // SUBSCRIBES
 export function subscribe(user, video) {
-    db.collection('users')
-        .doc(user.uid)
-        .update({
-            subscribes: firebase.firestore.FieldValue.arrayUnion(video.authorID)
-        });
+    return function (dispatch) {
+        db.collection('users')
+            .doc(user.uid)
+            .update({
+                subscribes: firebase.firestore.FieldValue.arrayUnion(video.authorID)
+            })
+            .then(() => dispatch(setAlertOn('success', `You successfully subscribed to ${video.author}`)))
+            .catch(err => dispatch(setAlertOn('success', err.message)));
+    }
 }
 
 export function unsubscribe(user, video) {
-    db.collection('users')
-        .doc(user.uid)
-        .update({
-            subscribes: firebase.firestore.FieldValue.arrayRemove(video.authorID)
-        });
+    return function (dispatch) {
+        db.collection('users')
+            .doc(user.uid)
+            .update({
+                subscribes: firebase.firestore.FieldValue.arrayRemove(video.authorID)
+            })
+            .then(() => dispatch(setAlertOn('success', `You successfully unsubscribed from ${video.author}`)))
+            .catch(err => dispatch(setAlertOn('success', err.message)));
+    }
 }

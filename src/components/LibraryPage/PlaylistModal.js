@@ -14,17 +14,17 @@ import { PlaylistAdd as PlaylistAddIcon, Delete as DeleteIcon } from '@material-
 import PopUp from '../VideoPage/PopupState';
 
 export default function PlaylistModal({ video }) {
-    const user = useSelector(getUser);
-    const [inputValue, setInputValue] = useState('');
     const dispatch = useDispatch();
-    const playlists = useSelector(state => state.playlist.playlists);
+    const user = useSelector(getUser);
+    const playlists = useSelector(state => state.playlists.playlists);
+    const [inputValue, setInputValue] = useState('');
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
         if (user.uid) {
             dispatch(getPlaylists(user.uid));
         }
-    }, [user.uid]);
+    }, []);
 
     const handleOpen = () => {
         setOpen(true);

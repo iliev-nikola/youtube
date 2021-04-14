@@ -4,7 +4,7 @@ import { useHistory } from 'react-router';
 import ReactTimeAgo from 'react-time-ago';
 import styles from './VideoPage.module.scss';
 // service
-import { updateNotifications, createComments, deleteComment, updateComment, editableComment, uneditableComment } from '../../service/service';
+import { updateNotifications, createComment, deleteComment, updateComment, editableComment, uneditableComment } from '../../service/service';
 // redux
 import { useSelector, useDispatch } from 'react-redux';
 import { getUser } from '../../redux/selectors/user';
@@ -33,7 +33,7 @@ export default function CommentsContainer({ currentVideo, comments, id }) {
 
     const handleKeyPress = (e) => {
         if (e.key === 'Enter' && inputValue) {
-            createComments(id, user, inputValue);
+            createComment(id, user, inputValue);
             updateNotifications(currentVideo, user, 'comment');
             setInputValue('');
         }
@@ -69,7 +69,6 @@ export default function CommentsContainer({ currentVideo, comments, id }) {
                 {comments ?
                     comments.map((comment) => (
                         <div key={comment.commentID} className={styles.mainComm} >
-
                             <div onClick={() => history.push(`/user/${comment.userID}`)}>
                                 <UserLogo author={comment.displayName} authorPhotoURL={comment.photoURL} />
                             </div>
