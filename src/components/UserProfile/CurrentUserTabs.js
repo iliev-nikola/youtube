@@ -1,11 +1,10 @@
 // react
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styles from './UserProfile.module.scss';
+// service
+import { deleteVideo, editVideo } from '../../service/service';
 // redux
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchMyVideos } from '../../redux/actions/videos';
-import { editIt, deleteIt } from '../../redux/actions/video';
-import { getMyVideos } from '../../redux/selectors/videos';
+import { useDispatch } from 'react-redux';
 // components
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
@@ -62,18 +61,13 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function ScrollableTabsButtonAuto({ history, liked, user, currentUser }) {
+export default function ScrollableTabsButtonAuto({ videos, history, liked, user, currentUser }) {
     const [video, setVideo] = useState(null);
     const [value, setValue] = useState(0);
     const [openAlert, setOpenAlert] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
     const classes = useStyles();
     const dispatch = useDispatch();
-    const myVideos = useSelector(getMyVideos);
-
-    useEffect(() => {
-        dispatch(fetchMyVideos(user.uid));
-    }, [dispatch, user]);
 
     const onEditOpen = (video) => {
         setOpenEdit(true);
@@ -85,11 +79,11 @@ export default function ScrollableTabsButtonAuto({ history, liked, user, current
     };
     const onEditClick = (title, description) => {
         setOpenEdit(false);
-        dispatch(editIt(video, title, description));
+        dispatch(editVideo(video, title, description));
     };
     const onDeleteClick = () => {
         setOpenAlert(false);
-        dispatch(deleteIt(video, user.uid));
+        dispatch(deleteVideo(video, user.uid));
     };
     const handleCloseEdit = () => {
         setOpenEdit(false);
@@ -118,7 +112,7 @@ export default function ScrollableTabsButtonAuto({ history, liked, user, current
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0} className={classes.container}>
-                {myVideos && myVideos.length ? myVideos.map(video => (
+                {videos && videos.length ? videos.map(video => (
                     <div key={video.id}>
                         <VideoCard key={video.id} url={video.url} title={video.title} views={video.views} author={video.author} authorPhotoURL={video.authorPhotoURL} id={video.id} duration={video.duration} />
                         {user.uid === currentUser.uid ?

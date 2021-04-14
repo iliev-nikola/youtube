@@ -12,13 +12,13 @@ import { getNotifications } from '../../redux/actions/notifications';
 import { Tooltip, Badge, ClickAwayListener } from '@material-ui/core';
 import { Notifications as NotificationsIcon, Cancel } from '@material-ui/icons';
 import UserLogo from '../common/UserLogo/UserLogo';
+
 export default function NotificationsMenu() {
     const dispatch = useDispatch();
     const user = useSelector(getUser);
+    const notifications = useSelector(state => state.notification.notifications);
     const [openNotify, setOpenNotify] = useState(false);
     const [unreadNotifications, setUnreadNotifications] = useState([]);
-    const notifications = useSelector(state => state.notification.notifications);
-
 
     const handleClickNotify = () => {
         setOpenNotify((prev) => !prev);

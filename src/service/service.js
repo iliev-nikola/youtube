@@ -1,6 +1,10 @@
 import { db } from './firebase';
 import firebase from 'firebase/app';
 import { generateId } from '../utils';
+import { setAlertOn } from '../redux/actions/alertNotifier';
+import AlertNotifier from '../components/common/AlertNotifier';
+import { useDispatch } from 'react-redux';
+import { setLoading, setNotLoading } from '../redux/actions/loadingBar';
 
 // NOTIFICATIONS
 export function setNotificationsRead() {
@@ -184,22 +188,68 @@ export function likeOrDislikeVideo(user, video) {
     }
 }
 
+export const editVideo = (video, title, description) => {
+    return function (dispatch) {
+        const obj = { ...video, title, description }
+        dispatch(setLoading());
+        db.collection('videos')
+            .doc(video.id)
+            .update(obj,
+                (error) => {
+                    if (error) {
+                        dispatch(setAlertOn('error', error.message));
+                    }
+                }).then(() => {
+                    dispatch(setAlertOn('success', 'Video successfully updated'));
+                })
+            .catch(err => dispatch(setAlertOn('error', err.message)))
+            .finally(() => dispatch(setNotLoading()));
+    }
+};
+
+export const deleteVideo = (video) => {
+    return function (dispatch) {
+        dispatch(setLoading());
+        db.collection('videos')
+            .doc(video.id)
+            .delete()
+            .then(() => dispatch(setAlertOn('success', 'Video successfully deleted')))
+            .catch(err => dispatch(setAlertOn('error', err.message)))
+            .finally(() => dispatch(setNotLoading()));
+    }
+};
+
+export const increaseViews = (video) => {
+    return function (dispatch, getState) {
+        const userId = getState().user.user.uid;
+        const isWatchedBy = video.isWatchedBy;
+        if (!isWatchedBy.includes(userId)) {
+            isWatchedBy.push(userId);
+        }
+
+        db.collection('videos')
+            .doc(video.id)
+            .update({ views: video.views + 1, isWatchedBy: isWatchedBy })
+            .catch(err => dispatch(setAlertOn('error', err.message)));
+    }
+};
+
 // THEME
 export function updateUserTheme(user, theme) {
     db.collection('users').doc(user.uid).update({ theme: theme })
 }
 
 // USER
-export function getCurrentUserInfo(id) {
+export function getUserInfo(id) {
     return db.collection('users').doc(id).get().then(res => res);
 }
 
-export function getCurrentUserHistory(id) {
+export function getUserHistory(id) {
     const videosRef = db.collection('videos');
     return videosRef.where('isWatchedBy', 'array-contains', id).get().then(res => res.docs.map(el => el.data()));
 }
 
-export function getCurrentUserLiked(id) {
+export function getUserLiked(id) {
     const videosRef = db.collection('videos');
     return videosRef.where('isLikedBy', 'array-contains', id).get().then(res => res.docs.map(el => el.data()));
 }

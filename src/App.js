@@ -18,7 +18,6 @@ import { getUser } from './redux/selectors/user';
 import { getIsLoading } from './redux/selectors/loading';
 import { fetchTheme } from './redux/actions/theme';
 import { fetchVideos } from './redux/actions/videos';
-import { getVideosLength } from './redux/selectors/videos';
 // components
 import SignUp from './components/SignUp/SignUp';
 import ErrorPage from './components/ErrorPage/ErrorPage';
@@ -43,7 +42,6 @@ export default function App() {
   const dispatch = useDispatch();
   const user = useSelector(getUser);
   const isLoading = useSelector(getIsLoading);
-  const videosLength = useSelector(getVideosLength);
 
   // Initial load of the current user and all videos
   useEffect(() => {
@@ -60,17 +58,13 @@ export default function App() {
 
   // Initial load of the theme
   useEffect(() => {
-    if (user.theme) {
+    if (user) {
       changeThemeColors(user.theme);
     } else {
       changeThemeColors('dark');
     }
     dispatch(fetchTheme());
-  }, [user.theme, dispatch]);
-
-  if (!videosLength) {
-    return null;
-  }
+  }, [user, dispatch]);
 
   return (
     <Router>

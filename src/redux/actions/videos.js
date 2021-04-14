@@ -15,12 +15,6 @@ export const fetchVideosSucceeded = (videos) => ({
     payload: videos,
 });
 
-export const fetchMyVideosSucceeded = (myVideos) => ({
-    type: FETCH_MY_VIDEOS_SUCCEEDED,
-    payload: myVideos,
-});
-
-// tova ne e fetch ami e real time update na videa
 export const fetchVideos = () => {
     return function (dispatch) {
         dispatch(setLoading());
@@ -30,21 +24,6 @@ export const fetchVideos = () => {
             snapshot.docs.map(doc => (dbVideos.push({ ...doc.data() })))
             dispatch(fetchVideosSucceeded(dbVideos));
             dispatch(setNotLoading());
-        });
-    }
-};
-
-export const fetchMyVideos = (uid) => {
-    return function (dispatch) {
-        dispatch(setLoading());
-        dispatch(fetchVideosRequested());
-        const videosRef = db.collection('videos');
-        videosRef.where('authorID', '==', uid).get()
-            .then(res => res.docs.map(el => el.data()))
-            .then(res => {
-                dispatch(fetchMyVideosSucceeded(res));
-                dispatch(setNotLoading());
-            })
-            .catch(err => dispatch(setAlertOn('error', err.message)));
+        })
     }
 };

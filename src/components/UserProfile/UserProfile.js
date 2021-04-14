@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import styles from './UserProfile.module.scss';
 // service
-import { getCurrentUserHistory, getCurrentUserInfo, getCurrentUserLiked } from '../../service/service';
+import { getUserInfo } from '../../service/service';
 // redux
 import { useSelector } from 'react-redux';
 import { getUser } from '../../redux/selectors/user';
@@ -14,15 +14,16 @@ import Layout from '../Layout/Layout';
 export default function UserProfile() {
     const { id } = useParams();
     const [user, setUser] = useState(null);
-    const [history, setHistory] = useState([]);
-    const [liked, setLiked] = useState([]);
     const currentUser = useSelector(getUser);
-    //const myVideos = useSelector(state => state.videos.videos.filter(video => video.authorId === currentUserId))
+    const history = useSelector(state => state.videos.videos.filter(video => video.isWatchedBy.includes(id)));
+    const liked = useSelector(state => state.videos.videos.filter(video => video.isLikedBy.includes(id)));
+    const videos = useSelector(state => state.videos.videos.filter(video => video.authorID === id));
     useEffect(() => {
-        // if(id !== currentUser.id)
-        getCurrentUserInfo(id).then(res => setUser(res.data()));
-        getCurrentUserHistory(id).then(res => setHistory(res));
-        getCurrentUserLiked(id).then(res => setLiked(res));
+        if (id === currentUser.uid) {
+            setUser(currentUser);
+        } else {
+            getUserInfo(id).then(res => setUser(res.data()));
+        }
     }, [id]);
 
     return (
@@ -42,6 +43,7 @@ export default function UserProfile() {
                     </div>
                     {user && currentUser ?
                         <ScrollableTabsButtonAuto
+                            videos={videos}
                             history={user.uid === currentUser.uid ? history : null}
                             liked={liked}
                             user={user}
