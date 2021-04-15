@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import styles from './VideoPage.module.scss';
 import { ThumbDown as ThumbDownIcon, ThumbUp } from '@material-ui/icons';
 import PopUp from './PopupState';
-import PlaylistModal from '../LibraryPage/PlaylistModal';
+import PlaylistModal from './PlaylistModal';
 import UserLogo from '../common/UserLogo/UserLogo';
 // service
 import { subscribe, unsubscribe, likeOrDislikeVideo } from '../../service/service';
