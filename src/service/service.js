@@ -264,25 +264,28 @@ export function getUserInfo(id) {
 
 // SUBSCRIBES
 export function subscribe(user, video) {
-    return function (dispatch) {
-        db.collection('users')
-            .doc(user.uid)
-            .update({
-                subscribes: firebase.firestore.FieldValue.arrayUnion(video.authorID)
-            })
-            .then(() => dispatch(setAlertOn('success', `You successfully subscribed to ${video.author}`)))
-            .catch(err => dispatch(setAlertOn('success', err.message)));
-    }
+    // return function (dispatch) {
+    //     if (!user) {
+    //         return;
+    //     }
+    return db.collection('users')
+        .doc(user.uid)
+        .update({
+            subscribes: firebase.firestore.FieldValue.arrayUnion(video.authorID)
+        })
+    // .then(() => dispatch(setAlertOn('success', `You successfully subscribed to ${video.author}`)))
+    // .catch(err => dispatch(setAlertOn('success', err.message)));
+    // }
 }
 
 export function unsubscribe(user, video) {
-    return function (dispatch) {
-        db.collection('users')
-            .doc(user.uid)
-            .update({
-                subscribes: firebase.firestore.FieldValue.arrayRemove(video.authorID)
-            })
-            .then(() => dispatch(setAlertOn('success', `You successfully unsubscribed from ${video.author}`)))
-            .catch(err => dispatch(setAlertOn('success', err.message)));
-    }
+    // return function (dispatch) {
+    return db.collection('users')
+        .doc(user.uid)
+        .update({
+            subscribes: firebase.firestore.FieldValue.arrayRemove(video.authorID)
+        })
+    //         .then(() => dispatch(setAlertOn('success', `You successfully unsubscribed from ${video.author}`)))
+    //         .catch(err => dispatch(setAlertOn('success', err.message)));
+    // }
 }

@@ -28,16 +28,16 @@ export default function NotificationsMenu() {
         setOpenNotify(false);
     };
     useEffect(() => {
-        if (user.uid) {
+        if (user) {
             dispatch(getNotifications(user.uid));
         }
-    }, [user.uid]);
+    }, [user]);
 
     useEffect(() => {
-        if (user.uid) {
+        if (user) {
             setUnreadNotifications(notifications.filter(notification => !notification.isRead));
         }
-    }, [user.uid, dispatch, notifications]);
+    }, [user, dispatch, notifications]);
 
     const noNotifications = (
         <><NotificationsIcon fontSize="large" id={styles.bigNotifyIcon} />

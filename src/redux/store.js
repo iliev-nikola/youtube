@@ -9,7 +9,6 @@ import loadingReducer from './reducers/loadingBar';
 import alertReducer from './reducers/alertNotifier';
 import notificationReducer from './reducers/notifications';
 import playlistsReducer from './reducers/playlists';
-import subscribesReducer from './reducers/subscribes';
 
 const rootReducer = combineReducers({
   videos: videosReducer,
@@ -20,7 +19,6 @@ const rootReducer = combineReducers({
   alert: alertReducer,
   notification: notificationReducer,
   playlists: playlistsReducer,
-  subscribes: subscribesReducer
 });
 
 const store = createStore(

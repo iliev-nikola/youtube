@@ -1,6 +1,6 @@
 // react
 import React, { useEffect, useState } from 'react';
-import styles from './Playlists.module.scss';
+import styles from './PlaylistModal.module.scss';
 // service
 import { addVideoToPlaylist, createPlaylist, removeVideoFromPlaylist, deletePlaylist } from '../../service/service';
 // redux
@@ -11,7 +11,7 @@ import { getPlaylists } from '../../redux/actions/playlists';
 // components
 import { Modal, FormControlLabel, Checkbox, TextField, List, Button } from '@material-ui/core';
 import { PlaylistAdd as PlaylistAddIcon, Delete as DeleteIcon } from '@material-ui/icons';
-import PopUp from '../VideoPage/PopupState';
+import PopUp from './PopupState';
 
 export default function PlaylistModal({ video }) {
     const dispatch = useDispatch();
@@ -21,8 +21,8 @@ export default function PlaylistModal({ video }) {
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        if (user.uid) {
-            dispatch(getPlaylists(user.uid));
+        if (user) {
+            dispatch(getPlaylists(user));
         }
     }, []);
 

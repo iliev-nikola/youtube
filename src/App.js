@@ -34,7 +34,7 @@ import VoiceControl from './components/VoiceControl/VoiceControl';
 import ProgressBar from './components/ProgressBar/ProgressBar';
 import HomePage from './components/HomePage/HomePage';
 import AlertNotifier from './components/common/AlertNotifier';
-import Library from './components/LibraryPage/UserPlaylists';
+import Library from './components/LibraryPage/LibraryPage';
 import Subscriptions from './components/Subscriptions/Subscriptions';
 import Header from './components/Header/Header';
 

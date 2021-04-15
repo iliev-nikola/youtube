@@ -32,7 +32,7 @@ export default function UserMenu() {
     };
 
     const changeTheme = () => {
-        if (user.uid) {
+        if (user) {
             if (theme === 'dark') {
                 updateUserTheme(user, 'light');
             } else {

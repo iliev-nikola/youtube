@@ -3,25 +3,16 @@ import { Link } from 'react-router-dom';
 import styles from './VideoPage.module.scss';
 import { ThumbDown as ThumbDownIcon, ThumbUp } from '@material-ui/icons';
 import PopUp from './PopupState';
-import PlaylistModal from '../LibraryPage/PlaylistModal';
+import PlaylistModal from './PlaylistModal';
 import UserLogo from '../common/UserLogo/UserLogo';
 // service
 import { subscribe, unsubscribe, likeOrDislikeVideo } from '../../service/service';
 
 export default function VideoInfo({ video, user }) {
-    const [isSubscribed, setIsSubscribed] = useState(false);
     const isVideoLiked = video.isLikedBy.includes(user.uid);
     const isVideoDisliked = video.isDislikedBy.includes(user.uid);
-
-    const subscribeIt = () => {
-        subscribe(user, video);
-        setIsSubscribed(true);
-    };
-
-    const unsubscribeIt = () => {
-        unsubscribe(user, video);
-        setIsSubscribed(false);
-    };
+    const isSubscribed = user.subscribes.includes(video.authorID);
+    
     const thumbsText = 'Sign in to make your opinion count.';
     const subscribeText = 'Sign in to subscribe to this channel.';
     const numberLikes = (
@@ -44,8 +35,8 @@ export default function VideoInfo({ video, user }) {
     );
     const userSubscribe = (
         <>
-            {isSubscribed ? <div className={styles.unsubscribe} onClick={unsubscribeIt} title='Click for unsubscribe'>SUBSCRIBED</div> : <div className={styles.subscribe}
-                onClick={subscribeIt} title='Click for subscribe'>SUBSCRIBE</div>}
+            {isSubscribed ? <div className={styles.unsubscribe} onClick={() => unsubscribe(user, video)} title='Click for unsubscribe'>SUBSCRIBED</div> : <div className={styles.subscribe}
+                onClick={() => subscribe(user, video)} title='Click for subscribe'>SUBSCRIBE</div>}
         </>
     );
     return (

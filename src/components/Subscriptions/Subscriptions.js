@@ -1,23 +1,27 @@
 // react
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './Subscriptions.module.scss';
 // redux
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { getUser } from '../../redux/selectors/user';
-import { showSubscribes } from '../../redux/actions/subscribes';
 // components
 import VideoCard from '../VideoCard/VideoCard';
 import Layout from '../Layout/Layout';
 
 export default function Subscriptions() {
-    const dispatch = useDispatch();
     const user = useSelector(getUser);
-    const subscribes = useSelector(state => state.subscribes.subscribes);
+    const [subscribes, setSubscribes] = useState([]);
+    const videos = useSelector(state => state.videos.videos);
     useEffect(() => {
-        if (user.uid) {
-            dispatch(showSubscribes(user));
+        if (user) {
+            const userSubscribes = [];
+            user.subscribes.forEach(el => {
+                const filterVideos = videos.filter(video => video.authorID === el);
+                userSubscribes.push(...filterVideos);
+            })
+            setSubscribes(userSubscribes);
         }
-    }, [user, dispatch]);
+    }, [user]);
 
     return (
         <Layout>

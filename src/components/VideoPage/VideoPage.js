@@ -1,16 +1,15 @@
 // react
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import styles from './VideoPage.module.scss';
 // service
-import { getCommentsAsd, increaseViews } from '../../service/service';
+import { increaseViews } from '../../service/service';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../redux/selectors/user';
 import { getComments } from '../../redux/actions/comments';
 // components
 import ReactPlayer from 'react-player';
-import Header from '../Header/Header';
 import CommentsContainer from './CommentsContainer';
 import PlayNextVideos from './PlayNextVideos';
 import VideoInfo from './VideoInfo';

@@ -1,6 +1,6 @@
 // react
 import React, { useEffect } from 'react';
-import styles from './Playlists.module.scss';
+import styles from './LibraryPage.module.scss';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import { getPlaylists } from '../../redux/actions/playlists';
@@ -13,7 +13,7 @@ import Layout from '../Layout/Layout';
 import GuestHeader from '../common/GuestHeader/GuestHeader';
 import { getPlaylistsAsd } from '../../service/service';
 
-export default function UserPlaylists() {
+export default function LibraryPage() {
   const dispatch = useDispatch();
   const user = useSelector(getUser);
   const isUserLoading = useSelector(getUserLoading);
