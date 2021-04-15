@@ -2,10 +2,10 @@ import styles from './VideoPage.module.scss';
 import VideoCard from '../VideoCard/VideoCard';
 import { useSelector } from 'react-redux';
 import { getVideos } from '../../redux/selectors/selectors';
+import React from 'react';
 
 export default function PlayNextVideos() {
     const videos = useSelector(getVideos);
-
     return (
         <div className={styles.otherVideos}>
             <h2>Play next</h2>

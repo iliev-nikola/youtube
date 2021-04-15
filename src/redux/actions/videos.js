@@ -1,6 +1,5 @@
 import { db } from '../../service/firebase';
 import { setLoading, setNotLoading } from '../actions/loadingBar';
-import { setAlertOn } from './alertNotifier';
 
 export const FETCH_VIDEOS_SUCCEEDED = 'FETCH_VIDEOS_SUCCEEDED';
 export const FETCH_VIDEOS_REQUESTED = 'FETCH_VIDEOS_REQUESTED';

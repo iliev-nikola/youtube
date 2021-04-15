@@ -23,11 +23,12 @@ export default function VideoPage() {
 
     useEffect(() => {
         if (video) {
-            db.collection('comments').where('videoID', '==', id).orderBy('timestamp', 'desc').onSnapshot(snapshot => {
-                let dbComments = [];
-                snapshot.docs.map(doc => (dbComments.push({ ...doc.data() })))
-                setComments(dbComments);
-            });
+            db.collection('comments').where('videoID', '==', id).orderBy('timestamp', 'desc')
+                .onSnapshot(snapshot => {
+                    let dbComments = [];
+                    snapshot.docs.map(doc => (dbComments.push({ ...doc.data() })))
+                    setComments(dbComments);
+                });
             dispatch(increaseViews(video));
         }
     }, []);

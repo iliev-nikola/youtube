@@ -5,7 +5,7 @@ import ReactTimeAgo from 'react-time-ago';
 // service
 import { deleteNotification, setNotificationsRead } from '../../service/service';
 // redux
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { getUser } from '../../redux/selectors/selectors';
 // components
 import { Tooltip, Badge, ClickAwayListener } from '@material-ui/core';
@@ -14,19 +14,12 @@ import UserLogo from '../common/UserLogo/UserLogo';
 import { db } from '../../service/firebase';
 
 export default function NotificationsMenu() {
-    const dispatch = useDispatch();
     const user = useSelector(getUser);
     // const notifications = useSelector(state => state.notification.notifications);
     const [openNotify, setOpenNotify] = useState(false);
     const [unreadNotifications, setUnreadNotifications] = useState([]);
     const [notifications, setNotifciatons] = useState([]);
-    const handleClickNotify = () => {
-        setOpenNotify((prev) => !prev);
-        setTimeout(setNotificationsRead, 2000);
-    };
-    const handleClickAwayNotify = () => {
-        setOpenNotify(false);
-    };
+
     useEffect(() => {
         if (user) {
             db.collection('notifications')
@@ -43,10 +36,16 @@ export default function NotificationsMenu() {
     }, [user]);
 
     useEffect(() => {
-        if (user) {
-            setUnreadNotifications(notifications.filter(notification => !notification.isRead));
-        }
-    }, [user, dispatch, notifications]);
+        setUnreadNotifications(notifications.filter(notification => !notification.isRead));
+    }, [notifications.length]);
+
+    const handleClickNotify = () => {
+        setOpenNotify((prev) => !prev);
+        setTimeout(setNotificationsRead, 2000);
+    };
+    const handleClickAwayNotify = () => {
+        setOpenNotify(false);
+    };
 
     const noNotifications = (
         <><NotificationsIcon fontSize="large" id={styles.bigNotifyIcon} />

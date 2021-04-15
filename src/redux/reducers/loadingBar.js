@@ -1,4 +1,3 @@
-
 import { LOADING, NOT_LOADING } from '../actions/loadingBar';
 
 const INITIAL_STATE = {

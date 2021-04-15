@@ -1,23 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './VideoPage.module.scss';
+// service
+import { subscribe, unsubscribe, likeOrDislikeVideo, isSubscribed } from '../../service/service';
+// redux
+import { useDispatch } from 'react-redux';
+// components
 import { ThumbDown as ThumbDownIcon, ThumbUp } from '@material-ui/icons';
 import PopUp from './PopupState';
 import PlaylistModal from './PlaylistModal';
 import UserLogo from '../common/UserLogo/UserLogo';
-// service
-import { subscribe, unsubscribe, likeOrDislikeVideo } from '../../service/service';
 
 export default function VideoInfo({ video, user }) {
+    const dispatch = useDispatch();
     const isVideoLiked = video.isLikedBy.includes(user.uid);
     const isVideoDisliked = video.isDislikedBy.includes(user.uid);
-    const [isSubs, setIsSubs] = useState(false);
+    const [isSubsState, setIsSubsState] = useState(false);
+
     useEffect(() => {
-        if (user) {
-            const isSubscribed = user.subscribes.includes(video.authorID);
-            setIsSubs(isSubscribed);
+        if (video && user) {
+            isSubscribed(user, video).then(res => setIsSubsState(res));
         }
-    }, [user, video.authorID])
+    }, []);
 
     const thumbsText = 'Sign in to make your opinion count.';
     const subscribeText = 'Sign in to subscribe to this channel.';
@@ -35,14 +39,17 @@ export default function VideoInfo({ video, user }) {
     );
 
     const guestSubscribe = (
-        <>
-            <PopUp text={subscribeText} button={<div className={styles.subscribe}>SUBSCRIBE</div>} content={`Want to subscribe to this channel?`} />
-        </>
+        <PopUp text={subscribeText} button={<div className={styles.subscribe}>SUBSCRIBE</div>} content={`Want to subscribe to this channel?`} />
     );
     const userSubscribe = (
         <>
-            {isSubs ? <div className={styles.unsubscribe} onClick={() => unsubscribe(user, video)} title='Click for unsubscribe'>SUBSCRIBED</div> : <div className={styles.subscribe}
-                onClick={() => subscribe(user, video)} title='Click for subscribe'>SUBSCRIBE</div>}
+            {isSubsState ? <div className={styles.unsubscribe}
+                onClick={() => {
+                    dispatch(unsubscribe(user, video)).then(() => setIsSubsState(false));
+                }} title='Click for unsubscribe'>SUBSCRIBED</div> : <div className={styles.subscribe}
+                    onClick={() => {
+                        dispatch(subscribe(user, video)).then(() => setIsSubsState(true));
+                    }} title='Click for subscribe'>SUBSCRIBE</div>}
         </>
     );
     return (

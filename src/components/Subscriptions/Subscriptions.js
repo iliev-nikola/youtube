@@ -1,30 +1,29 @@
 // react
 import { useEffect, useState } from 'react';
 import styles from './Subscriptions.module.scss';
+// service
+import { getUserSubscriptions } from '../../service/service';
 // redux
 import { useSelector } from 'react-redux';
-import { getUser } from '../../redux/selectors/selectors';
+import { getUser, getVideos } from '../../redux/selectors/selectors';
 // components
 import VideoCard from '../VideoCard/VideoCard';
 import Layout from '../Layout/Layout';
 
 export default function Subscriptions() {
     const user = useSelector(getUser);
+    const videos = useSelector(getVideos);
     const [subscribes, setSubscribes] = useState([]);
-    const videos = useSelector(state => state.videos.videos);
+
     useEffect(() => {
-        if (user) {
-            const userSubscribes = [];
-            user.subscribes.forEach(el => {
-                const filterVideos = videos.filter(video => video.authorID === el);
-                userSubscribes.push(...filterVideos);
-            })
-            setSubscribes(userSubscribes);
+        if (user && videos) {
+            getUserSubscriptions(user, videos).then(res => setSubscribes(res));
         }
-    }, [user, videos]);
+    }, [user]);
 
     return (
         <Layout>
+            {/* <h1 className={styles.welcomeText}>Subscriptions</h1> */}
             <div className={styles.videoContainer}>
                 {
                     subscribes.length ? subscribes.map(video => (
