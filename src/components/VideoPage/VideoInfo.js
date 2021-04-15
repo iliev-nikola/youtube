@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './VideoPage.module.scss';
 import { ThumbDown as ThumbDownIcon, ThumbUp } from '@material-ui/icons';
@@ -11,8 +11,14 @@ import { subscribe, unsubscribe, likeOrDislikeVideo } from '../../service/servic
 export default function VideoInfo({ video, user }) {
     const isVideoLiked = video.isLikedBy.includes(user.uid);
     const isVideoDisliked = video.isDislikedBy.includes(user.uid);
-    const isSubscribed = user.subscribes.includes(video.authorID);
-    
+    const [isSubs, setIsSubs] = useState(false);
+    useEffect(() => {
+        if (user) {
+            const isSubscribed = user.subscribes.includes(video.authorID);
+            setIsSubs(isSubscribed);
+        }
+    }, [user, video.authorID])
+
     const thumbsText = 'Sign in to make your opinion count.';
     const subscribeText = 'Sign in to subscribe to this channel.';
     const numberLikes = (
@@ -35,7 +41,7 @@ export default function VideoInfo({ video, user }) {
     );
     const userSubscribe = (
         <>
-            {isSubscribed ? <div className={styles.unsubscribe} onClick={() => unsubscribe(user, video)} title='Click for unsubscribe'>SUBSCRIBED</div> : <div className={styles.subscribe}
+            {isSubs ? <div className={styles.unsubscribe} onClick={() => unsubscribe(user, video)} title='Click for unsubscribe'>SUBSCRIBED</div> : <div className={styles.subscribe}
                 onClick={() => subscribe(user, video)} title='Click for subscribe'>SUBSCRIBE</div>}
         </>
     );

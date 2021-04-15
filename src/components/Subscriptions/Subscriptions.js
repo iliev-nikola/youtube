@@ -21,7 +21,7 @@ export default function Subscriptions() {
             })
             setSubscribes(userSubscribes);
         }
-    }, [user]);
+    }, [user, videos]);
 
     return (
         <Layout>
