@@ -1,0 +1,9 @@
+export const getAlertState = state => state.alert;
+export const getAlertStatus = state => getAlertState(state).isOpen;
+export const getAlertType = state => getAlertState(state).type;
+export const getAlertMessage = state => getAlertState(state).message;
+export const getLoadingState = state => state.loading;
+export const getIsLoading = state => getLoadingState(state).isLoading;
+export const getUser = state => state.user.user;
+export const getUserLoading = state => state.user.isLoading;
+export const getVideos = state => state.videos.videos;

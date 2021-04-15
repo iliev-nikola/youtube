@@ -5,10 +5,9 @@ import styles from '../TrendingVideos/TrendingVideos.module.scss';
 import { db } from '../../service/firebase';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getVideos } from '../../redux/selectors/videos';
+import { getVideos, getUser, getUserLoading } from '../../redux/selectors/selectors';
 import { setLoading, setNotLoading } from '../../redux/actions/loadingBar';
 import { setAlertOn } from '../../redux/actions/alertNotifier';
-import { getUser, getUserLoading } from '../../redux/selectors/user';
 // components
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 import InfiniteScroll from 'react-infinite-scroll-component';

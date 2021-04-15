@@ -6,7 +6,7 @@ import styles from './Header.module.scss';
 import { updateUserTheme } from '../../service/service';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser } from '../../redux/selectors/user';
+import { getUser } from '../../redux/selectors/selectors';
 import { setDarkTheme, setLightTheme } from '../../redux/actions/theme';
 // components
 import { Tooltip, ClickAwayListener } from '@material-ui/core';

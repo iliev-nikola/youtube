@@ -2,7 +2,7 @@ import { Snackbar } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import { useDispatch, useSelector } from "react-redux";
 import { setAlertOff } from '../../redux/actions/alertNotifier';
-import { getAlertMessage, getAlertStatus, getAlertType } from '../../redux/selectors/alertNotifier';
+import { getAlertMessage, getAlertStatus, getAlertType } from '../../redux/selectors/selectors';
 
 export default function AlertNotifier() {
     const dispatch = useDispatch();

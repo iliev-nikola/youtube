@@ -7,7 +7,7 @@ import styles from './VideoPage.module.scss';
 import { updateNotifications, createComment, deleteComment, updateComment, editableComment, uneditableComment } from '../../service/service';
 // redux
 import { useSelector, useDispatch } from 'react-redux';
-import { getUser } from '../../redux/selectors/user';
+import { getUser } from '../../redux/selectors/selectors';
 import { setAlertOn } from '../../redux/actions/alertNotifier';
 // components
 import UserLogo from '../common/UserLogo/UserLogo';

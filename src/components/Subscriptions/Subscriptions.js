@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import styles from './Subscriptions.module.scss';
 // redux
 import { useSelector } from 'react-redux';
-import { getUser } from '../../redux/selectors/user';
+import { getUser } from '../../redux/selectors/selectors';
 // components
 import VideoCard from '../VideoCard/VideoCard';
 import Layout from '../Layout/Layout';

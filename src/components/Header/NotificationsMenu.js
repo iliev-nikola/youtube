@@ -6,7 +6,7 @@ import ReactTimeAgo from 'react-time-ago';
 import { deleteNotification, setNotificationsRead } from '../../service/service';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser } from '../../redux/selectors/user';
+import { getUser } from '../../redux/selectors/selectors';
 // components
 import { Tooltip, Badge, ClickAwayListener } from '@material-ui/core';
 import { Notifications as NotificationsIcon, Cancel } from '@material-ui/icons';

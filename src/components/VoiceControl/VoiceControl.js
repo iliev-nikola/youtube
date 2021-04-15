@@ -4,7 +4,7 @@ import { useHistory } from 'react-router';
 import styles from './VoiceControl.module.scss';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser } from '../../redux/selectors/user';
+import { getUser } from '../../redux/selectors/selectors';
 import { setLoading, setNotLoading } from '../../redux/actions/loadingBar';
 // components
 import MicIcon from '@material-ui/icons/Mic';

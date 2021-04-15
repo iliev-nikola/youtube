@@ -14,8 +14,7 @@ import { changeThemeColors } from './utils';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser, logout } from './redux/actions/user';
-import { getUser } from './redux/selectors/user';
-import { getIsLoading } from './redux/selectors/loading';
+import { getUser, getIsLoading } from './redux/selectors/selectors';
 import { fetchTheme } from './redux/actions/theme';
 import { fetchVideos } from './redux/actions/videos';
 // components

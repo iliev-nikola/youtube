@@ -1,7 +1,7 @@
 import styles from './VideoPage.module.scss';
 import VideoCard from '../VideoCard/VideoCard';
 import { useSelector } from 'react-redux';
-import { getVideos } from '../../redux/selectors/videos';
+import { getVideos } from '../../redux/selectors/selectors';
 
 export default function PlayNextVideos() {
     const videos = useSelector(getVideos);

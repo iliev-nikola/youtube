@@ -4,7 +4,7 @@ import styles from './LibraryPage.module.scss';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import { getPlaylists } from '../../redux/actions/playlists';
-import { getUser, getUserLoading } from '../../redux/selectors/user';
+import { getUser, getUserLoading } from '../../redux/selectors/selectors';
 // components
 import { AppBar, Tabs } from '@material-ui/core';
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
