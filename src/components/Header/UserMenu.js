@@ -1,19 +1,16 @@
 // react
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styles from './Header.module.scss';
-import ReactTimeAgo from 'react-time-ago';
 // service
-import { deleteNotification, setNotificationsRead, updateUserTheme } from '../../service/service';
+import { updateUserTheme } from '../../service/service';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../redux/selectors/user';
-import { getNotifications } from '../../redux/actions/notifications';
 import { setDarkTheme, setLightTheme } from '../../redux/actions/theme';
 // components
-import { Tooltip, Badge, ClickAwayListener } from '@material-ui/core';
-import { VideoCall as VideoCallIcon, Notifications as NotificationsIcon, ExitToApp as ExitToAppIcon, AccountBox as AccountBoxIcon, Cancel, InvertColors as InvertColorsIcon } from '@material-ui/icons';
-import UserLogo from '../common/UserLogo/UserLogo';
+import { Tooltip, ClickAwayListener } from '@material-ui/core';
+import { VideoCall as VideoCallIcon, ExitToApp as ExitToAppIcon, AccountBox as AccountBoxIcon, InvertColors as InvertColorsIcon } from '@material-ui/icons';
 import NotificationsMenu from './NotificationsMenu';
 
 export default function UserMenu() {
