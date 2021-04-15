@@ -42,7 +42,6 @@ export default function FormDialog({ handleClose, onEditClick, open, video }) {
             open={open}
             onClose={handleClose}
             aria-labelledby="dialogTitle"
-            fullWidth
         >
             <div className={styles.formDialog}>
                 <DialogTitle id="dialogTitle">
@@ -59,8 +58,8 @@ export default function FormDialog({ handleClose, onEditClick, open, video }) {
                     </DialogContentText>
                 </DialogContent>
                 <div className={styles.inputs}>
-                    <TextField required fullWidth type="text" size="small" label="New title" variant="outlined" value={title} onChange={(e) => onTitleChange(e)} className={styles.input} />
-                    <TextField required className={styles.input} fullWidth type="text" size="medium" label="New description" variant="outlined" value={description} onChange={(e) => onDescriptionChange(e)} />
+                    <TextField required type="text" size="small" label="New title" variant="outlined" value={title} onChange={(e) => onTitleChange(e)} className={styles.input} />
+                    <TextField required className={styles.input} type="text" size="medium" label="New description" variant="outlined" value={description} onChange={(e) => onDescriptionChange(e)} />
                 </div>
                 <DialogActions>
                     <Button autoFocus onClick={() => {

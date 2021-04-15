@@ -1,31 +1,81 @@
 // react
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './Playlists.module.scss';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getPlaylists } from '../../redux/actions/playlists';
 import { getUser, getUserLoading } from '../../redux/selectors/user';
 // components
-import { AppBar, Tabs } from '@material-ui/core';
+import { AppBar, Box, Tab, Tabs } from '@material-ui/core';
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 import VideoCard from '../VideoCard/VideoCard';
 import Layout from '../Layout/Layout';
 import GuestHeader from '../common/GuestHeader/GuestHeader';
-import { getPlaylistsAsd } from '../../service/service';
+import { getUserPlaylists } from '../../service/service';
+
+import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
+
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`scrollable-auto-tabpanel-${index}`}
+      aria-labelledby={`scrollable-auto-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3} className={styles.container}>
+          {children}
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `scrollable-auto-tab-${index}`,
+    'aria-controls': `scrollable-auto-tabpanel-${index}`,
+  };
+}
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    width: '100%',
+  },
+  tabBar: {
+    backgroundColor: '#202020',
+    color: 'white',
+    paddingLeft: '150px'
+  },
+  container: {
+    paddingLeft: '50px',
+  }
+}));
 
 export default function UserPlaylists() {
   const dispatch = useDispatch();
   const user = useSelector(getUser);
   const isUserLoading = useSelector(getUserLoading);
-  const playlists = useSelector(state => state.playlists.playlists);
+  const [playlists, setPlaylists] = useState([]);
+  const classes = useStyles();
 
   useEffect(() => {
     if (user) {
-      getPlaylistsAsd(user.uid);
-      dispatch(getPlaylists(user.uid));
+      dispatch(getUserPlaylists(user.uid)).then(res => setPlaylists(res));
     }
-  }, [user]);
-
+  }, [user])
 
   const emptyPlaylistPage = (
     <div className={styles.emptyPage}>
@@ -47,17 +97,17 @@ export default function UserPlaylists() {
   return (
     <Layout>
       {isUserLoading && <h1 className={styles.welcomeText}>Loading...</h1>}
-      {!isUserLoading && !user && noLoggedInUserPage}
       {user && (<div className={styles.playlistsContainer}>
-        {playlists && playlists.length ? playlists.map(playlist => (
+        {playlists.length ? playlists.map((playlist, index) => (
           <AppBar position="static" color="default" key={playlist.id} >
             <div className={styles.playlistName}>{playlist.name.toUpperCase()}</div>
             <Tabs
               value={0}
               variant="scrollable"
               scrollButtons="auto"
-              key={playlists.id}
+            // className={classes.tabBar}
             >
+
               {playlist.videos.length ? playlist.videos.map(video => (
                 <VideoCard url={video.url} title={video.title} key={video.id} views={video.views} author={video.author} authorPhotoURL={video.authorPhotoURL} id={video.id} />
               )) : <p className={styles.welcomeText}>The playlist is empty...</p>}
@@ -65,6 +115,7 @@ export default function UserPlaylists() {
           </AppBar>
         )) : emptyPlaylistPage}
       </div>)}
+      {!isUserLoading && !user && noLoggedInUserPage}
     </Layout >
   );
 }

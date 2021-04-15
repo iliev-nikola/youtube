@@ -108,11 +108,11 @@ export default function SignUp() {
                 <p>to continue to YouTube</p>
             </div>
             <div className={styles.container}>
-                <TextField required className={styles.inputs} fullWidth size="small" label="First name" variant="outlined" value={firstName} onChange={onInputChange} id="firstName" autoComplete="new-password" />
+                <TextField required className={styles.inputs} size="small" label="First name" variant="outlined" value={firstName} onChange={onInputChange} id="firstName" autoComplete="new-password" />
                 <TextField required className={styles.inputs} size="small" label="Last name" variant="outlined" value={lastName} id="lastName" onChange={onInputChange} autoComplete="new-password" />
             </div>
             <div className={styles.emailContainer}>
-                <TextField required type="email" className={styles.emailInput} size="small" fullWidth label="Email" variant="outlined" value={email} id="email" onChange={onInputChange} autoComplete="off" />
+                <TextField required type="email" className={styles.emailInput} size="small" label="Email" variant="outlined" value={email} id="email" onChange={onInputChange} autoComplete="off" />
             </div>
             <div className={styles.container}>
                 <TextField required type="password" className={styles.inputs} size="small" label="Password" variant="outlined" value={password} id="password" onChange={onInputChange} />

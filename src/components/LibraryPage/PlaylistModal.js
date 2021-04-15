@@ -6,7 +6,6 @@ import { addVideoToPlaylist, createPlaylist, removeVideoFromPlaylist, deletePlay
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../redux/selectors/user';
-import { setAlertOn } from '../../redux/actions/alertNotifier';
 import { getPlaylists } from '../../redux/actions/playlists';
 // components
 import { Modal, FormControlLabel, Checkbox, TextField, List, Button } from '@material-ui/core';
@@ -29,31 +28,25 @@ export default function PlaylistModal({ video }) {
     const handleOpen = () => {
         setOpen(true);
     };
-
     const handleClose = () => {
         setOpen(false);
     };
-
     const onInputChange = (e) => {
         setInputValue(e.target.value);
-    }
-
+    };
     const handleKeyPress = (e) => {
         if ((e.key === 'Enter' || e.type === 'click') && inputValue && user.uid) {
             createPlaylist(user, inputValue);
             setInputValue('');
         }
-    }
-
+    };
     const addOrRemoveVideo = (e, playlist) => {
         if (e.target.checked) {
-            addVideoToPlaylist(video, playlist.id);
-            dispatch(setAlertOn('info', `Added to ${playlist.name}`));
+            dispatch(addVideoToPlaylist(video, playlist));
         } else {
-            removeVideoFromPlaylist(video, playlist.id);
-            dispatch(setAlertOn('info', `Removed from ${playlist.name}`));
+            dispatch(removeVideoFromPlaylist(video, playlist));
         }
-    }
+    };
     const text = 'Sign in to add this video to a playlist.';
     const loggedUserPlaylist = (
         <div onClick={handleOpen}><PlaylistAddIcon /> <span>SAVE</span></div>
@@ -83,13 +76,13 @@ export default function PlaylistModal({ video }) {
                                         control={<Checkbox
                                             onClick={(e) => { addOrRemoveVideo(e, playlist) }}
                                             name={playlist.name} value={playlist.name}
-                                            checked={playlist.videos.some(el => el.id === video.id)} />}
+                                            checked={playlist.videos.some(el => el === video.id)} />}
                                         label={playlist.name} />
                                     <DeleteIcon onClick={() => deletePlaylist(playlist.id)} className={styles.trash} />
                                 </div>
                             )) : null}
                     </List>
-                    <TextField id="standard-basic" placeholder={'Enter playlist name...'} value={inputValue} onKeyPress={handleKeyPress} onChange={(e) => onInputChange(e)} />
+                    <TextField id="standard-basic" placeholder={'Enter playlist name...'} value={inputValue} onKeyPress={handleKeyPress} onChange={onInputChange} />
                     <div><Button variant="contained" color="secondary" onClick={handleKeyPress}>CREATE</Button></div>
                 </div>
             </Modal>

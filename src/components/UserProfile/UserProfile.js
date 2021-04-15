@@ -19,10 +19,12 @@ export default function UserProfile() {
     const liked = useSelector(state => state.videos.videos.filter(video => video.isLikedBy.includes(id)));
     const videos = useSelector(state => state.videos.videos.filter(video => video.authorID === id));
     useEffect(() => {
-        if (id === currentUser.uid) {
-            setUser(currentUser);
-        } else {
-            getUserInfo(id).then(res => setUser(res.data()));
+        if (currentUser) {
+            if (id === currentUser.uid) {
+                setUser(currentUser);
+            } else {
+                getUserInfo(id).then(res => setUser(res.data()));
+            }
         }
     }, [id]);
 

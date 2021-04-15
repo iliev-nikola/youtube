@@ -132,8 +132,8 @@ export default function UploadVideo() {
                 }
                 {progress ? <CircularStatic percentage={progress} /> : null}
                 <div className={styles.inputs}>
-                    <TextField type="text" required fullWidth className={styles.input} size="small" label="Title" variant="outlined" value={title} onChange={changeTitle} />
-                    <TextField type="text" required size="medium" fullWidth className={styles.input} label="Description" variant="outlined" value={description} onChange={changeDescription} />
+                    <TextField type="text" required className={styles.input} size="small" label="Title" variant="outlined" value={title} onChange={changeTitle} />
+                    <TextField type="text" required size="medium" className={styles.input} label="Description" variant="outlined" value={description} onChange={changeDescription} />
                 </div>
                 {file ?
                     <Button variant="contained" color="primary" onClick={onSubmit}>Upload</Button>

@@ -70,7 +70,7 @@ export default function Header() {
                 </div>
                 {!isUserLoading ?
                     <div className={styles.userContainer}>
-                        {user.uid ? userHeader : <GuestHeader />}
+                        {user ? userHeader : <GuestHeader />}
                     </div> : <p>Loading</p>}
             </div>
         </div>

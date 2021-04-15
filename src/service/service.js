@@ -105,24 +105,26 @@ export const createPlaylist = (user, inputValue) => {
     }
 };
 
-export const addVideoToPlaylist = (video, id) => {
+export const addVideoToPlaylist = (video, playlist) => {
     return function (dispatch) {
         db.collection('playlists')
-            .doc(id)
+            .doc(playlist.id)
             .update({
                 videos: firebase.firestore.FieldValue.arrayUnion(video.id)
             })
+            .then(() => dispatch(setAlertOn('info', `Added to ${playlist.name}`)))
             .catch(err => dispatch(setAlertOn('error', err.message)));
     }
 };
 
-export const removeVideoFromPlaylist = (video, id) => {
+export const removeVideoFromPlaylist = (video, playlist) => {
     return function (dispatch) {
         db.collection('playlists')
-            .doc(id)
+            .doc(playlist.id)
             .update({
                 videos: firebase.firestore.FieldValue.arrayRemove(video.id)
             })
+            .then(() => dispatch(setAlertOn('info', `Removed from ${playlist.name}`)))
             .catch(err => dispatch(setAlertOn('error', err.message)));
     }
 };
@@ -131,21 +133,20 @@ export const deletePlaylist = (id) => {
     db.collection('playlists').doc(id).delete();
 };
 
-export const getPlaylistsAsd = (userId) => {
-    db.collection('playlists').where('authorID', '==', userId).get()
-        .then(res => res.docs.map(doc => ({ ...doc.data() })))
-        .then(playlists => {
-            playlists.forEach(playlist => {
-                playlist.videos.map(el => getVideo(el))
-            });
-        })
+export const getUserPlaylists = (userId) => {
+    return function (dispatch, getState) {
+        return db.collection('playlists').where('authorID', '==', userId).get()
+            .then(res => res.docs.map(doc => ({ ...doc.data() })))
+            .then(playlists => {
+                return playlists.map(playlist => {
+                    return { ...playlist, videos: playlist.videos.map(el => getState().videos.videos.find(video => video.id === el)) }
+                });
+            })
+            .catch(err => dispatch(setAlertOn('error', err.message)));
+    }
 }
-
 
 // VIDEOS
-export const getVideo = (id) => {
-    db.collection('videos').doc(id).get().then(res => res.data());
-}
 
 export function filterVideos(params) {
     if (!params.length) return null;
