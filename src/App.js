@@ -14,13 +14,12 @@ import { changeThemeColors } from './utils';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser, logout } from './redux/actions/user';
-import { getUser } from './redux/selectors/user';
-import { getIsLoading } from './redux/selectors/loading';
+import { getUser, getIsLoading } from './redux/selectors/selectors';
 import { fetchTheme } from './redux/actions/theme';
 import { fetchVideos } from './redux/actions/videos';
 // components
 import SignUp from './components/SignUp/SignUp';
-import ErrorPage from './components/ErrorPages/ErrorPages';
+import ErrorPage from './components/ErrorPage/ErrorPage';
 import VideoPage from './components/VideoPage/VideoPage';
 import SignIn from './components/SignIn/SignIn';
 import ResetPassword from './components/ResetPassword/ResetPassword';
@@ -34,7 +33,7 @@ import VoiceControl from './components/VoiceControl/VoiceControl';
 import ProgressBar from './components/ProgressBar/ProgressBar';
 import HomePage from './components/HomePage/HomePage';
 import AlertNotifier from './components/common/AlertNotifier';
-import Library from './components/LibraryPage/UserPlaylists';
+import Library from './components/LibraryPage/LibraryPage';
 import Subscriptions from './components/Subscriptions/Subscriptions';
 import Header from './components/Header/Header';
 

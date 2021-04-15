@@ -3,8 +3,7 @@ import { useEffect, useState } from 'react';
 import styles from './TrendingVideos.module.scss';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getVideos } from '../../redux/selectors/videos';
-import { getUserLoading } from '../../redux/selectors/user';
+import { getVideos, getUserLoading } from '../../redux/selectors/selectors';
 import { setLoading, setNotLoading } from '../../redux/actions/loadingBar';
 import { setAlertOn } from '../../redux/actions/alertNotifier';
 // components

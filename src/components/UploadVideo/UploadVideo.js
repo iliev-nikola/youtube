@@ -9,7 +9,7 @@ import { generateId } from '../../utils';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import { setAlertOn } from '../../redux/actions/alertNotifier';
-import { getUser } from '../../redux/selectors/user';
+import { getUser } from '../../redux/selectors/selectors';
 // components
 import logoBlack from '../../assets/logoBlack.png';
 import Dropzone from 'react-dropzone';

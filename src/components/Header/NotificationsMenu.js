@@ -6,20 +6,20 @@ import ReactTimeAgo from 'react-time-ago';
 import { deleteNotification, setNotificationsRead } from '../../service/service';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser } from '../../redux/selectors/user';
-import { getNotifications } from '../../redux/actions/notifications';
+import { getUser } from '../../redux/selectors/selectors';
 // components
 import { Tooltip, Badge, ClickAwayListener } from '@material-ui/core';
 import { Notifications as NotificationsIcon, Cancel } from '@material-ui/icons';
 import UserLogo from '../common/UserLogo/UserLogo';
+import { db } from '../../service/firebase';
 
 export default function NotificationsMenu() {
     const dispatch = useDispatch();
     const user = useSelector(getUser);
-    const notifications = useSelector(state => state.notification.notifications);
+    // const notifications = useSelector(state => state.notification.notifications);
     const [openNotify, setOpenNotify] = useState(false);
     const [unreadNotifications, setUnreadNotifications] = useState([]);
-
+    const [notifications, setNotifciatons] = useState([]);
     const handleClickNotify = () => {
         setOpenNotify((prev) => !prev);
         setTimeout(setNotificationsRead, 2000);
@@ -28,16 +28,25 @@ export default function NotificationsMenu() {
         setOpenNotify(false);
     };
     useEffect(() => {
-        if (user.uid) {
-            dispatch(getNotifications(user.uid));
+        if (user) {
+            db.collection('notifications')
+                .where('userID', '==', user.uid)
+                .orderBy('timestamp', 'desc')
+                .onSnapshot((notifications) => {
+                    let dbNot = [];
+                    notifications.forEach((noti) => {
+                        dbNot.push(noti.data());
+                    });
+                    setNotifciatons(dbNot);
+                });
         }
-    }, [user.uid]);
+    }, [user]);
 
     useEffect(() => {
-        if (user.uid) {
+        if (user) {
             setUnreadNotifications(notifications.filter(notification => !notification.isRead));
         }
-    }, [user.uid, dispatch, notifications]);
+    }, [user, dispatch, notifications]);
 
     const noNotifications = (
         <><NotificationsIcon fontSize="large" id={styles.bigNotifyIcon} />

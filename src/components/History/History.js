@@ -5,10 +5,9 @@ import styles from '../TrendingVideos/TrendingVideos.module.scss';
 import { db } from '../../service/firebase';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getVideos } from '../../redux/selectors/videos';
+import { getVideos, getUser, getUserLoading } from '../../redux/selectors/selectors';
 import { setLoading, setNotLoading } from '../../redux/actions/loadingBar';
 import { setAlertOn } from '../../redux/actions/alertNotifier';
-import { getUser, getUserLoading } from '../../redux/selectors/user';
 // components
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -30,13 +29,13 @@ export default function History() {
     const newVideosOnScroll = videos.length < 4 ? videos.length : 4;
 
     useEffect(() => {
-        if (user.uid) {
+        if (user) {
             const videosRef = db.collection('videos');
             videosRef.where('isWatchedBy', 'array-contains', user.uid).get()
                 .then(res => res.docs.map(el => el.data()))
                 .then(res => setHistory(res));
         }
-    }, [user.uid]);
+    }, [user]);
 
     useEffect(() => {
         setVisibleVideos(history.slice(0, 16));
@@ -81,7 +80,7 @@ export default function History() {
     return (
         <Layout>
             {isUserLoading && <p className={styles.welcomeText}>Loading...</p>}
-            {!isUserLoading && user.uid && <>
+            {!isUserLoading && user && <>
                 <h1 className={styles.welcomeText}>Your watched videos history</h1>
                 <InfiniteScroll
                     className={styles.videoContainer}

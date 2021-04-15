@@ -5,7 +5,7 @@ import styles from './PlaylistModal.module.scss';
 import { addVideoToPlaylist, createPlaylist, removeVideoFromPlaylist, deletePlaylist } from '../../service/service';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser } from '../../redux/selectors/user';
+import { getUser } from '../../redux/selectors/selectors';
 import { getPlaylists } from '../../redux/actions/playlists';
 // components
 import { Modal, FormControlLabel, Checkbox, TextField, List, Button } from '@material-ui/core';
@@ -20,8 +20,8 @@ export default function PlaylistModal({ video }) {
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        if (user.uid) {
-            dispatch(getPlaylists(user.uid));
+        if (user) {
+            dispatch(getPlaylists(user));
         }
     }, []);
 

@@ -6,7 +6,7 @@ import styles from './Header.module.scss';
 import { getVideosByTitle } from '../../service/service';
 // redux
 import { useSelector } from 'react-redux';
-import { getUser, getUserLoading } from '../../redux/selectors/user';
+import { getUser, getUserLoading } from '../../redux/selectors/selectors';
 // components
 import { Search as SearchIcon } from '@material-ui/icons';
 import { Tooltip } from '@material-ui/core';

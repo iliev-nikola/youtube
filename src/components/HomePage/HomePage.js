@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import styles from './HomePage.module.scss'
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getVideos } from '../../redux/selectors/videos';
+import { getVideos } from '../../redux/selectors/selectors';
 import { setLoading, setNotLoading } from '../../redux/actions/loadingBar';
 import { setAlertOn } from '../../redux/actions/alertNotifier';
 // components

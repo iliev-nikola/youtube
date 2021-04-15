@@ -1,0 +1,45 @@
+
+
+.playlistsContainer {
+  width: 100%;
+  header {
+    padding-top: 20px;
+    padding-left: 120px;
+    background-color: #181818;
+    color: #f50057;
+    margin-bottom: 20px;
+  }
+}
+
+.welcomeText {
+  color: white;
+  text-align: center;
+}
+
+.playlistName {
+  font-weight: 700;
+  margin: 10px;
+}
+
+.emptyPage {
+  margin: 100px auto;
+  width: 600px;
+  color: var(--font-color);
+  text-align: center;
+  > svg {
+    margin-top: 30px;
+    width: 120px;
+    height: 120px;
+  }
+  > h2 {
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 16px;
+  }
+
+  .signIn {
+    width: 100px;
+    margin: 0 auto;
+    margin-top: 30px;
+  }
+}

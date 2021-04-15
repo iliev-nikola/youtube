@@ -2,7 +2,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import './resets.css';
+import './reset.css';
 // redux
 import store from './redux/store';
 import { Provider } from 'react-redux';

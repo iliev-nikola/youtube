@@ -6,7 +6,7 @@ import styles from './UserProfile.module.scss';
 import { getUserInfo } from '../../service/service';
 // redux
 import { useSelector } from 'react-redux';
-import { getUser } from '../../redux/selectors/user';
+import { getUser } from '../../redux/selectors/selectors';
 // components
 import ScrollableTabsButtonAuto from './CurrentUserTabs';
 import Layout from '../Layout/Layout';

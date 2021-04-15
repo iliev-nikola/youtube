@@ -1,19 +1,18 @@
 // react
 import React, { useEffect, useState } from 'react';
-import styles from './Playlists.module.scss';
-// service
-import { getUserPlaylists } from '../../service/service';
+import styles from './LibraryPage.module.scss';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser, getUserLoading } from '../../redux/selectors/user';
+import { getUser, getUserLoading } from '../../redux/selectors/selectors';
 // components
 import { AppBar, Tabs } from '@material-ui/core';
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 import VideoCard from '../VideoCard/VideoCard';
 import Layout from '../Layout/Layout';
 import GuestHeader from '../common/GuestHeader/GuestHeader';
+import { getUserPlaylists } from '../../service/service';
 
-export default function UserPlaylists() {
+export default function LibraryPage() {
   const dispatch = useDispatch();
   const user = useSelector(getUser);
   const isUserLoading = useSelector(getUserLoading);
@@ -23,7 +22,7 @@ export default function UserPlaylists() {
     if (user) {
       dispatch(getUserPlaylists(user.uid)).then(res => setPlaylists(res));
     }
-  }, [user])
+  }, [user]);
 
   const emptyPlaylistPage = (
     <div className={styles.emptyPage}>
