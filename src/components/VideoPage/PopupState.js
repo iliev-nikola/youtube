@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './VideoPage.module.scss';
 import { Typography, Box, Popover } from '@material-ui/core';

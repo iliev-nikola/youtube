@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
 import styles from './Dialogs.module.scss';
 

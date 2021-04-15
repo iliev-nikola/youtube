@@ -17,11 +17,9 @@ import { Edit, Delete } from '@material-ui/icons';
 export default function CommentsContainer({ currentVideo, comments, id }) {
     const [inputValue, setInputValue] = useState('');
     const [editedComment, setEditedComment] = useState('');
-
-    const history = useHistory();
-    const dispatch = useDispatch();
-
     const user = useSelector(getUser);
+    const dispatch = useDispatch();
+    const history = useHistory();
 
     const onInputChange = (e) => {
         const value = e.currentTarget.value;
@@ -29,7 +27,7 @@ export default function CommentsContainer({ currentVideo, comments, id }) {
             return dispatch(setAlertOn('error', 'Comment should not exceed 100 characters!'));
         }
         setInputValue(value);
-    }
+    };
 
     const handleKeyPress = (e) => {
         if (e.key === 'Enter' && inputValue) {
@@ -37,7 +35,7 @@ export default function CommentsContainer({ currentVideo, comments, id }) {
             updateNotifications(currentVideo, user, 'comment');
             setInputValue('');
         }
-    }
+    };
 
     const onEditChange = (e) => {
         const value = e.currentTarget.value;
@@ -45,7 +43,7 @@ export default function CommentsContainer({ currentVideo, comments, id }) {
             return dispatch(setAlertOn('error', 'Comment should not exceed 100 characters!'));
         }
         setEditedComment(value);
-    }
+    };
 
     const updateIt = (e, id) => {
         if (e.key === 'Enter') {
@@ -56,7 +54,7 @@ export default function CommentsContainer({ currentVideo, comments, id }) {
             setEditedComment('');
             dispatch(setAlertOn('success', 'Successfully edited comment.'));
         }
-    }
+    };
 
     return (
         <div>

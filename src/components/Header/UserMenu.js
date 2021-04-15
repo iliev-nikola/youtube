@@ -1,5 +1,5 @@
 // react
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styles from './Header.module.scss';
 // service
@@ -14,20 +14,18 @@ import { VideoCall as VideoCallIcon, ExitToApp as ExitToAppIcon, AccountBox as A
 import NotificationsMenu from './NotificationsMenu';
 
 export default function UserMenu() {
-    const history = useHistory();
-    const dispatch = useDispatch();
+    const [openProfile, setOpenProfile] = useState(false);
     const user = useSelector(getUser);
     const theme = useSelector(state => state.theme.theme);
-    const [openProfile, setOpenProfile] = useState(false);
+    const dispatch = useDispatch();
+    const history = useHistory();
 
     const handleClickProfile = () => {
         setOpenProfile((prev) => !prev);
     };
-
     const handleClickAwayProfile = () => {
         setOpenProfile(false);
     };
-
     const changeTheme = () => {
         if (user) {
             if (theme === 'dark') {
@@ -42,7 +40,7 @@ export default function UserMenu() {
                 dispatch(setDarkTheme());
             }
         }
-    }
+    };
 
     return (
         <div id={styles.userIcons}>

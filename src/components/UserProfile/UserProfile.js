@@ -12,12 +12,13 @@ import ScrollableTabsButtonAuto from './CurrentUserTabs';
 import Layout from '../Layout/Layout';
 
 export default function UserProfile() {
-    const { id } = useParams();
     const [user, setUser] = useState(null);
     const currentUser = useSelector(getUser);
     const history = useSelector(state => state.videos.videos.filter(video => video.isWatchedBy.includes(id)));
     const liked = useSelector(state => state.videos.videos.filter(video => video.isLikedBy.includes(id)));
     const videos = useSelector(state => state.videos.videos.filter(video => video.authorID === id));
+    const { id } = useParams();
+
     useEffect(() => {
         if (currentUser) {
             if (id === currentUser.uid) {

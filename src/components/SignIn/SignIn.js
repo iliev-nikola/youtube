@@ -17,10 +17,10 @@ import googleLogo from '../../assets/googleLogo.png';
 import { TextField, Button } from '@material-ui/core';
 
 export default function SignIn() {
-    const history = useHistory();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const onProviderClick = (provider) => {
         auth.signInWithPopup(provider)
@@ -31,7 +31,7 @@ export default function SignIn() {
             .catch(err => {
                 dispatch(setAlertOn('error', err.message));
             });
-    }
+    };
 
     const signInWithEmailAndPasswordHandler = (event, email, password) => {
         event.preventDefault();
@@ -54,7 +54,7 @@ export default function SignIn() {
             .catch(err => {
                 dispatch(setAlertOn('error', err.message));
             });
-    }
+    };
 
     const onInputChange = (e) => {
         e.preventDefault();

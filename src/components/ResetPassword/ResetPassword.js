@@ -1,5 +1,5 @@
 // react
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styles from '../SignIn/SignIn.module.scss';
 // service
@@ -14,10 +14,11 @@ import { TextField, Button } from '@material-ui/core';
 import logoBlack from '../../assets/logoBlack.png';
 
 export default function ResetPassword() {
-    const history = useHistory();
-    const dispatch = useDispatch();
     const [email, setEmail] = useState('');
     const [emailHasBeenSent, setEmailHasBeenSent] = useState(false);
+    const dispatch = useDispatch();
+    const history = useHistory();
+
     const sendResetEmail = (event) => {
         event.preventDefault();
         if (!email.trim()) {

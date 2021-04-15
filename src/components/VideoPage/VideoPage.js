@@ -1,5 +1,5 @@
 // react
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styles from './VideoPage.module.scss';
 // service
@@ -15,11 +15,11 @@ import VideoInfo from './VideoInfo';
 import { db } from '../../service/firebase';
 
 export default function VideoPage() {
-    const dispatch = useDispatch();
-    const { id } = useParams();
+    const [comments, setComments] = useState([]);
     const video = useSelector(state => state.videos.videos.find(video => video.id === id));
     const user = useSelector(getUser);
-    const [comments, setComments] = useState([]);
+    const dispatch = useDispatch();
+    const { id } = useParams();
 
     useEffect(() => {
         if (video) {

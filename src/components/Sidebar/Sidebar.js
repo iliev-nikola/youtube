@@ -11,16 +11,17 @@ import { Drawer, List, Tooltip } from '@material-ui/core';
 import { Home, VideoLibrary, History, Whatshot, Subscriptions, Menu as MenuIcon } from '@material-ui/icons';
 
 export default function Sidebar() {
-    const history = useHistory();
-    const theme = useSelector(state => state.theme.theme);
-
     const [state, setState] = useState(false);
+    const theme = useSelector(state => state.theme.theme);
+    const history = useHistory();
+
     const toggleDrawer = (anchor, open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
         }
         setState({ ...state, [anchor]: open });
     };
+
     const mainLogo = (
         <div className={styles.mainLogoContainer}>
             <MenuIcon className={styles.sandwichButton} onClick={toggleDrawer('left', true)} />

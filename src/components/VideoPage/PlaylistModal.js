@@ -1,5 +1,5 @@
 // react
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './PlaylistModal.module.scss';
 // service
 import { addVideoToPlaylist, createPlaylist, removeVideoFromPlaylist, deletePlaylist } from '../../service/service';
@@ -13,11 +13,11 @@ import { PlaylistAdd as PlaylistAddIcon, Delete as DeleteIcon } from '@material-
 import PopUp from './PopupState';
 
 export default function PlaylistModal({ video }) {
-    const dispatch = useDispatch();
-    const user = useSelector(getUser);
-    const playlists = useSelector(state => state.playlists.playlists);
     const [inputValue, setInputValue] = useState('');
     const [open, setOpen] = useState(false);
+    const user = useSelector(getUser);
+    const playlists = useSelector(state => state.playlists.playlists);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (user) {
@@ -28,18 +28,22 @@ export default function PlaylistModal({ video }) {
     const handleOpen = () => {
         setOpen(true);
     };
+
     const handleClose = () => {
         setOpen(false);
     };
+
     const onInputChange = (e) => {
         setInputValue(e.target.value);
     };
+
     const handleKeyPress = (e) => {
         if ((e.key === 'Enter' || e.type === 'click') && inputValue && user.uid) {
             dispatch(createPlaylist(user, inputValue));
             setInputValue('');
         }
     };
+
     const addOrRemoveVideo = (e, playlist) => {
         if (e.target.checked) {
             dispatch(addVideoToPlaylist(video, playlist));
@@ -47,6 +51,7 @@ export default function PlaylistModal({ video }) {
             dispatch(removeVideoFromPlaylist(video, playlist));
         }
     };
+
     const text = 'Sign in to add this video to a playlist.';
     const loggedUserPlaylist = (
         <div onClick={handleOpen}><PlaylistAddIcon /> <span>SAVE</span></div>

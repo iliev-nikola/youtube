@@ -1,5 +1,5 @@
 // react
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './VideoCard.module.scss';
 // utils
@@ -13,6 +13,7 @@ export default function VideoCard({ url, title, id, views, author, authorPhotoUR
     const onLoad = (e) => {
         setDuration(timeConvert(e.target.duration));
     };
+
     return (
         <Link to={`/video/${id}`} className={styles.link}>
             <div className={styles.container} key={id}>

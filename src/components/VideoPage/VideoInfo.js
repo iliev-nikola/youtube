@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+// react
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './VideoPage.module.scss';
 // service
@@ -12,10 +13,11 @@ import PlaylistModal from './PlaylistModal';
 import UserLogo from '../common/UserLogo/UserLogo';
 
 export default function VideoInfo({ video, user }) {
+    const [isSubsState, setIsSubsState] = useState(false);
     const dispatch = useDispatch();
+
     const isVideoLiked = video.isLikedBy.includes(user.uid);
     const isVideoDisliked = video.isDislikedBy.includes(user.uid);
-    const [isSubsState, setIsSubsState] = useState(false);
 
     useEffect(() => {
         if (video && user) {
@@ -37,7 +39,6 @@ export default function VideoInfo({ video, user }) {
     const loggedNumberDislikes = (
         <><PopUp text={thumbsText} button={<ThumbDownIcon className={styles.button} />} content={`Don't like this video?`} /><span>{video.id ? video.isDislikedBy.length : null}</span></>
     );
-
     const guestSubscribe = (
         <PopUp text={subscribeText} button={<div className={styles.subscribe}>SUBSCRIBE</div>} content={`Want to subscribe to this channel?`} />
     );
@@ -52,6 +53,7 @@ export default function VideoInfo({ video, user }) {
                     }} title='Click for subscribe'>SUBSCRIBE</div>}
         </>
     );
+
     return (
         <>
             <div className={styles.infoContainer}>

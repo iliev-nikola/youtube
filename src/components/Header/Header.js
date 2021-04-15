@@ -15,11 +15,11 @@ import Sidebar from '../Sidebar/Sidebar';
 import GuestHeader from '../common/GuestHeader/GuestHeader';
 
 export default function Header() {
-    const user = useSelector(getUser);
-    const history = useHistory();
-    const [inputSearchValue, setInputSearchValue] = useState('');
     const [options, setOptions] = useState([]);
+    const [inputSearchValue, setInputSearchValue] = useState('');
+    const user = useSelector(getUser);
     const isUserLoading = useSelector(getUserLoading);
+    const history = useHistory();
 
     const onInputChange = (e) => {
         const value = e.currentTarget.value;

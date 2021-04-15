@@ -1,5 +1,5 @@
 // react
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from './UserProfile.module.scss';
 // service
 import { deleteVideo, editVideo } from '../../service/service';
@@ -46,7 +46,7 @@ function a11yProps(index) {
     };
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     root: {
         flexGrow: 1,
         width: '100%',
@@ -66,31 +66,37 @@ export default function ScrollableTabsButtonAuto({ videos, history, liked, user,
     const [value, setValue] = useState(0);
     const [openAlert, setOpenAlert] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
-    const classes = useStyles();
     const dispatch = useDispatch();
+    const classes = useStyles();
 
     const onEditOpen = (video) => {
         setOpenEdit(true);
         setVideo(video);
     };
+
     const onDeleteOpen = (video) => {
         setOpenAlert(true);
         setVideo(video);
     };
+
     const onEditClick = (title, description) => {
         setOpenEdit(false);
         dispatch(editVideo(video, title, description));
     };
+
     const onDeleteClick = () => {
         setOpenAlert(false);
         dispatch(deleteVideo(video, user.uid));
     };
+
     const handleCloseEdit = () => {
         setOpenEdit(false);
     };
+
     const handleCloseAlert = () => {
         setOpenAlert(false);
     };
+
     const handleChange = (e, newValue) => {
         setValue(newValue);
     };

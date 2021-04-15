@@ -14,13 +14,13 @@ import logoBlack from '../../assets/logoBlack.png';
 import { TextField, Button } from '@material-ui/core';
 
 export default function SignUp() {
-    const history = useHistory();
-    const dispatch = useDispatch();
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rePassword, setRePassword] = useState('');
+    const dispatch = useDispatch();
+    const history = useHistory();
 
     const createUserWithEmailAndPasswordHandler = (event, firstName, lastName, email, password, rePassword) => {
         event.preventDefault();

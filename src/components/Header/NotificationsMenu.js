@@ -14,11 +14,10 @@ import UserLogo from '../common/UserLogo/UserLogo';
 import { db } from '../../service/firebase';
 
 export default function NotificationsMenu() {
-    const user = useSelector(getUser);
-    // const notifications = useSelector(state => state.notification.notifications);
     const [openNotify, setOpenNotify] = useState(false);
     const [unreadNotifications, setUnreadNotifications] = useState([]);
     const [notifications, setNotifciatons] = useState([]);
+    const user = useSelector(getUser);
 
     useEffect(() => {
         if (user) {
@@ -51,6 +50,7 @@ export default function NotificationsMenu() {
         <><NotificationsIcon fontSize="large" id={styles.bigNotifyIcon} />
             <p className={styles.greyText}>No new notifications.</p></>
     );
+
     return (
         <ClickAwayListener
             mouseEvent="onMouseDown"

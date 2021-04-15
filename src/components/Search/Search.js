@@ -13,16 +13,18 @@ import Layout from '../Layout/Layout';
 import styles from '../TrendingVideos/TrendingVideos.module.scss';
 
 export default function Search() {
-    let { id } = useParams();
-    const params = id.split('+');
     const [filtered, setFiltered] = useState([]);
     const dispatch = useDispatch();
+    const { id } = useParams();
+
+    const params = id.split('+');
 
     useEffect(() => {
         filterVideos(params)
             .then(res => setFiltered(res))
             .catch(err => dispatch(setAlertOn('error', err.message)));
     }, [id]);
+
     return (
         <Layout>
             <div className={styles.videoContainer}>

@@ -11,9 +11,9 @@ import VideoCard from '../VideoCard/VideoCard';
 import Layout from '../Layout/Layout';
 
 export default function Subscriptions() {
+    const [subscribes, setSubscribes] = useState([]);
     const user = useSelector(getUser);
     const videos = useSelector(getVideos);
-    const [subscribes, setSubscribes] = useState([]);
 
     useEffect(() => {
         if (user && videos) {

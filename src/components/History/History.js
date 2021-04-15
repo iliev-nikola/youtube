@@ -16,15 +16,16 @@ import VideoCard from '../VideoCard/VideoCard';
 import GuestHeader from '../common/GuestHeader/GuestHeader';
 
 export default function History() {
-    const dispatch = useDispatch();
-    const videos = useSelector(getVideos);
-    const user = useSelector(getUser);
     const [lastVideoIndex, setLastVideoIndex] = useState(0);
     const [visibleVideos, setVisibleVideos] = useState([]);
     const [scrollTop, setScrollTop] = useState(0);
     const [history, setHistory] = useState([]);
     const [hasMore, setHasMore] = useState(true);
+    const videos = useSelector(getVideos);
+    const user = useSelector(getUser);
     const isUserLoading = useSelector(getUserLoading);
+    const dispatch = useDispatch();
+
     const videosLimitOnPage = 25;
     const newVideosOnScroll = videos.length < 4 ? videos.length : 4;
 
@@ -42,7 +43,7 @@ export default function History() {
         setLastVideoIndex(history.length < 16 ? 0 : 15);
     }, [history.length]);
 
-    const fetchMoreData = (e) => {
+    const fetchMoreData = () => {
         if (scrollTop > window.scrollY) return;
         if (visibleVideos.length > videosLimitOnPage) {
             dispatch(setAlertOn('info', 'No more videos to show. Check again later or upload some.'));
@@ -66,7 +67,7 @@ export default function History() {
             setVisibleVideos([...visibleVideos, ...newVideos]);
             dispatch(setNotLoading());
         }, 1000)
-    }
+    };
 
     const noLoggedInUserPage = (
         <div className={styles.emptyPage}>

@@ -36,6 +36,7 @@ export default function Layout({ children }) {
             </Link>
         </Tooltip>
     </>);
+
     return (
         <div className={styles.mainContainer}>
             <div className={styles.sideBarContainer}>

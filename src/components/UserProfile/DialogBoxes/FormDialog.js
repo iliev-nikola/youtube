@@ -1,5 +1,5 @@
 // react
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from './Dialogs.module.scss';
 // redux
 import { useDispatch } from 'react-redux';

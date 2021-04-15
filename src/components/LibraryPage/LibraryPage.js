@@ -1,5 +1,5 @@
 // react
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './LibraryPage.module.scss';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,10 +13,10 @@ import GuestHeader from '../common/GuestHeader/GuestHeader';
 import { getUserPlaylists } from '../../service/service';
 
 export default function LibraryPage() {
-  const dispatch = useDispatch();
+  const [playlists, setPlaylists] = useState([]);
   const user = useSelector(getUser);
   const isUserLoading = useSelector(getUserLoading);
-  const [playlists, setPlaylists] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (user) {
@@ -41,6 +41,7 @@ export default function LibraryPage() {
       <div className={styles.signIn} > <GuestHeader /></div>
     </div>
   );
+
   return (
     <Layout>
       {isUserLoading && <h1 className={styles.welcomeText}>Loading...</h1>}

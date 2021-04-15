@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { CircularProgress, Typography, Box } from '@material-ui/core';
 
@@ -29,9 +29,8 @@ CircularProgressWithLabel.propTypes = {
 };
 
 export default function CircularStatic({ percentage }) {
-    const [progress, setProgress] = React.useState(percentage);
-
-    React.useEffect(() => {
+    const [progress, setProgress] = useState(percentage);
+    useEffect(() => {
         setProgress(percentage)
     }, [percentage]);
 

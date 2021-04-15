@@ -1,5 +1,5 @@
 // react
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import styles from './UploadVideo.module.scss';
 // service
@@ -17,13 +17,14 @@ import { TextField, Button } from '@material-ui/core';
 import CircularStatic from '../ProgressBar/CircularProgress';
 
 export default function UploadVideo() {
-    const history = useHistory();
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [file, setFile] = useState(null);
     const [progress, setProgress] = useState(null);
-    const dispatch = useDispatch();
     const user = useSelector(getUser);
+    const dispatch = useDispatch();
+    const history = useHistory();
+
     useEffect(() => {
         if (progress >= 100) {
             setTimeout(() => {
@@ -37,6 +38,7 @@ export default function UploadVideo() {
             }, 5000);
         }
     }, [progress]);
+
     const changeTitle = (e) => {
         const titleValue = e.target.value;
         if (titleValue.length > 40) {
@@ -44,6 +46,7 @@ export default function UploadVideo() {
         }
         setTitle(titleValue);
     };
+
     const changeDescription = (e) => {
         const desciptionValue = e.target.value;
         if (desciptionValue.length > 100) {
@@ -102,7 +105,8 @@ export default function UploadVideo() {
                     .catch(err => dispatch(setAlertOn('error', err.message)));
             }
         )
-    }
+    };
+
     return (
         <div className={styles.mainContainer}>
             <img src={logoBlack} alt='youtube logo' id={styles.logo} onClick={() => history.push('/')} />

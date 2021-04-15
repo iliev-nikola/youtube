@@ -12,15 +12,16 @@ import Layout from '../Layout/Layout';
 import VideoCard from '../VideoCard/VideoCard';
 
 export default function TrendingVideos() {
-    const dispatch = useDispatch();
-    const videos = useSelector(getVideos);
-    const isUserLoading = useSelector(getUserLoading);
     const [lastVideoIndex, setLastVideoIndex] = useState(0);
     const [visibleVideos, setVisibleVideos] = useState([]);
     const [scrollTop, setScrollTop] = useState(0);
     const [sorted, setSorted] = useState([]);
     const [hasMore, setHasMore] = useState(true);
     const [videosLimitOnPage, setVideosLimitOnPage] = useState(0);
+    const videos = useSelector(getVideos);
+    const isUserLoading = useSelector(getUserLoading);
+    const dispatch = useDispatch();
+
     const newVideosOnScroll = videos.length < 4 ? videos.length : 4;
 
     useEffect(() => {
@@ -57,7 +58,7 @@ export default function TrendingVideos() {
             setVisibleVideos([...visibleVideos, ...newVideos].sort((a, b) => b.views - a.views));
             dispatch(setNotLoading());
         }, 1000)
-    }
+    };
 
     return (
         <Layout>

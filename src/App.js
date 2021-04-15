@@ -1,5 +1,5 @@
 // react
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -38,9 +38,9 @@ import Subscriptions from './components/Subscriptions/Subscriptions';
 import Header from './components/Header/Header';
 
 export default function App() {
-  const dispatch = useDispatch();
   const user = useSelector(getUser);
   const isLoading = useSelector(getIsLoading);
+  const dispatch = useDispatch();
 
   // Initial load of the current user and all videos
   useEffect(() => {

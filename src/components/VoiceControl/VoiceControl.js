@@ -13,11 +13,13 @@ const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecogni
 export const recognition = new SpeechRecognition();
 
 export default function VoiceControl() {
-  const dispatch = useDispatch();
-  const user = useSelector(getUser);
-  const history = useHistory();
   const [isListening, setListening] = useState(false);
+  const user = useSelector(getUser);
+  const dispatch = useDispatch();
+  const history = useHistory();
+
   recognition.lang = 'en-US';
+
   const activeMicr = () => {
     dispatch(setLoading());
     recognition.start();
@@ -55,7 +57,7 @@ export default function VoiceControl() {
         history.push('/search/' + value);
       }
     }
-  }
+  };
 
   return (
     <div onClick={activeMicr} className={isListening ? styles.listening : styles.notListening}>

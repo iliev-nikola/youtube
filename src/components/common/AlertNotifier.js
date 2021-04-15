@@ -5,10 +5,10 @@ import { setAlertOff } from '../../redux/actions/alertNotifier';
 import { getAlertMessage, getAlertStatus, getAlertType } from '../../redux/selectors/selectors';
 
 export default function AlertNotifier() {
-    const dispatch = useDispatch();
     const alertStatus = useSelector(getAlertStatus);
     const alertMessage = useSelector(getAlertMessage);
     const alertType = useSelector(getAlertType);
+    const dispatch = useDispatch();
 
     const handleClose = (reason) => {
         if (reason === 'clickaway') {
