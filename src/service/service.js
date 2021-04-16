@@ -290,8 +290,8 @@ export function unsubscribe(user, video) {
     }
 }
 
-export function getUserSubscriptions(user, videos) {
-    return db.collection('users').doc(user.uid).get()
+export function getUserSubscriptions(userId, videos) {
+    return db.collection('users').doc(userId).get()
         .then(res => res.data().subscribes)
         .then(res => {
             const userSubscribes = [];

@@ -20,6 +20,7 @@ export default function NotificationsMenu() {
     const user = useSelector(getUser);
 
     useEffect(() => {
+        let mounted = true;
         if (user) {
             db.collection('notifications')
                 .where('userID', '==', user.uid)
@@ -29,9 +30,13 @@ export default function NotificationsMenu() {
                     notifications.forEach((noti) => {
                         dbNot.push(noti.data());
                     });
-                    setNotifciatons(dbNot);
+                    if (mounted) {
+                        setNotifciatons(dbNot);
+                    }
                 });
         }
+
+        return () => mounted = false;
     }, [user]);
 
     useEffect(() => {

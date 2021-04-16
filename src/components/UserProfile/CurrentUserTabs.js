@@ -1,10 +1,10 @@
 // react
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './UserProfile.module.scss';
 // service
-import { deleteVideo, editVideo } from '../../service/service';
+import { deleteVideo, editVideo, getUserSubscriptions } from '../../service/service';
 // redux
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 // components
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
@@ -61,13 +61,24 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
-export default function ScrollableTabsButtonAuto({ videos, history, liked, user, currentUser }) {
+export default function CurrentUserTabs({ id, user, currentUser }) {
     const [video, setVideo] = useState(null);
     const [value, setValue] = useState(0);
     const [openAlert, setOpenAlert] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
+    const [subscriptions, setSubscriptions] = useState([]);
+    const history = useSelector(state => state.videos.videos.filter(video => video.isWatchedBy.includes(id)));
+    const liked = useSelector(state => state.videos.videos.filter(video => video.isLikedBy.includes(id)));
+    const userVideos = useSelector(state => state.videos.videos.filter(video => video.authorID === id));
+    const allVideos = useSelector(state => state.videos.videos);
     const dispatch = useDispatch();
     const classes = useStyles();
+
+    useEffect(() => {
+        if (allVideos) {
+            getUserSubscriptions(id, allVideos).then(res => setSubscriptions(res));
+        }
+    }, []);
 
     const onEditOpen = (video) => {
         setOpenEdit(true);
@@ -115,10 +126,11 @@ export default function ScrollableTabsButtonAuto({ videos, history, liked, user,
                     <Tab label="Videos" {...a11yProps(0)} />
                     {history ? <Tab label="History" {...a11yProps(1)} /> : null}
                     <Tab label="Liked" {...a11yProps(2)} />
+                    <Tab label="Subscriptions" {...a11yProps(3)} />
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0} className={classes.container}>
-                {videos && videos.length ? videos.map(video => (
+                {userVideos && userVideos.length ? userVideos.map(video => (
                     <div key={video.id}>
                         <VideoCard key={video.id} url={video.url} title={video.title} views={video.views} author={video.author} authorPhotoURL={video.authorPhotoURL} id={video.id} duration={video.duration} />
                         {user.uid === currentUser.uid ?
@@ -139,6 +151,11 @@ export default function ScrollableTabsButtonAuto({ videos, history, liked, user,
                 {liked && liked.length ? liked.map(video => (
                     <VideoCard key={video.id} url={video.url} views={video.views} title={video.title} author={video.author} authorPhotoURL={video.authorPhotoURL} id={video.id} duration={video.duration} />
                 )) : <h1 className={styles.emptyContainerTitle}>Like some videos first</h1>}
+            </TabPanel>
+            <TabPanel value={value} index={3} className={classes.container}>
+                {subscriptions.length ? subscriptions.map(video => (
+                    <VideoCard key={video.id} url={video.url} views={video.views} title={video.title} author={video.author} authorPhotoURL={video.authorPhotoURL} id={video.id} duration={video.duration} />
+                )) : <h1 className={styles.emptyContainerTitle}>Subscribe to some users first</h1>}
             </TabPanel>
             <FormDialog handleClose={handleCloseEdit} onEditClick={onEditClick} open={openEdit} video={video} />
             <AlertDialog handleClose={handleCloseAlert} onDeleteClick={onDeleteClick} open={openAlert} video={video} />

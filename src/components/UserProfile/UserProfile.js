@@ -8,16 +8,13 @@ import { getUserInfo } from '../../service/service';
 import { useSelector } from 'react-redux';
 import { getUser } from '../../redux/selectors/selectors';
 // components
-import ScrollableTabsButtonAuto from './CurrentUserTabs';
+import CurrentUserTabs from './CurrentUserTabs';
 import Layout from '../Layout/Layout';
 
 export default function UserProfile() {
     const [user, setUser] = useState(null);
-    const currentUser = useSelector(getUser);
-    const history = useSelector(state => state.videos.videos.filter(video => video.isWatchedBy.includes(id)));
-    const liked = useSelector(state => state.videos.videos.filter(video => video.isLikedBy.includes(id)));
-    const videos = useSelector(state => state.videos.videos.filter(video => video.authorID === id));
     const { id } = useParams();
+    const currentUser = useSelector(getUser);
 
     useEffect(() => {
         if (currentUser) {
@@ -27,7 +24,7 @@ export default function UserProfile() {
                 getUserInfo(id).then(res => setUser(res.data()));
             }
         }
-    }, [id]);
+    }, [id, currentUser]);
 
     return (
         <Layout>
@@ -45,10 +42,8 @@ export default function UserProfile() {
                             </> : null}
                     </div>
                     {user && currentUser ?
-                        <ScrollableTabsButtonAuto
-                            videos={videos}
-                            history={user.uid === currentUser.uid ? history : null}
-                            liked={liked}
+                        <CurrentUserTabs
+                            id={id}
                             user={user}
                             currentUser={currentUser} />
                         : null}

@@ -17,7 +17,7 @@ export default function Subscriptions() {
 
     useEffect(() => {
         if (user && videos) {
-            getUserSubscriptions(user, videos).then(res => setSubscribes(res));
+            getUserSubscriptions(user.uid, videos).then(res => setSubscribes(res));
         }
     }, [user]);
 
