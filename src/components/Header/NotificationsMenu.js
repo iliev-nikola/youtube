@@ -27,8 +27,8 @@ export default function NotificationsMenu() {
                 .orderBy('timestamp', 'desc')
                 .onSnapshot((notifications) => {
                     let dbNot = [];
-                    notifications.forEach((noti) => {
-                        dbNot.push(noti.data());
+                    notifications.forEach((not) => {
+                        dbNot.push(not.data());
                     });
                     if (mounted) {
                         setNotifciatons(dbNot);
@@ -45,7 +45,10 @@ export default function NotificationsMenu() {
 
     const handleClickNotify = () => {
         setOpenNotify((prev) => !prev);
-        setTimeout(setNotificationsRead, 2000);
+        setTimeout(() => {
+            setNotificationsRead();
+            setUnreadNotifications([]);
+        }, 2000);
     };
     const handleClickAwayNotify = () => {
         setOpenNotify(false);
@@ -64,9 +67,11 @@ export default function NotificationsMenu() {
         >
             <div className={styles.dropdownContainer} >
                 <Tooltip title="Notifications" placement="bottom">
-                    <Badge className={styles.badge} badgeContent={unreadNotifications.length} color="error">
-                        <NotificationsIcon className={styles.icons} onClick={handleClickNotify} />
-                    </Badge>
+                    <div onClick={handleClickNotify}>
+                        <Badge className={styles.badge} badgeContent={unreadNotifications.length} color="error" >
+                            <NotificationsIcon className={styles.icons} />
+                        </Badge>
+                    </div>
                 </Tooltip>
                 {openNotify ? (
                     <div id={styles.dropdownNotify} className={styles.dropdown}>

@@ -16,10 +16,10 @@ import { db } from '../../service/firebase';
 
 export default function VideoPage() {
     const [comments, setComments] = useState([]);
+    const { id } = useParams();
     const video = useSelector(state => state.videos.videos.find(video => video.id === id));
     const user = useSelector(getUser);
     const dispatch = useDispatch();
-    const { id } = useParams();
 
     useEffect(() => {
         if (video) {
