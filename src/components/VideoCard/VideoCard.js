@@ -19,7 +19,13 @@ export default function VideoCard({ url, title, id, views, author, authorPhotoUR
             <div className={styles.container} key={id}>
                 <video
                     title={title}
-                    onMouseOver={(e) => e.target.play()}
+                    onMouseOver={(e) => {
+                        const playPromise = e.target.play();
+                        if (playPromise !== undefined) {
+                            playPromise.then(() => e.target.play())
+                                .catch(() => e.target.pause());
+                        }
+                    }}
                     onMouseOut={(e) => e.target.pause()}
                     src={url + '#t=1'}
                     datatype='video/mp4'
