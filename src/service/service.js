@@ -266,9 +266,7 @@ export function getUserInfo(id) {
 // SUBSCRIBES
 export function subscribe(user, video) {
     // return function (dispatch) {
-    //     if (!user) {
-    //         return;
-    //     }
+ 
     return db.collection('users')
         .doc(user.uid)
         .update({

@@ -21,7 +21,7 @@ export default function PlaylistModal({ video }) {
 
     useEffect(() => {
         if (user) {
-            dispatch(getPlaylists(user));
+            dispatch(getPlaylists(user.uid));
         }
     }, []);
 
@@ -36,7 +36,7 @@ export default function PlaylistModal({ video }) {
     };
     const handleKeyPress = (e) => {
         if ((e.key === 'Enter' || e.type === 'click') && inputValue && user.uid) {
-            createPlaylist(user, inputValue);
+            dispatch(createPlaylist(user, inputValue));
             setInputValue('');
         }
     };
