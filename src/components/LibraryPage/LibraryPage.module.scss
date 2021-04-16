@@ -1,5 +1,3 @@
-
-
 .playlistsContainer {
   width: 100%;
   header {
@@ -11,7 +9,22 @@
   }
 }
 
-.welcomeText {
+.MuiTab-root,
+.cont {
+  padding: 0;
+  overflow: auto;
+  font-size: inherit;
+  max-width: none;
+  text-align: left;
+  line-height: initial;
+  white-space: initial;
+  letter-spacing: initial;
+  text-transform: initial;
+  font-weight: initial;
+  color: white;
+}
+
+.welcomeText span {
   color: white;
   text-align: center;
 }
