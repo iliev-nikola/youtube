@@ -297,7 +297,7 @@ export function getUserSubscriptions(userId, videos) {
             const userSubscribes = [];
             res.forEach(el => {
                 const filterVideos = videos.filter(video => video.authorID === el);
-                userSubscribes.push(...filterVideos);
+                userSubscribes.push({ author: filterVideos[0].author, videos: filterVideos });
             });
             return userSubscribes;
         });

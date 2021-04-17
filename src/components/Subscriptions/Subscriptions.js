@@ -7,30 +7,44 @@ import { getUserSubscriptions } from '../../service/service';
 import { useSelector } from 'react-redux';
 import { getUser, getVideos } from '../../redux/selectors/selectors';
 // components
-import VideoCard from '../VideoCard/VideoCard';
+import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
+import GuestHeader from '../common/GuestHeader/GuestHeader';
+import Carousel from '../common/Carousel/Carousel';
 import Layout from '../Layout/Layout';
 
 export default function Subscriptions() {
-    const [subscribes, setSubscribes] = useState([]);
     const user = useSelector(getUser);
+    const [subscriptions, setSubscriptions] = useState([]);
     const videos = useSelector(getVideos);
 
     useEffect(() => {
         if (user && videos) {
-            getUserSubscriptions(user.uid, videos).then(res => setSubscribes(res));
+            getUserSubscriptions(user.uid, videos).then(res => setSubscriptions(res));
+            console.log(subscriptions);
         }
-    }, [user]);
+    }, [user, videos]);
+
+    const emptySubscribtionsPage = (
+        <div className={styles.emptyPage}>
+            <VideoLibraryIcon />
+            <h2>Your library is empty for now</h2>
+            <h2>Enjoy your favorite videos</h2>
+            <h5>Go and find whatever you like</h5>
+        </div>
+    );
+
+    const noLoggedInUserPage = (
+        <div className={styles.emptyPage}>
+            <VideoLibraryIcon />
+            <h2>Enjoy your favorite videos!</h2>
+            <h5>Sign in to access videos that you've liked or saved</h5>
+            <div className={styles.signIn} > <GuestHeader /></div>
+        </div>
+    );
 
     return (
         <Layout>
-            {/* <h1 className={styles.welcomeText}>Subscriptions</h1> */}
-            <div className={styles.videoContainer}>
-                {
-                    subscribes.length ? subscribes.map(video => (
-                        <VideoCard key={video.id} url={video.url} title={video.title} views={video.views} id={video.id} author={video.author} authorPhotoURL={video.authorPhotoURL} />
-                    )) : null
-                }
-            </div>
-        </Layout >
-    )
+            <Carousel array={subscriptions} emptyPage={emptySubscribtionsPage} noLoggedInUserPage={noLoggedInUserPage}/>
+        </Layout>
+    );
 }

@@ -12,6 +12,7 @@ import { AppBar, Tabs, Tab, Box } from '@material-ui/core';
 import VideoCard from '../VideoCard/VideoCard';
 import AlertDialog from './DialogBoxes/AlertDialog';
 import FormDialog from './DialogBoxes/FormDialog';
+import Carousel from '../common/Carousel/Carousel';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -153,9 +154,7 @@ export default function CurrentUserTabs({ id, user, currentUser }) {
                 )) : <h1 className={styles.emptyContainerTitle}>Like some videos first</h1>}
             </TabPanel>
             <TabPanel value={value} index={3} className={classes.container}>
-                {subscriptions.length ? subscriptions.map(video => (
-                    <VideoCard key={video.id} url={video.url} views={video.views} title={video.title} author={video.author} authorPhotoURL={video.authorPhotoURL} id={video.id} duration={video.duration} />
-                )) : <h1 className={styles.emptyContainerTitle}>Subscribe to some users first</h1>}
+                <Carousel array={subscriptions} />
             </TabPanel>
             <FormDialog handleClose={handleCloseEdit} onEditClick={onEditClick} open={openEdit} video={video} />
             <AlertDialog handleClose={handleCloseAlert} onDeleteClick={onDeleteClick} open={openAlert} video={video} />
