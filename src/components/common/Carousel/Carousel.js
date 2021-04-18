@@ -28,14 +28,14 @@ const useStyles = makeStyles({
     letterSpacing: 'initial',
     textTransform: 'initial',
     fontWeight: 'initial',
-    color: 'white',
+    color: 'var(--bg-color-32)'
   },
   label: {
-    color: 'white'
+    color: 'var(--t-color)'
   }
 });
 
-export default function Carousel({array, emptyPage, noLoggedInUserPage}) {
+export default function Carousel({array, emptyPage, noLoggedInUserPage, title}) {
   const classes = useStyles();
   const user = useSelector(getUser);
   const isUserLoading = useSelector(getUserLoading);

@@ -44,7 +44,9 @@ export default function Subscriptions() {
 
     return (
         <Layout>
-            <Carousel array={subscriptions} emptyPage={emptySubscribtionsPage} noLoggedInUserPage={noLoggedInUserPage}/>
+            <div className={styles.carouselContainer}>
+                <Carousel array={subscriptions} emptyPage={emptySubscribtionsPage} noLoggedInUserPage={noLoggedInUserPage} />
+            </div>
         </Layout>
     );
 }

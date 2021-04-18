@@ -1,12 +1,6 @@
-.playlistsContainer {
-  width: 100%;
-  header {
-    padding-top: 20px;
-    padding-left: 120px;
-    background-color: #181818;
-    color: #f50057;
-    margin-bottom: 20px;
-  }
+.carouselContainer{
+  margin-left: 120px;
+  margin-right: 100px;
 }
 
 .MuiTab-root,
@@ -21,11 +15,11 @@
   letter-spacing: initial;
   text-transform: initial;
   font-weight: initial;
-  color: white;
+  color: var(--bg-color-32);
 }
 
 .welcomeText span {
-  color: white;
+  color: var(--bg-color-32);
   text-align: center;
 }
 

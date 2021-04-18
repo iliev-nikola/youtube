@@ -42,7 +42,9 @@ export default function LibraryPage() {
 
   return (
     <Layout>
-      <Carousel array={playlists} emptyPage={emptyPlaylistPage} noLoggedInUserPage={noLoggedInUserPage} />
+      <div className={styles.carouselContainer}>
+        <Carousel array={playlists} emptyPage={emptyPlaylistPage} noLoggedInUserPage={noLoggedInUserPage} />
+      </div>
     </Layout>
   );
 }
