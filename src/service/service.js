@@ -22,10 +22,10 @@ export function updateNotifications(video, user, status) {
     const now = Date.now();
     const notificationsData = {
         notID: id,
-        videoID: video.id,
-        videoTitle: video.title,
+        videoID: video ? video.id : null,
+        videoTitle: video ? video.title : null,
         status: status,
-        userID: video.authorID,
+        userID: user.uid,
         displayName: user.displayName,
         photoURL: user.photoURL,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
@@ -204,11 +204,10 @@ export function likeOrDislikeVideo(user, video, condition) {
     if (isLiked) {
         const filterLikes = video.isLikedBy.filter(id => id !== user.uid);
         db.collection('videos').doc(video.id).update({ isLikedBy: filterLikes, isDislikedBy: [...video.isDislikedBy, user.uid] })
-        updateNotifications(video, user, 'like');
     } else {
         const filterDislikes = video.isDislikedBy.filter(id => id !== user.uid);
         db.collection('videos').doc(video.id).update({ isDislikedBy: filterDislikes, isLikedBy: [...video.isLikedBy, user.uid] })
-        updateNotifications(video, user, 'dislike');
+        updateNotifications(video, user, 'like');
     }
 }
 
@@ -280,7 +279,7 @@ export function subscribe(user, video) {
             })
             .then(() => {
                 dispatch(setAlertOn('success', `You successfully subscribed to ${video.author}`))
-                // updateNotifications(null, user, 'started following you');
+                updateNotifications(null, user, 'subscribes for your channel');
             })
             .catch(err => dispatch(setAlertOn('success', err.message)));
     }
