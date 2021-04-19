@@ -54,7 +54,7 @@ const useStyles = makeStyles(() => ({
     },
     tabBar: {
         backgroundColor: '#202020',
-        color: 'var(--bg-color-32)',
+        color: 'var(--t-color)',
         paddingLeft: '150px'
     },
     container: {

@@ -35,19 +35,18 @@ const useStyles = makeStyles({
   }
 });
 
-export default function Carousel({array, emptyPage, noLoggedInUserPage, title}) {
+export default function Carousel({ array, emptyPage, noLoggedInUserPage, title }) {
   const classes = useStyles();
   const user = useSelector(getUser);
   const isUserLoading = useSelector(getUserLoading);
- 
 
   return (
     <>
       {isUserLoading && <h1 className={styles.welcomeText}>Loading...</h1>}
       {user && (<div className={styles.playlistsContainer}>
-        {array ? array.map((element) => (
-          <AppBar position="static" color="default" key={element.id}>
-            {/* <div className={styles.playlistName}>{element.title.toUpperCase()}</div> */}
+        {array ? array.map((element, index) => (
+          <AppBar position="static" color="default" key={index}>
+            <div className={styles.playlistName}>{element.name ? element.name.toUpperCase() : element.author.toUpperCase()}</div>
             <Tabs
               value={false}
               indicatorColor="primary"

@@ -54,7 +54,7 @@ $main-color: var(--tit-color);
   font-weight: 400;
   padding: 5px;
   margin-left: 10px;
-  justify-content: start;
+  justify-content: flex-start;
   text-decoration: none;
   &:hover {
     color: grey;

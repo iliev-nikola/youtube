@@ -14,19 +14,25 @@ export default function VideoCard({ url, title, id, views, author, authorPhotoUR
         setDuration(timeConvert(e.target.duration));
     };
 
+    let playPromise;
     return (
         <Link to={`/video/${id}`} className={styles.link}>
             <div className={styles.container} key={id}>
                 <video
                     title={title}
                     onMouseOver={(e) => {
-                        const playPromise = e.target.play();
+                        playPromise = e.target.play();
                         if (playPromise !== undefined) {
-                            playPromise.then(() => e.target.play())
+                            playPromise
+                                .then(() => e.target.play())
                                 .catch(() => e.target.pause());
                         }
                     }}
-                    onMouseOut={(e) => e.target.pause()}
+                    onMouseOut={(e) => {
+                        setTimeout(() => {
+                            e.target.pause()
+                        }, 100)
+                    }}
                     src={url + '#t=1'}
                     datatype='video/mp4'
                     className={styles.video}

@@ -20,7 +20,6 @@ export default function Subscriptions() {
     useEffect(() => {
         if (user && videos) {
             getUserSubscriptions(user.uid, videos).then(res => setSubscriptions(res));
-            console.log(subscriptions);
         }
     }, [user, videos]);
 
