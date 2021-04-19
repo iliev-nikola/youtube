@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import styles from './VideoPage.module.scss';
 // service
 import { increaseViews } from '../../service/service';
+import { db } from '../../service/firebase';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../redux/selectors/selectors';
@@ -12,7 +13,6 @@ import ReactPlayer from 'react-player';
 import CommentsContainer from './CommentsContainer';
 import PlayNextVideos from './PlayNextVideos';
 import VideoInfo from './VideoInfo';
-import { db } from '../../service/firebase';
 
 export default function VideoPage() {
     const [comments, setComments] = useState([]);
@@ -35,7 +35,7 @@ export default function VideoPage() {
 
     return (
         <div className={styles.videoContainer}>
-            {video && user ?
+            {video ?
                 <div className={styles.container}>
                     <ReactPlayer url={video.url} controls playing={true} className={styles.video} />
                     <div className={styles.hashtags}>

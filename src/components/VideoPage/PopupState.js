@@ -24,11 +24,9 @@ export default function Popup({ content, button, text }) {
                     >
                         <Box p={2} className={styles.messageContainer}>
                             <Typography>
-                                <p>
-                                    <p>{content}</p>
-                                    <p className={styles.info}>{text}</p>
-                                    <Link to="/signin" className={styles.signin}>SIGN IN</Link>
-                                </p>
+                                <p>{content}</p>
+                                <p className={styles.info}>{text}</p>
+                                <Link to="/signin" className={styles.signin}>SIGN IN</Link>
                             </Typography>
                         </Box>
                     </Popover>

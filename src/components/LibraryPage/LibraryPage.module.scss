@@ -1,6 +1,5 @@
-.carouselContainer{
-  margin-left: 120px;
-  margin-right: 100px;
+.carouselContainer {
+  margin: 20px 10px 0 80px;
 }
 
 .MuiTab-root,
@@ -18,8 +17,11 @@
   color: var(--bg-color-32);
 }
 
-.welcomeText span {
+.welcomeText {
+  margin-top: 20px;
   color: var(--t-color);
+  font-size: 28px;
+  font-weight: 400;
   text-align: center;
 }
 

@@ -191,11 +191,16 @@ export function getVideosByTitle(title) {
         .then(res => res.map(({ title, id }) => ({ title, id })))
 }
 
-export function likeOrDislikeVideo(user, video) {
+export function likeOrDislikeVideo(user, video, condition) {
     if (!user) {
         return;
     }
     const isLiked = video.isLikedBy.some(id => id === user.uid);
+    const isDisliked = video.isDislikedBy.some(id => id === user.uid);
+    if ((isLiked && condition === 'like') || (isDisliked && condition === 'dislike')) {
+        return;
+    }
+
     if (isLiked) {
         const filterLikes = video.isLikedBy.filter(id => id !== user.uid);
         db.collection('videos').doc(video.id).update({ isLikedBy: filterLikes, isDislikedBy: [...video.isDislikedBy, user.uid] })
@@ -240,10 +245,12 @@ export const deleteVideo = (video) => {
 
 export const increaseViews = (video) => {
     return function (dispatch, getState) {
-        const userId = getState().user.user.uid;
+        const user = getState().user.user;
         const isWatchedBy = video.isWatchedBy;
-        if (!isWatchedBy.includes(userId)) {
-            isWatchedBy.push(userId);
+        if (user) {
+            if (!isWatchedBy.includes(user.uid)) {
+                isWatchedBy.push(user.uid);
+            }
         }
 
         db.collection('videos')
@@ -271,7 +278,10 @@ export function subscribe(user, video) {
             .update({
                 subscribes: firebase.firestore.FieldValue.arrayUnion(video.authorID)
             })
-            .then(() => dispatch(setAlertOn('success', `You successfully subscribed to ${video.author}`)))
+            .then(() => {
+                dispatch(setAlertOn('success', `You successfully subscribed to ${video.author}`))
+                // updateNotifications(null, user, 'started following you');
+            })
             .catch(err => dispatch(setAlertOn('success', err.message)));
     }
 }

@@ -154,7 +154,7 @@ export default function CurrentUserTabs({ id, user, currentUser }) {
                 )) : <h1 className={styles.emptyContainerTitle}>Like some videos first</h1>}
             </TabPanel>
             <TabPanel value={value} index={3} className={classes.container}>
-                <Carousel array={subscriptions} />
+                {subscriptions.length ? <Carousel array={subscriptions} /> : <h1 className={styles.emptyContainerTitle}>Subscribe to some users first</h1>}
             </TabPanel>
             <FormDialog handleClose={handleCloseEdit} onEditClick={onEditClick} open={openEdit} video={video} />
             <AlertDialog handleClose={handleCloseAlert} onDeleteClick={onDeleteClick} open={openAlert} video={video} />

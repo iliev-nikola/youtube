@@ -63,7 +63,7 @@ export default function PlaylistModal({ video }) {
     return (
         <div>
             <div className={styles.playlistContainer}>
-                {user.uid ? loggedUserPlaylist : unloggedUserPlaylist}
+                {user ? loggedUserPlaylist : unloggedUserPlaylist}
             </div>
             <Modal
                 open={open}

@@ -1,9 +1,11 @@
+// react
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Header.module.scss';
 import ReactTimeAgo from 'react-time-ago';
 // service
 import { deleteNotification, setNotificationsRead } from '../../service/service';
+import { db } from '../../service/firebase';
 // redux
 import { useSelector } from 'react-redux';
 import { getUser } from '../../redux/selectors/selectors';
@@ -11,7 +13,6 @@ import { getUser } from '../../redux/selectors/selectors';
 import { Tooltip, Badge, ClickAwayListener } from '@material-ui/core';
 import { Notifications as NotificationsIcon, Cancel } from '@material-ui/icons';
 import UserLogo from '../common/UserLogo/UserLogo';
-import { db } from '../../service/firebase';
 
 export default function NotificationsMenu() {
     const [openNotify, setOpenNotify] = useState(false);
@@ -34,9 +35,8 @@ export default function NotificationsMenu() {
                         setNotifciatons(dbNot);
                     }
                 });
+            return () => mounted = false;
         }
-
-        return () => mounted = false;
     }, [user]);
 
     useEffect(() => {

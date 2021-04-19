@@ -36,13 +36,14 @@ export default function Subscriptions() {
         <div className={styles.emptyPage}>
             <VideoLibraryIcon />
             <h2>Enjoy your favorite videos!</h2>
-            <h5>Sign in to access videos that you've liked or saved</h5>
+            <h5>Sign in to access your subscribed users videos</h5>
             <div className={styles.signIn} > <GuestHeader /></div>
         </div>
     );
 
     return (
         <Layout>
+            {subscriptions.length && user && <h1 className={styles.welcomeText}>Your subsciptions</h1>}
             <div className={styles.carouselContainer}>
                 <Carousel array={subscriptions} emptyPage={emptySubscribtionsPage} noLoggedInUserPage={noLoggedInUserPage} />
             </div>

@@ -102,7 +102,7 @@ export default function History() {
                     }
                 </InfiniteScroll>
             </>}
-            {!isUserLoading && !user.uid && noLoggedInUserPage}
+            {!isUserLoading && !user && noLoggedInUserPage}
         </Layout >
     )
 }

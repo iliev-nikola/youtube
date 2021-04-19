@@ -42,6 +42,7 @@ export default function LibraryPage() {
 
   return (
     <Layout>
+      {playlists.length && user && <h1 className={styles.welcomeText}>Your playlists</h1>}
       <div className={styles.carouselContainer}>
         <Carousel array={playlists} emptyPage={emptyPlaylistPage} noLoggedInUserPage={noLoggedInUserPage} />
       </div>
