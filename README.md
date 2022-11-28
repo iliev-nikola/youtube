@@ -1,6 +1,6 @@
 # YouTube - final project for IT Talents
 
-## SPA - copy of YouTube website with some main functionality
+## Copy of YouTube website with some main functionality
 
 ### Contributors: [Marina Damyanova](https://github.com/mtdamyanova "Marina Damyanova") & [Nikola Iliev](https://github.com/iliev-nikola "Nikola Iliev")
 
